@@ -45,24 +45,48 @@ APP.core = (function() {
     function attachListeners() {
 
         APP.events.attachClickHandler(".action-navigation-toggle", function() {
-            toggleSections();
+            toggleNavigation();
+
+            if (!$.supports.webapp) {
+                toggleNavHeight();
+            }
+
             event.preventDefault();
+
+            return false;
         });
 
     }
 
     /**
-     * Shows or hides the sections menu
+     * Shows or hides the Navigation menu
      */
-    function toggleSections() {
+    function toggleNavigation() {
 
         html.toggleClass("has-navigation");
     }
+    /**
+     * Sets height of content based on height of navigation
+     */
+     function toggleNavHeight() {
+
+        navHeight = $("#page-navigation").height();
+        wrapper = $(".page-wrapper");
+        content = $(".page-content");
+
+        if (html.hasClass("has-navigation")) {
+            wrapper.height(navHeight);
+            content.height(navHeight);
+        } else {
+            wrapper.height("");
+            content.height("");
+        }
+     }
 
     /**
-     * Hides the sections menu
+     * Hides the Navigation menu
      */
-     function hideSections() {
+     function hideNavigation() {
 
         html.removeClass("has-navigation");
      }
@@ -87,7 +111,7 @@ APP.core = (function() {
         "init": init,
         "showLoader": showLoader,
         "hideLoader": hideLoader,
-        "hideSections": hideSections
+        "hideNavigation": hideNavigation
     };
 
 })();

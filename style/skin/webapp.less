@@ -1,0 +1,74 @@
+.webapp {
+
+    /*** Make sure the document is as high as the screen and hide the scrollbar ***/
+    &,
+    .viewport {
+        overflow: hidden;
+        height: 100%;
+    }
+
+    .viewport {
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        -webkit-touch-callout: none;
+    }
+
+    /*** Absolute positioning of the page wrapper, hide the scrollbar ***/
+    .page-wrapper {
+        .overlay-total;
+        z-index: 2;
+        overflow: hidden;
+
+        /*** Drop shadow beneath the header ***/
+        &:after {
+            content: "";
+            .overlay-top;
+            top: @page-header-height;
+            height: 4px;
+            box-shadow: inset 0 2px 3px -1px rgba(0,0,0, .3);
+        }
+    }
+
+        .page-header {
+            .overlay-top;
+            height: @page-header-height;
+        }
+
+            .header-button-alternate {
+                float: right;
+            }
+
+            .header-button {
+                float: left;
+            }
+
+        /*** Animate page navigation ***/
+        .page-content {
+            .animate(-webkit-transform);
+            .overlay-bottom;
+            top: @page-header-height;
+        }
+
+        .page-content-main {
+            .touch-scroll;
+            .translate3d(0);
+            -webkit-transform-origin: 10% 50%;
+
+            &.shrink {
+                -webkit-transform: translate3d(0,0,0) scale(0.7);
+            }
+        }
+
+        .page-scroller {
+            .overlay-total;
+            .touch-scroll;
+
+            &.has-options {
+                padding-bottom: @page-options-height;
+            }
+        }
+
+    .page-footer {
+        display: none;
+    }
+
+}

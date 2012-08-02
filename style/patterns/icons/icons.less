@@ -1,0 +1,75 @@
+/***
+
+    Icon dimensions
+
+***/
+
+// navigation icons
+@icon-forward-width:    15px;
+@icon-forward-height:   22px;
+
+@icon-back-width:       15px;
+@icon-back-height:      22px;
+
+@icon-up-width:         22px;
+@icon-up-height:        15px;
+
+@icon-down-width:       22px;
+@icon-down-height:      15px;
+
+// nav icon
+@icon-nav-width:   41px;
+@icon-nav-height:  29px;
+
+// share icon
+@icon-share-width:      24px;
+@icon-share-height:     20px;
+
+.icon-forward,
+.icon-back,
+.icon-up,
+.icon-down,
+.icon-nav,
+.icon-share {
+    background-image: url(../../../img/icon-sprite.png);
+    background-size: 41px 92px;
+    background-repeat:no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.icon-forward {
+    background-position: 0 0;
+    width: @icon-forward-width;
+    height: @icon-forward-height;
+}
+
+.icon-back {
+    background-position: 0 -@icon-forward-height;
+    width: @icon-back-width;
+    height: @icon-back-height;
+}
+
+.icon-up {
+    background-position: -@icon-forward-width 0;
+    width: @icon-up-width;
+    height: @icon-up-height;
+}
+
+.icon-down {
+    background-position: -@icon-forward-width -@icon-down-height;
+    width: @icon-down-width;
+    height: @icon-down-height;
+}
+
+.icon-nav {
+    background-position: 0 -(@icon-forward-height + @icon-back-height);
+    width: @icon-nav-width;
+    height: @icon-nav-height;
+}
+
+.icon-share {
+    background-position: 0 -(@icon-forward-height + @icon-back-height + @icon-nav-height);
+    width: @icon-share-width;
+    height: @icon-share-height;
+}
