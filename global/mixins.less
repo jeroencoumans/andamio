@@ -1,0 +1,29 @@
+.box-sizing (@type: border-box) {
+    -webkit-box-sizing: @type;
+    -moz-box-sizing:    @type;
+    box-sizing:         @type;
+}
+
+.animate(@property: all, @duration: 230ms) {
+     -webkit-transition-delay: 0;
+     -webkit-backface-visibility: hidden;
+     -webkit-transform-style: flat;
+     -webkit-transition-property: @property;
+     -webkit-transition-duration: @duration;
+     -webkit-transition-timing-function: cubic-bezier(0.770, 0.000, 0.175, 1.000);
+}
+
+.translate3d(@x, @y: 0, @z: 0) {
+    -webkit-transform:   translate3d(@x, @y, @z);
+    -moz-transform:      translate3d(@x, @y, @z);
+    -ms-transform:       translate3d(@x, @y, @z);
+    -o-transform:        translate3d(@x, @y, @z);
+}
+
+.scale(@ratio) {
+    -webkit-transform:  scale(@ratio);
+    -moz-transform:     scale(@ratio);
+    -ms-transform:      scale(@ratio);
+    -o-transform:       scale(@ratio);
+    transform:          scale(@ratio);
+}
