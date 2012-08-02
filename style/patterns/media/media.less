@@ -1,0 +1,33 @@
+img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    -ms-interpolation-mode:bicubic;
+    .box-sizing(border-box);
+}
+
+.media-fluid {
+    width: 100%;
+}
+
+.media-small    { width: @square-media-small; }
+.media-medium   { width: @square-media-medium; }
+.media-large    { width: @square-media-large; }
+
+.media-square-small {
+    width: @square-media-small;
+    height: @square-media-small;
+    overflow: hidden;
+}
+
+.media-square-medium {
+    width: @square-media-medium;
+    height: @square-media-medium;
+    overflow: hidden;
+}
+
+.media-square-large {
+    width: @square-media-large;
+    height: @square-media-large;
+    overflow: hidden;
+}

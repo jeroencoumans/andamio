@@ -1,0 +1,96 @@
+body,
+.font-normal {
+    font-family: @regular-font-family;
+    font-size: @font-s;
+    line-height: @baseline;
+    font-weight: normal;
+}
+
+p,
+li,
+.font-article {
+    font-family: @serif-font-family;
+    line-height: @baseline;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+legend {
+    font-family: @header-font-family;
+    line-height: @baseline;
+    text-rendering: optimizeLegibility;
+    margin: 0 0 @grid-s;
+    text-shadow: 0 1px 0 #fff;
+}
+
+.font-huge {
+    font-size: @font-huge;
+    line-height: @baseline * 1.25;
+}
+
+h1,
+.h1,
+.font-extra-large {
+    font-size: @font-xl;
+    line-height: @baseline * 1.25;
+}
+
+h2,
+.h2 {
+    font-size: @font-l;
+}
+
+h3,
+.h3,{
+    font-size: @font-m;
+}
+
+h4,
+.h4 {
+    font-size: @font-s;
+}
+
+h5,
+.h5,{
+    font-size: @font-xs;
+}
+
+h6,
+.h6 {
+    font-size: @font-xs;
+}
+
+p,
+form,
+ul,
+ol,
+dl,
+table {
+    margin: 0 0 @baseline / 2;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+
+    &:focus {
+        text-decoration: underline;
+    }
+}
+
+small,
+sub,
+sup {
+    font-size: @font-xs;
+    line-height: @baseline / 2;
+}

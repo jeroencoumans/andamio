@@ -1,0 +1,29 @@
+.table-view-grouped {
+    margin: (@grid-l - @grid-s) @grid-m;
+
+    .table-header {
+        background: transparent;
+        border: 0;
+        margin: 0 0 @grid-s;
+    }
+
+    .detail-header {
+        margin-left: @grid-m;
+    }
+
+    .table-cell {
+        border-color: @grey;
+
+        &:first-of-type {
+            border-top: 1px solid @grey;
+            border-top-left-radius: @grid-s;
+            border-top-right-radius:  @grid-s;
+        }
+
+        &:last-of-type {
+            border-bottom-left-radius: @grid-s;
+            border-bottom-right-radius:  @grid-s;
+            box-shadow: 0 1px 1px #fff;
+        }
+    }
+}

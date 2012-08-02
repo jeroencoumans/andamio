@@ -1,0 +1,32 @@
+/***
+
+    These classes will produce a feeditem-like pattern.
+    It's a very simple grid system that has optional content left and right, and will resize the middle content to fit the remaining space.
+    Use it anywhere you want an image on the left, some liquid content in the center and an optional action on the right.
+
+***/
+
+.media-object {
+    display: block;
+    overflow:hidden;
+}
+
+    /* OPTIONAL: an image that will be shown left */
+    .media-img {
+        float:left;
+        margin-right: @grid-m;
+        text-align: center;
+    }
+
+    /* The actions that are shown on the right */
+    .media-action {
+        float: right;
+        text-align: right;
+        margin: 0 0 0 @grid-m;
+    }
+
+    /* The content in the middle will be positioned right between the image left and the actions right. If you want it to wrap instead, don't use this class */
+    .media-bd {
+        display:block;
+        overflow:hidden;
+    }

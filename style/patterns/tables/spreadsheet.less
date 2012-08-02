@@ -1,0 +1,43 @@
+/***
+
+    @extends .flex-row
+
+***/
+
+.spreadsheet {
+
+    margin: @grid-m 0;
+
+    .flex-row {
+        border-bottom: 1px solid darken(@page-background-color, 5%);
+
+        &:last-child {
+            border-bottom: 0;
+        }
+    }
+
+    .flex-unit {
+        padding: @grid-m @grid-s;
+
+        &:first-child {
+            padding-left: @grid-m;
+        }
+
+        &:last-child {
+            padding-right: @grid-m;
+        }
+    }
+
+    .data-number {
+        white-space: nowrap;
+        text-align: right;
+    }
+
+    [data-variation] {
+        color: #4aa33e;
+    }
+
+    [data-variation^="-"] {
+        color: #ff1e20;
+    }
+}

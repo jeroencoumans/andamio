@@ -1,0 +1,97 @@
+/***
+
+    Provides a Facebook-like off-canvas menu pattern
+
+    Requires:
+    .viewport
+        .page-wrapper
+            .page-content-sections-toggle
+        .page-navigation
+
+    Expects:
+    .has-sections on the document
+
+***/
+
+/*** Prevent horizontal scrolling when menu is open ***/
+html,
+body {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+    /*** .page-navigation is positioned outside the .page-wrapper ***/
+    .page-navigation {
+        .overlay-top-left;
+        width: @nav-width;
+        left: -@nav-width;
+    }
+
+    .page-wrapper {
+        position: relative;
+        z-index: 2;
+    }
+
+    /*** Setup sections toggle, but don't give it dimensions ***/
+    .page-content-sections-toggle {
+        .overlay-right;
+    }
+
+
+/*** Toggle ***/
+.website.has-sections {
+
+    /*** Put it in the correct place ***/
+    .page-navigation {
+        left: 0;
+    }
+
+    .page-wrapper {
+        overflow: hidden;
+        left: @nav-width;
+    }
+
+    /*** Make sections toggle clickable ***/
+    .page-content-sections-toggle {
+        left: 0;
+    }
+}
+
+
+/*** Webapp slides down the .page-wrapper ***/
+.webapp {
+    .page-navigation {
+        left: 0;        // override off-canvas
+        right: 0;       // override off-canvas
+        width: 100%;    // override off-canvas
+
+        // animation
+        .animate();
+        .shrink;
+        .fade;
+    }
+
+    .page-wrapper {
+        .animate();
+    }
+
+    /*** Slide down the page wrapper ***/
+    &.has-sections {
+
+        .page-navigation {
+            .translate3d(0);
+            .unshrink;
+            .unfade;
+        }
+
+        .page-wrapper {
+            .translate3d(0, @section-height);
+        }
+
+        /*** Make sections toggle clickable ***/
+        .page-content-sections-toggle {
+            left: 0;
+        }
+    }
+
+}

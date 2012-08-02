@@ -1,0 +1,14 @@
+/*** http://dropshado.ws/post/1015351370/webkit-line-clamp ***/
+.truncate-lines(@lines: 4) {
+     -ms-word-break:    break-all;
+    word-break:         break-all;
+
+    // Non standard for webkit
+    word-break:         break-word;
+
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: @lines;
+    -webkit-box-orient: vertical;
+}
