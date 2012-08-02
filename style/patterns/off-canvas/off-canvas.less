@@ -5,11 +5,11 @@
     Requires:
     .viewport
         .page-wrapper
-            .page-content-sections-toggle
+            .page-content-navigation-toggle
         .page-navigation
 
     Expects:
-    .has-sections on the document
+    .has-navigation on the document
 
 ***/
 
@@ -20,6 +20,27 @@ body {
     overflow-x: hidden;
 }
 
+/*** Shared styles ***/
+
+.page-wrapper {
+    position: relative;
+    z-index: 2;
+}
+
+    /*** Setup navigation toggle, but don't give it dimensions ***/
+    .page-navigation-toggle {
+        .overlay-right;
+
+        /*** Make navigation toggle clickable ***/
+        .has-navigation & {
+            left: 0;
+        }
+    }
+
+
+/*** Toggle ***/
+.website {
+
     /*** .page-navigation is positioned outside the .page-wrapper ***/
     .page-navigation {
         .overlay-top-left;
@@ -27,33 +48,17 @@ body {
         left: -@nav-width;
     }
 
-    .page-wrapper {
-        position: relative;
-        z-index: 2;
-    }
+    &.has-navigation {
 
-    /*** Setup sections toggle, but don't give it dimensions ***/
-    .page-content-sections-toggle {
-        .overlay-right;
-    }
+        /*** Put it in the correct place ***/
+        .page-navigation {
+            left: 0;
+        }
 
-
-/*** Toggle ***/
-.website.has-sections {
-
-    /*** Put it in the correct place ***/
-    .page-navigation {
-        left: 0;
-    }
-
-    .page-wrapper {
-        overflow: hidden;
-        left: @nav-width;
-    }
-
-    /*** Make sections toggle clickable ***/
-    .page-content-sections-toggle {
-        left: 0;
+        .page-wrapper {
+            overflow: hidden;
+            left: @nav-width;
+        }
     }
 }
 
@@ -61,9 +66,7 @@ body {
 /*** Webapp slides down the .page-wrapper ***/
 .webapp {
     .page-navigation {
-        left: 0;        // override off-canvas
-        right: 0;       // override off-canvas
-        width: 100%;    // override off-canvas
+        .overlay-top;
 
         // animation
         .animate();
@@ -76,7 +79,7 @@ body {
     }
 
     /*** Slide down the page wrapper ***/
-    &.has-sections {
+    &.has-navigation {
 
         .page-navigation {
             .translate3d(0);
@@ -85,13 +88,9 @@ body {
         }
 
         .page-wrapper {
-            .translate3d(0, @section-height);
+            .translate3d(0, @nav-height);
         }
 
-        /*** Make sections toggle clickable ***/
-        .page-content-sections-toggle {
-            left: 0;
-        }
     }
 
 }
