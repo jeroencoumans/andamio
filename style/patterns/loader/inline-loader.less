@@ -1,0 +1,17 @@
+.inline-loader {
+    background: @loader-background;
+    border-top: 1px solid darken(@loader-background, 10%);
+    border-bottom: 1px solid darken(@loader-background, 10%);
+    padding: @grid-s @grid-m
+    text-align: center;
+
+    .loader-img {
+        vertical-align: bottom;
+        margin: 0 @grid-m 0 0;
+    }
+
+    .loader-text {
+        display: inline;
+        line-height: @loader-img-height;
+    }
+}
