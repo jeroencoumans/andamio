@@ -69,7 +69,8 @@ APP.core = (function() {
 
         APP.events.attachClickHandler(".action-navigation-toggle", function(event) {
             toggleNavigation();
-            if (!$.supports.webapp) {
+
+            if (! $supports.webapp) {
                 toggleNavigationHeight();
             }
 
@@ -93,15 +94,16 @@ APP.core = (function() {
      function toggleNavigationHeight() {
 
         navigationHeight = $("#page-navigation").height();
+        viewportHeight = $(window).height();
         wrapper = $("#page-wrapper");
         content = $(".page-content");
 
-        if (html.hasClass("has-navigation")) {
-            wrapper.css("max-height", navigationHeight);
-            content.css("max-height", navigationHeight);
+        if (html.hasClass("has-navigation") && navigationHeight > viewportHeight) {
+            wrapper.height(navigationHeight);
+            content.height(navigationHeight);
         } else {
-            wrapper.css("max-height", "");
-            content.css("max-height", "");
+            wrapper.height("");
+            content.height("");
         }
      }
 

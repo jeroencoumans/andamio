@@ -5,7 +5,7 @@
     Requires:
     .viewport
         .page-wrapper
-            .page-content-navigation-toggle
+            .page-navigation-toggle
         .page-navigation
 
     Expects:
@@ -20,12 +20,19 @@ body {
     overflow-x: hidden;
 }
 
-/*** Shared styles ***/
+/*** Setup layout ***/
 
 .page-wrapper {
     position: relative;
     z-index: 2;
 }
+
+    /*** .page-navigation is positioned outside the .page-wrapper ***/
+    .page-navigation {
+        .overlay-top-left;
+        width: @nav-width;
+        left: -@nav-width;
+    }
 
     /*** Setup navigation toggle, but don't give it dimensions ***/
     .page-navigation-toggle {
@@ -40,13 +47,6 @@ body {
 
 /*** Toggle ***/
 .website {
-
-    /*** .page-navigation is positioned outside the .page-wrapper ***/
-    .page-navigation {
-        .overlay-top-left;
-        width: @nav-width;
-        left: -@nav-width;
-    }
 
     &.has-navigation {
 
@@ -66,31 +66,25 @@ body {
 /*** Webapp slides down the .page-wrapper ***/
 .webapp {
     .page-navigation {
-        .overlay-top;
-
-        // animation
-        .animate();
-        .shrink;
-        .fade;
+        .animate(-webkit-transform);
+        bottom: 0;
     }
 
     .page-wrapper {
-        .animate();
+        .animate(-webkit-transform);
     }
 
     /*** Slide down the page wrapper ***/
     &.has-navigation {
 
-        .page-navigation {
-            .translate3d(0);
-            .unshrink;
-            .unfade;
+        .page-navigation,
+        .page-wrapper {
+            .translate3d(@nav-width);
         }
 
         .page-wrapper {
-            .translate3d(0, @nav-height);
+            overflow: hidden;
         }
-
     }
 
 }
