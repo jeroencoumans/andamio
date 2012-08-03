@@ -22,6 +22,11 @@
 
         <div id="page-content-main" class="page-content page-content-main">
 
+
+            <div class="table-view table-view-grouped">
+                <a href="javascript:void(0)" class="table-cell action-thumbnail-toggle">Show top navigation</a>
+            </div>
+
             <div class="table-view table-view-grouped">
                 <h2 class="table-header">Grouped table-view</h2>
                 <a href="javascript:void(0)" class="table-cell table-cell-disclosure">
@@ -103,13 +108,47 @@
         </a>
     </nav>
 
+    <nav class="thumbnail-wrapper">
+        <div class="thumbnail-content">
+            <div class="thumbnail-item">1</div>
+            <div class="thumbnail-item">2</div>
+            <div class="thumbnail-item">3</div>
+            <div class="thumbnail-item">4</div>
+            <div class="thumbnail-item">5</div>
+            <div class="thumbnail-item">6</div>
+            <div class="thumbnail-item">7</div>
+            <div class="thumbnail-item">8</div>
+            <div class="thumbnail-item">9</div>
+            <div class="thumbnail-item">10</div>
+            <div class="thumbnail-item">11</div>
+            <div class="thumbnail-item">12</div>
+        </div>
+    </div>
+
+
     <script src="js/less.js"></script>
     <script src="js/zepto.js"></script>
+    <script src="js/zepto.flickable.js"></script>
     <script src="js/hogan.js"></script>
     <script src="js/app.js"></script>
     <script>
         $(document).ready(function() {
             APP.core.init();
+
+            $(".action-thumbnail-toggle").on('click', function() {
+                $('.webapp').toggleClass("has-thumbnail");
+            })
+
+            viewportWidth = $(window).width();
+            thumbnailItems = $('.thumbnail-content').find('.thumbnail-item');
+            thumbnailItemWidth = thumbnailItems.first().width();
+            thumbnailSegments = Math.floor(viewportWidth / thumbnailItemWidth);
+
+            $(".thumbnail-content").flickable({
+                segments: thumbnailSegments,
+                flickDirection: 'x',
+                preventDefault: false
+            });
         });
     </script>
 

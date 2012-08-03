@@ -39,14 +39,14 @@ APP.core = (function() {
         $.os.ios6 = $.os.ios && $.os.version.indexOf("6.") != -1;
 
         // Uncomment to test iOS5 mode
-        // $.os.ios5 = true;
+        $.os.ios5 = true;
 
         $.supports.cordova = APP.util.getQueryParam("cordova") === "1";
         $.supports.webapp = navigator.standalone || $.supports.cordova;
 
 
         // Uncomment to test standalone mode
-        // $.supports.webapp = true;
+        $.supports.webapp = true;
 
         // 'tap' events don't work reliably on Android (4)
         $.supports.touch = "ontouchstart" in window && !$.os.android;

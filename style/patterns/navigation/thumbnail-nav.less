@@ -1,0 +1,60 @@
+@slideshow-img-width: 80px;
+@slideshow-img-height: 80px;
+
+.thumbnail-wrapper {
+    background: @page-navigation-background;
+    color: @page-navigation-color;
+    .overlay-top;
+    overflow: hidden;
+    .animate();
+    .shrink;
+    .fade;
+
+
+    .has-thumbnail & {
+        .unshrink;
+        .unfade;
+    }
+
+    .thumbnail-content {
+        width: 12 * (@slideshow-img-width + @grid-m);
+        height: @slideshow-img-height + @grid-m;
+    }
+
+        .thumbnail-item {
+            display: block;
+            float: left;
+            width: @slideshow-img-width;
+            height: @slideshow-img-height;
+            .h1;
+            text-align: center;
+            line-height: @slideshow-img-height;
+
+            margin: @grid-m 0 @grid-m @grid-m;
+
+            background: @grey;
+
+            &:nth-child(1) { background: darken(@grey, 5%);}
+            &:nth-child(2) { background: darken(@grey, 10%);}
+            &:nth-child(3) { background: darken(@grey, 15%);}
+            &:nth-child(4) { background: darken(@grey, 20%);}
+            &:nth-child(5) { background: darken(@grey, 25%);}
+            &:nth-child(6) { background: darken(@grey, 30%);}
+            &:nth-child(7) { background: darken(@grey, 35%);}
+            &:nth-child(8) { background: darken(@grey, 40%);}
+            &:nth-child(9) { background: darken(@grey, 45%);}
+            &:nth-child(10) { background: darken(@grey, 50%);}
+            &:nth-child(11) { background: darken(@grey, 55%);}
+            &:nth-child(12) { background: darken(@grey, 60%);}
+        }
+}
+
+.page-wrapper {
+
+}
+
+.has-thumbnail {
+    .page-wrapper {
+        .translate3d(0, @slideshow-img-height + @grid-m + @grid-m);
+    }
+}
