@@ -79,6 +79,10 @@ APP.core = (function() {
             return false;
         });
 
+        APP.events.attachClickHandler(".action-thumbnail-toggle", function(event) {
+            $('.webapp').toggleClass("has-thumbnail");
+        });
+
     }
 
     /**
