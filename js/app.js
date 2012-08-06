@@ -83,6 +83,12 @@ APP.core = (function() {
             $('.webapp').toggleClass("has-thumbnail");
         });
 
+
+        APP.events.attachClickHandler(".action-article", function(event) {
+            $('.webapp').toggleClass("has-article");
+        });
+
+
     }
 
     /**

@@ -44,6 +44,7 @@
             .touch-scroll;
             .translate3d(0);
             -webkit-transform-origin: 10% 50%;
+            z-index: 2;
 
             &.shrink {
                 -webkit-transform: translate3d(0,0,0) scale(0.7);
@@ -54,6 +55,26 @@
             .overlay-total;
             .touch-scroll;
         }
+
+        /*** Secondary page ***/
+        .page-content-alternate {
+            .slide-right();
+        }
+
+        /*** When article is open ***/
+        &.has-article {
+            .page-content-main {
+                -webkit-transform: translate3d(0,0,0) scale(0.7);
+                transform: translate3d(0,0,0) scale(0.7);
+                z-index: 1;
+            }
+
+            .page-content-alternate {
+                .slide-default();
+                z-index: 2;
+            }
+        }
+
 
     .page-navigation {
         .touch-scroll;
