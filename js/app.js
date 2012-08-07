@@ -82,13 +82,14 @@ APP.core = (function () {
             return false;
         });
 
+        // toggles the top thumbnail navigation
         APP.events.attachClickHandler(".action-thumbnail-toggle", function (event) {
             $('.webapp').toggleClass("has-thumbnail");
         });
 
-
+        // toggles item page
         APP.events.attachClickHandler(".action-article", function (event) {
-            $('.webapp').toggleClass("has-article");
+            $('html').toggleClass("has-detailview");
         });
 
 

@@ -5,4 +5,20 @@
         display: none;
     }
 
+    /*** Hide detail view ***/
+    .page-content-alternate {
+        display: none;
+    }
+
+    /*** Toggle between main view and detail view ***/
+    &.has-detailview {
+        .page-content-main {
+            display: none;
+        }
+
+        .page-content-alternate {
+            display: block;
+        }
+
+    }
 }
