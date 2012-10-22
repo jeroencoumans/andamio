@@ -1,0 +1,27 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.viewport {
+    background: @global-background-color;
+    color: @global-text-color;
+    word-wrap: break-word;
+
+    .webapp & {
+        background: @webapp-background-color;
+    }
+}
+
+a {
+    color: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: @global-header-color;
+}
+
+.detail {
+    color: #929191;
+}

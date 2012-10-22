@@ -1,15 +1,17 @@
 body,
 .font-normal {
     font-family: @regular-font-family;
-    font-size: @font-s;
+    font-size: @font-xs;
     line-height: @baseline;
     font-weight: normal;
 }
 
-p,
-li,
+.article-summary,
+.article-item,
+.article-text,
 .font-article {
     font-family: @serif-font-family;
+    font-size: @font-s;
     line-height: @baseline;
 }
 
@@ -29,8 +31,8 @@ legend {
     font-family: @header-font-family;
     line-height: @baseline;
     text-rendering: optimizeLegibility;
+    margin: 0 0 @grid-s;
     text-shadow: 0 1px 0 #fff;
-    margin: 0;
 }
 
 .font-huge {

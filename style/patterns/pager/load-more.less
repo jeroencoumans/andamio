@@ -1,11 +1,16 @@
-.inline-loader {
+.load-more,
+.pager-loader {
     background: @loader-background;
     border-top: 1px solid darken(@loader-background, 10%);
     border-bottom: 1px solid darken(@loader-background, 10%);
-    padding: @grid-s @grid-m;
+    padding: @grid-s @grid-m
+}
+
+.pager-loader {
     text-align: center;
 
     .loader-img {
+        display: inline-block;
         vertical-align: bottom;
         margin: 0 @grid-m 0 0;
     }

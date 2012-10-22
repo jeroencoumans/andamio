@@ -1,0 +1,1131 @@
+/***
+
+    Fonts
+
+***/
+/***
+
+    Colors
+
+***/
+/***
+
+    Table views
+
+***/
+/***
+
+    Loader
+
+***/
+/***
+
+    Grid & media sizes
+
+***/
+/***
+
+    Layout
+
+***/
+/***
+
+    Header
+
+***/
+/***
+
+    Navigation
+
+***/
+/***
+
+    Tabs
+
+***/
+/* =============================================================================
+   Base
+   ========================================================================== */
+/*
+ * 1. Corrects text resizing oddly in IE6/7 when body font-size is set using em units
+ *    http://clagnut.com/blog/348/#c790
+ * 2. Prevents iOS text size adjust after orientation change, without disabling user zoom
+ *    www.456bereastreet.com/archive/201012/controlling_text_size_in_safari_for_ios_without_disabling_user_zoom/
+ */
+html {
+  font-size: 100%;
+  /* 1 */
+
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  /* 2 */
+
+}
+/*
+ * Addresses font-family inconsistency between 'textarea' and other form elements.
+ */
+html,
+button,
+input,
+select,
+textarea {
+  font-family: sans-serif;
+}
+/*
+ * Addresses style set to 'bolder' in FF3+, S4/5, Chrome
+*/
+b,
+strong {
+  font-weight: bold;
+}
+/*
+ * 1. Corrects font size not being inherited in all browsers
+ * 2. Addresses margins set differently in IE6/7, FF3+, S5, Chrome
+ * 3. Improves appearance and consistency in all browsers
+ */
+button,
+input,
+select,
+textarea {
+  font-size: 100%;
+  /* 1 */
+
+  margin: 0;
+  /* 2 */
+
+  vertical-align: baseline;
+  *vertical-align: middle;
+  /* 3 */
+
+}
+/*
+ * Addresses FF3/4 setting line-height on 'input' using !important in the UA stylesheet
+ */
+button,
+input {
+  line-height: normal;
+  /* 1 */
+
+}
+/*
+ * 1. Removes default vertical scrollbar in IE6/7/8/9
+ * 2. Improves readability and alignment in all browsers
+ */
+textarea {
+  overflow: auto;
+  /* 1 */
+
+  vertical-align: top;
+  /* 2 */
+
+}
+body,
+.font-normal {
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: normal;
+}
+.article-summary,
+.article-item,
+.article-text,
+.font-article {
+  font-family: georgia, serif;
+  font-size: 15px;
+  line-height: 20px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+legend {
+  font-family: "Handset Condensed Bold", "HelveticaNeue-CondensedBold", "Helvetica Neue CondensedBold", "Franklin Gothic Medium Cond", "Helvetica Inserat", Haettenschweiler, "Tw Cen MT Condensed", "Helvetica Narrow", "DejaVu Sans Condensed", "HelveticaNeue-Bold", "HelveticaNeue Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 20px;
+  text-rendering: optimizeLegibility;
+  margin: 0 0 5px;
+  text-shadow: 0 1px 0 #fff;
+}
+.font-huge {
+  font-size: 30px;
+  line-height: 25px;
+}
+h1,
+.h1,
+.font-extra-large {
+  font-size: 27px;
+  line-height: 25px;
+}
+h2,
+.h2 {
+  font-size: 23px;
+}
+h3,
+.h3 {
+  font-size: 19px;
+}
+h4,
+.h4 {
+  font-size: 15px;
+}
+h5,
+.h5 {
+  font-size: 13px;
+}
+h6,
+.h6 {
+  font-size: 13px;
+}
+p,
+form,
+ul,
+ol,
+dl,
+table {
+  margin: 0 0 10px;
+  padding: 0;
+}
+a {
+  text-decoration: none;
+}
+a:focus {
+  text-decoration: underline;
+}
+small,
+sub,
+sup {
+  font-size: 13px;
+  line-height: 10px;
+}
+/***
+
+    Generic positioning
+
+***/
+.overlay-wrapper {
+  position: relative;
+}
+/* These classes let you position anything, anywhere */
+.overlay-top,
+.overlay-top-left,
+.overlay-top-right,
+.overlay-bottom,
+.overlay-bottom-left,
+.overlay-bottom-right,
+.overlay-left,
+.overlay-left-top,
+.overlay-left-center,
+.overlay-left-bottom,
+.overlay-right,
+.overlay-right-top,
+.overlay-right-center,
+.overlay-right-bottom,
+.overlay-total {
+  position: absolute;
+}
+.overlay-top {
+  top: 0;
+  right: 0;
+  left: 0;
+}
+.overlay-top-left {
+  top: 0;
+  left: 0;
+}
+.overlay-top-right {
+  top: 0;
+  right: 0;
+}
+.overlay-bottom {
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+.overlay-bottom-left {
+  bottom: 0;
+  left: 0;
+}
+.overlay-bottom-right {
+  bottom: 0;
+  right: 0;
+}
+.overlay-left {
+  left: 0;
+  top: 0;
+  bottom: 0;
+}
+.overlay-left-top {
+  left: 0;
+  top: 0;
+}
+.overlay-left-center {
+  left: 0;
+  top: 50%;
+}
+.overlay-left-bottom {
+  left: 0;
+  bottom: 0;
+}
+.overlay-right {
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+.overlay-right-top {
+  right: 0;
+  top: 0;
+}
+.overlay-right-center {
+  right: 0;
+  top: 50%;
+}
+.overlay-right-bottom {
+  right: 0;
+  bottom: 0;
+}
+.overlay-total {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+/*** Grids ***/
+.flex-row {
+  display: table;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.flex-unit {
+  display: table-cell;
+  vertical-align: top;
+}
+.row {
+  overflow: hidden;
+  *overflow: visible;
+  *zoom: 1;
+}
+.unit {
+  float: left;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.unit-right {
+  float: right;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.p5 {
+  width: 5%;
+}
+.p10 {
+  width: 10%;
+}
+.p15 {
+  width: 15%;
+}
+.p20 {
+  width: 20%;
+}
+.p25 {
+  width: 25%;
+}
+.p30 {
+  width: 30%;
+}
+.p33 {
+  width: 33.333333%;
+}
+.p35 {
+  width: 35%;
+}
+.p40 {
+  width: 40%;
+}
+.p45 {
+  width: 45%;
+}
+.p50 {
+  width: 50%;
+}
+.p55 {
+  width: 55%;
+}
+.p60 {
+  width: 60%;
+}
+.p65 {
+  width: 65%;
+}
+.p66 {
+  width: 66.666666%;
+}
+.p70 {
+  width: 70%;
+}
+.p75 {
+  width: 75%;
+}
+.p80 {
+  width: 80%;
+}
+.p85 {
+  width: 85%;
+}
+.p90 {
+  width: 90%;
+}
+.p95 {
+  width: 95%;
+}
+.p100 {
+  width: 100%;
+}
+dl {
+  margin: 0;
+}
+dt {
+  font-weight: normal;
+}
+dd {
+  margin: 0;
+}
+ol {
+  list-style-type: decimal;
+  padding: 0 0 0 30px;
+}
+.loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  border-radius: 10px;
+  z-index: 1000;
+  background: #393939;
+  width: 80px;
+  height: 48px;
+  margin: -48px 0 0 -40px;
+  padding: 16px 0 0 0;
+}
+.loader .spinner,
+.loader .spinner-dark {
+  margin: auto;
+  display: block;
+}
+.spinner-light {
+  width: 32px;
+  height: 32px;
+  vertical-align: middle;
+}
+.spinner-dark {
+  width: 32px;
+  height: 32px;
+  display: inline-block;
+}
+img,
+video {
+  display: block;
+  -ms-interpolation-mode: bicubic;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.media-fluid {
+  width: 100%;
+  height: auto;
+}
+/***
+
+    These classes will produce a feeditem-like pattern.
+    It's a very simple grid system that has optional content left and right, and will resize the middle content to fit the remaining space.
+    Use it anywhere you want an image on the left, some liquid content in the center and an optional action on the right.
+
+***/
+.media-object {
+  display: block;
+  overflow: hidden;
+}
+/* OPTIONAL: an image that will be shown left */
+.media-img {
+  float: left;
+  margin-right: 10px;
+  text-align: center;
+}
+/* The actions that are shown on the right */
+.media-action {
+  float: right;
+  text-align: right;
+  margin: 0 0 0 10px;
+}
+/* The content in the middle will be positioned right between the image left and the actions right. If you want it to wrap instead, don't use this class */
+.media-bd {
+  display: block;
+  overflow: hidden;
+}
+.media-object-list .media-object {
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #a2a2a2;
+}
+.media-object-list .media-object:first-child {
+  border-top: 0;
+}
+.media-object-list .media-object:last-child {
+  border-bottom: 0;
+}
+.invisible {
+  visibility: hidden;
+}
+/*** http://dropshado.ws/post/1015351370/webkit-line-clamp ***/
+.button {
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: normal;
+  font-weight: bold;
+  font-size: 15px;
+  background: #ffffff;
+  background: -moz-linear-gradient(top, #ffffff 0%, #f2f2f2 49%, #e5e5e5 50%, #d8d8d8 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(49%, #f2f2f2), color-stop(50%, #e5e5e5), color-stop(100%, #d8d8d8));
+  background: -webkit-linear-gradient(top, #ffffff 0%, #f2f2f2 49%, #e5e5e5 50%, #d8d8d8 100%);
+  background: -o-linear-gradient(top, #ffffff 0%, #f2f2f2 49%, #e5e5e5 50%, #d8d8d8 100%);
+  background: -ms-linear-gradient(top, #ffffff 0%, #f2f2f2 49%, #e5e5e5 50%, #d8d8d8 100%);
+  background: linear-gradient(to bottom, #ffffff 0%, #f2f2f2 49%, #e5e5e5 50%, #d8d8d8 100%);
+  border: 1px solid #a2a2a2;
+  border-radius: 5px;
+  color: #000;
+  text-shadow: 0 1px 1px #fff;
+  display: block;
+  padding: 5px 10px;
+  text-align: center;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.button-primary {
+  width: 100%;
+}
+.disabled-button {
+  opacity: 0.5;
+}
+.webapp .button {
+  border: 0;
+  box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3) inset, 0 1px 2px rgba(0, 0, 0, 0.6) inset, 0 1px 1px #ffffff;
+}
+.webapp .button:active {
+  background: #cacaca;
+}
+label {
+  font-weight: bold;
+}
+input,
+button {
+  line-height: inherit;
+}
+.icon {
+  display: inline-block;
+  vertical-align: text-bottom;
+}
+.icon-arrow-right,
+.icon-arrow-left,
+.icon-arrow-up,
+.icon-arrow-down {
+  background: url(/andamio/img/icons/arrows.png) 0 0 no-repeat;
+  background-size: 21px 84px;
+  width: 21px;
+  height: 21px;
+}
+.icon-arrow-right {
+  background-position: 0 0;
+}
+.icon-arrow-left {
+  background-position: 0 -21px;
+}
+.icon-arrow-up {
+  background-position: 0 -42px;
+}
+.icon-arrow-down {
+  background-position: 0 -63px;
+}
+/***
+
+    iOS style tableview
+    .table-view
+        [h1.table-header]
+        .table-cell
+            h2.table-cell-title
+        [.table-footer]
+
+
+***/
+.table-view {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.table-header {
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: normal;
+  font-size: 15px;
+  text-align: center;
+  margin: 0;
+  padding: 5px 10px;
+  border-bottom: 1px solid #a2a2a2;
+}
+.table-footer {
+  padding: 10px 0;
+}
+.table-cell {
+  display: block;
+  overflow: hidden;
+  *overflow: visible;
+  *zoom: 1;
+  margin: 0;
+  padding: 10px;
+  background: #ffffff;
+  border-left: 1px solid #f3f3f3;
+  border-right: 1px solid #f3f3f3;
+  border-bottom: 1px solid #a2a2a2;
+}
+.table-cell .icon-arrow-right {
+  float: right;
+}
+.table-cell-title {
+  margin: 0;
+}
+.table-view-grouped {
+  margin: 15px 10px;
+}
+.table-view-grouped:first-child {
+  margin-top: 0;
+}
+.table-view-grouped .table-header {
+  border: 0;
+}
+.table-view-grouped .table-cell {
+  border-color: #f3f3f3 #a2a2a2 #a2a2a2;
+}
+.table-view-grouped .table-cell:first-of-type {
+  border-top: 1px solid #a2a2a2;
+  border-radius: 5px 5px 0 0;
+  -webkit-background-clip: padding;
+  background-clip: padding-box;
+}
+.table-view-grouped .table-cell:last-of-type {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.table-cell-centered {
+  padding: 0;
+  overflow: hidden;
+  *overflow: visible;
+  *zoom: 1;
+}
+.table-cell-centered .table-cell-label {
+  float: left;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 40%;
+  padding: 10px 0 10px 10px;
+  color: #a2a2a2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.table-cell-centered .table-cell-label br {
+  display: none;
+}
+.table-cell-centered .table-cell-value {
+  float: left;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 60%;
+  padding: 10px;
+  border: 0;
+  outline: 0;
+  color: #050505;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.table-cell-centered .table-cell-value br {
+  display: none;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+.viewport {
+  background: #f3f3f3;
+  color: #050505;
+  word-wrap: break-word;
+}
+.webapp .viewport {
+  background: #050505;
+}
+a {
+  color: inherit;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #393939;
+}
+.detail {
+  color: #929191;
+}
+.box {
+  margin: 10px 10px 20px;
+}
+.box-content {
+  background: #ffffff;
+  border: 1px solid #a2a2a2;
+}
+.box-header {
+  margin: 10px 5px;
+}
+.page-logo {
+  /*** center and ensure it stays on top ***/
+
+  display: block;
+  margin: auto;
+  text-align: center;
+  /*** take it out of the flow ***/
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  width: 120px;
+  height: 44px;
+  line-height: 44px;
+  font-family: "Handset Condensed Bold", "HelveticaNeue-CondensedBold", "Helvetica Neue CondensedBold", "Franklin Gothic Medium Cond", "Helvetica Inserat", Haettenschweiler, "Tw Cen MT Condensed", "Helvetica Narrow", "DejaVu Sans Condensed", "HelveticaNeue-Bold", "HelveticaNeue Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 23px;
+  font-weight: bold;
+}
+/***
+
+    Setup basic layout
+
+***/
+.page-header {
+  background: #dadada;
+  height: 43px;
+  border-bottom: 1px solid #b3b3b3;
+  *overflow: visible;
+  *zoom: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.page-header br {
+  display: none;
+}
+.header-button,
+.header-button-alternate {
+  height: 44px;
+  line-height: 44px;
+  padding: 5px;
+}
+.header-button {
+  float: left;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.header-button-alternate {
+  float: right;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.webapp .page-header {
+  border-radius: 5px 5px 0 0;
+  -webkit-background-clip: padding;
+  background-clip: padding-box;
+}
+/***
+
+    .page-navigation
+        .navigation-header
+        .navigation-item
+
+***/
+.page-navigation {
+  background: #393939;
+}
+.navigation-header {
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: normal;
+  font-size: 15px;
+  text-align: center;
+  background: #202020;
+  border-bottom: 1px solid #202020;
+  color: #a2a2a2;
+  text-shadow: 0 1px 1px #202020;
+  margin: 0;
+  padding: 5px 10px;
+}
+.navigation-item {
+  display: block;
+  padding: 5px 10px;
+  font-weight: bold;
+  border-top: 1px solid #535353;
+  border-bottom: 1px solid #202020;
+  color: #f5f5f5;
+  text-shadow: 0 1px 1px #202020;
+}
+.navigation-item:last-child {
+  -webkit-box-shadow: 0 1px 0 #535353;
+  box-shadow: 0 1px 0 #535353;
+}
+.page-footer {
+  background: #050505;
+  color: #fff;
+  text-align: center;
+  padding: 20px 10px;
+}
+.webapp .overthrow {
+  -webkit-overflow-scrolling: touch;
+  overflow: auto;
+}
+/***
+
+    Provides a Facebook-like off-canvas menu pattern
+
+    Requires:
+    .website (html)
+    .viewport (body)
+        .page-view
+            .page-navigation-toggle
+        .page-navigation
+
+    Expects:
+    .has-navigation on the document
+
+***/
+/*** .page-navigation is positioned outside the .page-content ***/
+.page-navigation {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 260px;
+  left: -260px;
+}
+/*** Navigation toggle ***/
+.page-navigation-toggle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+.has-navigation .page-navigation-toggle {
+  left: 260px;
+}
+.website {
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+.website .viewport {
+  position: relative;
+  overflow: hidden;
+}
+.website .page-view {
+  position: relative;
+}
+.website.has-navigation {
+  /*** Put it in the correct place ***/
+
+}
+.website.has-navigation .page-view {
+  overflow: hidden;
+  left: 260px;
+}
+.website.has-navigation .page-navigation {
+  left: 0;
+}
+.webapp .page-view,
+.webapp .page-navigation {
+  -webkit-transform: translate(0, 0) translatez(0);
+  transform: translate(0, 0) translatez(0);
+  -webkit-transition-delay: 0;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform-style: flat;
+  -webkit-transition-property: -webkit-transform;
+  -webkit-transition-duration: 300ms;
+  -webkit-transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
+}
+.webapp .page-view {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px 5px 0 0;
+  -webkit-background-clip: padding;
+  background-clip: padding-box;
+}
+.webapp.has-navigation .page-view,
+.webapp.has-navigation .page-navigation {
+  -webkit-transform: translate(260px, 0) translatez(0);
+  transform: translate(260px, 0) translatez(0);
+}
+/***
+
+    Navigation tabs
+    .tabs
+        .tab-item
+            .tab-item-icon
+
+***/
+.tabs {
+  display: table;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border-top: 1px solid #6f6f6f;
+  border-bottom: 1px solid #0e0e0e;
+  background-color: #0e0e0e;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#454545), to(#0e0e0e));
+  background-image: -webkit-linear-gradient(top, #454545 0, #0e0e0e 100%);
+  background-image: -moz-linear-gradient(top, #454545 0, #0e0e0e 100%);
+  background-image: -ms-linear-gradient(top, #454545 0, #0e0e0e 100%);
+  background-image: linear-gradient(top, #454545 0, #0e0e0e 100%);
+  background-repeat: repeat-x;
+  text-shadow: 1px 1px 1px #000000;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tabs br {
+  display: none;
+}
+.tabs .tab-item {
+  display: table-cell;
+  vertical-align: top;
+  padding: 10px;
+  text-align: center;
+  color: #fbfcfd;
+}
+.tabs .tab-item-active {
+  background-color: #454545;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#2e2e2e), to(#454545));
+  background-image: -webkit-linear-gradient(top, #2e2e2e 0, #454545 100%);
+  background-image: -moz-linear-gradient(top, #2e2e2e 0, #454545 100%);
+  background-image: -ms-linear-gradient(top, #2e2e2e 0, #454545 100%);
+  background-image: linear-gradient(top, #2e2e2e 0, #454545 100%);
+  background-repeat: repeat-x;
+}
+.tabs .tab-item-icon {
+  display: none;
+}
+.website .tabs {
+  position: absolute;
+  top: 43px;
+}
+.website .tab-item {
+  border-left: 1px solid rgba(222, 222, 222, 0.1);
+  border-right: 1px solid rgba(0, 0, 0, 0.4);
+}
+.webapp .tabs {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  font-size: 10px;
+  line-height: 10px;
+  border-top: 1px solid #0e0e0e;
+  border-bottom: 0;
+}
+.webapp .tabs .tab-item {
+  height: 45px;
+  padding: 0 0 4px;
+  -webkit-box-shadow: inset 0 1px 0 #6f6f6f, inset 1px 0 0 rgba(222, 222, 222, 0.1), inset -1px 0 0 rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 1px 0 #6f6f6f, inset 1px 0 0 rgba(222, 222, 222, 0.1), inset -1px 0 0 rgba(0, 0, 0, 0.2);
+  vertical-align: bottom;
+}
+.webapp .tabs .tab-item-icon {
+  display: block;
+  margin: 2px auto 0;
+}
+/***
+
+    Requires:
+    .viewport
+        .page-view
+            .parent-view[.view-hidden]
+            .child-view[.view-hidden]
+        .modal-view[.view-hidden]
+            .parent-view[.view-hidden]
+            .child-view[.view-hidden]
+
+***/
+.parent-view,
+.child-view,
+.modal-view {
+  background: #f3f3f3;
+}
+.website .view-hidden {
+  display: none;
+}
+.website .page-content-tabs {
+  margin-top: 49px;
+}
+.webapp {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  /*** Left/right animation between parent and child view ***/
+
+  /*** Bottom/top animation for modal view ***/
+
+}
+.webapp .viewport {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+.webapp .parent-view {
+  border-radius: 5px 5px 0 0;
+  -webkit-background-clip: padding;
+  background-clip: padding-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  -webkit-transform: translate(0, 0) translatez(0);
+  transform: translate(0, 0) translatez(0);
+  -webkit-transition-delay: 0;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform-style: flat;
+  -webkit-transition-property: -webkit-transform;
+  -webkit-transition-duration: 300ms;
+  -webkit-transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
+}
+.webapp .parent-view.view-hidden {
+  -webkit-transform: translate(-100%, 0) translatez(0);
+  transform: translate(-100%, 0) translatez(0);
+}
+.webapp .child-view {
+  border-radius: 5px 5px 0 0;
+  -webkit-background-clip: padding;
+  background-clip: padding-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  -webkit-transform: translate(0, 0) translatez(0);
+  transform: translate(0, 0) translatez(0);
+  -webkit-transition-delay: 0;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform-style: flat;
+  -webkit-transition-property: -webkit-transform;
+  -webkit-transition-duration: 300ms;
+  -webkit-transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
+}
+.webapp .child-view.view-hidden {
+  -webkit-transform: translate(100%, 0) translatez(0);
+  transform: translate(100%, 0) translatez(0);
+}
+.webapp .page-content {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  top: 44px;
+}
+.webapp .page-content-tabs {
+  bottom: 49px;
+}
+.webapp .modal-view {
+  border-radius: 5px 5px 0 0;
+  -webkit-background-clip: padding;
+  background-clip: padding-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  -webkit-transform: translate(0, 0) translatez(0);
+  transform: translate(0, 0) translatez(0);
+  -webkit-transition-delay: 0;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform-style: flat;
+  -webkit-transition-property: -webkit-transform;
+  -webkit-transition-duration: 300ms;
+  -webkit-transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
+}
+.webapp .modal-view.view-hidden {
+  -webkit-transform: translate(0, 100%) translatez(0);
+  transform: translate(0, 100%) translatez(0);
+}
+.webapp.has-modalview.ios5 {
+  /***
+
+            On iOS 5, overlapping scroll elements cause jittering scrolling, so we disable it
+            NOTE: don't apply to iOS 6, since it will cause flickering when toggling a modal view!
+
+        ***/
+
+}
+.webapp.has-modalview.ios5 .page-view .page-content {
+  overflow: hidden;
+  -webkit-overflow-scrolling: default;
+}
+.website {
+  -webkit-text-size-adjust: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.25);
+}
+.fade {
+  opacity: 0;
+}
+.unfade {
+  opacity: 1;
+}
+.shrink {
+  -webkit-transform: scale(0.7);
+  transform: scale(0.7);
+}
+.unshrink {
+  -webkit-transform: scale(1);
+  transform: scale(1);
+}
+.slide-right {
+  -webkit-transform: translate(100%, 0) translatez(0);
+  transform: translate(100%, 0) translatez(0);
+}
+.slide-left {
+  -webkit-transform: translate(-100%, 0) translatez(0);
+  transform: translate(-100%, 0) translatez(0);
+}
+.slide-default {
+  -webkit-transform: translate(0, 0) translatez(0);
+  transform: translate(0, 0) translatez(0);
+}
+.webapp {
+  -webkit-text-size-adjust: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-user-select: none;
+  user-select: none;
+}

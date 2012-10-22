@@ -18,14 +18,11 @@
 ***/
 
 .pull-to-refresh {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+    .overlay-top;
     height: 250px;
     -webkit-transform: translate3d(0, -250px, 0);
 
-    background-image: -webkit-linear-gradient(top, darken(@backgroundGrey, 10%), darken(@backgroundGrey, 15%), darken(@backgroundGrey, 30%) 98%, darken(@backgroundGrey, 40%));
+    background-image: -webkit-linear-gradient(top, darken(@global-background-color, 10%), darken(@global-background-color, 15%), darken(@global-background-color, 30%) 98%, darken(@global-background-color, 40%));
 
     /*** Show a small strip of 5px while refreshing ***/
     &.refreshing {
@@ -36,13 +33,14 @@
 
         background-image: -webkit-linear-gradient(
                 left,
-                darken(@backgroundGrey, 10%),
-                darken(@backgroundGrey, 10%) 48%,
-                @red 50%,
-                darken(@backgroundGrey, 10%) 52%,
-                darken(@backgroundGrey, 10%)
+                @global-background-color,
+                darken(@global-background-color, 10%) 49%,
+                @red 49%,
+                @red 51%,
+                darken(@global-background-color, 10%) 51%,
+                @global-background-color
             );
-        border-bottom: 1px solid darken(@backgroundGrey, 15%);
+        border-bottom: 1px solid darken(@global-background-color, 10%);
 
         background-size: 200% auto;
     }
@@ -50,9 +48,8 @@
 
     /*** Arrow ***/
     .icon-pull-to-refresh {
-        position: fixed;
-        bottom: @grid-s; left: 0; right: 0;
-        margin: 0 auto;
+        .overlay-bottom;
+        margin: @grid-s auto;
         width: 24px; height: 26px;
         background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAAZiS0dEAAAAAAAA+UO7fwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sKGwsgF2OHwPcAAACdSURBVFjD7ZZLDoAgDAV5xPtfGVcmWIF+rGVhWRmDzOSltqC1VnauWjav43oAMNzQJaSKCrMDybnbE0iBFEiBFEiBFIB12nmwaQIII3ejuo6souA3ge49ouCrIkQE/CFA9uBr+DABbwnublgnH7lIcPBlI3orIYGznRCA6e+QwsWtWCOhgVtnAbzgKgGuJixwdQKzmrDC6TT8533gBMtIEZnse8yOAAAAAElFTkSuQmCC) 0 0 no-repeat;
         background-size: 24px 26px;

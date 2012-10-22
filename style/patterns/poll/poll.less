@@ -1,0 +1,45 @@
+.poll {
+    .font-article;
+}
+
+    .poll-answer {
+        .translate3d(0);
+        position: relative;
+        .media-object;
+        display: block;
+        padding: @grid-m @grid-s;
+        .striped-list;
+
+        &.active {
+            color: @red;
+        }
+    }
+
+        .poll-answer-checkbox {
+            float: left;
+            margin: @grid-s @grid-m 0 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .poll-answer-content {
+            .media-bd;
+        }
+
+            .poll-answer-meter {
+                .overlay-left;
+                background: darken(@global-background-color, 5%);
+            }
+
+            .poll-answer-text {
+                position: relative;
+                z-index: 2;
+            }
+
+            .poll-answer-votes {
+                position: relative;
+                z-index: 2;
+                float: right;
+                text-align: right;
+                padding: 0 0 0 @grid-m;
+            }

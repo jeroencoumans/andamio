@@ -1,0 +1,20 @@
+@page-logo-width: 120px;
+@page-logo-height: 44px; // same as @page-header-height
+
+.page-logo {
+    /*** center and ensure it stays on top ***/
+    .center-block();
+    text-align: center;
+
+    /*** take it out of the flow ***/
+    position: absolute;
+    left: 0; right: 0;
+    z-index: 1;
+
+    width: @page-logo-width;
+    height: @page-header-height;
+    line-height: @page-header-height;
+    font-family: @header-font-family;
+    font-size: @font-l;
+    font-weight: bold;
+}

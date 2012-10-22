@@ -3,8 +3,9 @@
     Provides a Facebook-like off-canvas menu pattern
 
     Requires:
-    .viewport
-        .page-wrapper
+    .website (html)
+    .viewport (body)
+        .page-view
             .page-navigation-toggle
         .page-navigation
 
@@ -13,78 +14,66 @@
 
 ***/
 
-/*** Prevent horizontal scrolling when menu is open ***/
-html,
-body {
-    width: 100%;
-    overflow-x: hidden;
+/*** .page-navigation is positioned outside the .page-content ***/
+.page-navigation {
+    .overlay-right;
+    width: @nav-width;
+    left: -@nav-width;
 }
 
-/*** Setup layout ***/
+/*** Navigation toggle ***/
+.page-navigation-toggle {
+    .overlay-right;
 
-.page-wrapper {
-    position: relative;
-    z-index: 2;
+    .has-navigation & {
+        left: @nav-width;
+    }
 }
 
-    /*** .page-navigation is positioned outside the .page-wrapper ***/
-    .page-navigation {
-        .overlay-top-left;
-        width: @nav-width;
-        left: -@nav-width;
-    }
-
-    /*** Setup navigation toggle, but don't give it dimensions ***/
-    .page-navigation-toggle {
-        .overlay-right;
-
-        /*** Make navigation toggle clickable ***/
-        .has-navigation & {
-            left: 0;
-        }
-    }
-
-
-/*** Toggle ***/
 .website {
+    overflow-x: hidden;
+    overflow-y: scroll;
+
+    .viewport {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .page-view {
+        position: relative;
+    }
 
     &.has-navigation {
+        .page-view {
+            overflow: hidden;
+            left: @nav-width;
+        }
 
         /*** Put it in the correct place ***/
         .page-navigation {
             left: 0;
         }
-
-        .page-wrapper {
-            overflow: hidden;
-            left: @nav-width;
-        }
     }
 }
 
-
-/*** Webapp slides down the .page-wrapper ***/
 .webapp {
+
+    .page-view,
     .page-navigation {
-        .animate(-webkit-transform);
-        bottom: 0;
-    }
-
-    .page-wrapper {
+        .translate3d(0);
         .animate(-webkit-transform);
     }
 
-    /*** Slide down the page wrapper ***/
+    .page-view {
+        width: 100%;
+        height: 100%;
+        .border-radius(@grid-s @grid-s 0 0);
+    }
+
     &.has-navigation {
-
-        .page-navigation,
-        .page-wrapper {
+        .page-view,
+        .page-navigation {
             .translate3d(@nav-width);
         }
-
-        .page-wrapper {
-            overflow: hidden;
-        }
     }
-
 }

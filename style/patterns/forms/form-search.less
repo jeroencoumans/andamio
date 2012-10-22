@@ -1,0 +1,44 @@
+.form-search {
+    margin: 0;
+    .row;
+    padding: @grid-m;
+
+    .form-search-input {
+        .unit;
+        padding: 0 @grid-m 0 0;
+        .p75;
+        position: relative;
+
+        &:before {
+            content: "";
+            .icon-search;
+            display: block;
+            position: absolute;
+            margin: @grid-s;
+        }
+    }
+
+        .search-query {
+            padding-left: @icon-search-width + @grid-m;
+            padding-right: @icon-reset-width + @grid-m;
+        }
+
+    .form-search-submit {
+        .unit;
+        .p25;
+    }
+
+    .form-search-reset {
+        .icon-reset;
+        border: 0;
+        margin: 0;
+        padding: 0;
+        position: absolute;
+        right: @grid-l - @grid-s;
+        top: @grid-s;
+    }
+
+    .table-view & {
+        border-bottom: 1px dashed @grey;
+    }
+}

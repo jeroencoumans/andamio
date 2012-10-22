@@ -1,0 +1,73 @@
+/***
+
+    Navigation tabs
+
+    @expects:
+    .tabs
+        .tab-item
+            .tab-item-icon
+
+    @requires:
+        Add "page-content-tabs" to each .page-content inside the tabs
+
+***/
+
+@page-tab-height: 49px;
+
+.tabs {
+    .flex-row;
+    border-top: 1px solid @page-tabs-border-top;
+    border-bottom: 1px solid @page-tabs-border-bottom;
+    .gradient(@page-tabs-background-top, @page-tabs-background-bottom);
+    text-shadow: 1px 1px 1px darken(@page-tabs-background-bottom, 10%);
+    .truncate;
+
+        .tab-item {
+            .flex-unit;
+            padding: @grid-m;
+            text-align: center;
+            color: @page-tabs-color;
+        }
+
+        .tab-item-active {
+            .gradient(lighten(@page-tabs-background-bottom, 12.5%), @page-tabs-background-top);
+        }
+
+            .tab-item-icon {
+                display: none; // hide by default
+            }
+}
+
+.website {
+    .tabs {
+        position: absolute;
+        top: @page-header-height - 1;
+    }
+
+        .tab-item {
+            border-left: 1px solid rgba(222, 222, 222, 0.1);
+            border-right: 1px solid rgba(0, 0, 0, 0.4);
+        }
+}
+
+.webapp {
+    .tabs {
+        .overlay-bottom;
+        font-size: @font-tiny;
+        line-height: @font-tiny;
+        border-top: 1px solid @page-tabs-background-bottom;
+        border-bottom: 0;
+
+        .tab-item {
+            height: @page-tab-height - 4;
+            padding: 0 0 4px;
+            .box-shadow(inset 0 1px 0 @page-tabs-border-top, inset 1px 0 0 rgba(222,222,222, .1), inset -1px 0 0 rgba(0,0,0, .2));
+            vertical-align: bottom;
+        }
+
+            .tab-item-icon {
+                display: block;
+                margin: 2px auto 0;
+            }
+    }
+}

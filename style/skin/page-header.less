@@ -5,50 +5,30 @@
 ***/
 
 .page-header {
-    line-height: @page-header-height;
-    height: @page-header-height;
-
-    .article-nav {
-        float: right;
-        margin: @grid-s;
-    }
+    background: @page-header-background;
+    height: @page-header-height - 1;
+    border-bottom: @page-header-border;
+    .row;
+    .truncate;
 }
-
-    .page-logo {
-        font-family: @header-font-family;
-        font-size: @font-xl;
-        color: @header-color;
-
-        /*** center and ensure it stays on top ***/
-        display: block;
-        position: absolute;
-        left: 0; right: 0;
-        z-index: 1;
-        margin: auto;
-        text-align: center;
-
-        width: 7em;
-        height: @page-header-height;
-    }
 
 .header-button,
 .header-button-alternate {
     height: @page-header-height;
     line-height: @page-header-height;
-    padding: 0 @grid-s;
+    padding: @grid-s;
 }
 
     .header-button {
-        float: left;
+        .unit;
     }
 
     .header-button-alternate {
-        float: right;
+        .unit-right;
     }
 
-    .header-button-navigation-toggle {
-        .icon-nav {
-            vertical-align: top;
-            margin: 7px @grid-s 0;
-        }
+.webapp {
+    .page-header {
+        .border-radius(@grid-s @grid-s 0 0);
     }
+}
