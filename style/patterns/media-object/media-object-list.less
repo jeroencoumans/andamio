@@ -1,5 +1,15 @@
 .media-object-list {
-    .media-object {
+    > .media-object {
+        .striped-list();
+    }
+}
+
+.media-object-list-feed {
+    > .media-object {
+        .media-img {
+            margin: @grid-m 0;
+        }
+
         .striped-list();
     }
 }
