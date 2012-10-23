@@ -1,0 +1,37 @@
+@media screen, all and (min-width: 768px) {
+
+    .viewport {
+        max-width: 1024px;
+        margin: @grid-m auto;
+    }
+
+    .page-content {
+        .row;
+    }
+
+        .page-content-main {
+            .box-sizing(border-box);
+            float: left;
+            .p70;
+            padding: 0 @grid-m 0 0;
+        }
+
+        .page-content-aside {
+            .box-sizing(border-box);
+            float: left;
+            .p30;
+        }
+
+        .box {
+            border: 1px solid @grey;
+            padding: @grid-m;
+        }
+
+        .unit {
+            padding: 0 0 0 @grid-m;
+
+            &:first-of-type {
+                padding: 0;
+            }
+        }
+}
