@@ -51,26 +51,39 @@ APP.core = (function () {
      */
     function attachListeners() {
 
+        /*** Menu button ***/
         APP.events.attachClickHandler(".action-navigation", function (event) {
             toggleNavigation();
+
+            if (!$.supports.webapp) {
+                toggleHeight();
+            }
         });
 
+        /*** Hide menu when it's open ***/
         APP.events.attachClickHandler(".action-hide-navigation", function (event) {
             hideNavigation();
+
+            if (!$.supports.webapp) {
+                toggleHeight();
+            }
         });
 
+        /*** TODO - Open page stub ***/
         APP.events.attachClickHandler(".action-push", function (event) {
             childView.removeClass("view-hidden");
             parentView.addClass("view-hidden");
             html.addClass("has-childview");
         });
 
+        /*** TODO - Go back stub ***/
         APP.events.attachClickHandler(".action-pop", function (event) {
             childView.addClass("view-hidden");
             parentView.removeClass("view-hidden");
             html.removeClass("has-childview");
         });
 
+        /*** TODO - modal stub ***/
         APP.events.attachClickHandler(".action-modal", function (event) {
 
             toggleModal();
@@ -83,6 +96,34 @@ APP.core = (function () {
      */
     function attachGlobalListeners() {
 
+    }
+
+
+    /**
+     * Sets height of content based on height of navigation
+     */
+    function toggleHeight() {
+
+        var navigationHeight,
+            viewport;
+
+        windowHeight = $(window).height();
+        navigationHeight = $("#page-navigation").height();
+        if (windowHeight > navigationHeight) {
+            navigationHeight = windowHeight;
+            $("#page-navigation").height(navigationHeight);
+        }
+
+        viewport = $(".viewport");
+        pageContent = $(".page-view");
+
+        if (html.hasClass("has-navigation")) {
+            viewport.height(navigationHeight);
+            pageContent.height(navigationHeight);
+        } else {
+            viewport.height("");
+            pageContent.height("");
+        }
     }
 
     /**

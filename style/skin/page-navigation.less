@@ -8,6 +8,14 @@
 
 .page-navigation {
     background: @navigation-background;
+
+    &:after {
+        content: "";
+        .overlay-right;
+        width: @grid-l;
+        pointer-events: none;
+        .box-shadow(inset -@grid-s 0 @grid-l rgba(0,0,0, .5));
+    }
 }
 
     .navigation-header {
