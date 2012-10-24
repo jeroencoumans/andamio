@@ -5,27 +5,12 @@
 ***/
 
 .page-header {
-    background: @page-header-background;
+    .gradient(@page-header-background, darken(@page-header-background, 25%));
     height: @page-header-height - 1;
     border-bottom: @page-header-border;
     .row;
     .truncate;
 }
-
-.header-button,
-.header-button-alternate {
-    height: @page-header-height;
-    line-height: @page-header-height;
-    padding: @grid-s;
-}
-
-    .header-button {
-        .unit;
-    }
-
-    .header-button-alternate {
-        .unit-right;
-    }
 
 .webapp {
     .page-header {

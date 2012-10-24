@@ -30,8 +30,8 @@
 @black: #050505;
 @white: #f5f5f5;
 
-@global-background-color: #fff;
-@webapp-background-color: #050505;
+@global-background-color: #f3f3f3;
+@webapp-background-color: lighten(@black, 15%);
 @global-text-color: #050505;
 @global-header-color: #393939;
 
@@ -113,10 +113,19 @@
 
 ***/
 
-@page-header-background: darken(@global-background-color, 10%);
-@page-header-border: 1px solid darken(@global-background-color, 25%);
-@page-header-color: @global-text-color;
+@page-header-background: lighten(@black, 35%);
+@page-header-border: 1px solid lighten(@page-header-background, 25%);
+@page-header-color: lighten(@page-header-background, 85%);
 
+
+/***
+
+    Header buttons
+
+***/
+
+@header-button-background: darken(@page-header-background, 15%);
+@header-button-color: lighten(@page-header-background, 85%);
 
 /***
 
@@ -124,9 +133,10 @@
 
 ***/
 
-@navigation-background: @global-header-color;
-@navigation-header-color: @grey;
-@navigation-item-color: @white;
+@navigation-background: @webapp-background-color;
+@navigation-header-background: darken(@navigation-background, 10%);
+@navigation-header-color: lighten(@navigation-background, 35%);
+@navigation-item-color: lighten(@webapp-background-color, 75%);
 
 
 /***
@@ -134,10 +144,8 @@
     Tabs
 
 ***/
-@page-tabs-background-top: #454545;
-@page-tabs-background-bottom: #0e0e0e;
-@page-tabs-border-top: #6F6F6F;
-@page-tabs-border-bottom: #0E0E0E;
-@page-tabs-color: #FBFCFD;
+
+@page-tabs-background: darken(@page-header-background, 15%);
+@page-tabs-color: lighten(@page-header-background, 40%);
 
 @nixel: url(data:image/gif;base64,R0lGODlhAQABAID/ AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==);
