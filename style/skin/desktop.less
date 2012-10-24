@@ -1,5 +1,12 @@
-@media screen, all and (min-width: 768px) {
+/***
 
+    Desktop-specific styles and overrides.
+    We use a class instead of a media query to support IE<9
+    TODO: use something like respond.js
+
+***/
+
+.desktop {
     .viewport {
         max-width: 1024px;
         margin: @grid-m auto;
