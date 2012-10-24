@@ -9,12 +9,15 @@
     .box-sizing(border-box);
     font-weight: bold;
     font-size: @font-s;
-    .btn-background(#fff, #c0c0c0);
-    .box-shadow(0 1px 0 rgba(255,255,255, .75));
-    border: 1px solid @grey;
+
+    margin: 0 0 1px; // necessary for dropshadow
+
+    .btn-background(lighten(@button-background, 15%), @button-background);
+    .box-shadow(0 1px 0 fadeout(@global-background-color, 25%));
+    border: 1px solid darken(@button-background, 10%);
     .border-radius();
-    color: @black;
-    text-shadow: 0 1px 1px @white;
+    color: @button-color;
+    text-shadow: 0 1px 1px lighten(@global-background-color, 10%);
 
     display: inline-block;
     padding: @grid-s @grid-m;
@@ -28,16 +31,10 @@
 
 
     .button-primary {
-        .gradient(#eee507, #e3c406);
-        .box-shadow(0 1px 1px rgba(0,0,0, .75));
-        border-color: #f9f6a5 #f2e561 #edda63;
-        color: @black;
-        text-shadow: 0 1px 1px @white, 0 0 6px rgba(255,255,255, .75);
-
-        .button-wrapper &.active,
-        &.button.active {
-            .box-shadow(inset 0 0 13px rgba(0,0,0,0.7));
-        }
+        .gradient(@button-primary-background, darken(@button-primary-background, 15%));
+        border-color: darken(@button-primary-background, 15%) darken(@button-primary-background, 20%) darken(@button-primary-background, 35%);
+        color: @button-primary-color;
+        text-shadow: 0 1px 1px darken(@button-primary-background, 30%);
     }
 
     .button-block {
@@ -63,7 +60,15 @@
 .no-touch {
     .button {
         &:active {
-            background: #cacaca;
+            background: darken(@button-background, 15%);
+            border-color: darken(@button-background, 25%);
+        }
+    }
+
+    .button-primary {
+        &:active {
+            background: darken(@button-primary-background, 15%);
+            border-color: darken(@button-primary-background, 25%) darken(@button-primary-background, 30%) darken(@button-primary-background, 40%);
         }
     }
 }
