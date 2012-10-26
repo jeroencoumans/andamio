@@ -120,8 +120,11 @@ APP.core = (function () {
             // get URL
             pageTabUrl = pageTabTarget.data("url");
 
+            showLoader();
+
             $.get(pageTabUrl, function(response) {
                 $("#parent-view .page-content").html(response);
+                hideLoader();
             });
         });
 
@@ -203,11 +206,7 @@ APP.core = (function () {
      */
     function showLoader() {
 
-        var img = loader.find("img");
-        if (!img.attr("src")) {
-            img.attr("src", img.attr("data-img-src"));
-        }
-
+        html.addClass("has-loader");
         loader.show();
     }
 
@@ -216,6 +215,7 @@ APP.core = (function () {
      */
     function hideLoader() {
 
+        html.removeClass("has-loader");
         loader.hide();
     }
 
