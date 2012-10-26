@@ -39,16 +39,16 @@
         </div>
 
         <div id="page-tabs" class="tabs">
-            <a href="index.html?webapp=1" class="tab-item tab-item-active action-page-tab" data-url="examples/table-view.html">
+            <a href="javascript:void(0)" class="tab-item tab-item-active action-page-tab" data-url="examples/table-view.html">
                 Tab 1
             </a>
-            <a href="index2.html?webapp=1" class="tab-item action-page-tab" data-url="examples/grouped-table-view.html">
+            <a href="javascript:void(0)" class="tab-item action-page-tab" data-url="examples/grouped-table-view.html">
                 Tab 2
             </a>
-            <a href="index3.html?webapp=1" class="tab-item action-page-tab" data-url="examples/media-object-list-feed.html">
+            <a href="javascript:void(0)" class="tab-item action-page-tab" data-url="examples/media-object-list-feed.html">
                 Tab 3
             </a>
-            <a href="index4.html?webapp=1" class="tab-item action-page-tab" data-url="examples/box-content.html">
+            <a href="javascript:void(0)" class="tab-item action-page-tab" data-url="examples/box-content.html">
                 Tab 4
             </a>
         </div>
@@ -104,27 +104,6 @@
             APP.events.attachClickHandler(".action-push", function (event) {
                 $.get("examples/media-object-list-feed.html", function(response) {
                     $("#child-view .page-content").html(response);
-                });
-            });
-
-            var pageTabs = $("#page-tabs"),
-                pageTabItems = pageTabs.find(".action-page-tab"),
-                pageTabActive = pageTabs.find(".tab-item-active"),
-                pageTabUrl;
-
-            APP.events.attachClickHandler(".action-page-tab", function (event) {
-                console.log(event);
-                var pageTabTarget = $(event.target);
-
-                // set active class
-                pageTabActive.removeClass("tab-item-active");
-                pageTabActive = pageTabTarget.addClass("tab-item-active");
-
-                // get URL
-                pageTabUrl = pageTabTarget.data("url");
-
-                $.get(pageTabUrl, function(response) {
-                    $("#parent-view .page-content").html(response);
                 });
             });
 

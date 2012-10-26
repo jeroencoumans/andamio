@@ -9,7 +9,12 @@ APP.core = (function () {
         pageView,
         parentView,
         childView,
-        modalView;
+        modalView,
+        pageTabs,
+        pageTabItems,
+        pageTabActive,
+        pageTabUrl;
+;
 
     function initCapabilities() {
 
@@ -96,6 +101,30 @@ APP.core = (function () {
 
             hideModal();
         });
+
+        /*** TODO - page tab stub ***/
+        APP.events.attachClickHandler(".action-page-tab", function (event) {
+
+            if (html.hasClass("has-childview")) {
+                childView.addClass("view-hidden");
+                parentView.removeClass("view-hidden");
+                html.removeClass("has-childview");
+            }
+
+            var pageTabTarget = $(event.target);
+
+            // set active class
+            pageTabActive.removeClass("tab-item-active");
+            pageTabActive = pageTabTarget.addClass("tab-item-active");
+
+            // get URL
+            pageTabUrl = pageTabTarget.data("url");
+
+            $.get(pageTabUrl, function(response) {
+                $("#parent-view .page-content").html(response);
+            });
+        });
+
     }
 
     /**
@@ -202,6 +231,10 @@ APP.core = (function () {
         parentView = $("#parent-view");
         childView = $("#child-view");
         modalView = $("#modal-view")
+
+        pageTabs = $("#page-tabs");
+        pageTabItems = pageTabs.find(".action-page-tab");
+        pageTabActive = pageTabs.find(".tab-item-active");
 
         initCapabilities();
 
