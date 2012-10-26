@@ -91,6 +91,11 @@ APP.core = (function () {
             toggleModal();
         });
 
+        /*** TODO - modal stub ***/
+        APP.events.attachClickHandler(".action-close-modal", function (event) {
+
+            hideModal();
+        });
     }
 
     /**
