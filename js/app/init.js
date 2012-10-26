@@ -30,9 +30,11 @@ APP.core = (function () {
         // Uncomment to test Android 4 mode
         // $.os.android4 = true;
 
+        $.supports.cordova = navigator.userAgent.indexOf("TMGContainer") > -1;
+
         $.supports.webapp = false;
         if (!$.os.android) {
-            $.supports.webapp =  APP.util.getQueryParam("webapp", false) === "1" || navigator.standalone;
+            $.supports.webapp =  APP.util.getQueryParam("webapp", false) === "1" || navigator.standalone || $.supports.cordova;
         }
 
         // Uncomment to test standalone mode
