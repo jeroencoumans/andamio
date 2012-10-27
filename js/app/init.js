@@ -10,6 +10,10 @@ APP.core = (function () {
         parentView,
         childView,
         modalView,
+        pageNav,
+        pageNavItems,
+        pageNavActive,
+        pageNavUrl,
         pageTabs,
         pageTabItems,
         pageTabActive,
@@ -78,16 +82,14 @@ APP.core = (function () {
 
         /*** TODO - Open page stub ***/
         APP.events.attachClickHandler(".action-push", function (event) {
-            childView.removeClass("view-hidden");
-            parentView.addClass("view-hidden");
-            html.addClass("has-childview");
+
+            openChildPage();
         });
 
         /*** TODO - Go back stub ***/
         APP.events.attachClickHandler(".action-pop", function (event) {
-            childView.addClass("view-hidden");
-            parentView.removeClass("view-hidden");
-            html.removeClass("has-childview");
+
+            openParentPage();
         });
 
         /*** TODO - modal stub ***/
@@ -105,29 +107,77 @@ APP.core = (function () {
         /*** TODO - page tab stub ***/
         APP.events.attachClickHandler(".action-page-tab", function (event) {
 
-            if (html.hasClass("has-childview")) {
-                childView.addClass("view-hidden");
-                parentView.removeClass("view-hidden");
-                html.removeClass("has-childview");
-            }
-
             var pageTabTarget = $(event.target);
+
+            // get URL
+            pageTabUrl = pageTabTarget.data("url");
 
             // set active class
             pageTabActive.removeClass("tab-item-active");
             pageTabActive = pageTabTarget.addClass("tab-item-active");
 
-            // get URL
-            pageTabUrl = pageTabTarget.data("url");
+            // TODO
+            if (html.hasClass("has-childview")) {
 
-            showLoader();
+                openParentPage();
+            }
 
-            $.get(pageTabUrl, function(response) {
-                $("#parent-view .page-content").html(response);
-                hideLoader();
+            $.get(pageTabUrl, function(data, status) {
+
+                // show loader if nothing is shown within 0,5 seconds
+                setTimeout(function() {
+                    if (! data) {
+                        showLoader();
+                    }
+                }, 500);
+
+                $("#parent-view .page-content").html(data);
+
+                if (status === "success") {
+                    hideLoader();                   
+                };
             });
         });
 
+        /*** TODO - page navigation stub ***/
+        APP.events.attachClickHandler(".action-nav-item", function (event) {
+
+            var pageNavTarget = $(event.target);
+
+            // get URL
+            pageNavUrl = pageNavTarget.data("url");
+
+            if (! pageNavUrl) {
+                return;
+            }
+
+            // set active class
+            pageNavActive.removeClass("navigation-item-active");
+            pageNavActive = pageNavTarget.addClass("navigation-item-active");
+
+            // TODO - remove animation
+            if (html.hasClass("has-childview")) {
+
+                openParentPage();
+            }
+
+            $.get(pageNavUrl, function(data, status) {
+
+                // show loader if nothing is shown within 0,5 seconds
+                setTimeout(function() {
+                    if (! data) {
+                        showLoader();
+                    }
+                }, 500);
+
+                $("#parent-view .page-content").html(data);
+
+                if (status === "success") {
+                    hideLoader();                   
+                    hideNavigation();
+                };
+            });
+        });
     }
 
     /**
@@ -182,6 +232,40 @@ APP.core = (function () {
     }
 
     /**
+     * Opens child page
+     */
+    function openChildPage(url) {
+
+        forwardAnimation();
+    }
+
+    /**
+     * Opens parent page
+     */
+    function openParentPage(url) {
+
+        backwardAnimation();
+    }
+
+     /**
+      * Forward animation
+      */
+    function forwardAnimation() {
+        childView.removeClass("view-hidden");
+        parentView.addClass("view-hidden");
+        html.addClass("has-childview");
+    }
+
+     /**
+      * Forward animation
+      */
+    function backwardAnimation() {
+        childView.addClass("view-hidden");
+        parentView.removeClass("view-hidden");
+        html.removeClass("has-childview");
+    }
+
+    /**
      * Shows or hides the sections menu
      */
     function toggleModal() {
@@ -231,6 +315,10 @@ APP.core = (function () {
         parentView = $("#parent-view");
         childView = $("#child-view");
         modalView = $("#modal-view")
+
+        pageNav = $("#page-navigation");
+        pageNavItems = pageNav.find(".action-nav-item");
+        pageNavActive = pageNav.find(".navigation-item-active");
 
         pageTabs = $("#page-tabs");
         pageTabItems = pageTabs.find(".action-page-tab");
