@@ -106,3 +106,25 @@
         }
     }
 }
+
+.desktop {
+
+    .page-view,
+    .page-navigation {
+        .animate();
+    }
+
+    .modal-view {
+        .box-shadow(0 @grid-l @grid-l rgba(0,0,0, .5));
+        top: 100px;
+        left: 20%;
+        right: 20%;
+    }
+
+    &.has-modalview {
+        .page-view,
+        .page-navigation {
+            -webkit-filter: blur(1px) opacity(0.5);
+        }
+    }
+}
