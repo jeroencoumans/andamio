@@ -111,17 +111,11 @@ APP.core = (function () {
             var pageTabTitle = pageTabTarget.text();
 
             // get URL
-            pageTabUrl = pageTabTarget.data("url");
+            pageTabUrl = getUrl(pageTabTarget);
 
             // set active class
             pageTabActive.removeClass("tab-item-active");
             pageTabActive = pageTabTarget.addClass("tab-item-active");
-
-            // TODO
-            if (html.hasClass("has-childview")) {
-
-                openParentPage();
-            }
 
             loadPage(pageTabUrl, parentView);
         });
@@ -130,9 +124,7 @@ APP.core = (function () {
         APP.events.attachClickHandler(".action-nav-item", function (event) {
 
             var pageNavTarget = $(event.target);
-
-            // get URL
-            pageNavUrl = pageNavTarget.data("url");
+            var pageNavUrl = getUrl(pageNavTarget);
 
             if (! pageNavUrl) {
                 return;
@@ -142,13 +134,8 @@ APP.core = (function () {
             pageNavActive.removeClass("navigation-item-active");
             pageNavActive = pageNavTarget.addClass("navigation-item-active");
 
-            // TODO - remove animation
-            if (html.hasClass("has-childview")) {
-
-                openParentPage();
-            }
-
             hideNavigation();
+
             loadPage(pageNavUrl, parentView)
         });
     }
@@ -161,11 +148,32 @@ APP.core = (function () {
     }
 
     /**
+     * Get URL from href or data attribute
+     */
+    function getUrl(elem) {
+
+        if (elem.data("url")) {
+            return elem.data("url");
+        } else if (elem.attr("href")) {
+            return elem.attr("href");
+        } else {
+            console.log("Specify either an href or data-url");
+        }
+
+    }
+
+    /**
      * Do an AJAX request and insert it into a view
      * - url: the URL to call
      * - view: what page to insert the content int (childView, parentView or modalView)
      */
      function loadPage(url, view) {
+
+        // make sure to open the parent
+        if (html.hasClass("has-childview") && view === parentView) {
+
+            backwardAnimation();
+        }
 
         $.ajax({
             url: url,
@@ -182,7 +190,6 @@ APP.core = (function () {
 
             },
             success: function(response){
-
                 view.find(".page-content").html(response);
             },
             error: function(xhr, type){
@@ -259,6 +266,11 @@ APP.core = (function () {
      * Opens parent page
      */
     function openParentPage(url) {
+
+        if (html.hasClass("has-childview")) {
+
+            backwardAnimation();
+        }
 
         if (url) {
             loadPage(url, childView);
