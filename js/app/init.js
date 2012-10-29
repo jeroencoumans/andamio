@@ -108,6 +108,7 @@ APP.core = (function () {
         APP.events.attachClickHandler(".action-page-tab", function (event) {
 
             var pageTabTarget = $(event.target);
+            var pageTabTitle = pageTabTarget.text();
 
             // get URL
             pageTabUrl = pageTabTarget.data("url");
@@ -122,21 +123,7 @@ APP.core = (function () {
                 openParentPage();
             }
 
-            $.get(pageTabUrl, function(data, status) {
-
-                // show loader if nothing is shown within 0,5 seconds
-                setTimeout(function() {
-                    if (! data) {
-                        showLoader();
-                    }
-                }, 500);
-
-                $("#parent-view .page-content").html(data);
-
-                if (status === "success") {
-                    hideLoader();
-                };
-            });
+            loadPage(pageTabUrl, parentView);
         });
 
         /*** TODO - page navigation stub ***/
@@ -161,22 +148,8 @@ APP.core = (function () {
                 openParentPage();
             }
 
-            $.get(pageNavUrl, function(data, status) {
-
-                // show loader if nothing is shown within 0,5 seconds
-                setTimeout(function() {
-                    if (! data) {
-                        showLoader();
-                    }
-                }, 500);
-
-                $("#parent-view .page-content").html(data);
-
-                if (status === "success") {
-                    hideLoader();
-                    hideNavigation();
-                };
-            });
+            hideNavigation();
+            loadPage(pageNavUrl, parentView)
         });
     }
 
@@ -186,6 +159,43 @@ APP.core = (function () {
     function attachGlobalListeners() {
 
     }
+
+    /**
+     * Do an AJAX request and insert it into a view
+     * - url: the URL to call
+     * - view: what page to insert the content int (childView, parentView or modalView)
+     */
+     function loadPage(url, view) {
+
+        $.ajax({
+            url: url,
+            timeout: 10000,
+            headers: { "X-PJAX": true },
+            beforeSend: function(xhr, settings) {
+
+                // show loader if nothing is shown within 0,5 seconds
+                setTimeout(function() {
+                    if (! xhr.response) {
+                        showLoader();
+                    }
+                }, 500);
+
+            },
+            success: function(response){
+
+                view.find(".page-content").html(response);
+            },
+            error: function(xhr, type){
+
+                console.log(xhr);
+                console.log(type);
+            },
+            complete: function(xhr, status) {
+
+                hideLoader();
+            }
+        });
+     }
 
 
     /**
@@ -236,6 +246,12 @@ APP.core = (function () {
      */
     function openChildPage(url) {
 
+        childView.find(".page-content").html("");
+
+        if (url) {
+            loadPage(url, childView);
+        }
+
         forwardAnimation();
     }
 
@@ -243,6 +259,10 @@ APP.core = (function () {
      * Opens parent page
      */
     function openParentPage(url) {
+
+        if (url) {
+            loadPage(url, childView);
+        }
 
         backwardAnimation();
     }
@@ -354,6 +374,7 @@ APP.core = (function () {
         "init": init,
         "showLoader": showLoader,
         "hideLoader": hideLoader,
+        "loadPage": loadPage,
         "openChildPage": openChildPage,
         "openParentPage": openParentPage,
         "toggleNavigation": toggleNavigation,
