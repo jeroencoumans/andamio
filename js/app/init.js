@@ -18,7 +18,6 @@ APP.core = (function () {
         pageTabItems,
         pageTabActive,
         pageTabUrl;
-;
 
     function initCapabilities() {
 
