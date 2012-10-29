@@ -95,7 +95,7 @@ APP.core = (function () {
         /*** TODO - modal stub ***/
         APP.events.attachClickHandler(".action-modal", function (event) {
 
-            toggleModal();
+            openModal();
         });
 
         /*** TODO - modal stub ***/
@@ -288,11 +288,11 @@ APP.core = (function () {
     /**
      * Shows or hides the sections menu
      */
-    function toggleModal() {
+    function openModal() {
 
-        html.toggleClass("has-modalview");
-        pageView.toggleClass("view-hidden");
-        modalView.toggleClass("view-hidden");
+        html.addClass("has-modalview");
+        pageView.addClass("view-hidden");
+        modalView.removeClass("view-hidden");
     }
 
     /**
