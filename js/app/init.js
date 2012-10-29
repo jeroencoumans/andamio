@@ -180,6 +180,7 @@ APP.core = (function () {
             timeout: 10000,
             headers: { "X-PJAX": true },
             beforeSend: function(xhr, settings) {
+                xhr.setRequestHeader('X-PJAX', 'true');
 
                 // show loader if nothing is shown within 0,5 seconds
                 setTimeout(function() {
@@ -321,6 +322,12 @@ APP.core = (function () {
      * Shows the loader in an overlay
      */
     function showLoader() {
+
+        var img = $("#loader").find("img");
+
+        if (!img.attr("src")) {
+            img.attr("src", img.data("img-src"));
+        }
 
         html.addClass("has-loader");
         loader.show();
