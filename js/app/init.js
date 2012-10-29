@@ -134,7 +134,7 @@ APP.core = (function () {
                 $("#parent-view .page-content").html(data);
 
                 if (status === "success") {
-                    hideLoader();                   
+                    hideLoader();
                 };
             });
         });
@@ -173,7 +173,7 @@ APP.core = (function () {
                 $("#parent-view .page-content").html(data);
 
                 if (status === "success") {
-                    hideLoader();                   
+                    hideLoader();
                     hideNavigation();
                 };
             });
@@ -354,6 +354,9 @@ APP.core = (function () {
         "init": init,
         "showLoader": showLoader,
         "hideLoader": hideLoader,
+        "openChildPage": openChildPage,
+        "openParentPage": openParentPage,
+        "toggleNavigation": toggleNavigation,
         "hideNavigation": hideNavigation
     };
 
