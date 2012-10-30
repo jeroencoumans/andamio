@@ -29,14 +29,6 @@
     user-select: none;
 }
 
-
-    .button-primary {
-        .gradient(@button-primary-background, darken(@button-primary-background, 15%));
-        border-color: darken(@button-primary-background, 15%) darken(@button-primary-background, 20%) darken(@button-primary-background, 35%);
-        color: @button-primary-color;
-        text-shadow: 0 1px 1px darken(@button-primary-background, 30%);
-    }
-
     .button-block {
         display: block;
         width: 100%;
@@ -52,13 +44,6 @@
         &:active {
             background: darken(@button-background, 15%);
             border-color: darken(@button-background, 25%);
-        }
-    }
-
-    .button-primary {
-        &:active {
-            background: darken(@button-primary-background, 15%);
-            border-color: darken(@button-primary-background, 25%) darken(@button-primary-background, 30%) darken(@button-primary-background, 40%);
         }
     }
 }
