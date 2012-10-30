@@ -100,7 +100,7 @@ APP.core = (function () {
         /*** TODO - modal stub ***/
         APP.events.attachClickHandler(".action-close-modal", function (event) {
 
-            hideModal();
+            closeModal();
         });
 
         /*** TODO - page tab stub ***/
@@ -265,7 +265,7 @@ APP.core = (function () {
     /**
      * Opens parent page
      */
-    function openParentPage(url) {
+    function openParentPage(url, title) {
 
         if (html.hasClass("has-childview")) {
 
@@ -273,7 +273,11 @@ APP.core = (function () {
         }
 
         if (url) {
-            loadPage(url, childView);
+            loadPage(url, parentView);
+        }
+
+        if (title) {
+            parentView.find(".page-logo").text(title);
         }
 
         backwardAnimation();
@@ -310,7 +314,7 @@ APP.core = (function () {
     /**
      * Hides the sections menu
      */
-    function hideModal() {
+    function closeModal() {
 
         html.removeClass("has-modalview");
         pageView.removeClass("view-hidden");
@@ -395,6 +399,8 @@ APP.core = (function () {
         "loadPage": loadPage,
         "openChildPage": openChildPage,
         "openParentPage": openParentPage,
+        "openModal": openModal,
+        "closeModal": closeModal,
         "toggleNavigation": toggleNavigation,
         "hideNavigation": hideNavigation
     };
