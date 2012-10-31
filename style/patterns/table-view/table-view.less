@@ -42,7 +42,14 @@
         }
 
         &.active {
-            background: @red;
+            .gradient(@table-view-active-background, darken(@table-view-active-background, 10%));
+            color: @table-view-active-color;
+            text-shadow: darken(@table-view-active-background, 25%);
+
+            h1, h2, h3, h4, h5, h6 {
+                color: @table-view-active-color;
+                text-shadow: darken(@table-view-active-background, 25%);
+            }
         }
     }
 
