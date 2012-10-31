@@ -23,10 +23,11 @@
 
 /*** Navigation toggle ***/
 .page-navigation-toggle {
-    .overlay-right;
+    .overlay-total;
+    pointer-events: none; /*** TODO: IE9 ***/
 
     .has-navigation & {
-        left: @nav-width;
+        pointer-events: auto;
     }
 }
 
@@ -44,7 +45,8 @@
     }
 
     &.has-navigation {
-        .page-view {
+        .page-view,
+        .page-navigation-toggle {
             overflow: hidden;
             left: @nav-width;
         }
@@ -59,7 +61,8 @@
 .webapp {
 
     .page-view,
-    .page-navigation {
+    .page-navigation,
+    .page-navigation-toggle {
         .translate3d(0);
         .animate(-webkit-transform);
     }
@@ -76,13 +79,14 @@
 
     &.has-navigation {
         .page-view,
-        .page-navigation {
+        .page-navigation,
+        .page-navigation-toggle {
             .translate3d(@nav-width);
         }
     }
 }
 
-.desktop.has-navigation {
+.desktop {
     .page-navigation {
         left: 0;
         bottom: 0;

@@ -8,14 +8,10 @@
 
 .page-navigation {
     background: @navigation-background;
+}
 
-    &:after {
-        content: "";
-        .overlay-right;
-        width: @grid-l;
-        pointer-events: none;
-        .box-shadow(inset -@grid-m 0 @grid-m -@grid-s darken(@navigation-background, 10%));
-    }
+.page-navigation-toggle {
+    .box-shadow(-@grid-m 0 @grid-l -@grid-s darken(@navigation-background, 10%));
 }
 
     .navigation-header {
