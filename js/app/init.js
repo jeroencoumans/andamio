@@ -190,7 +190,10 @@ APP.core = (function () {
 
             },
             success: function(response){
-                view.find(".page-content").html(response);
+                var page = view.find(".page-content");
+
+                $(page).html(response);
+                $.scrollElement($(page).get(0), 0);
             },
             error: function(xhr, type){
 
