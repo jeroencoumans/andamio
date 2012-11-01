@@ -55,7 +55,6 @@ APP.core = (function () {
         $.supports.ftfastclick = !$.os.android && !$.os.blackberry;
     }
 
-
     /**
      * Attach event listeners
      */
@@ -122,8 +121,9 @@ APP.core = (function () {
         /*** TODO - page navigation stub ***/
         APP.events.attachClickHandler(".action-nav-item", function (event) {
 
-            var pageNavTarget = $(event.target);
-            var pageNavUrl = getUrl(pageNavTarget);
+            var pageNavTarget = $(event.target),
+                pageNavUrl = getUrl(pageNavTarget),
+                pageNavTitle = pageNavTarget.text();
 
             if (! pageNavUrl) {
                 return;
@@ -135,6 +135,9 @@ APP.core = (function () {
 
             hideNavigation();
 
+            // set page title
+            parentView.find(".action-page-title").text(pageNavTitle);
+
             loadPage(pageNavUrl, parentView)
         });
     }
@@ -144,6 +147,20 @@ APP.core = (function () {
      */
     function attachGlobalListeners() {
 
+    }
+
+    /**
+     * Attach Cordova listeners
+     */
+    function attachCordovaListeners() {
+
+        // scroll to top on tapbar tap
+        document.addEventListener("statusbartap", function() {
+
+            var pageScroller = $(".active-view .overthrow");
+            $.scrollElement(pageScroller.get(0), 0);
+
+        });
     }
 
     /**
@@ -174,23 +191,24 @@ APP.core = (function () {
             backwardAnimation();
         }
 
+        var timeoutToken = null;
         $.ajax({
             url: url,
             timeout: 10000,
             headers: { "X-PJAX": true },
             beforeSend: function(xhr, settings) {
-                xhr.setRequestHeader('X-PJAX', 'true');
 
                 // show loader if nothing is shown within 0,5 seconds
-                setTimeout(function() {
-                    if (! xhr.response) {
-                        showLoader();
-                    }
+                timeoutToken = setTimeout(function() {
+                    showLoader();
+
                 }, 500);
 
             },
             success: function(response){
                 var page = view.find(".page-content");
+
+                clearTimeout(timeoutToken);
 
                 $(page).html(response);
                 $.scrollElement($(page).get(0), 0);
@@ -206,7 +224,6 @@ APP.core = (function () {
             }
         });
      }
-
 
     /**
      * Sets height of content based on height of navigation
@@ -290,8 +307,9 @@ APP.core = (function () {
       * Forward animation
       */
     function forwardAnimation() {
-        childView.removeClass("view-hidden");
-        parentView.addClass("view-hidden");
+
+        childView.removeClass("view-hidden").addClass("active-view");
+        parentView.addClass("view-hidden").removeClass("active-view");
         html.addClass("has-childview");
     }
 
@@ -299,8 +317,9 @@ APP.core = (function () {
       * Forward animation
       */
     function backwardAnimation() {
-        childView.addClass("view-hidden");
-        parentView.removeClass("view-hidden");
+
+        childView.addClass("view-hidden").removeClass("active-view");
+        parentView.removeClass("view-hidden").addClass("active-view");
         html.removeClass("has-childview");
     }
 
@@ -348,7 +367,6 @@ APP.core = (function () {
         loader.hide();
     }
 
-
     /***
      * Initialize capabilities and attach listeners
      */
@@ -391,6 +409,10 @@ APP.core = (function () {
 
         attachListeners();
         attachGlobalListeners();
+
+        if ($.supports.cordova) {
+            attachCordovaListeners();
+        }
 
         APP.events.init();
     }
