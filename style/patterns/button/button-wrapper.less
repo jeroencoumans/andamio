@@ -1,14 +1,19 @@
+/***
+
+    iOS-style button
+
+    .button-wrapper
+        .button
+
+***/
+
+@button-wrapper-background: #585858;
+@button-wrapper-border-top: #333;
+
 .button-wrapper {
-    .border-radius(4px);
-    padding: 3px;
-    border-top: 1px solid rgba(0, 0, 0, 0.8);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-    .gradient(#585858, #4a4a4a);
+    display: block;
 
     .button {
-        display: block;
-        width: 100%;
-        .box-shadow(0 1px 1px rgba(0,0,0, .75));
-        line-height: 1.5 * @baseline;
+        .button-block;
     }
 }
