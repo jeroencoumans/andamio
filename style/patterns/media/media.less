@@ -1,0 +1,33 @@
+img,
+video {
+    display: block;
+    -ms-interpolation-mode:bicubic;
+    .box-sizing(border-box);
+}
+
+.media-fluid {
+    width: 100%;
+    height: auto;
+}
+
+.media-small()    { width: @media-small; }
+.media-medium()   { width: @media-medium; }
+.media-large()    { width: @media-large; }
+
+.media-square-small() {
+    width: @media-small;
+    height: @media-small;
+    overflow: hidden;
+}
+
+.media-square-medium() {
+    width: @media-medium;
+    height: @media-medium;
+    overflow: hidden;
+}
+
+.media-square-large() {
+    width: @media-large;
+    height: @media-large;
+    overflow: hidden;
+}

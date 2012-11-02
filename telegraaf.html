@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="nl" class="website">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>Telegraaf</title>
+    <link rel="stylesheet" type="text/css" href="main.css">
+</head>
+
+<body class="viewport">
+
+    <div id="page-view" class="page-view">
+        <div id="parent-view" class="parent-view active-view">
+            <header class="page-header">
+                <a href="/" class="page-logo">Voorpagina</a>
+                <a href="javascript:void(0);" class="button-header-wrapper action-navigation"><span class="button-header">Menu</span></a>
+            </header>
+
+            <div class="page-content overthrow">
+
+            </div>
+        </div>
+
+        <div id="child-view" class="child-view view-hidden">
+            <header class="page-header">
+                <a href="/" class="page-logo action-section"></a>
+                <a href="javascript:void(0);" class="button-header-wrapper action-pop"><span class="button-header">Back</span></a>
+            </header>
+
+            <div class="page-content overthrow">
+
+
+            </div>
+        </div>
+    </div>
+
+    <div id="page-navigation" class="page-navigation overthrow">
+        <h2 class="navigation-header">Secties</h2>
+        <a href="http://tgmobi.appspot.com/" class="navigation-item navigation-item-active action-nav-item">Voorpagina</a>
+        <a href="http://tgmobi.appspot.com/binnenland" class="navigation-item action-nav-item">Binnenland</a>
+        <a href="http://tgmobi.appspot.com/buitenland" class="navigation-item action-nav-item">Buitenland</a>
+        <a href="http://tgmobi.appspot.com/prive" class="navigation-item action-nav-item">Privé</a>
+        <a href="http://tgmobi.appspot.com/telesport" class="navigation-item action-nav-item">Telesport</a>
+        <a href="http://tgmobi.appspot.com/dft" class="navigation-item action-nav-item">DFT</a>
+        <a href="http://tgmobi.appspot.com/overgeld" class="navigation-item action-nav-item">Over Geld</a>
+        <a href="http://tgmobi.appspot.com/mijnbedrijf" class="navigation-item action-nav-item">Mijn Bedrijf</a>
+        <a href="http://tgmobi.appspot.com/vrouw" class="navigation-item action-nav-item">Vrouw</a>
+        <a href="http://tgmobi.appspot.com/autovisie" class="navigation-item action-nav-item">Autovisie</a>
+        <a href="http://tgmobi.appspot.com/reizen" class="navigation-item action-nav-item">Reizen</a>
+        <a href="http://tgmobi.appspot.com/digitaal" class="navigation-item action-nav-item">Digitaal</a>
+        <a href="http://tgmobi.appspot.com/games" class="navigation-item action-nav-item">Games</a>
+        <a href="http://tgmobi.appspot.com/filmenuitgaan" class="navigation-item action-nav-item">Film en Uitgaan</a>
+        <a href="http://tgmobi.appspot.com/uitwinkelen" class="navigation-item action-nav-item">Uit winkelen</a>
+        <a href="http://tgmobi.appspot.com/varen" class="navigation-item action-nav-item">Varen</a>
+    </div>
+
+    <a href="javascript:void(0)" class="page-navigation-toggle action-hide-navigation"></a>
+
+    <div id="loader" class="loader" style="display:none"><img src="img/spinner-dark.gif" class="spinner-dark" width="32" height="32" alt="Laden"></div>
+
+    <script src="bootstrap.js"></script>
+
+    <script src="js/lib/less.js"></script>
+    <script src="js/lib/zepto.js"></script>
+    <script src="js/lib/zepto.scroll.js"></script>
+    <script src="js/lib/fastclick.js"></script>
+    <script src="js/app/globals.js"></script>
+    <script src="js/app/events.js"></script>
+    <script src="js/app/util.js"></script>
+    <script src="js/app/init.js"></script>
+    <script>
+        $(document).ready(function() {
+            APP.core.init();
+
+            var TG = TG || {},
+                server = "http://tgmobi.appspot.com",
+                parentView = $("#parent-view");
+
+            function loadHome() {
+                APP.core.loadPage(server, parentView);
+            }
+
+            /*** Open article ***/
+            APP.events.attachClickHandler(".action-article", function (event) {
+                var article = $(event.target).closest(".action-article");
+                var articleUrl = server + article.attr("href");
+
+                APP.core.openChildPage(articleUrl);
+
+            });
+
+            /*** Setup ***/
+            loadHome();
+
+        });
+    </script>
+</body>
+</html>

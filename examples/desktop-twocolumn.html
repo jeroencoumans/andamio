@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="nl" class="website desktop no-touch">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>Desktop base</title>
+    <link rel="stylesheet/less" type="text/css" href="../bundle/desktop.less">
+</head>
+
+<body class="viewport">
+
+    <div id="page-view" class="page-view">
+        <div id="parent-view" class="parent-view">
+            <div class="page-header">
+                <a href="index.html" class="page-logo">Desktop</a>
+            </div>
+
+            <div class="page-content">
+
+                <div class="page-content-main">
+                    Main content
+
+                </div>
+                <div class="page-content-aside">
+                    Sidebar
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="../js/lib/less.js"></script>
+    <script src="../js/lib/zepto.js"></script>
+    <script src="../js/lib/fastclick.js"></script>
+    <script src="../js/app/globals.js"></script>
+    <script src="../js/app/events.js"></script>
+    <script src="../js/app/util.js"></script>
+    <script src="../js/app/init.js"></script>
+    <script>
+
+        $(document).ready(function() {
+            APP.core.init();
+        });
+    </script>
+</body>
+</html>

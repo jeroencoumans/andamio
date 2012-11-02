@@ -1,0 +1,28 @@
+@arrow-width: 21px;
+@arrow-height: 21px;
+
+.icon-arrow-right,
+.icon-arrow-left,
+.icon-arrow-up,
+.icon-arrow-down {
+    background: url(../../../img/icons/arrows.png) 0 0 no-repeat;
+    background-size: @arrow-width (4 * @arrow-height);
+    width: @arrow-width;
+    height: @arrow-height;
+}
+
+.icon-arrow-right {
+    background-position: 0 0;
+}
+
+.icon-arrow-left {
+    background-position: 0 -@arrow-height;
+}
+
+.icon-arrow-up {
+    background-position: 0 -(2 * @arrow-height);
+}
+
+.icon-arrow-down {
+    background-position: 0 -(3 * @arrow-height);
+}

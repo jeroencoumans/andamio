@@ -1,0 +1,104 @@
+/***
+
+    Provides a Facebook-like off-canvas menu pattern
+
+    Requires:
+    .website (html)
+    .viewport (body)
+        .page-view
+            .page-navigation-toggle
+        .page-navigation
+
+    Expects:
+    .has-navigation on the document
+
+***/
+
+/*** .page-navigation is positioned outside the .page-content ***/
+.page-navigation {
+    .overlay-top-right;
+    width: @nav-width;
+    left: -@nav-width;
+}
+
+/*** Navigation toggle ***/
+.page-navigation-toggle {
+    .overlay-total;
+    pointer-events: none; /*** TODO: IE9 ***/
+
+    .has-navigation & {
+        pointer-events: auto;
+    }
+}
+
+.website {
+    overflow-x: hidden;
+    overflow-y: scroll;
+
+    .viewport {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .page-view {
+        position: relative;
+    }
+
+    &.has-navigation {
+        .page-view,
+        .page-navigation-toggle {
+            overflow: hidden;
+            left: @nav-width;
+        }
+
+        /*** Put it in the correct place ***/
+        .page-navigation {
+            left: 0;
+        }
+    }
+}
+
+.webapp {
+
+    .page-view,
+    .page-navigation,
+    .page-navigation-toggle {
+        .translate3d(0);
+        .animate(-webkit-transform);
+    }
+
+    .page-navigation {
+        bottom: 0;
+    }
+
+    .page-view {
+        width: 100%;
+        height: 100%;
+        .border-radius(@grid-s @grid-s 0 0);
+    }
+
+    &.has-navigation {
+        .page-view,
+        .page-navigation,
+        .page-navigation-toggle {
+            .translate3d(@nav-width);
+        }
+    }
+}
+
+.desktop {
+    .page-navigation {
+        left: 0;
+        bottom: 0;
+    }
+
+    .page-view {
+        width: auto;
+        .overlay-right;
+        left: @nav-width;
+    }
+
+    .action-navigation {
+        display: none;
+    }
+}

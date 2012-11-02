@@ -1,0 +1,74 @@
+/***
+
+    Navigation tabs
+
+    @expects:
+    .tabs
+        .tab-item
+            .tab-item-icon
+
+    @requires:
+        Add "page-content-tabs" to each .page-content inside the tabs
+
+***/
+
+@page-tab-height: 49px;
+
+.tabs {
+    .flex-row;
+    .gradient(@page-tabs-background, darken(@page-tabs-background, 15%));
+    border-top: 1px solid darken(@page-tabs-background, 15%);
+    border-bottom: 1px solid darken(@page-tabs-background, 35%);
+    text-shadow: 1px 1px 1px darken(@page-tabs-background, 25%);
+    .truncate;
+
+        .tab-item {
+            .flex-unit;
+            padding: @grid-m;
+            text-align: center;
+            color: @page-tabs-color;
+        }
+
+        .tab-item-active {
+            .gradient(darken(@page-tabs-background, 10%), lighten(@page-tabs-background, 10%));
+            color: lighten(@page-tabs-color, 50%);
+        }
+
+            .tab-item-icon {
+                display: none; // hide by default
+            }
+}
+
+.website {
+    .tabs {
+        position: absolute;
+        top: @page-header-height - 1;
+    }
+
+        .tab-item {
+            border-left: 1px solid fadeout(@page-tabs-background, 30%);
+            border-right: 1px solid darken(@page-tabs-background, 10%);
+        }
+}
+
+.webapp {
+    .tabs {
+        .overlay-bottom;
+        font-size: @font-tiny;
+        line-height: @font-tiny;
+        border-top: 1px solid @page-tabs-background;
+        border-bottom: 0;
+
+        .tab-item {
+            height: @page-tab-height - 4;
+            padding: 0 0 4px;
+            .box-shadow(inset 0 1px 0 lighten(@page-tabs-background, 15%), inset 1px 0 0 fadeout(@page-tabs-background, 20%), inset -1px 0 0 darken(@page-tabs-background, 15%));
+            vertical-align: bottom;
+        }
+
+            .tab-item-icon {
+                display: block;
+                margin: 2px auto 0;
+            }
+    }
+}

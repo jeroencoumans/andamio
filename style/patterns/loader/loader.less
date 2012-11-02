@@ -1,0 +1,25 @@
+.loader {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    border-radius: @grid-m;
+    z-index: 1000;
+
+    background: @loader-dark-background;
+    width: @loader-width;
+    height: @loader-height / 2;
+    margin: (-@loader-height / 2) 0 0 (-@loader-width / 2);
+    padding: (@loader-height / 2) - @loader-img-height 0 0 0;
+
+    .spinner,
+    .spinner-dark {
+        margin: auto;
+        display: block;
+    }
+}
+
+.has-loader {
+    .page-content {
+        opacity: 0.5;
+    }
+}

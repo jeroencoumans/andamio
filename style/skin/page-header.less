@@ -1,0 +1,19 @@
+/***
+
+    Setup basic layout
+
+***/
+
+.page-header {
+    .gradient(@page-header-background, darken(@page-header-background, 25%));
+    height: @page-header-height - 1;
+    border-bottom: @page-header-border;
+    .row;
+    .truncate;
+}
+
+.webapp {
+    .page-header {
+        .border-radius(@grid-s @grid-s 0 0);
+    }
+}

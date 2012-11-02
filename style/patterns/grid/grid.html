@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="nl" class="website">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>Andamio</title>
+    <link rel="stylesheet/less" type="text/css" href="../../main.less">
+    <style>
+        .viewport {
+            margin: 20px;
+        }
+
+        .flex-row {
+            border: 1px solid #fff;
+            margin: 0 0 20px;
+        }
+
+        .flex-unit {
+            text-align: center;
+            border: 1px solid #999;
+        }
+
+        .p75 { background: #999;}
+        .p66 { background: #aaa;}
+        .p50 { background: #bbb;}
+        .p33 { background: #ccc;}
+        .p25 { background: #ddd;}
+        .p20 { background: #eee;}
+        .p10 { background: #fff;}
+
+    </style>
+</head>
+
+<body class="viewport">
+
+    <strong>Simple grids</strong>
+
+    <div class="flex-row">
+        <div class="flex-unit">1 column</div>
+    </div>
+
+    <div class="flex-row">
+        <div class="flex-unit">2 columns</div>
+        <div class="flex-unit">2 columns</div>
+    </div>
+
+    <div class="flex-row">
+        <div class="flex-unit">3 columns</div>
+        <div class="flex-unit">3 columns</div>
+        <div class="flex-unit">3 columns</div>
+    </div>
+
+    <div class="flex-row">
+        <div class="flex-unit">4 columns</div>
+        <div class="flex-unit">4 columns</div>
+        <div class="flex-unit">4 columns</div>
+        <div class="flex-unit">4 columns</div>
+    </div>
+
+    <div class="flex-row">
+        <div class="flex-unit">5 columns</div>
+        <div class="flex-unit">5 columns</div>
+        <div class="flex-unit">5 columns</div>
+        <div class="flex-unit">5 columns</div>
+        <div class="flex-unit">5 columns</div>
+    </div>
+
+    <div class="flex-row">
+        <div class="flex-unit">6 columns</div>
+        <div class="flex-unit">6 columns</div>
+        <div class="flex-unit">6 columns</div>
+        <div class="flex-unit">6 columns</div>
+        <div class="flex-unit">6 columns</div>
+        <div class="flex-unit">6 columns</div>
+    </div>
+
+    <div class="flex-row">
+        <div class="flex-unit">7 columns</div>
+        <div class="flex-unit">7 columns</div>
+        <div class="flex-unit">7 columns</div>
+        <div class="flex-unit">7 columns</div>
+        <div class="flex-unit">7 columns</div>
+        <div class="flex-unit">7 columns</div>
+        <div class="flex-unit">7 columns</div>
+    </div>
+
+    <div class="flex-row">
+        <div class="flex-unit">8 columns</div>
+        <div class="flex-unit">8 columns</div>
+        <div class="flex-unit">8 columns</div>
+        <div class="flex-unit">8 columns</div>
+        <div class="flex-unit">8 columns</div>
+        <div class="flex-unit">8 columns</div>
+        <div class="flex-unit">8 columns</div>
+        <div class="flex-unit">8 columns</div>
+    </div>
+
+    <div class="flex-row">
+        <div class="flex-unit">9 columns</div>
+        <div class="flex-unit">9 columns</div>
+        <div class="flex-unit">9 columns</div>
+        <div class="flex-unit">9 columns</div>
+        <div class="flex-unit">9 columns</div>
+        <div class="flex-unit">9 columns</div>
+        <div class="flex-unit">9 columns</div>
+        <div class="flex-unit">9 columns</div>
+        <div class="flex-unit">9 columns</div>
+    </div>
+
+    <div class="flex-row">
+        <div class="flex-unit">10 columns</div>
+        <div class="flex-unit">10 columns</div>
+        <div class="flex-unit">10 columns</div>
+        <div class="flex-unit">10 columns</div>
+        <div class="flex-unit">10 columns</div>
+        <div class="flex-unit">10 columns</div>
+        <div class="flex-unit">10 columns</div>
+        <div class="flex-unit">10 columns</div>
+        <div class="flex-unit">10 columns</div>
+        <div class="flex-unit">10 columns</div>
+    </div>
+
+    <strong>You can also set a width on units:</strong>
+    <div class="flex-row">
+        <div class="flex-unit p25">1 column .p25</div>
+        <div class="flex-unit p50">2 columns .p50</div>
+        <div class="flex-unit p25">1 column .p25</div>
+    </div>
+
+    <div class="flex-row">
+        <div class="flex-unit p25">1 column .p25</div>
+        <div class="flex-unit p25">1 column .p25</div>
+        <div class="flex-unit p50">2 columns .p50</div>
+    </div>
+
+    <div class="flex-row">
+        <div class="flex-unit p50">2 columns .p50</div>
+        <div class="flex-unit p25">1 column .p25</div>
+        <div class="flex-unit p25">1 column .p25</div>
+    </div>
+
+    <div class="flex-row">
+        <div class="flex-unit p33">1 column .p33</div>
+        <div class="flex-unit p33">1 column .p33</div>
+        <div class="flex-unit p33">1 column .p33</div>
+    </div>
+
+    <strong>2 columns:</strong>
+    <div class="flex-row">
+        <div class="flex-unit p33">1 column .p33</div>
+        <div class="flex-unit p66">1 column .p66</div>
+    </div>
+
+    <div class="flex-row">
+        <div class="flex-unit p25">1 column .p25</div>
+        <div class="flex-unit p75">1 column .p75</div>
+    </div>
+
+    <div class="flex-row">
+        <div class="flex-unit p75">1 column .p75</div>
+        <div class="flex-unit p25">1 column .p25</div>
+    </div>
+
+    <div class="flex-row">
+        <div class="flex-unit p66">1 column .p66</div>
+        <div class="flex-unit p33">1 column .p33</div>
+    </div>
+
+    <strong>Nesting</strong>
+    <div class="flex-row">
+        <div class="flex-unit p20">
+            <h3>20%</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+        <div class="flex-unit p60">
+            <div class="flex-row">
+                <div class="flex-unit p50">
+                    <h3>50%</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+                <div class="flex-unit p50">
+                    <h3>50%</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+            </div>
+            <div class="flex-row">
+                <div class="flex-unit p33">
+                    <h3>33%</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+                <div class="flex-unit p66">
+                    <div class="flex-row">
+                        <div class="flex-unit p50">
+                            <h3>50%</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        </div>
+                        <div class="flex-unit p50">
+                            <h3>50%</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        </div>
+                    </div>
+                    <h3>100%</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+            </div>
+        </div>
+        <div class="flex-unit p20">
+            <h3>20%</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+    </div>
+
+
+    <script src="../../../js/lib/less.js"></script>
+</body>
+</html>
