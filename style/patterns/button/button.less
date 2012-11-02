@@ -5,23 +5,8 @@
 ***/
 
 .button {
-    .font-normal;
     .box-sizing(border-box);
-    font-weight: bold;
-    font-size: @font-s;
-
-    margin: 0 0 1px; // necessary for dropshadow
-
-    .btn-background(lighten(@button-background, 15%), @button-background);
-    .box-shadow(0 1px 0 fadeout(@global-background-color, 25%));
-    border: 1px solid darken(@button-background, 10%);
-    .border-radius();
-    color: @button-color;
-    text-shadow: 0 1px 1px lighten(@global-background-color, 10%);
-
     display: inline-block;
-    padding: @grid-s @grid-m;
-    text-align: center;
 
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -37,13 +22,3 @@
     .button-disabled {
         opacity: 0.5;
     }
-
-
-.no-touch {
-    .button {
-        &:active {
-            background: darken(@button-background, 15%);
-            border-color: darken(@button-background, 25%);
-        }
-    }
-}

@@ -29,19 +29,4 @@
     .button-modal {
         display: block;
         float: left;
-        padding: 0 @grid-m;
-        margin: @grid-s 7px 0;
-        line-height: @page-header-height - @grid-s - @grid-s - 2;
-
-        .btn-background(@header-button-background, darken(@header-button-background, 15%));
-        .box-shadow(inset 0 1px 2px darken(@header-button-background, 15%));
-        border-bottom: 1px solid @page-header-background;
-        .border-radius();
-        color: @header-button-color;
-        font-weight: bold;
-        text-shadow: 0 1px 1px darken(@header-button-background, 20%);
-
-        .active & {
-            background: darken(@page-header-background, 25%);
-        }
     }

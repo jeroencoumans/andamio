@@ -85,7 +85,7 @@
     <div id="modal-view" class="modal-view view-hidden">
         <header class="page-header">
             <a href="/" class="page-logo">Login</a>
-            <a href="javascript:void(0);" class="button-header-wrapper action-close-modal"><span class="button-modal">Cancel</span></a>
+            <a href="javascript:void(0);" class="button-header-wrapper action-close-modal"><span class="button-header">Cancel</span></a>
         </header>
 
         <div class="page-content overthrow">
@@ -108,7 +108,7 @@
             APP.core.init();
 
             // Seed parent-view
-            $.get('templates/table-view.html', function(response){
+            $.get('docs/button.html', function(response){
                 $("#parent-view .page-content").html(response);
             });
 
