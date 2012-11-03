@@ -81,7 +81,11 @@ APP.core = (function () {
         /*** TODO - Open page stub ***/
         APP.events.attachClickHandler(".action-push", function (event) {
 
-            openChildPage();
+            var target = $(event.target).closest(".action-push");
+            var title = target.text();
+            var url = getUrl(target);
+
+            openChildPage(url, title);
         });
 
         /*** TODO - Go back stub ***/
@@ -271,12 +275,16 @@ APP.core = (function () {
     /**
      * Opens child page
      */
-    function openChildPage(url) {
+    function openChildPage(url, title) {
 
         childView.find(".page-content").html("");
 
         if (url) {
             loadPage(url, childView);
+        }
+
+        if (title) {
+            childView.find(".page-logo").text(title);
         }
 
         forwardAnimation();
