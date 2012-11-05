@@ -1,0 +1,35 @@
+<div class="box-content">
+	<p>This describes the structure of the HTML document. </p>
+	<p>The <code>html</code> element can contain one of the following classes:</p>
+	<ul>
+		<li><code>.website</code>: for mobile website</li>
+		<li><code>.webapp</code>: for mobile web application</li>
+		<li><code>.desktop</code>: for desktop website</li>
+		<li><code>.desktop.webapp</code>: for desktop web application</li>
+	</ul>
+
+	<p>The <code>.viewport</code> class is mandatory for the <code>body</code> element.</p>
+	<p>After that, we use the following DOM structure:</p>
+	<dl>
+		<dt>
+			<code>.page-view</code>
+			<ul>
+				<li><code>.parent-view</code></li>
+				<li><code>.child-view</code></li>
+			</ul>
+		</dt>
+		<dd>The page-view is a wrapper for the parent-view and any (optional) child-view. </dd>
+
+		<dt><code>.page-navigation</code></dt>
+		<dd>Contains navigation elements. On mobile, it will appear as a slide-out menu from the left. On desktop, it will remain fixed to the left.</dd>
+
+		<dt><code>.page-navigation-toggle</code> (mobile-only)</dt>
+		<dd>This link overlaps the content when the navigation is open. This makes it easier to close the menu just by tapping anywhere outside it.</dd>
+
+		<dt><code>.modal-view</code></dt>
+		<dd>Wrapper for any modals. These will slide up from the bottom.</dd>
+
+		<dt><code>.loader</code></dt>
+		<dd>When any content takes longer than half a second to load, a spinner will appear on top of the content. The loader contains the spinner. </dd>
+	</dl>
+</div>
