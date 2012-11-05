@@ -1,0 +1,38 @@
+/***
+
+    Alert - styles for success, warning and error messages
+
+***/
+
+@alert-background: @blue;
+@alert-border: darken(@alert-background, 10%);
+@alert-color: @white;
+
+@alert-error-background: @red;
+@alert-error-border: darken(@alert-error-background, 10%);
+@alert-error-color: @white;
+
+
+@alert-success-background: @green;
+@alert-success-border: darken(@alert-success-background, 10%);
+@alert-success-color: @white;
+
+.alert {
+    margin: @grid-m;
+    padding: @grid-m;
+    background: @alert-background;
+    border: 1px solid @alert-border;
+    color: @alert-color;
+}
+
+    .alert-error {
+        background: @alert-error-background;
+        border: 1px solid @alert-error-border;
+        color: @alert-error-color;
+    }
+
+    .alert-success {
+        background: @alert-success-background;
+        border: 1px solid @alert-success-border;
+        color: @alert-success-color;
+    }
