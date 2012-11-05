@@ -1,7 +1,20 @@
+/***
+
+    Just a simple border to separate some content.
+
+    Usage:
+    <p>Lorem ipsum dolor sit amet...</p>
+    <hr class="divider">
+    <p>Lorem ipsum dolor sit amet...</p>
+
+***/
+
 .divider {
     height: 1px;
-    background: @grey;
-    box-shadow: 0 1px 0 #fff;
     border: 0;
     margin: @grid-m;
+
+    .box & {
+        margin: @grid-m 0;
+    }
 }
