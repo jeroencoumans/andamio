@@ -1,0 +1,30 @@
+/***
+
+    Allows you to easily create a gradient background.
+
+    @startColor: the top color (required)
+    @endColor: the end color (required)
+    @startPoint: where the gradient should start (0-100%, default 0)
+    @endPoint: where the gradient should end (0-100%, default 100%)
+
+***/
+
+.gradient(@startColor : @white, @endColor:  @grey, @startPoint: 0, @endPoint: 100%) {
+    background-color  : @endColor;
+    background-image  : -webkit-gradient(linear, 0 0, 0 100%, from(@startColor), to(@endColor));
+    background-image  : -webkit-linear-gradient(top, @startColor @startPoint, @endColor @endPoint);
+    background-image  : -moz-linear-gradient(top, @startColor @startPoint, @endColor @endPoint);
+    background-image  : -ms-linear-gradient(top, @startColor @startPoint, @endColor @endPoint);
+    background-image  : linear-gradient(top, @startColor @startPoint, @endColor @endPoint);
+    background-repeat : repeat-x;
+}
+
+.horizontal-gradient(@startColor : @white, @endColor : @grey) {
+    background-color: @endColor;
+    background-image  : -webkit-gradient(linear, 0 0, 100% 0, from(@startColor), to(@endColor));
+    background-image  : -webkit-linear-gradient(left, @startColor, @endColor);
+    background-image  : -moz-linear-gradient(left, @startColor, @endColor);
+    background-image  : -ms-linear-gradient(left, @startColor, @endColor);
+    background-image  : linear-gradient(left, @startColor, @endColor);
+    background-repeat : repeat-x;
+}

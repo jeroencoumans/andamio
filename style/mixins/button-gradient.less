@@ -1,0 +1,16 @@
+/***
+
+    Sets the gradient for a button.
+    @startColor: the top color
+    @endColor: the bottom color
+
+***/
+
+.btn-background(@startColor: @white, @endColor: @grey) {
+    background: @endColor;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,@startColor), color-stop(49%, lighten(@endColor, 10%)), color-stop(50%,lighten(@endColor, 5%)), color-stop(100%,@endColor));
+    background: -webkit-linear-gradient(top, @startColor 0%, lighten(@endColor, 10%) 49%,lighten(@endColor, 5%) 50%,@endColor 100%);
+    background: -moz-linear-gradient(top, @startColor 0%, lighten(@endColor, 10%) 49%, lighten(@endColor, 5%) 50%, @endColor 100%);
+    background: -ms-linear-gradient(top, @startColor 0%, lighten(@endColor, 10%) 49%,lighten(@endColor, 5%) 50%,@endColor 100%);
+    background: linear-gradient(to bottom, @startColor 0%, lighten(@endColor, 10%) 49%,lighten(@endColor, 5%) 50%,@endColor 100%);
+}

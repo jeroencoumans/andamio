@@ -1,0 +1,21 @@
+/***
+
+    Easily transform an element
+
+***/
+
+.translate3d(@x, @y: 0, @z: 0) {
+    -webkit-transform:  translate(@x, @y) translateZ(0);
+            transform:  translate(@x, @y) translateZ(0);
+}
+
+.scale(@ratio) {
+    -webkit-transform:  scale(@ratio);
+    transform:          scale(@ratio);
+}
+
+.rotate(@deg) {
+    -webkit-transform:  rotate(@deg);
+    -moz-transform:     rotate(@deg);
+    transform:          rotate(@deg);
+}
