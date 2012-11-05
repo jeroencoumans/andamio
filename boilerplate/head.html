@@ -1,14 +1,19 @@
+<!--
+
+    Boiler template for your <head>
+    To configure for desktop, use this:
+        <html lang="nl" class="webapp no-touch desktop">
+
+    To configure for mobile, use this:
+        <html lang="nl" class="website">
+
+    To view as webapp, add ?webapp=1 to the URL
+
+-->
+
 <!DOCTYPE html>
-
-<!-- Desktop webapp: -->
 <html lang="nl" class="webapp no-touch desktop">
-
-<!-- Mobile website: -->
 <!-- <html lang="nl" class="website"> -->
-
-<!-- Mobile webapp with website fallback. Set ?webapp=1 in the URL to view as webapp -->
-<!-- <html lang="nl" class="website"> -->
-<html lang="nl" class="webapp no-touch desktop">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -21,12 +26,6 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <title>Andamio</title>
 
-    <!-- Desktop webapp: -->
-    <link rel="stylesheet/less" type="text/css" href="bundle/desktop.less">
-
-    <!-- Mobile website: -->
-    <!-- <link rel="stylesheet/less" type="text/css" href="bundle/mobile-website.less"> -->
-
-    <!-- Mobile webapp: -->
-    <!-- <link rel="stylesheet/less" type="text/css" href="bundle/mobile-webapp.less"> -->
+    <!-- Include the main bundle or create your own -->
+    <link rel="stylesheet/less" type="text/css" href="bundle/main.less">
 </head>
