@@ -39,10 +39,11 @@
 
     <div id="page-navigation" class="page-navigation overthrow">
         <h2 class="navigation-header">The page</h2>
-        <a href="style/global/page.html" class="navigation-item navigation-item-active action-nav-item">Page structure</a>
+        <a href="style/base/page.html" class="navigation-item navigation-item-active action-nav-item">Page structure</a>
         <a href="style/patterns/views/views.html" class="navigation-item action-nav-item">Views</a>
         <a href="style/patterns/views/modal.html" class="navigation-item action-nav-item">Modal views</a>
         <a href="style/patterns/navigation/page-navigation.html" class="navigation-item action-nav-item">Page navigation</a>
+        <a href="style/patterns/grid/grid.html" class="navigation-item action-nav-item">Grids</a>
 
         <h2 class="navigation-header">Buttons</h2>
         <a href="style/patterns/button/button.html" class="navigation-item action-nav-item">Buttons</a>
@@ -93,7 +94,7 @@
             APP.core.init();
 
             // Seed parent-view
-            $.get('style/global/page.html', function(response){
+            $.get('style/base/page.html', function(response){
                 $("#parent-view .page-content").html(response);
             });
         });
