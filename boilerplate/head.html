@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<!-- Desktop webapp: -->
+<html lang="nl" class="webapp no-touch desktop">
+
+<!-- Mobile website: -->
+<!-- <html lang="nl" class="website"> -->
+
+<!-- Mobile webapp with website fallback. Set ?webapp=1 in the URL to view as webapp -->
+<!-- <html lang="nl" class="website"> -->
+<html lang="nl" class="webapp no-touch desktop">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <!-- Set these for mobile-optimized website that doesn't require the user to zoom in. Required for webapp -->
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <!-- Set these to allow the mobile website/webapp to be installed on the home screen -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>Andamio</title>
+
+    <!-- Desktop webapp: -->
+    <link rel="stylesheet/less" type="text/css" href="bundle/desktop.less">
+
+    <!-- Mobile website: -->
+    <!-- <link rel="stylesheet/less" type="text/css" href="bundle/mobile-website.less"> -->
+
+    <!-- Mobile webapp: -->
+    <!-- <link rel="stylesheet/less" type="text/css" href="bundle/mobile-webapp.less"> -->
+</head>
