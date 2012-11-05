@@ -10,8 +10,11 @@
     background: @navigation-background;
 }
 
-.page-navigation-toggle {
-    .box-shadow(-@grid-m 0 @grid-l -@grid-s darken(@navigation-background, 10%));
+.desktop,
+.ios6 {
+    .page-navigation-toggle {
+        .box-shadow(-@grid-m 0 @grid-l -@grid-s darken(@navigation-background, 10%));
+    }
 }
 
     .navigation-header {
