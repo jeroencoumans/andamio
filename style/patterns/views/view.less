@@ -55,8 +55,6 @@
 
             &.view-hidden {
                 .translate3d(-100%, 0, 0);
-                // .scale(0.9);
-                // opacity: 0.5;
             }
 
         }
@@ -111,16 +109,16 @@
 
 .desktop {
 
-    .page-view,
-    .page-navigation {
-        .animate(-webkit-filter);
-    }
-
     .modal-view {
         .box-shadow(0 @grid-l @grid-l rgba(0,0,0, .5));
         top: 100px;
         left: 20%;
         right: 20%;
+
+        &.view-hidden {
+            top: auto;
+            bottom: -100%;
+        }
     }
 
     &.has-modalview {
