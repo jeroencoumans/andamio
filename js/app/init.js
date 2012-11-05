@@ -52,7 +52,7 @@ APP.core = (function () {
         // event support on non-touch devices) so don't use it.
         // Also disable it for casper js tests.
         // Android also gives problems (tested on Galaxy S3)
-        $.supports.ftfastclick = !$.os.android && !$.os.blackberry;
+        $.supports.ftfastclick = $.os.ios5 || $.ios6;
     }
 
     /**
