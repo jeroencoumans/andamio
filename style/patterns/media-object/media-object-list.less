@@ -9,12 +9,12 @@
 .media-object-list {
     > .media-object {
         .striped-list();
-    }
-}
-
-.media-object-list-feed {
-    > .media-object {
         padding: @grid-m;
-        .striped-list();
+    }
+
+    .box & {
+        > .media-object {
+            padding: @grid-m 0;
+        }
     }
 }
