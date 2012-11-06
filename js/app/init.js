@@ -23,8 +23,6 @@ APP.core = (function () {
 
         $.os = $.os || {};
 
-        $.supports = $.supports || {};
-
         // basic ios5 detection
         $.os.ios5 = $.os.ios && $.os.version.indexOf("5.") !== -1;
         $.os.ios6 = $.os.ios && $.os.version.indexOf("6.") !== -1;
@@ -32,27 +30,14 @@ APP.core = (function () {
         // basic android4 detection
         $.os.android4 = $.os.android && $.os.version.indexOf("4.") !== -1;
 
-        // Uncomment to test iOS5 mode
-        // $.os.ios5 = true;
-
-        // Uncomment to test Android 4 mode
-        // $.os.android4 = true;
-
+        $.supports = $.supports || {};
         $.supports.cordova = navigator.userAgent.indexOf("TMGContainer") > -1;
 
         $.supports.webapp = false;
-        if (!$.os.android) {
-            $.supports.webapp =  APP.util.getQueryParam("webapp", false) === "1" || navigator.standalone || $.supports.cordova;
-        }
+        $.supports.webapp =  APP.util.getQueryParam("webapp", false) === "1" || navigator.standalone || $.supports.cordova;
 
-        // Uncomment to test standalone mode
-        // $.supports.webapp = true;
-
-        // Blackberry gives problems with fastclick (browser reports touch
-        // event support on non-touch devices) so don't use it.
-        // Also disable it for casper js tests.
-        // Android also gives problems (tested on Galaxy S3)
-        $.supports.ftfastclick = $.os.ios5 || $.ios6;
+        // Only enable for iPhone/iPad for now
+        $.supports.ftfastclick = $.os.ios;
     }
 
     /**
@@ -403,16 +388,8 @@ APP.core = (function () {
             html.addClass("webapp");
         }
 
-        if ($.os.ios) {
-            html.addClass("iphone");
-        }
-
         if ($.os.ios5) {
             html.addClass("ios5");
-        }
-
-        if ($.os.android) {
-            html.addClass("android");
         }
 
         attachListeners();
