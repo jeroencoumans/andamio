@@ -830,6 +830,201 @@ sup {
   display: block;
   margin: 2px auto 0;
 }
+ul {
+  list-style: none outside;
+  padding: 0 0 0 20px;
+  margin: 0 0 10px;
+}
+.bullet-list {
+  list-style-type: bullet;
+}
+.arrow-list {
+  list-style-type: none;
+  padding: 0;
+}
+.arrow-list li::before {
+  content: "\00BB \0020";
+}
+dl {
+  margin: 0 0 20px;
+}
+dt {
+  font-weight: bold;
+  margin: 0 0 5px;
+}
+dd {
+  margin: 0 0 10px 20px;
+}
+ol {
+  list-style-type: decimal;
+  padding: 0 0 0 30px;
+}
+/***
+
+    Wrapper classes for the media object.
+    .media-object-list provides simple striping
+    .media-object-list-feed sets striping and some margins for the media image
+
+***/
+.media-object-list > .media-object {
+  border-top: 1px solid #ffffff;
+  border-bottom: 1px solid #a2a2a2;
+  padding: 10px;
+}
+.media-object-list > .media-object:first-child {
+  border-top: 0;
+}
+.media-object-list > .media-object:last-child {
+  border-bottom: 0;
+}
+.box .media-object-list > .media-object {
+  padding: 10px 0;
+}
+/***
+
+    iOS style tableview
+    .table-view
+        [h1.table-header]
+        .table-cell
+            h2.table-cell-title
+        [.table-footer]
+
+
+***/
+.table-view {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.table-header {
+  font-size: 15px;
+  text-align: center;
+  margin: 0;
+  padding: 5px 10px;
+  background: #f3f3f3;
+  border-bottom: 1px solid #a2a2a2;
+  color: #393939;
+}
+.table-footer {
+  padding: 10px 0;
+}
+.table-cell {
+  display: block;
+  overflow: hidden;
+  *overflow: visible;
+  *zoom: 1;
+  margin: 0;
+  padding: 10px;
+  background: #ffffff;
+  border-left: 1px solid #f3f3f3;
+  border-right: 1px solid #f3f3f3;
+  border-bottom: 1px solid #a2a2a2;
+}
+.table-cell .icon-arrow-right {
+  float: right;
+}
+.table-cell.active {
+  background-color: #2866a0;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3280c9), to(#2866a0));
+  background-image: -webkit-linear-gradient(top, #3280c9 0, #2866a0 100%);
+  background-image: -moz-linear-gradient(top, #3280c9 0, #2866a0 100%);
+  background-image: -ms-linear-gradient(top, #3280c9 0, #2866a0 100%);
+  background-image: linear-gradient(top, #3280c9 0, #2866a0 100%);
+  background-repeat: repeat-x;
+  color: #ffffff;
+  text-shadow: #193f63;
+}
+.table-cell.active h1,
+.table-cell.active h2,
+.table-cell.active h3,
+.table-cell.active h4,
+.table-cell.active h5,
+.table-cell.active h6 {
+  color: #ffffff;
+  text-shadow: #193f63;
+}
+.table-cell-title {
+  margin: 0;
+}
+.table-view-grouped {
+  margin: 15px 10px;
+}
+.table-view-grouped:first-child {
+  margin-top: 0;
+}
+.table-view-grouped .table-header {
+  border: 0;
+}
+.table-view-grouped .table-cell {
+  border-color: #f3f3f3 #a2a2a2 #a2a2a2;
+}
+.table-view-grouped .table-cell:first-of-type {
+  border-top: 1px solid #a2a2a2;
+  border-radius: 5px 5px 0 0;
+  -webkit-background-clip: padding;
+  background-clip: padding-box;
+}
+.table-view-grouped .table-cell:last-of-type {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.table-cell-centered {
+  padding: 0;
+  overflow: hidden;
+  *overflow: visible;
+  *zoom: 1;
+}
+.table-cell-centered .table-cell-label {
+  float: left;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 40%;
+  padding: 10px 0 10px 10px;
+  color: #a2a2a2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.table-cell-centered .table-cell-label br {
+  display: none;
+}
+.table-cell-centered .table-cell-value {
+  float: left;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 60%;
+  padding: 10px;
+  border: 0;
+  outline: 0;
+  color: #050505;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.table-cell-centered .table-cell-value br {
+  display: none;
+}
+table {
+  width: 100%;
+  border-spacing: 0;
+}
+th,
+td {
+  text-align: left;
+  vertical-align: top;
+  padding: 5px;
+  border-bottom: 1px solid #e6e6e6;
+}
+th p:last-child,
+td p:last-child {
+  margin: 0;
+}
+/*** Fake table headings... ***/
+tr:first-child {
+  font-weight: bold;
+}
 /***
 
     A badge is used for showing a highlighted number. It's useful for showing unread messages or updates.
