@@ -7,19 +7,20 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <title>Andamio</title>
-    <!-- <link rel="stylesheet/less" type="text/css" href="bundle/main.less"> -->
-    <link rel="stylesheet" type="text/css" href="dist/main.css">
+    <link rel="stylesheet/less" type="text/css" href="style/main.less">
+    <!-- <link rel="stylesheet" type="text/css" href="dist/main.css"> -->
+    <link rel="stylesheet" type="text/css" href="dist/prism.css">
 </head>
 
 <body class="viewport">
 
     <div id="page-view" class="page-view">
         <div id="parent-view" class="parent-view">
-            <header class="page-header">
+            <div class="page-header">
                 <a href="/" class="page-logo action-page-title">Patterns</a>
                 <a href="javascript:void(0);" class="button-header-wrapper action-navigation"><span class="button-header">Menu</span></a>
                 <a href="javascript:void(0);" class="button-header-wrapper-alternate action-modal"><span class="button-header">Info</span></a>
-            </header>
+            </div>
 
             <div class="page-content overthrow">
 
@@ -104,10 +105,10 @@
     <a href="javascript:void(0)" class="page-navigation-toggle action-hide-navigation"></a>
 
     <div id="modal-view" class="modal-view view-hidden">
-        <header class="page-header">
+        <div class="page-header">
             <a href="/" class="page-logo">About Andamio</a>
             <a href="javascript:void(0);" class="button-header-wrapper action-close-modal"><span class="button-header">Close</span></a>
-        </header>
+        </div>
 
         <div class="page-content overthrow">
             <div class="box">
@@ -118,10 +119,11 @@
 
     <div id="loader" class="loader" style="display:none"><img src="img/spinner-dark.gif" class="spinner-dark" width="32" height="32" alt="Laden"></div>
 
-    <!--<script src="js/lib/less.js"></script>-->
+    <script src="js/lib/less.js"></script>
     <script src="js/lib/zepto.js"></script>
     <script src="js/lib/zepto.scroll.js"></script>
     <script src="js/lib/fastclick.js"></script>
+    <script src="prism.js"></script>
     <script src="js/app/globals.js"></script>
     <script src="js/app/events.js"></script>
     <script src="js/app/util.js"></script>
