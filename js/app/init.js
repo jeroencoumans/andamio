@@ -392,6 +392,11 @@ APP.core = (function () {
             html.addClass("ios5");
         }
 
+        // TODO - Lazy media query
+        if (document.width >= 980) {
+            html.removeClass("website").addClass("webapp desktop no-touch");
+        }
+
         attachListeners();
         attachGlobalListeners();
 
