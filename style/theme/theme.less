@@ -1,0 +1,49 @@
+// Global defaults
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.viewport {
+    background: @global-background-color;
+    color: @global-text-color;
+    word-wrap: break-word;
+
+    .webapp & {
+        background: @webapp-background-color;
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: @global-header-color;
+}
+
+a {
+    color: @blue;
+}
+
+.detail {
+    color: #929191;
+}
+
+@import "website.less";
+@import "webapp.less";
+
+// Page components
+@import "page-content.less";
+@import "page-footer.less";
+@import "page-header.less";
+@import "page-logo.less";
+@import "page-navigation.less";
+@import "page-view.less";
+
+// UI
+@import "alert.less";
+@import "badge.less";
+@import "box.less";
+@import "button.less";
+@import "button-header.less";
+@import "button-primary.less";
+@import "button-wrapper.less";
+@import "divider.less";
