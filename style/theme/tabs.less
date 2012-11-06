@@ -1,0 +1,47 @@
+/***
+
+    Tabs
+
+***/
+
+@page-tabs-background: darken(@page-header-background, 15%);
+@page-tabs-color: lighten(@page-header-background, 40%);
+
+.tabs {
+    .gradient(@page-tabs-background, darken(@page-tabs-background, 15%));
+    text-shadow: 1px 1px 1px darken(@page-tabs-background, 25%);
+
+    .tab-item {
+        padding: @grid-m;
+        text-align: center;
+        color: @page-tabs-color;
+    }
+
+    .tab-item-active {
+        .gradient(darken(@page-tabs-background, 10%), lighten(@page-tabs-background, 10%));
+        color: lighten(@page-tabs-color, 50%);
+    }
+}
+
+.website {
+    .tabs {
+        border-top: 1px solid darken(@page-tabs-background, 15%);
+        border-bottom: 1px solid darken(@page-tabs-background, 35%);
+
+        .tab-item {
+            border-left: 1px solid fadeout(@page-tabs-background, 30%);
+            border-right: 1px solid darken(@page-tabs-background, 10%);
+        }
+    }
+}
+
+.webapp {
+    .tabs {
+        border-top: 1px solid @page-tabs-background;
+        border-bottom: 0;
+
+        .tab-item {
+            .box-shadow(inset 0 1px 0 lighten(@page-tabs-background, 15%), inset 1px 0 0 fadeout(@page-tabs-background, 20%), inset -1px 0 0 darken(@page-tabs-background, 15%));
+        }
+    }
+}
