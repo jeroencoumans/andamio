@@ -55,7 +55,6 @@ APP.modal = (function () {
         return html.hasClass("has-modalview") ? true : false;
     }
 
-
     /***
      * Initialize variables and attach listeners
      */
@@ -67,7 +66,6 @@ APP.modal = (function () {
         modalView = $("#modal-view")
 
         attachListeners();
-
     }
 
     return {

@@ -9,19 +9,28 @@ requirejs.config({
         'app/util': {
             deps: ['lib/zepto']
         },
-        'app/nav': {
+        'app/loader': {
             deps: ['lib/zepto']
+        },
+        'app/nav': {
+            deps: ['lib/zepto', 'app/loader']
         },
         'app/modal': {
-            deps: ['lib/zepto']
+            deps: ['lib/zepto', 'app/loader']
+        },
+        'app/tabs': {
+            deps: ['lib/zepto', 'app/views', 'app/loader']
+        },
+        'app/views': {
+            deps: ['lib/zepto', 'app/loader']
         },
         'app/init': {
-            deps: ['lib/zepto', 'app/events', 'app/util']
+            deps: ['lib/zepto', 'app/events', 'app/nav', 'app/views', 'app/util']
         }
     }
 })
 
-require(["lib/less", "lib/zepto", "lib/zepto.scroll", "lib/fastclick", "app/globals", "app/events", "app/util", "app/nav", "app/modal", "app/init"], function() {
+require(["lib/less", "lib/zepto", "lib/zepto.scroll", "lib/fastclick", "app/globals", "app/events", "app/loader", "app/util", "app/views", "app/tabs", "app/nav", "app/modal", "app/init"], function() {
 
         $(document).ready(function() {
             APP.core.init();

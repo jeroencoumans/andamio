@@ -40,14 +40,17 @@ APP.util = (function () {
      */
     function getUrl(elem) {
 
-        if (elem.data("url")) {
-            return elem.data("url");
-        } else if (elem.attr("href")) {
-            return elem.attr("href");
-        } else {
-            console.log("Specify either an href or data-url");
+        var url = elem.data("url") || elem.attr("href");
+
+        if (url === "javascript:void(0)" || url === "#") {
+            url = "";
         }
 
+        if (url) {
+            return url;
+        } else {
+            return false;
+        }
     }
 
     return {

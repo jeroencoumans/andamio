@@ -8,7 +8,6 @@ APP.nav = (function () {
         pageNav,
         pageNavItems,
         pageNavActive,
-        pageNavUrl,
         navigationHeight,
         viewport,
         windowHeight,
@@ -41,24 +40,22 @@ APP.nav = (function () {
         /*** TODO - page navigation stub ***/
         APP.events.attachClickHandler(".action-nav-item", function (event) {
 
-            var pageNavTarget = $(event.target),
-                pageNavUrl = APP.util.getUrl(pageNavTarget),
-                pageNavTitle = pageNavTarget.text();
+            var target = $(event.target),
+                url = APP.util.getUrl(target),
+                title = target.text();
 
-            if (! pageNavUrl) {
-                return;
+            if (url) {
+                // set active class
+                pageNavActive.removeClass("navigation-item-active");
+                pageNavActive = target.addClass("navigation-item-active");
+
+                hideNavigation();
+
+                // set page title
+                parentView.find(".action-page-title").text(title);
+
+                APP.views.loadPage(url, parentView)
             }
-
-            // set active class
-            pageNavActive.removeClass("navigation-item-active");
-            pageNavActive = pageNavTarget.addClass("navigation-item-active");
-
-            hideNavigation();
-
-            // set page title
-            parentView.find(".action-page-title").text(pageNavTitle);
-
-            APP.core.loadPage(pageNavUrl, parentView)
         });
     };
 
