@@ -7,9 +7,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <title>Andamio</title>
-    <!-- <link rel="stylesheet/less" type="text/css" href="style/main.less"> -->
     <link rel="stylesheet" type="text/css" href="dist/main.css">
-    <script data-main="js/main" src="js/require.js"></script>
 </head>
 
 <body class="viewport">
@@ -119,6 +117,28 @@
 
     <div id="loader" class="loader" style="display:none"><img src="img/spinner-dark.gif" class="spinner-dark" width="32" height="32" alt="Laden"></div>
 
-    <script src="js/require.js"></script>
+    <script src="js/lib/zepto.js"></script>
+    <script src="js/lib/zepto.scroll.js"></script>
+    <script src="js/lib/fastclick.js"></script>
+    <script src="js/app/globals.js"></script>
+    <script src="js/app/util.js"></script>
+    <script src="js/app/events.js"></script>
+    <script src="js/app/loader.js"></script>
+    <script src="js/app/modal.js"></script>
+    <script src="js/app/nav.js"></script>
+    <script src="js/app/tabs.js"></script>
+    <script src="js/app/views.js"></script>
+    <script src="js/app/init.js"></script>
+    <script>
+
+        $(document).ready(function() {
+            APP.core.init();
+
+            // Seed parent-view
+            $.get('style/page/page.html', function(response){
+                $("#parent-view .page-content").html(response);
+            });
+        });
+    </script>
 </body>
 </html>

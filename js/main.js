@@ -30,15 +30,15 @@ requirejs.config({
     }
 })
 
-require(["lib/less", "lib/zepto", "lib/zepto.scroll", "lib/fastclick", "app/globals", "app/events", "app/loader", "app/util", "app/views", "app/tabs", "app/nav", "app/modal", "app/init"], function() {
+require(["lib/zepto", "lib/zepto.scroll", "lib/fastclick", "app/globals", "app/events", "app/loader", "app/util", "app/views", "app/tabs", "app/nav", "app/modal", "app/init"], function() {
 
-        $(document).ready(function() {
-            APP.core.init();
+    $(document).ready(function() {
+        APP.core.init();
 
-            // Seed parent-view
-            $.get('style/page/page.html', function(response){
-                $("#parent-view .page-content").html(response);
-            });
+        // Seed parent-view
+        $.get('style/page/page.html', function(response){
+            $("#parent-view .page-content").html(response);
         });
+    });
 
 });

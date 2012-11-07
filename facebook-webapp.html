@@ -119,13 +119,14 @@
     <script src="js/lib/zepto.js"></script>
     <script src="js/lib/zepto.scroll.js"></script>
     <script src="js/lib/fastclick.js"></script>
-    <script src="js/lib/handlebars.js"></script>
-    <script src="js/lib/swipeview.js"></script>
     <script src="js/app/globals.js"></script>
-    <script src="js/app/events.js"></script>
-    <script src="js/app/nav.js"></script>
-    <script src="js/app/modal.js"></script>
     <script src="js/app/util.js"></script>
+    <script src="js/app/events.js"></script>
+    <script src="js/app/loader.js"></script>
+    <script src="js/app/modal.js"></script>
+    <script src="js/app/nav.js"></script>
+    <script src="js/app/tabs.js"></script>
+    <script src="js/app/views.js"></script>
     <script src="js/app/init.js"></script>
 
     <!-- Initialize Facebook API -->
@@ -342,7 +343,7 @@
                 modalTitle.text(targetAlbumName);
                 swipeElem.empty();
 
-                APP.core.openModal();
+                APP.modal.openModal();
                 APP.core.showLoader();
 
                 FB.api(targetAlbumId + "/photos", function(response) {
