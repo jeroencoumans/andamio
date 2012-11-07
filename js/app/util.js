@@ -35,8 +35,24 @@ APP.util = (function () {
         return element.attr("target") === "_blank";
     }
 
+    /**
+     * Get URL from href or data attribute
+     */
+    function getUrl(elem) {
+
+        if (elem.data("url")) {
+            return elem.data("url");
+        } else if (elem.attr("href")) {
+            return elem.attr("href");
+        } else {
+            console.log("Specify either an href or data-url");
+        }
+
+    }
+
     return {
         "getQueryParam": getQueryParam,
-        "isExternalLink": isExternalLink
+        "isExternalLink": isExternalLink,
+        "getUrl": getUrl
     };
 })();

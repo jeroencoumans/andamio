@@ -45,30 +45,12 @@ APP.core = (function () {
      */
     function attachListeners() {
 
-        /*** Menu button ***/
-        APP.events.attachClickHandler(".action-navigation", function (event) {
-            toggleNavigation();
-
-            if (!$.supports.webapp) {
-                toggleHeight();
-            }
-        });
-
-        /*** Hide menu when it's open ***/
-        APP.events.attachClickHandler(".action-hide-navigation", function (event) {
-            hideNavigation();
-
-            if (!$.supports.webapp) {
-                toggleHeight();
-            }
-        });
-
         /*** TODO - Open page stub ***/
         APP.events.attachClickHandler(".action-push", function (event) {
 
             var target = $(event.target).closest(".action-push");
             var title = target.text();
-            var url = getUrl(target);
+            var url = APP.util.getUrl(target);
 
             openChildPage(url, title);
         });
@@ -98,36 +80,13 @@ APP.core = (function () {
             var pageTabTitle = pageTabTarget.text();
 
             // get URL
-            pageTabUrl = getUrl(pageTabTarget);
+            pageTabUrl = APP.util.getUrl(pageTabTarget);
 
             // set active class
             pageTabActive.removeClass("tab-item-active");
             pageTabActive = pageTabTarget.addClass("tab-item-active");
 
             loadPage(pageTabUrl, parentView);
-        });
-
-        /*** TODO - page navigation stub ***/
-        APP.events.attachClickHandler(".action-nav-item", function (event) {
-
-            var pageNavTarget = $(event.target),
-                pageNavUrl = getUrl(pageNavTarget),
-                pageNavTitle = pageNavTarget.text();
-
-            if (! pageNavUrl) {
-                return;
-            }
-
-            // set active class
-            pageNavActive.removeClass("navigation-item-active");
-            pageNavActive = pageNavTarget.addClass("navigation-item-active");
-
-            hideNavigation();
-
-            // set page title
-            parentView.find(".action-page-title").text(pageNavTitle);
-
-            loadPage(pageNavUrl, parentView)
         });
     }
 
@@ -150,21 +109,6 @@ APP.core = (function () {
             $.scrollElement(pageScroller.get(0), 0);
 
         });
-    }
-
-    /**
-     * Get URL from href or data attribute
-     */
-    function getUrl(elem) {
-
-        if (elem.data("url")) {
-            return elem.data("url");
-        } else if (elem.attr("href")) {
-            return elem.attr("href");
-        } else {
-            console.log("Specify either an href or data-url");
-        }
-
     }
 
     /**
@@ -214,48 +158,6 @@ APP.core = (function () {
         });
      }
 
-    /**
-     * Sets height of content based on height of navigation
-     */
-    function toggleHeight() {
-
-        var navigationHeight,
-            viewport;
-
-        windowHeight = $(window).height();
-        navigationHeight = $("#page-navigation").height();
-        if (windowHeight > navigationHeight) {
-            navigationHeight = windowHeight;
-            $("#page-navigation").height(navigationHeight);
-        }
-
-        viewport = $(".viewport");
-        pageContent = $(".page-view");
-
-        if (html.hasClass("has-navigation")) {
-            viewport.height(navigationHeight);
-            pageContent.height(navigationHeight);
-        } else {
-            viewport.height("");
-            pageContent.height("");
-        }
-    }
-
-    /**
-     * Shows or hides the sections menu
-     */
-    function toggleNavigation() {
-
-        html.toggleClass("has-navigation");
-    }
-
-    /**
-     * Hides the sections menu
-     */
-    function hideNavigation() {
-
-        html.removeClass("has-navigation");
-    }
 
     /**
      * Opens child page
@@ -372,10 +274,6 @@ APP.core = (function () {
         childView = $("#child-view");
         modalView = $("#modal-view")
 
-        pageNav = $("#page-navigation");
-        pageNavItems = pageNav.find(".action-nav-item");
-        pageNavActive = pageNav.find(".navigation-item-active");
-
         pageTabs = $("#page-tabs");
         pageTabItems = pageTabs.find(".action-page-tab");
         pageTabActive = pageTabs.find(".tab-item-active");
@@ -405,6 +303,7 @@ APP.core = (function () {
         }
 
         APP.events.init();
+        APP.nav.init();
     }
 
     return {
@@ -415,9 +314,7 @@ APP.core = (function () {
         "openChildPage": openChildPage,
         "openParentPage": openParentPage,
         "openModal": openModal,
-        "closeModal": closeModal,
-        "toggleNavigation": toggleNavigation,
-        "hideNavigation": hideNavigation
+        "closeModal": closeModal
     };
 
 })();
