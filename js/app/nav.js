@@ -102,11 +102,7 @@ APP.nav = (function () {
      */
     function hasNavigation() {
 
-        if (html.hasClass("has-navigation")) {
-            return true;
-        } else {
-            return false;
-        }
+        return html.hasClass("has-navigation") ? true : false;
     }
 
 

@@ -9,7 +9,6 @@ APP.core = (function () {
         pageView,
         parentView,
         childView,
-        modalView,
         pageNav,
         pageNavItems,
         pageNavActive,
@@ -59,18 +58,6 @@ APP.core = (function () {
         APP.events.attachClickHandler(".action-pop", function (event) {
 
             openParentPage();
-        });
-
-        /*** TODO - modal stub ***/
-        APP.events.attachClickHandler(".action-modal", function (event) {
-
-            openModal();
-        });
-
-        /*** TODO - modal stub ***/
-        APP.events.attachClickHandler(".action-close-modal", function (event) {
-
-            closeModal();
         });
 
         /*** TODO - page tab stub ***/
@@ -219,26 +206,6 @@ APP.core = (function () {
     }
 
     /**
-     * Shows or hides the sections menu
-     */
-    function openModal() {
-
-        html.addClass("has-modalview");
-        pageView.addClass("view-hidden");
-        modalView.removeClass("view-hidden");
-    }
-
-    /**
-     * Hides the sections menu
-     */
-    function closeModal() {
-
-        html.removeClass("has-modalview");
-        pageView.removeClass("view-hidden");
-        modalView.addClass("view-hidden");
-    }
-
-    /**
      * Shows the loader in an overlay
      */
     function showLoader() {
@@ -272,7 +239,6 @@ APP.core = (function () {
         pageView = $("#page-view");
         parentView = $("#parent-view");
         childView = $("#child-view");
-        modalView = $("#modal-view")
 
         pageTabs = $("#page-tabs");
         pageTabItems = pageTabs.find(".action-page-tab");
@@ -304,6 +270,7 @@ APP.core = (function () {
 
         APP.events.init();
         APP.nav.init();
+        APP.modal.init();
     }
 
     return {
@@ -313,8 +280,6 @@ APP.core = (function () {
         "loadPage": loadPage,
         "openChildPage": openChildPage,
         "openParentPage": openParentPage,
-        "openModal": openModal,
-        "closeModal": closeModal
     };
 
 })();
