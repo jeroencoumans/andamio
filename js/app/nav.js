@@ -4,7 +4,8 @@
 APP.nav = (function () {
 
     // Variables
-    var parentView,
+    var html,
+        parentView,
         pageNav,
         pageNavItems,
         pageNavActive,
@@ -54,10 +55,10 @@ APP.nav = (function () {
                 // set page title
                 parentView.find(".action-page-title").text(title);
 
-                APP.views.loadPage(url, parentView)
+                APP.views.loadPage(url, parentView);
             }
         });
-    };
+    }
 
     /**
      * Sets height of content based on height of navigation

@@ -63,7 +63,7 @@ APP.modal = (function () {
         loader = $("#loader");
         html = $("html");
         pageView = $("#page-view");
-        modalView = $("#modal-view")
+        modalView = $("#modal-view");
 
         attachListeners();
     }
