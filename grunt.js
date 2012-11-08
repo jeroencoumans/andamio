@@ -14,31 +14,22 @@ module.exports = function(grunt) {
         lint: {
             all: ['grunt.js', 'js/app/*.js']
         },
-        less: {
-          development: {
-            options: {
-              paths: ["style"]
-            },
-            files: {
-              "dist/main.development.css": "style/main.less"
+        recess: {
+            dist: {
+                src: ['style/main.less'],
+                dest: 'dist/main.css',
+                options: {
+                    compile: true,
+                    compress: true
+                }
             }
-          },
-          production: {
-            options: {
-              paths: ["style"],
-              yuicompress: true
-            },
-            files: {
-              "dist/main.css": "style/main.less"
-            }
-          }
         }
     });
 
-    // Load tasks from "grunt-sample" grunt plugin installed via Npm.
-    grunt.loadNpmTasks('grunt-contrib-less');
+    // Load tasks
+    grunt.loadNpmTasks('grunt-recess');
 
     // Default task.
-    grunt.registerTask('default', 'lint', 'less');
+    grunt.registerTask('default', 'lint', 'recess');
 
 };

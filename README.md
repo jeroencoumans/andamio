@@ -10,15 +10,18 @@ flexible base framework to add your own visual designs to.
 
 Requirements
 ============
+For compiling the CSS, we use the Twitter RECESS module, which will lint and compile the CSS.
+* https://github.com/twitter/recess
+* https://github.com/sindresorhus/grunt-recess
+
 If you want to compile the CSS, you need to install the following:
 
 * http://nodejs.org/
 * from the command line, install grunt: npm install -g grunt
-* in the andamio directory, run this: npm install grunt-contrib-less
+* in the andamio directory, run this: npm install grunt-recess
 
 Compile the CSS by running the following command in the andamio directory:
-* dev: grunt less:development
-* production: grunt less:production
+grunt recess
 
 Getting started
 ===============
