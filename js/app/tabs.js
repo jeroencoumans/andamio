@@ -13,7 +13,7 @@ APP.tabs = (function () {
     function attachListeners() {
 
         /*** TODO - page tab stub ***/
-        APP.events.attachClickHandler(".action-page-tab", function (event) {
+        APP.events.attachClickHandler(".action-tab-item", function (event) {
 
             var target = $(event.target),
                 title = target.text(),
