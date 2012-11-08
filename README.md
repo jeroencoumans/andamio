@@ -34,9 +34,8 @@ I would suggest a directory structure like this:
 
 /project-name/
     |-- andamio/
-        |-- style/
-            |-- *main.less*
     |-- style/
+        |-- *main.less*
     |-- js/
 
 In the directory project-name/style/, add this file:
@@ -46,7 +45,7 @@ Add the following lines to main.less:
 
 <pre>
 @import "../andamio/style/main.less";
-@import "mypattern.less";
+@import "mypattern.less"; // add your own patterns here
 </pre>
 
 Grunt tasks

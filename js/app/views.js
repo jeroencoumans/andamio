@@ -60,7 +60,7 @@ APP.views = (function () {
 
             },
             success: function(response){
-                var page = view.find(".page-content");
+                var page = view.find(".js-content");
 
                 clearTimeout(timeoutToken);
 
@@ -84,14 +84,14 @@ APP.views = (function () {
      */
     function openChildPage(url, title) {
 
-        childView.find(".page-content").html("");
+        childView.find(".js-content").html("");
 
         if (url) {
             loadPage(url, childView);
         }
 
         if (title) {
-            childView.find(".page-logo").text(title);
+            childView.find(".js-title").text(title);
         }
 
         forwardAnimation();
@@ -112,7 +112,7 @@ APP.views = (function () {
         }
 
         if (title) {
-            parentView.find(".page-logo").text(title);
+            parentView.find(".js-title").text(title);
         }
 
         backwardAnimation();

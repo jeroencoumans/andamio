@@ -15,12 +15,12 @@
     <div id="page-view" class="page-view">
         <div id="parent-view" class="parent-view">
             <div class="page-header">
-                <a href="/" class="page-logo action-page-title">Patterns</a>
+                <a href="/" class="page-logo js-title">Patterns</a>
                 <a href="javascript:void(0);" class="button-header-wrapper action-navigation"><span class="button-header">Menu</span></a>
                 <a href="javascript:void(0);" class="button-header-wrapper-alternate action-modal"><span class="button-header">Info</span></a>
             </div>
 
-            <div class="page-content overthrow">
+            <div class="page-content overthrow js-content">
 
 
             </div>
@@ -108,7 +108,7 @@
             <a href="javascript:void(0);" class="button-header-wrapper action-close-modal"><span class="button-header">Close</span></a>
         </div>
 
-        <div class="page-content overthrow">
+        <div class="page-content overthrow js-content">
             <div class="box">
                 Andamio was created by Jeroen Coumans to speed up prototyping and creating the frontend for mobile web applications.
             </div>
@@ -121,13 +121,12 @@
 
     <script>
 
-        $(document).ready(function() {
+        Zepto(function($){
             APP.core.init();
 
             // Seed parent-view
-            $.get('style/page/page.html', function(response){
-                $("#parent-view .page-content").html(response);
-            });
+            var parentView = $("#parent-view");
+            APP.views.loadPage("style/page/page.html", parentView);
         });
     </script>
 </body>
