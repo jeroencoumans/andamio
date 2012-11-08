@@ -10,8 +10,15 @@ flexible base framework to add your own visual designs to.
 
 Requirements
 ============
+If you want to compile the CSS, you need to install the following:
 
+* http://nodejs.org/
+* from the command line, install grunt: npm install -g grunt
+* in the andamio directory, run this: npm install grunt-contrib-less
 
+Compile the CSS by running the following command in the andamio directory:
+* dev: grunt less:development
+* production: grunt less:production
 
 Getting started
 ===============
