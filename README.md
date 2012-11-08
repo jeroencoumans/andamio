@@ -21,7 +21,8 @@ If you want to compile the CSS, you need to install the following:
 * in the andamio directory, run this: npm install grunt-recess
 
 Compile the CSS by running the following command in the andamio directory:
-grunt recess
+<code>grunt recess</code>
+
 
 Getting started
 ===============
@@ -48,3 +49,21 @@ Add the following lines to main.less:
 @import "mypattern.less";
 </pre>
 
+Grunt tasks
+===========
+
+For developing, it's useful to use the grunt watch task. This will automatically
+compile the LESS files into main.dev.css and the Javascript files in main.dev.js,
+so you can include those in your templates.
+
+Just run the following command in the andamio directory:
+<code>grunt watch</code>
+
+Creating a production build of the CSS is done by the following command:
+<code>grunt recess:dist</code>
+
+Creating a production build of the JS is done by the following command:
+<code>grunt concat min</code>
+
+You can also combine these to 1 command:
+<code>grunt recess:dist concat min</code>
