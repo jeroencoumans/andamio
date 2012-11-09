@@ -47,19 +47,19 @@ module.exports = function(grunt) {
 
         // CSS compilation & linting
         recess: {
+            dev: {
+                src: ['style/main.less'],
+                dest: 'dist/main.dev.css',
+                options: {
+                    compile: true
+                }
+            },
             dist: {
                 src: ['style/main.less'],
                 dest: 'dist/main.css',
                 options: {
                     compile: true,
                     compress: true
-                }
-            },
-            dev: {
-                src: ['style/main.less'],
-                dest: 'dist/main.dev.css',
-                options: {
-                    compile: true
                 }
             }
         },
@@ -79,6 +79,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-recess');
 
     // Default task.
-    grunt.registerTask('default', 'lint', 'recess', 'min');
+    grunt.registerTask('default', 'lint concat min recess');
 
 };
