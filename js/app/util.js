@@ -43,9 +43,9 @@ APP.util = (function () {
         var url;
 
         if (elem.data("url")) {
-            url = elem.data("url")
+            url = elem.data("url");
         } else if (elem.attr("href")) {
-            url = elem.attr("href")
+            url = elem.attr("href");
         }
 
         if (url === "javascript:void(0)" || url === "#") {
