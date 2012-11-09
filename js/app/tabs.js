@@ -9,28 +9,6 @@ APP.tabs = (function () {
         pageTabs,
         pageTabActive;
 
-    /**
-     * Attach event listeners
-     */
-    function attachListeners() {
-
-        /*** TODO - page tab stub ***/
-        APP.events.attachClickHandler(".action-tab-item", function (event) {
-
-            var target = $(event.target).closest(".action-tab-item"),
-                title = target.text(),
-                url = APP.util.getUrl(target);
-
-            if (url) {
-                // set active class
-                pageTabActive.removeClass("tab-item-active");
-                pageTabActive = target.addClass("tab-item-active");
-
-                APP.views.loadPage(url, parentView);
-            }
-        });
-    }
-
     function show() {
 
         html.addClass("has-tabs");
@@ -46,6 +24,27 @@ APP.tabs = (function () {
     function status() {
 
         return html.hasClass("has-tabs") ? true : false;
+    }
+
+    /**
+     * Attach event listeners
+     */
+    function attachListeners() {
+
+        APP.events.attachClickHandler(".action-tab-item", function (event) {
+
+            var target = $(event.target).closest(".action-tab-item"),
+                title = target.text(),
+                url = APP.util.getUrl(target);
+
+            if (url) {
+                // set active class
+                pageTabActive.removeClass("tab-item-active");
+                pageTabActive = target.addClass("tab-item-active");
+
+                APP.views.loadPage(url, parentView);
+            }
+        });
     }
 
     /***

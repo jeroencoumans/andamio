@@ -8,24 +8,6 @@ APP.modal = (function () {
         modalView;
 
     /**
-     * Attach event listeners
-     */
-    function attachListeners() {
-
-        /*** TODO - modal stub ***/
-        APP.events.attachClickHandler(".action-modal", function (event) {
-
-            show();
-        });
-
-        /*** TODO - modal stub ***/
-        APP.events.attachClickHandler(".action-close-modal", function (event) {
-
-            hide();
-        });
-    }
-
-    /**
      * Opens the modal view
      */
     function show() {
@@ -51,6 +33,24 @@ APP.modal = (function () {
     function status() {
 
         return html.hasClass("has-modalview") ? true : false;
+    }
+
+    /**
+     * Attach event listeners
+     */
+    function attachListeners() {
+
+        /*** TODO - modal stub ***/
+        APP.events.attachClickHandler(".action-modal", function (event) {
+
+            show();
+        });
+
+        /*** TODO - modal stub ***/
+        APP.events.attachClickHandler(".action-close-modal", function (event) {
+
+            hide();
+        });
     }
 
     /***

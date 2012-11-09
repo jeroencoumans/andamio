@@ -10,21 +10,13 @@ APP.views = (function () {
         child;
 
     // Export these elements for other modules
-    function parentView() {
+    function parentView() { return parent; }
+    function childView() { return child; }
+    function pageView() { return page; }
 
-        return parent;
-    }
-
-    function childView() {
-
-        return child;
-    }
-
-    function pageView() {
-
-        return page;
-    }
-
+    /**
+     * Returns wether the childview is active or not
+     */
     function hasChildView() {
 
         return html.hasClass("has-childview") ? true : false;
@@ -55,7 +47,7 @@ APP.views = (function () {
      * - url: the URL to call
      * - view: what page to insert the content int (child, parent or modal)
      */
-     function loadPage(url, view) {
+    function loadPage(url, view) {
 
         // make sure to open the parent
         if (hasChildView() && view === parent) {
@@ -120,7 +112,6 @@ APP.views = (function () {
     function openParentPage(url, title) {
 
         if (hasChildView()) {
-
             backwardAnimation();
         }
 
@@ -140,19 +131,7 @@ APP.views = (function () {
      */
     function attachListeners() {
 
-        /*** TODO - Open page stub ***/
-        APP.events.attachClickHandler(".action-push", function (event) {
-
-            var target = $(event.target).closest(".action-push"),
-                title = target.text(),
-                url = APP.util.getUrl(target);
-
-            if (url) {
-                openChildPage(url, title);
-            }
-        });
-
-        /*** TODO - Go back stub ***/
+        /*** Open parent page ***/
         APP.events.attachClickHandler(".action-pop", function (event) {
 
             var target = $(event.target).closest(".action-pop"),
@@ -163,6 +142,20 @@ APP.views = (function () {
                 openParentPage(url, title);
             } else {
                 openParentPage();
+            }
+        });
+
+        /*** Open child page ***/
+        APP.events.attachClickHandler(".action-push", function (event) {
+
+            var target = $(event.target).closest(".action-push"),
+                title = target.text(),
+                url = APP.util.getUrl(target);
+
+            if (url) {
+                openChildPage(url, title);
+            } else {
+                openChildPage();
             }
         });
     }
