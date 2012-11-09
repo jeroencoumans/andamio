@@ -6,8 +6,9 @@
 
 .page-header {
     .gradient(@page-header-background, darken(@page-header-background, 25%));
-    height: @page-header-height - 1;
-    border-bottom: @page-header-border;
+    height: @page-header-height - 2;
+    border-top: 1px solid lighten(@page-header-background, 10%);
+    border-bottom: 1px solid @page-header-border;
     .row;
     .truncate;
 }
