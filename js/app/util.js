@@ -36,21 +36,24 @@ APP.util = (function () {
     }
 
     /**
-     * Get URL from href or data attribute
+     * Get URL from the data attribute, falling back to the href
      */
     function getUrl(elem) {
 
-        var url = elem.data("url") || elem.attr("href");
+        var url;
+
+        if (elem.data("url")) {
+            url = elem.data("url")
+        } else if (elem.attr("href")) {
+            url = elem.attr("href")
+        }
 
         if (url === "javascript:void(0)" || url === "#") {
-            url = "";
+            return false;
+        } else {
+            return url;
         }
 
-        if (url) {
-            return url;
-        } else {
-            return false;
-        }
     }
 
     return {
