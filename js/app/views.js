@@ -70,6 +70,7 @@ APP.views = (function () {
 
             },
             success: function(response){
+
                 var page = view.find(".js-content");
 
                 clearTimeout(timeoutToken);
@@ -79,7 +80,6 @@ APP.views = (function () {
             },
             error: function(xhr, type){
 
-                APP.loader.hide();
             },
             complete: function() {
 

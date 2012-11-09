@@ -48,9 +48,11 @@ APP.util = (function () {
             url = elem.attr("href");
         }
 
-        if (url === "javascript:void(0)" || url === "#") {
+        if (url.substring(0,10) === "javascript" || url === "#") {
+
             return false;
         } else {
+
             return url;
         }
 
