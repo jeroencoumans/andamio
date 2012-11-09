@@ -12,14 +12,22 @@ APP.loader = (function () {
      */
     function show() {
 
-        var img = $("#loader").find("img");
+        html.addClass("has-loader");
 
-        if (!img.attr("src")) {
-            img.attr("src", img.data("img-src"));
+        if ($.supports.cordova) {
+
+            navigator.spinner.show({"message": "Laden..."});
+        } else {
+
+            var img = $("#loader").find("img");
+
+            if (!img.attr("src")) {
+                img.attr("src", img.data("img-src"));
+            }
+
+            loader.show();
         }
 
-        html.addClass("has-loader");
-        loader.show();
     }
 
     /**
@@ -28,7 +36,14 @@ APP.loader = (function () {
     function hide() {
 
         html.removeClass("has-loader");
-        loader.hide();
+
+        if ($.supports.cordova) {
+
+            navigator.spinner.hide();
+        } else {
+
+            loader.hide();
+        }
     }
 
     /**

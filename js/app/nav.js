@@ -83,11 +83,12 @@ APP.nav = (function () {
         /*** TODO - page navigation stub ***/
         APP.events.attachClickHandler(".action-nav-item", function (event) {
 
-            var target = $(event.target),
+            var target = $(event.target).closest(".action-nav-item"),
                 url = APP.util.getUrl(target),
                 title = target.text();
 
             if (url) {
+
                 // set active class
                 pageNavActive.removeClass("navigation-item-active");
                 pageNavActive = target.addClass("navigation-item-active");
@@ -96,7 +97,6 @@ APP.nav = (function () {
 
                 // set page title
                 APP.views.parentView().find(".js-title").text(title);
-
                 APP.views.loadPage(url, APP.views.parentView());
             }
         });
