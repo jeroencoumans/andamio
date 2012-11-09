@@ -17,7 +17,7 @@ APP.tabs = (function () {
         /*** TODO - page tab stub ***/
         APP.events.attachClickHandler(".action-tab-item", function (event) {
 
-            var target = $(event.target),
+            var target = $(event.target).closest(".action-tab-item"),
                 title = target.text(),
                 url = APP.util.getUrl(target);
 
