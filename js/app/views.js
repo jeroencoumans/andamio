@@ -8,28 +8,24 @@ APP.views = (function () {
         parentView,
         childView;
 
-    /**
-     * Attach event listeners
-     */
-    function attachListeners() {
+     /**
+      * Forward animation
+      */
+    function forwardAnimation() {
 
-        /*** TODO - Open page stub ***/
-        APP.events.attachClickHandler(".action-push", function (event) {
+        childView.removeClass("view-hidden").addClass("active-view");
+        parentView.addClass("view-hidden").removeClass("active-view");
+        html.addClass("has-childview");
+    }
 
-            var target = $(event.target).closest(".action-push");
-            var title = target.text();
-            var url = APP.util.getUrl(target);
+     /**
+      * Forward animation
+      */
+    function backwardAnimation() {
 
-            if (url) {
-                openChildPage(url, title);
-            }
-        });
-
-        /*** TODO - Go back stub ***/
-        APP.events.attachClickHandler(".action-pop", function (event) {
-
-            openParentPage();
-        });
+        childView.addClass("view-hidden").removeClass("active-view");
+        parentView.removeClass("view-hidden").addClass("active-view");
+        html.removeClass("has-childview");
     }
 
     /**
@@ -69,10 +65,9 @@ APP.views = (function () {
             },
             error: function(xhr, type){
 
-                console.log(xhr);
-                console.log(type);
+                APP.loader.hide();
             },
-            complete: function(xhr, status) {
+            complete: function() {
 
                 APP.loader.hide();
             }
@@ -118,24 +113,36 @@ APP.views = (function () {
         backwardAnimation();
     }
 
-     /**
-      * Forward animation
-      */
-    function forwardAnimation() {
+    /**
+     * Attach event listeners
+     */
+    function attachListeners() {
 
-        childView.removeClass("view-hidden").addClass("active-view");
-        parentView.addClass("view-hidden").removeClass("active-view");
-        html.addClass("has-childview");
-    }
+        /*** TODO - Open page stub ***/
+        APP.events.attachClickHandler(".action-push", function (event) {
 
-     /**
-      * Forward animation
-      */
-    function backwardAnimation() {
+            var target = $(event.target).closest(".action-push"),
+                title = target.text(),
+                url = APP.util.getUrl(target);
 
-        childView.addClass("view-hidden").removeClass("active-view");
-        parentView.removeClass("view-hidden").addClass("active-view");
-        html.removeClass("has-childview");
+            if (url) {
+                openChildPage(url, title);
+            }
+        });
+
+        /*** TODO - Go back stub ***/
+        APP.events.attachClickHandler(".action-pop", function (event) {
+
+            var target = $(event.target).closest(".action-pop"),
+                title = target.text(),
+                url = APP.util.getUrl(target);
+
+            if (url) {
+                openParentPage(url, title);
+            } else {
+                openParentPage();
+            }
+        });
     }
 
     /***
