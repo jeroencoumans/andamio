@@ -4,7 +4,9 @@
 APP.tabs = (function () {
 
     // Variables
-    var parentView,
+    var html,
+        parentView,
+        pageTabs,
         pageTabActive;
 
     /**
@@ -29,19 +31,41 @@ APP.tabs = (function () {
         });
     }
 
+    function show() {
+
+        html.addClass("has-tabs");
+        pageTabs.show();
+    }
+
+    function hide() {
+
+        html.removeClass("has-tabs");
+        pageTabs.hide();
+    }
+
+    function status() {
+
+        return html.hasClass("has-tabs") ? true : false;
+    }
+
     /***
      * Initialize variables and attach listeners
      */
     function init() {
 
+        html = $("html");
         parentView = $("#parent-view");
+        pageTabs = $("#page-tabs");
         pageTabActive = $("#page-tabs .tab-item-active");
 
         attachListeners();
     }
 
     return {
-        "init": init
+        "init": init,
+        "show": show,
+        "hide": hide,
+        "status": status
     };
 
 })();
