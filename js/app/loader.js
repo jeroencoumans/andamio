@@ -31,9 +31,18 @@ APP.loader = (function () {
         loader.hide();
     }
 
+    /**
+     * Returns wether the loader is active or not
+     */
+    function status() {
+
+        return html.hasClass("has-loader") ? true : false;
+    }
+
     return {
         "show": show,
-        "hide": hide
+        "hide": hide,
+        "status": status
     };
 
 })();
