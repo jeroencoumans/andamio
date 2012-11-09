@@ -262,7 +262,7 @@
                     if (response.albums) {
                         loadAlbums(id);
                     } else {
-                        APP.core.hideLoader();
+                        APP.loader.hide();
                     }
                 });
             }
@@ -287,7 +287,7 @@
                     parentView.append(albums);
                 });
 
-                APP.core.hideLoader();
+                APP.loader.hide();
 
             }
 
@@ -343,8 +343,8 @@
                 modalTitle.text(targetAlbumName);
                 swipeElem.empty();
 
-                APP.modal.openModal();
-                APP.core.showLoader();
+                APP.modal.show();
+                APP.loader.show();
 
                 FB.api(targetAlbumId + "/photos", function(response) {
 
@@ -383,7 +383,7 @@
                         }
                     });
 
-                    APP.core.hideLoader();
+                    APP.loader.hide();
                 });
             });
 
@@ -404,7 +404,7 @@
                 APP.core.openParentPage();
                 showProfile(targetUserId);
 
-                APP.core.hideLoader();
+                APP.loader.hide();
 
             });
         });

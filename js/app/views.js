@@ -5,16 +5,38 @@ APP.views = (function () {
 
     // Variables
     var html,
-        parentView,
-        childView;
+        page,
+        parent,
+        child;
+
+    // Export these elements for other modules
+    function parentView() {
+
+        return parent;
+    }
+
+    function childView() {
+
+        return child;
+    }
+
+    function pageView() {
+
+        return page;
+    }
+
+    function hasChildView() {
+
+        return html.hasClass("has-childview") ? true : false;
+    }
 
      /**
       * Forward animation
       */
     function forwardAnimation() {
 
-        childView.removeClass("view-hidden").addClass("active-view");
-        parentView.addClass("view-hidden").removeClass("active-view");
+        child.removeClass("view-hidden").addClass("active-view");
+        parent.addClass("view-hidden").removeClass("active-view");
         html.addClass("has-childview");
     }
 
@@ -23,20 +45,20 @@ APP.views = (function () {
       */
     function backwardAnimation() {
 
-        childView.addClass("view-hidden").removeClass("active-view");
-        parentView.removeClass("view-hidden").addClass("active-view");
+        child.addClass("view-hidden").removeClass("active-view");
+        parent.removeClass("view-hidden").addClass("active-view");
         html.removeClass("has-childview");
     }
 
     /**
      * Do an AJAX request and insert it into a view
      * - url: the URL to call
-     * - view: what page to insert the content int (childView, parentView or modalView)
+     * - view: what page to insert the content int (child, parent or modal)
      */
      function loadPage(url, view) {
 
         // make sure to open the parent
-        if (html.hasClass("has-childview") && view === parentView) {
+        if (hasChildView() && view === parent) {
 
             backwardAnimation();
         }
@@ -79,14 +101,14 @@ APP.views = (function () {
      */
     function openChildPage(url, title) {
 
-        childView.find(".js-content").html("");
+        child.find(".js-content").html("");
 
         if (url) {
-            loadPage(url, childView);
+            loadPage(url, child);
         }
 
         if (title) {
-            childView.find(".js-title").text(title);
+            child.find(".js-title").text(title);
         }
 
         forwardAnimation();
@@ -97,17 +119,17 @@ APP.views = (function () {
      */
     function openParentPage(url, title) {
 
-        if (html.hasClass("has-childview")) {
+        if (hasChildView()) {
 
             backwardAnimation();
         }
 
         if (url) {
-            loadPage(url, parentView);
+            loadPage(url, parent);
         }
 
         if (title) {
-            parentView.find(".js-title").text(title);
+            parent.find(".js-title").text(title);
         }
 
         backwardAnimation();
@@ -151,16 +173,21 @@ APP.views = (function () {
     function init() {
 
         html = $("html");
-        parentView = $("#parent-view");
-        childView = $("#child-view");
+        page = $("#page-view");
+        parent = $("#parent-view");
+        child = $("#child-view");
 
         attachListeners();
     }
 
     return {
         "init": init,
+        "pageView": pageView,
+        "parentView": parentView,
+        "childView": childView,
         "openChildPage": openChildPage,
         "openParentPage": openParentPage,
+        "hasChildView": hasChildView,
         "loadPage": loadPage
     };
 

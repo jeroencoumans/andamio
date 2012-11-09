@@ -5,7 +5,6 @@ APP.nav = (function () {
 
     // Variables
     var html,
-        parentView,
         pageNav,
         pageNavItems,
         pageNavActive,
@@ -16,13 +15,56 @@ APP.nav = (function () {
 
 
     /**
+     * Sets height of content based on height of navigation
+     */
+    function toggleHeight() {
+
+        if (windowHeight > navigationHeight) {
+            navigationHeight = windowHeight;
+            pageNav.height(navigationHeight);
+        }
+
+        if (status()) {
+            viewport.height(navigationHeight);
+            pageContent.height(navigationHeight);
+        } else {
+            viewport.height("");
+            pageContent.height("");
+        }
+    }
+
+    /**
+     * Shows the navigation
+     */
+    function show() {
+
+        html.addClass("has-navigation");
+    }
+
+    /**
+     * Hides the navigation
+     */
+    function hide() {
+
+        html.removeClass("has-navigation");
+    }
+
+    /**
+     * Returns the status of the navigation
+     */
+    function status() {
+
+        return html.hasClass("has-navigation") ? true : false;
+    }
+
+    /**
      * Attach event listeners
      */
     function attachListeners() {
 
         /*** Menu button ***/
         APP.events.attachClickHandler(".action-navigation", function (event) {
-            showNavigation();
+            show();
 
             if (!$.supports.webapp) {
                 toggleHeight();
@@ -31,7 +73,7 @@ APP.nav = (function () {
 
         /*** Hide menu when it's open ***/
         APP.events.attachClickHandler(".action-hide-navigation", function (event) {
-            hideNavigation();
+            hide();
 
             if (!$.supports.webapp) {
                 toggleHeight();
@@ -50,59 +92,15 @@ APP.nav = (function () {
                 pageNavActive.removeClass("navigation-item-active");
                 pageNavActive = target.addClass("navigation-item-active");
 
-                hideNavigation();
+                hide();
 
                 // set page title
-                parentView.find(".action-page-title").text(title);
+                APP.views.parentView().find(".js-title").text(title);
 
-                APP.views.loadPage(url, parentView);
+                APP.views.loadPage(url, APP.views.parentView());
             }
         });
     }
-
-    /**
-     * Sets height of content based on height of navigation
-     */
-    function toggleHeight() {
-
-        if (windowHeight > navigationHeight) {
-            navigationHeight = windowHeight;
-            pageNav.height(navigationHeight);
-        }
-
-        if (hasNavigation()) {
-            viewport.height(navigationHeight);
-            pageContent.height(navigationHeight);
-        } else {
-            viewport.height("");
-            pageContent.height("");
-        }
-    }
-
-    /**
-     * Shows the navigation
-     */
-    function showNavigation() {
-
-        html.addClass("has-navigation");
-    }
-
-    /**
-     * Hides the navigation
-     */
-    function hideNavigation() {
-
-        html.removeClass("has-navigation");
-    }
-
-    /**
-     * Returns the status of the navigation
-     */
-    function hasNavigation() {
-
-        return html.hasClass("has-navigation") ? true : false;
-    }
-
 
     /***
      * Initialize capabilities and attach listeners
@@ -116,7 +114,6 @@ APP.nav = (function () {
         pageContent = $(".page-view");
         html = $("html");
 
-        parentView = $("#parent-view");
         pageNav = $("#page-navigation");
         pageNavItems = pageNav.find(".action-nav-item");
         pageNavActive = pageNav.find(".navigation-item-active");
@@ -126,9 +123,9 @@ APP.nav = (function () {
 
     return {
         "init": init,
-        "showNavigation": showNavigation,
-        "hideNavigation": hideNavigation,
-        "hasNavigation": hasNavigation
+        "show": show,
+        "hide": hide,
+        "status": status
     };
 
 })();

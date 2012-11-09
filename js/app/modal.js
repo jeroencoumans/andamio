@@ -5,8 +5,6 @@ APP.modal = (function () {
 
     // Variables
     var html,
-        pageView,
-        childView,
         modalView;
 
     /**
@@ -17,40 +15,40 @@ APP.modal = (function () {
         /*** TODO - modal stub ***/
         APP.events.attachClickHandler(".action-modal", function (event) {
 
-            openModal();
+            show();
         });
 
         /*** TODO - modal stub ***/
         APP.events.attachClickHandler(".action-close-modal", function (event) {
 
-            closeModal();
+            hide();
         });
     }
 
     /**
      * Opens the modal view
      */
-    function openModal() {
+    function show() {
 
         html.addClass("has-modalview");
-        pageView.addClass("view-hidden");
+        APP.views.pageView().addClass("view-hidden");
         modalView.removeClass("view-hidden");
     }
 
     /**
      * Hides the modal view
      */
-    function closeModal() {
+    function hide() {
 
         html.removeClass("has-modalview");
-        pageView.removeClass("view-hidden");
+        APP.views.pageView().removeClass("view-hidden");
         modalView.addClass("view-hidden");
     }
 
     /**
      * Returns the status of the modal view
      */
-    function hasModal() {
+    function status() {
 
         return html.hasClass("has-modalview") ? true : false;
     }
@@ -62,7 +60,6 @@ APP.modal = (function () {
 
         loader = $("#loader");
         html = $("html");
-        pageView = $("#page-view");
         modalView = $("#modal-view");
 
         attachListeners();
@@ -70,9 +67,9 @@ APP.modal = (function () {
 
     return {
         "init": init,
-        "openModal": openModal,
-        "closeModal": closeModal,
-        "hasModal": hasModal
+        "show": show,
+        "hide": hide,
+        "status": status
     };
 
 })();
