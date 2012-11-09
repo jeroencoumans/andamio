@@ -5,32 +5,23 @@ APP.nav = (function () {
 
     // Variables
     var html,
+        body,
         pageNav,
         pageNavItems,
         pageNavActive,
         navigationHeight,
-        viewport,
         windowHeight,
-        pageContent;
+        pageView;
 
 
     /**
      * Sets height of content based on height of navigation
      */
-    function toggleHeight() {
+    function setPageHeight(height) {
 
-        if (windowHeight > navigationHeight) {
-            navigationHeight = windowHeight;
-            pageNav.height(navigationHeight);
-        }
-
-        if (status()) {
-            viewport.height(navigationHeight);
-            pageContent.height(navigationHeight);
-        } else {
-            viewport.height("");
-            pageContent.height("");
-        }
+        // if navigation is enabled, set the page height to navigation height
+        body.height(height);
+        pageView.height(height);
     }
 
     /**
@@ -39,6 +30,10 @@ APP.nav = (function () {
     function show() {
 
         html.addClass("has-navigation");
+
+        if (!$.supports.webapp) {
+            setPageHeight(navigationHeight);
+        }
     }
 
     /**
@@ -47,6 +42,10 @@ APP.nav = (function () {
     function hide() {
 
         html.removeClass("has-navigation");
+
+        if (!$.supports.webapp) {
+            setPageHeight("");
+        }
     }
 
     /**
@@ -64,20 +63,14 @@ APP.nav = (function () {
 
         /*** Menu button ***/
         APP.events.attachClickHandler(".action-navigation", function (event) {
-            show();
 
-            if (!$.supports.webapp) {
-                toggleHeight();
-            }
+            show();
         });
 
         /*** Hide menu when it's open ***/
         APP.events.attachClickHandler(".action-hide-navigation", function (event) {
-            hide();
 
-            if (!$.supports.webapp) {
-                toggleHeight();
-            }
+            hide();
         });
 
         /*** TODO - page navigation stub ***/
@@ -110,13 +103,19 @@ APP.nav = (function () {
         windowHeight = $(window).height();
         navigationHeight = $("#page-navigation").height();
 
-        viewport = $(".viewport");
-        pageContent = $(".page-view");
+        body = $("body");
+        pageView = $("#page-view");
         html = $("html");
 
         pageNav = $("#page-navigation");
         pageNavItems = pageNav.find(".action-nav-item");
         pageNavActive = pageNav.find(".navigation-item-active");
+
+        // make sure the navigation is as high as the page
+        if (windowHeight > navigationHeight) {
+            navigationHeight = windowHeight;
+            pageNav.height(navigationHeight);
+        }
 
         attachListeners();
     }
