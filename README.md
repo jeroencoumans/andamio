@@ -58,11 +58,5 @@ so you can include those in your templates.
 Just run the following command in the andamio directory:
 <code>grunt watch</code>
 
-Creating a production build of the CSS is done by the following command:
-<code>grunt recess:dist</code>
-
-Creating a production build of the JS is done by the following command:
-<code>grunt concat min</code>
-
-You can also combine these to 1 command:
-<code>grunt recess:dist concat min</code>
+The default taks is to create development and production files:
+<code>grunt</code>
