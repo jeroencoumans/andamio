@@ -89,6 +89,11 @@ APP.views = (function () {
         /*** Open parent page ***/
         APP.events.attachClickHandler(".action-pop", function (event) {
 
+            // Stop loader if one was already being displayed
+            if (APP.loader.status) {
+                APP.loader.hide();
+            }
+
             var target = $(event.target).closest(".action-pop"),
                 title = target.text(),
                 url = APP.util.getUrl(target);
