@@ -17,7 +17,7 @@
             <div class="page-header">
                 <a href="/" class="page-logo js-title">Patterns</a>
                 <a href="javascript:void(0);" class="button-header-wrapper action-navigation"><span class="button-header">Menu</span></a>
-                <a href="javascript:void(0);" class="button-header-wrapper-alternate action-modal"><span class="button-header">Info</span></a>
+                <a href="javascript:void(0);" class="button-header-wrapper-alternate action-open-modal"><span class="button-header">Info</span></a>
             </div>
 
             <div class="page-content overthrow js-content">
@@ -126,7 +126,7 @@
 
             // Seed parent-view
             var parentView = $("#parent-view");
-            APP.views.loadPage("style/page/page.html", parentView);
+            APP.open.page("style/page/page.html", parentView);
         });
     </script>
 </body>

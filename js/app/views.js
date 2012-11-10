@@ -11,8 +11,8 @@ APP.views = (function () {
 
     // Export these elements for other modules
     function parentView() { return parent; }
-    function childView() { return child; }
-    function pageView() { return page; }
+    function childView()  { return child;  }
+    function pageView()   { return page;   }
 
     /**
      * Returns wether the childview is active or not
@@ -42,51 +42,6 @@ APP.views = (function () {
         html.removeClass("has-childview");
     }
 
-    /**
-     * Do an AJAX request and insert it into a view
-     * - url: the URL to call
-     * - view: what page to insert the content int (child, parent or modal)
-     */
-    function loadPage(url, view) {
-
-        // make sure to open the parent
-        if (hasChildView() && view === parent) {
-
-            backwardAnimation();
-        }
-
-        var timeoutToken = null;
-        $.ajax({
-            url: url,
-            timeout: 10000,
-            headers: { "X-PJAX": true },
-            beforeSend: function(xhr, settings) {
-
-                // show loader if nothing is shown within 0,5 seconds
-                timeoutToken = setTimeout(function() {
-                    APP.loader.show();
-
-                }, 500);
-
-            },
-            success: function(response){
-
-                var page = view.find(".js-content");
-
-                clearTimeout(timeoutToken);
-
-                $(page).html(response);
-                $.scrollElement($(page).get(0), 0);
-            },
-            error: function(xhr, type){
-
-            },
-            complete: function() {
-
-                APP.loader.hide();
-            }
-        });
-     }
 
     /**
      * Opens child page
@@ -96,7 +51,7 @@ APP.views = (function () {
         child.find(".js-content").html("");
 
         if (url) {
-            loadPage(url, child);
+            APP.open.page(url, child);
         }
 
         if (title) {
@@ -116,7 +71,7 @@ APP.views = (function () {
         }
 
         if (url) {
-            loadPage(url, parent);
+            APP.open.page(url, parent);
         }
 
         if (title) {
@@ -180,8 +135,7 @@ APP.views = (function () {
         "childView": childView,
         "openChildPage": openChildPage,
         "openParentPage": openParentPage,
-        "hasChildView": hasChildView,
-        "loadPage": loadPage
+        "hasChildView": hasChildView
     };
 
 })();

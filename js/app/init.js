@@ -24,20 +24,6 @@ APP.core = (function () {
         $.supports.ftfastclick = $.os.ios;
     }
 
-    /**
-     * Attach Cordova listeners
-     */
-    function attachCordovaListeners() {
-
-        // scroll to top on tapbar tap
-        document.addEventListener("statusbartap", function() {
-
-            var pageScroller = $(".active-view .overthrow");
-            $.scrollElement(pageScroller.get(0), 0);
-
-        });
-    }
-
     /***
      * Initialize capabilities and attach listeners
      */
@@ -45,10 +31,6 @@ APP.core = (function () {
         var html = $("html");
 
         initCapabilities();
-
-        if ($.supports.cordova) {
-            attachCordovaListeners();
-        }
 
         // When used as standalone app or springboard app
         if ($.supports.webapp) {
@@ -63,6 +45,10 @@ APP.core = (function () {
         // TODO - Lazy media query
         if (document.width >= 980) {
             html.removeClass("website").addClass("webapp desktop no-touch");
+        }
+
+        if ($.supports.cordova) {
+            APP.native.init();
         }
 
         APP.events.init();

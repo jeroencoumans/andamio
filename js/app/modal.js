@@ -41,7 +41,7 @@ APP.modal = (function () {
     function attachListeners() {
 
         /*** TODO - modal stub ***/
-        APP.events.attachClickHandler(".action-modal", function (event) {
+        APP.events.attachClickHandler(".action-open-modal", function (event) {
 
             show();
         });

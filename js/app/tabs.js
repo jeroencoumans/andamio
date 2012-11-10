@@ -42,7 +42,7 @@ APP.tabs = (function () {
                 pageTabActive.removeClass("tab-item-active");
                 pageTabActive = target.addClass("tab-item-active");
 
-                APP.views.loadPage(url, parentView);
+                APP.page.load(url, parentView);
             }
         });
     }

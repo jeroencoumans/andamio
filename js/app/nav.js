@@ -90,7 +90,7 @@ APP.nav = (function () {
 
                 // set page title
                 APP.views.parentView().find(".js-title").text(title);
-                APP.views.loadPage(url, APP.views.parentView());
+                APP.open.page(url, APP.views.parentView());
             }
         });
     }
