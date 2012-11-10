@@ -1,5 +1,5 @@
 /**
- * Module that encapsulates all behaviour for browsing with pjax.
+ * Module that enhances the webapp with Cordova functionality
  */
 APP.phone = (function () {
 
@@ -42,8 +42,6 @@ APP.phone = (function () {
     }
 
     return {
-        "init": init,
-        "navigateTo": navigateTo,
-        "refreshCurrentPage": refreshCurrentPage
+        "init": init
     };
 })();

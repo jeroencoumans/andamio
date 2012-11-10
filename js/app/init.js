@@ -48,7 +48,7 @@ APP.core = (function () {
         }
 
         if ($.supports.cordova) {
-            APP.native.init();
+            APP.phone.init();
         }
 
         APP.events.init();

@@ -25,7 +25,7 @@ module.exports = function(grunt) {
                     'js/lib/fastclick.js',
                     'js/app/globals.js',
                     'js/app/util.js',
-                    'js/app/native.js',
+                    'js/app/phone.js',
                     'js/app/events.js',
                     'js/app/loader.js',
                     'js/app/open.js',
