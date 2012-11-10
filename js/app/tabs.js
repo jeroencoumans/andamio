@@ -1,5 +1,5 @@
 /**
- * Core module for handling events and initializing capabilities
+ * Module for using tabs
  */
 APP.tabs = (function () {
 
@@ -55,7 +55,7 @@ APP.tabs = (function () {
         html = $("html");
         parentView = $("#parent-view");
         pageTabs = $("#page-tabs");
-        pageTabActive = $("#page-tabs .tab-item-active");
+        pageTabActive = pageTabs.find(".tab-item-active");
 
         attachListeners();
     }

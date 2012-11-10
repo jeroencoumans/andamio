@@ -1,11 +1,14 @@
 /**
- * Core module for handling events and initializing capabilities
+ * Module for dealing with modals
  */
 APP.modal = (function () {
 
     // Variables
     var html,
-        modalView;
+        modal;
+
+    // Export these elements for other modules
+    function modalView() { return modal; }
 
     /**
      * Opens the modal view
@@ -14,7 +17,7 @@ APP.modal = (function () {
 
         html.addClass("has-modalview");
         APP.views.pageView().addClass("view-hidden");
-        modalView.removeClass("view-hidden");
+        modal.removeClass("view-hidden");
     }
 
     /**
@@ -24,7 +27,7 @@ APP.modal = (function () {
 
         html.removeClass("has-modalview");
         APP.views.pageView().removeClass("view-hidden");
-        modalView.addClass("view-hidden");
+        modal.addClass("view-hidden");
     }
 
     /**
@@ -40,14 +43,30 @@ APP.modal = (function () {
      */
     function attachListeners() {
 
-        /*** TODO - modal stub ***/
+        /**
+         * Open modal
+         * - if data-url is specified, it will be loaded into the modal content
+         * - otherwise, if href has a URL, it will be loaded into the modal content
+         * - if the action has text, it will be used as the title
+         */
         APP.events.attachClickHandler(".action-open-modal", function (event) {
 
+            var target = $(event.target).closest(".action-open-modal"),
+                url = APP.util.getUrl(target),
+                title = target.text();
+
             show();
+
+            if (url) {
+
+                // set page title
+                modal.find(".js-title").text(title);
+                APP.open.page(url, modal);
+            }
         });
 
-        /*** TODO - modal stub ***/
-        APP.events.attachClickHandler(".action-close-modal", function (event) {
+        /*** Close modal ***/
+        APP.events.attachClickHandler(".action-close-modal", function () {
 
             hide();
         });
@@ -58,15 +77,15 @@ APP.modal = (function () {
      */
     function init() {
 
-        loader = $("#loader");
         html = $("html");
-        modalView = $("#modal-view");
+        modal = $("#modal-view");
 
         attachListeners();
     }
 
     return {
         "init": init,
+        "modalView": modalView,
         "show": show,
         "hide": hide,
         "status": status

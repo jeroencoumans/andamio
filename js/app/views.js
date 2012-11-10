@@ -1,5 +1,5 @@
 /**
- * Core module for handling events and initializing capabilities
+ * Module for handling views
  */
 APP.views = (function () {
 

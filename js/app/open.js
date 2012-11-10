@@ -1,5 +1,5 @@
 /**
- * Do an AJAX request and insert it into a view
+ * Wrapper for doing an AJAX request
  */
 APP.open = (function () {
 
