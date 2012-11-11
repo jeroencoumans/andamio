@@ -81,6 +81,12 @@ APP.views = (function () {
         backwardAnimation();
     }
 
+    function refresh() {
+        if (! hasChildView) {
+            window.location.reload();
+        }
+    }
+
     /**
      * Attach event listeners
      */
@@ -135,6 +141,7 @@ APP.views = (function () {
 
     return {
         "init": init,
+        "refresh": refresh,
         "pageView": pageView,
         "parentView": parentView,
         "childView": childView,
