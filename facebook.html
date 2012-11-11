@@ -185,16 +185,18 @@
     <!-- end templates -->
 
 <script>
-$(document).ready(function() {
-    APP.core.init();
+
+/**
+ * Module for loading Facebook profile & album data
+ */
+APP.facebook = (function () {
 
     // Variables
-    var pageNav = $("#page-navigation"),
-        pageNavActive = pageNav.find(".navigation-item-active"),
-        parentView = $("#parent-view .page-content"),
-        swipeElem = $("#swipeview"),
-        modalTitle = $("#modal-view .page-logo");
-
+    var pageNav,
+        pageNavActive,
+        parentView,
+        swipeElem,
+        modalTitle;
 
     /**
      * Sort a list alphabetically
@@ -210,8 +212,8 @@ $(document).ready(function() {
      */
     function getTemplate(template, data) {
 
-        var template = $(template).html(),
-            compile  = Handlebars.compile(template),
+        var temp     = $(template).html(),
+            compile  = Handlebars.compile(temp),
             context  = data,
             result   = compile(context);
 
@@ -244,7 +246,6 @@ $(document).ready(function() {
 
             APP.loader.hide();
         });
-
     }
 
     /**
@@ -307,106 +308,7 @@ $(document).ready(function() {
 
             pageNav.append(result);
         });
-    };
-
-    /**
-     * Attach event listeners
-     */
-
-    // login
-    APP.events.attachClickHandler(".action-login", function (event) {
-        FB.login(null, {scope: 'email,read_friendlists,user_photos,friends_photos'});
-    });
-
-    // logout
-    APP.events.attachClickHandler(".action-logout", function (event) {
-        FB.logout(function(response) {
-            window.location.reload();
-        });
-    });
-
-    // open modal with all photo's
-    APP.events.attachClickHandler(".action-album-photos", function (event) {
-        var targetAlbum = $(event.target).closest(".action-album-photos"),
-            targetAlbumName = targetAlbum.text(),
-            targetAlbumId = targetAlbum.data("photo-id");
-
-        modalTitle.text(targetAlbumName);
-        swipeElem.empty();
-
-        APP.modal.show();
-        APP.loader.show();
-
-        FB.api(targetAlbumId + "/photos", function(response) {
-
-            var photos   = response.data,
-                source   = $("#fb-photo-item").html(),
-                template = Handlebars.compile(source),
-                context  = photos,
-                slides   = [],
-                carousel;
-
-            for (var i=0; i < photos.length; i++) {
-                slides[i] = template(photos[i]);
-            }
-
-            carousel = new SwipeView('#swipeview', {
-                numberOfPages: photos.length,
-                hastyPageFlip: true
-            });
-
-            // Load initial data
-            for (var i=0; i<3; i++) {
-                page = i==0 ? slides.length-1 : i-1;
-                $(slides[page]).appendTo(carousel.masterPages[i]);
-            }
-
-            carousel.onFlip(function () {
-                var el,
-                    upcoming;
-
-                for (var i=0; i<3; i++) {
-                    upcoming = carousel.masterPages[i].dataset.upcomingPageIndex;
-
-                    if (upcoming != carousel.masterPages[i].dataset.pageIndex) {
-                        carousel.masterPages[i].innerHTML = slides[upcoming];
-                    }
-                }
-            });
-
-            APP.loader.hide();
-        });
-    });
-
-    // load friend profile
-    APP.events.attachClickHandler(".action-user", function (event) {
-
-        var targetUser = $(event.target);
-        var targetUserId = targetUser.closest(".action-user").data("user-id");
-
-        // set active class
-        pageNavActive.removeClass("navigation-item-active");
-        pageNavActive = targetUser.addClass("navigation-item-active");
-
-        APP.nav.hide();
-
-        // open child page
-        APP.views.openParentPage();
-        showProfile(targetUserId);
-
-    });
-
-
-    // initialise Facebook API
-    window.fbAsyncInit = function() {
-        FB.init({
-            appId      : '497899636895210', // App ID
-            status     : true, // check login status
-            cookie     : true // enable cookies to allow the server to access the session
-        });
-
-        FB.Event.subscribe('auth.statusChange', handleStatusChange);
-    };
+    }
 
     // Get login and initial data
     function handleStatusChange(response) {
@@ -418,9 +320,136 @@ $(document).ready(function() {
 
             showProfile('me');
             loadFriends();
-        };
+        }
     }
 
+    /**
+     * Attach event listeners
+     */
+    function attachListeners() {
+
+        // login
+        APP.events.attachClickHandler(".action-login", function () {
+            FB.login(null, {scope: 'email,read_friendlists,user_photos,friends_photos'});
+        });
+
+        // logout
+        APP.events.attachClickHandler(".action-logout", function () {
+            FB.logout(function() {
+                window.location.reload();
+            });
+        });
+
+        // open modal with all photo's
+        APP.events.attachClickHandler(".action-album-photos", function (event) {
+            var targetAlbum = $(event.target).closest(".action-album-photos"),
+                targetAlbumName = targetAlbum.text(),
+                targetAlbumId = targetAlbum.data("photo-id");
+
+            modalTitle.text(targetAlbumName);
+            swipeElem.empty();
+
+            APP.modal.show();
+            APP.loader.show();
+
+            FB.api(targetAlbumId + "/photos", function(response) {
+
+                var photos   = response.data,
+                    source   = $("#fb-photo-item").html(),
+                    template = Handlebars.compile(source),
+                    context  = photos,
+                    slides   = [],
+                    i,
+                    page,
+                    carousel;
+
+                for (i=0; i < photos.length; i++) {
+                    slides[i] = template(photos[i]);
+                }
+
+                carousel = new SwipeView('#swipeview', {
+                    numberOfPages: photos.length,
+                    hastyPageFlip: true
+                });
+
+                // Load initial data
+                for (i=0; i<3; i++) {
+                    page = i === 0 ? slides.length-1 : i-1;
+                    $(slides[page]).appendTo(carousel.masterPages[i]);
+                }
+
+                carousel.onFlip(function () {
+                    var upcoming;
+
+                    for (i=0; i<3; i++) {
+                        upcoming = carousel.masterPages[i].dataset.upcomingPageIndex;
+
+                        if (upcoming != carousel.masterPages[i].dataset.pageIndex) {
+                            carousel.masterPages[i].innerHTML = slides[upcoming];
+                        }
+                    }
+                });
+
+                APP.loader.hide();
+            });
+        });
+
+        // load friend profile
+        APP.events.attachClickHandler(".action-user", function (event) {
+
+            var targetUser = $(event.target);
+            var targetUserId = targetUser.closest(".action-user").data("user-id");
+
+            // set active class
+            pageNavActive.removeClass("navigation-item-active");
+            pageNavActive = targetUser.addClass("navigation-item-active");
+
+            APP.nav.hide();
+
+            // open child page
+            APP.views.openParentPage();
+            showProfile(targetUserId);
+
+        });
+
+    }
+
+    /***
+     * Initialize capabilities and attach listeners
+     */
+    function init() {
+        // Assign variables
+        pageNav = $("#page-navigation");
+        pageNavActive = pageNav.find(".navigation-item-active");
+        parentView = $("#parent-view .page-content");
+        swipeElem = $("#swipeview");
+        modalTitle = $("#modal-view .page-logo");
+
+        // initialise Facebook API
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : '497899636895210', // App ID
+                status     : true, // check login status
+                cookie     : true // enable cookies to allow the server to access the session
+            });
+
+            FB.Event.subscribe('auth.statusChange', handleStatusChange);
+        };
+
+        attachListeners();
+    }
+
+    return {
+        "init": init,
+        "loadAlbums": loadAlbums,
+        "showProfile": showProfile
+    };
+
+})();
+
+$(document).ready(function() {
+    APP.core.init();
+    APP.facebook.init();
 });
 </script>
 </body>
