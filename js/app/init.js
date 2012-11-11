@@ -47,15 +47,15 @@ APP.core = (function () {
             html.removeClass("website").addClass("webapp desktop no-touch");
         }
 
-        if ($.supports.cordova) {
-            APP.phone.init();
-        }
-
         APP.events.init();
         APP.nav.init();
         APP.modal.init();
         APP.tabs.init();
         APP.views.init();
+
+        if ($.supports.cordova) {
+            APP.phone.init();
+        }
     }
 
     return {
