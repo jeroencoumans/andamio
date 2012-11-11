@@ -62,13 +62,13 @@ APP.nav = (function () {
     function attachListeners() {
 
         /*** Menu button ***/
-        APP.events.attachClickHandler(".action-navigation", function (event) {
+        APP.events.attachClickHandler(".action-open-nav", function (event) {
 
             show();
         });
 
         /*** Hide menu when it's open ***/
-        APP.events.attachClickHandler(".action-hide-navigation", function (event) {
+        APP.events.attachClickHandler(".action-hide-nav", function (event) {
 
             hide();
         });
