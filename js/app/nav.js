@@ -7,6 +7,7 @@ APP.nav = (function () {
     var html,
         body,
         pageNav,
+        pageNavToggle,
         pageNavItems,
         pageNavActive,
         navigationHeight,
@@ -30,6 +31,7 @@ APP.nav = (function () {
     function show() {
 
         html.addClass("has-navigation");
+        pageNavToggle.addClass("active");
 
         if (!$.supports.webapp) {
             setPageHeight(navigationHeight);
@@ -42,6 +44,7 @@ APP.nav = (function () {
     function hide() {
 
         html.removeClass("has-navigation");
+        pageNavToggle.removeClass("active");
 
         if (!$.supports.webapp) {
             setPageHeight("");
@@ -62,13 +65,13 @@ APP.nav = (function () {
     function attachListeners() {
 
         /*** Menu button ***/
-        APP.events.attachClickHandler(".action-open-nav", function (event) {
+        APP.events.attachClickHandler(".action-open-nav", function () {
 
             show();
         });
 
         /*** Hide menu when it's open ***/
-        APP.events.attachClickHandler(".action-hide-nav", function (event) {
+        APP.events.attachClickHandler(".action-hide-nav", function () {
 
             hide();
         });
@@ -108,6 +111,7 @@ APP.nav = (function () {
         html = $("html");
 
         pageNav = $("#page-navigation");
+        pageNavToggle = $(".action-open-nav");
         pageNavItems = pageNav.find(".action-nav-item");
         pageNavActive = pageNav.find(".navigation-item-active");
 

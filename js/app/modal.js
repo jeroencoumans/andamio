@@ -5,7 +5,8 @@ APP.modal = (function () {
 
     // Variables
     var html,
-        modal;
+        modal,
+        modalToggle;
 
     // Export these elements for other modules
     function modalView() { return modal; }
@@ -16,6 +17,7 @@ APP.modal = (function () {
     function show() {
 
         html.addClass("has-modalview");
+        modalToggle.addClass("active");
         APP.views.pageView().addClass("view-hidden");
         modal.removeClass("view-hidden");
     }
@@ -26,6 +28,7 @@ APP.modal = (function () {
     function hide() {
 
         html.removeClass("has-modalview");
+        modalToggle.removeClass("active");
         APP.views.pageView().removeClass("view-hidden");
         modal.addClass("view-hidden");
     }
@@ -79,6 +82,7 @@ APP.modal = (function () {
 
         html = $("html");
         modal = $("#modal-view");
+        modalToggle = $(".action-open-modal");
 
         attachListeners();
     }
