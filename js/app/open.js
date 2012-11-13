@@ -18,11 +18,11 @@ APP.open = (function () {
 
         var content = view.find(".js-content"),
             scrollPosition = content.get(0).scrollTop,
-            timeoutToken = null;
+            timeoutToken = null,
+            currentUrl;
 
             $(content).empty();
 
-        setTimeout(function() {
         $.ajax({
             url: url,
             timeout: 10000,
@@ -54,7 +54,6 @@ APP.open = (function () {
                 APP.loader.hide();
             }
         });
-    }, 3000);
      }
 
     return {
