@@ -48,9 +48,9 @@ APP.views = (function () {
      */
     function openChildPage(url, title) {
 
-        child.find(".js-content").html("");
-
         if (url) {
+
+            child.find(".js-content").html("");
             APP.open.page(url, child);
         }
 
