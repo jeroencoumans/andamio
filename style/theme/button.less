@@ -4,7 +4,7 @@
 
 ***/
 
-@button-background: darken(@global-background-color, 15%);
+@button-background: #ccc;
 @button-color: @black;
 
 .button {
@@ -19,7 +19,7 @@
     border: 1px solid darken(@button-background, 10%);
     .border-radius();
     color: @button-color;
-    text-shadow: 0 1px 1px lighten(@global-background-color, 10%);
+    text-shadow: 0 1px 1px lighten(@button-background, 10%);
 
     padding: @grid-s @grid-m;
     text-align: center;
