@@ -6,12 +6,12 @@ APP.nav = (function () {
     // Variables
     var html,
         body,
-        pageNav,
-        pageNavToggle,
-        pageNavItems,
-        pageNavActive,
-        navigationHeight,
-        windowHeight,
+        nav,
+        toggle,
+        items,
+        active,
+        navheight,
+        bodyheight,
         pageView;
 
 
@@ -31,10 +31,10 @@ APP.nav = (function () {
     function show() {
 
         html.addClass("has-navigation");
-        pageNavToggle.addClass("active");
+        toggle.addClass("active");
 
         if (!$.supports.webapp) {
-            setPageHeight(navigationHeight);
+            setPageHeight(navheight);
         }
     }
 
@@ -44,7 +44,7 @@ APP.nav = (function () {
     function hide() {
 
         html.removeClass("has-navigation");
-        pageNavToggle.removeClass("active");
+        toggle.removeClass("active");
 
         if (!$.supports.webapp) {
             setPageHeight("");
@@ -83,11 +83,16 @@ APP.nav = (function () {
                 url = APP.util.getUrl(target),
                 title = target.text();
 
+            if (target.hasClass("navigation-item-active")) {
+
+                return true;
+            }
+
             if (url) {
 
                 // set active class
-                pageNavActive.removeClass("navigation-item-active");
-                pageNavActive = target.addClass("navigation-item-active");
+                active.removeClass("navigation-item-active");
+                active = target.addClass("navigation-item-active");
 
                 hide();
 
@@ -103,22 +108,22 @@ APP.nav = (function () {
      */
     function init() {
 
-        windowHeight = $(window).height();
-        navigationHeight = $("#page-navigation").height();
+        bodyheight = $(window).height();
+        navheight = $("#page-navigation").height();
 
         body = $("body");
         pageView = $("#page-view");
         html = $("html");
 
-        pageNav = $("#page-navigation");
-        pageNavToggle = $(".action-open-nav");
-        pageNavItems = pageNav.find(".action-nav-item");
-        pageNavActive = pageNav.find(".navigation-item-active");
+        nav = $("#page-navigation");
+        toggle = $(".action-open-nav");
+        items = nav.find(".action-nav-item");
+        active = nav.find(".navigation-item-active");
 
         // make sure the navigation is as high as the page
-        if (windowHeight > navigationHeight) {
-            navigationHeight = windowHeight;
-            pageNav.height(navigationHeight);
+        if (bodyheight > navheight) {
+            navheight = bodyheight;
+            nav.height(navheight);
         }
 
         attachListeners();

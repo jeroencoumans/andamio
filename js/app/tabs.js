@@ -5,19 +5,19 @@ APP.tabs = (function () {
 
     // Variables
     var html,
-        pageTabs,
-        pageTabActive;
+        tabs,
+        active;
 
     function show() {
 
         html.addClass("has-tabs");
-        pageTabs.show();
+        tabs.show();
     }
 
     function hide() {
 
         html.removeClass("has-tabs");
-        pageTabs.hide();
+        tabs.hide();
     }
 
     function status() {
@@ -36,10 +36,16 @@ APP.tabs = (function () {
                 title = target.text(),
                 url = APP.util.getUrl(target);
 
+            if (target.hasClass("tab-item-active")) {
+
+                return true;
+            }
+
             if (url) {
+
                 // set active class
-                pageTabActive.removeClass("tab-item-active");
-                pageTabActive = target.addClass("tab-item-active");
+                active.removeClass("tab-item-active");
+                active = target.addClass("tab-item-active");
 
                 APP.open.page(url, APP.views.parentView());
             }
@@ -52,8 +58,8 @@ APP.tabs = (function () {
     function init() {
 
         html = $("html");
-        pageTabs = $("#page-tabs");
-        pageTabActive = pageTabs.find(".tab-item-active");
+        tabs = $("#page-tabs");
+        active = tabs.find(".tab-item-active");
 
         attachListeners();
     }
