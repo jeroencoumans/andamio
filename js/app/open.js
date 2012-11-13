@@ -3,25 +3,38 @@
  */
 APP.open = (function () {
 
+    var currentUrl;
+
+    function url() {
+        return currentUrl;
+    }
+
     /**
      * Do an AJAX request and insert it into a view
      * - url: the URL to call
      * - view: what page to insert the content int (child, parent or modal)
      */
-    function page(url, view) {
+    function page(url, view, refresh) {
 
         // make sure to open the parent
         if (APP.views.hasChildView() && view === APP.views.parentView()) {
 
-            backwardAnimation();
+            APP.views.backwardAnimation();
         }
 
         var content = view.find(".js-content"),
             scrollPosition = content.get(0).scrollTop,
-            timeoutToken = null,
-            currentUrl;
+            timeoutToken = null;
 
-            $(content).empty();
+            // open called while the URL is already loaded
+            if (currentUrl === url && ! refresh) {
+
+                return true;
+            } else {
+
+                currentUrl = url;
+                $(content).empty();
+            }
 
         $.ajax({
             url: url,
@@ -57,7 +70,8 @@ APP.open = (function () {
      }
 
     return {
-        "page": page
+        "page": page,
+        "url": url
     };
 
 })();

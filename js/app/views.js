@@ -82,8 +82,14 @@ APP.views = (function () {
     }
 
     function refresh() {
-        if (! hasChildView) {
-            window.location.reload();
+
+        // check wether to refresh child or parent page
+        if (hasChildView) {
+
+            APP.open.page(APP.open.url(), parent, refresh);
+        } else {
+
+            APP.open.page(APP.open.url(), child, refresh);
         }
     }
 
