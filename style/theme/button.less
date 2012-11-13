@@ -15,7 +15,7 @@
     margin: 0 0 1px; // necessary for dropshadow
 
     .btn-background(lighten(@button-background, 15%), @button-background);
-    .box-shadow(0 1px 0 fadeout(@global-background-color, 25%));
+    .box-shadow(0 1px 0 fadeout(@button-background, 25%));
     border: 1px solid darken(@button-background, 10%);
     .border-radius();
     color: @button-color;
