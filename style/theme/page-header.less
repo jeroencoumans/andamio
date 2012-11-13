@@ -1,20 +1,15 @@
 /***
 
-    Setup basic layout
+    Setup page header
 
 ***/
 
+@page-header-background: lighten(@black, 35%);
+@page-header-border: 1px solid lighten(@page-header-background, 25%);
+@page-header-color: lighten(@page-header-background, 85%);
+
 .page-header {
     .gradient(@page-header-background, darken(@page-header-background, 25%));
-    height: @page-header-height - 2;
-    border-top: 1px solid lighten(@page-header-background, 10%);
-    border-bottom: 1px solid @page-header-border;
-    .row;
-    .truncate;
-}
-
-.webapp {
-    .page-header {
-        .border-radius(@grid-s @grid-s 0 0);
-    }
+    border-top-color: lighten(@page-header-background, 10%);
+    border-bottom-color: @page-header-border;
 }
