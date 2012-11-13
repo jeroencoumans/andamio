@@ -56,15 +56,16 @@ APP.modal = (function () {
 
             var target = $(event.target).closest(".action-show-modal"),
                 url = APP.util.getUrl(target),
-                title = target.text();
+                title = APP.util.getTitle(target);
 
             show();
 
             if (url) {
-
-                // set page title
-                modal.find(".js-title").text(title);
                 APP.open.page(url, modal);
+            }
+
+            if (title) {
+                modal.find(".js-title").text(title);
             }
         });
 
