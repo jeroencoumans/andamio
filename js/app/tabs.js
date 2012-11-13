@@ -5,7 +5,6 @@ APP.tabs = (function () {
 
     // Variables
     var html,
-        parentView,
         pageTabs,
         pageTabActive;
 
@@ -42,7 +41,7 @@ APP.tabs = (function () {
                 pageTabActive.removeClass("tab-item-active");
                 pageTabActive = target.addClass("tab-item-active");
 
-                APP.open.page(url, parentView);
+                APP.open.page(url, APP.views.parentView());
             }
         });
     }
@@ -53,7 +52,6 @@ APP.tabs = (function () {
     function init() {
 
         html = $("html");
-        parentView = $("#parent-view");
         pageTabs = $("#page-tabs");
         pageTabActive = pageTabs.find(".tab-item-active");
 
