@@ -2226,10 +2226,28 @@ APP.util = (function () {
 
     }
 
+    /**
+     * Get title from the data attribute, falling back to the text
+     *
+     */
+    function getTitle(elem) {
+
+        var title;
+
+        if (elem.data("title")) {
+            title = elem.data("title");
+        } else if (elem.text()) {
+            title = elem.text();
+        }
+
+        return title;
+    }
+
     return {
         "getQueryParam": getQueryParam,
         "isExternalLink": isExternalLink,
-        "getUrl": getUrl
+        "getUrl": getUrl,
+        "getTitle": getTitle
     };
 })();
 /**
@@ -2725,7 +2743,7 @@ APP.nav = (function () {
 
             var target = $(event.target).closest(".action-nav-item"),
                 url = APP.util.getUrl(target),
-                title = target.text();
+                title = APP.util.getTitle(target);
 
             if (target.hasClass("navigation-item-active")) {
 
@@ -2818,7 +2836,7 @@ APP.tabs = (function () {
         APP.events.attachClickHandler(".action-tab-item", function (event) {
 
             var target = $(event.target).closest(".action-tab-item"),
-                title = target.text(),
+                title = APP.util.getTitle(target),
                 url = APP.util.getUrl(target);
 
             if (target.hasClass("tab-item-active")) {
@@ -2967,7 +2985,7 @@ APP.views = (function () {
             }
 
             var target = $(event.target).closest(".action-pop"),
-                title = target.text(),
+                title = APP.util.getTitle(target),
                 url = APP.util.getUrl(target);
 
             if (url) {
@@ -2981,7 +2999,7 @@ APP.views = (function () {
         APP.events.attachClickHandler(".action-push", function (event) {
 
             var target = $(event.target).closest(".action-push"),
-                title = target.text(),
+                title = APP.util.getTitle(target),
                 url = APP.util.getUrl(target);
 
             if (url) {

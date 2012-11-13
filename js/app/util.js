@@ -58,9 +58,27 @@ APP.util = (function () {
 
     }
 
+    /**
+     * Get title from the data attribute, falling back to the text
+     *
+     */
+    function getTitle(elem) {
+
+        var title;
+
+        if (elem.data("title")) {
+            title = elem.data("title");
+        } else if (elem.text()) {
+            title = elem.text();
+        }
+
+        return title;
+    }
+
     return {
         "getQueryParam": getQueryParam,
         "isExternalLink": isExternalLink,
-        "getUrl": getUrl
+        "getUrl": getUrl,
+        "getTitle": getTitle
     };
 })();

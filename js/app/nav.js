@@ -81,7 +81,7 @@ APP.nav = (function () {
 
             var target = $(event.target).closest(".action-nav-item"),
                 url = APP.util.getUrl(target),
-                title = target.text();
+                title = APP.util.getTitle(target);
 
             if (target.hasClass("navigation-item-active")) {
 

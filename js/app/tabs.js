@@ -33,7 +33,7 @@ APP.tabs = (function () {
         APP.events.attachClickHandler(".action-tab-item", function (event) {
 
             var target = $(event.target).closest(".action-tab-item"),
-                title = target.text(),
+                title = APP.util.getTitle(target),
                 url = APP.util.getUrl(target);
 
             if (target.hasClass("tab-item-active")) {

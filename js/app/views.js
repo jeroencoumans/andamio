@@ -107,7 +107,7 @@ APP.views = (function () {
             }
 
             var target = $(event.target).closest(".action-pop"),
-                title = target.text(),
+                title = APP.util.getTitle(target),
                 url = APP.util.getUrl(target);
 
             if (url) {
@@ -121,7 +121,7 @@ APP.views = (function () {
         APP.events.attachClickHandler(".action-push", function (event) {
 
             var target = $(event.target).closest(".action-push"),
-                title = target.text(),
+                title = APP.util.getTitle(target),
                 url = APP.util.getUrl(target);
 
             if (url) {
