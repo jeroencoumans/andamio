@@ -26,15 +26,7 @@ APP.open = (function () {
             scrollPosition = content.get(0).scrollTop,
             timeoutToken = null;
 
-            // open called while the URL is already loaded
-            if (currentUrl === url && ! refresh) {
-
-                return true;
-            } else {
-
-                currentUrl = url;
-                $(content).empty();
-            }
+            currentUrl = url;
 
         $.ajax({
             url: url,
