@@ -5,8 +5,12 @@ APP.phone = (function () {
 
     var APP_FROM_BACKGROUND_REFRESH_TIMEOUT = 30 * 60 * 1000,
         lastUpdated = new Date(),
-        CORDOVA_LOADED = false;
+        connection;
 
+    function isOnline() {
+
+        return connection;        
+    }
 
     /**
      * Intercepts all clicks on anchor tags
@@ -54,6 +58,17 @@ APP.phone = (function () {
                 APP.views.refresh();
             }
         }, false);
+
+        // Support for online/offline mode
+        document.addEventListener("online", function() {
+
+            connection = false;
+        }, false);
+
+        document.addEventListener("online", function() {
+            
+            connection = true;
+        }, false);
     }
 
     function init() {
@@ -64,6 +79,7 @@ APP.phone = (function () {
     }
 
     return {
-        "init": init
+        "init": init,
+        "isOnline": isOnline
     };
 })();
