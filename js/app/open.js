@@ -16,7 +16,10 @@ APP.open = (function () {
             backwardAnimation();
         }
 
-        var timeoutToken = null;
+        var content = view.find(".js-content"),
+            scrollPosition = content.get(0).scrollTop,
+            timeoutToken = null;
+
         $.ajax({
             url: url,
             timeout: 10000,
@@ -27,17 +30,18 @@ APP.open = (function () {
                 timeoutToken = setTimeout(function() {
                     APP.loader.show();
 
-                }, 200);
+                }, 250);
 
             },
             success: function(response){
 
-                var content = view.find(".js-content");
-
                 clearTimeout(timeoutToken);
 
                 $(content).html(response);
-                $.scrollElement($(content).get(0), 0);
+
+                if (scrollPosition > 10) {
+                    $.scrollElement($(content).get(0), 0);
+                }
             },
             error: function(){
 
