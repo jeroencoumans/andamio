@@ -85,6 +85,7 @@ APP.nav = (function () {
 
             if (target.hasClass("navigation-item-active")) {
 
+                hide();
                 return true;
             }
 
