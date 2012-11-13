@@ -2709,7 +2709,7 @@ APP.nav = (function () {
     function attachListeners() {
 
         /*** Menu button ***/
-        APP.events.attachClickHandler(".action-open-nav", function () {
+        APP.events.attachClickHandler(".action-show-nav", function () {
 
             show();
         });
@@ -2761,7 +2761,7 @@ APP.nav = (function () {
         html = $("html");
 
         nav = $("#page-navigation");
-        toggle = $(".action-open-nav");
+        toggle = $(".action-show-nav");
         items = nav.find(".action-nav-item");
         active = nav.find(".navigation-item-active");
 
