@@ -20,6 +20,9 @@ APP.open = (function () {
             scrollPosition = content.get(0).scrollTop,
             timeoutToken = null;
 
+            $(content).empty();
+
+        setTimeout(function() {
         $.ajax({
             url: url,
             timeout: 10000,
@@ -51,6 +54,7 @@ APP.open = (function () {
                 APP.loader.hide();
             }
         });
+    }, 3000);
      }
 
     return {
