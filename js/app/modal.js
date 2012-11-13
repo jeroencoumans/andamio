@@ -6,7 +6,7 @@ APP.modal = (function () {
     // Variables
     var html,
         modal,
-        modalToggle;
+        toggle;
 
     // Export these elements for other modules
     function modalView() { return modal; }
@@ -17,7 +17,7 @@ APP.modal = (function () {
     function show() {
 
         html.addClass("has-modalview");
-        modalToggle.addClass("active");
+        toggle.addClass("active");
         APP.views.pageView().addClass("view-hidden");
         modal.removeClass("view-hidden");
     }
@@ -28,7 +28,7 @@ APP.modal = (function () {
     function hide() {
 
         html.removeClass("has-modalview");
-        modalToggle.removeClass("active");
+        toggle.removeClass("active");
         APP.views.pageView().removeClass("view-hidden");
         modal.addClass("view-hidden");
     }
@@ -52,9 +52,9 @@ APP.modal = (function () {
          * - otherwise, if href has a URL, it will be loaded into the modal content
          * - if the action has text, it will be used as the title
          */
-        APP.events.attachClickHandler(".action-open-modal", function (event) {
+        APP.events.attachClickHandler(".action-show-modal", function (event) {
 
-            var target = $(event.target).closest(".action-open-modal"),
+            var target = $(event.target).closest(".action-show-modal"),
                 url = APP.util.getUrl(target),
                 title = target.text();
 
@@ -69,7 +69,7 @@ APP.modal = (function () {
         });
 
         /*** Close modal ***/
-        APP.events.attachClickHandler(".action-close-modal", function () {
+        APP.events.attachClickHandler(".action-hide-modal", function () {
 
             hide();
         });
@@ -82,7 +82,7 @@ APP.modal = (function () {
 
         html = $("html");
         modal = $("#modal-view");
-        modalToggle = $(".action-open-modal");
+        toggle = $(".action-show-modal");
 
         attachListeners();
     }
