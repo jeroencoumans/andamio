@@ -4,7 +4,8 @@
 APP.phone = (function () {
 
     var APP_FROM_BACKGROUND_REFRESH_TIMEOUT = 30 * 60 * 1000,
-        lastUpdated = new Date();
+        lastUpdated = new Date(),
+        CORDOVA_LOADED = false;
 
 
     /**
@@ -53,13 +54,13 @@ APP.phone = (function () {
                 APP.views.refresh();
             }
         }, false);
-
     }
 
     function init() {
 
         interceptAnchorClicks();
-        attachListeners();
+        // make sure to only attach the listners when Cordovia is ready
+        document.addEventListener("deviceready", attachListeners(), false);
     }
 
     return {

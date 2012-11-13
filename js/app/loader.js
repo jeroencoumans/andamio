@@ -14,7 +14,7 @@ APP.loader = (function () {
 
         html.addClass("has-loader");
 
-        if ($.supports.cordova) {
+        if ($.supports.cordova && navigator.spinner) {
 
             navigator.spinner.show({"message": "Laden..."});
         } else {
@@ -37,7 +37,7 @@ APP.loader = (function () {
 
         html.removeClass("has-loader");
 
-        if ($.supports.cordova) {
+        if ($.supports.cordova && navigator.spinner) {
 
             navigator.spinner.hide();
         } else {
