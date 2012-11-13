@@ -4,20 +4,12 @@
  */
 APP.events = (function () {
 
-    var EVENT_LOCK_TIMEOUT = 500,
-        EVENT_LOCK_LOCKED = true,
-        EVENT_LOCK_UNLOCKED = false,
-
-        eventLock = EVENT_LOCK_UNLOCKED,
-
-        body = $(document.body);
-
-    function init() {
-
-        if ($.supports.ftfastclick) {
-            var fastclick = new FastClick(document.body);
-        }
-    }
+    // declare variables
+    var EVENT_LOCK_TIMEOUT,
+        EVENT_LOCK_LOCKED,
+        EVENT_LOCK_UNLOCKED,
+        eventLock,
+        body;
 
     /**
      * Enable or disables the event lock. The event lock prevents double tapping during animation.
@@ -80,6 +72,22 @@ APP.events = (function () {
                 }
             }
         });
+    }
+
+    function init() {
+
+        // initialize variables
+        EVENT_LOCK_TIMEOUT = 500,
+        EVENT_LOCK_LOCKED = true,
+        EVENT_LOCK_UNLOCKED = false,
+
+        eventLock = EVENT_LOCK_UNLOCKED,
+
+        body = $(document.body);
+
+        if ($.supports.ftfastclick) {
+            var fastclick = new FastClick(document.body);
+        }
     }
 
     return {

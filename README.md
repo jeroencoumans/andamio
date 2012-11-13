@@ -32,11 +32,13 @@ CSS and Javascript to it.
 
 I would suggest a directory structure like this:
 
+<pre>
 /project-name/
     |-- andamio/
     |-- style/
         |-- *main.less*
     |-- js/
+</pre>
 
 In the directory project-name/style/, add this file:
 main.less

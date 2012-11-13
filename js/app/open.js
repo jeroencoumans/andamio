@@ -27,7 +27,7 @@ APP.open = (function () {
                 timeoutToken = setTimeout(function() {
                     APP.loader.show();
 
-                }, 500);
+                }, 200);
 
             },
             success: function(response){
