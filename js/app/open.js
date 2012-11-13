@@ -3,11 +3,23 @@
  */
 APP.open = (function () {
 
-    var currentUrl;
+    var current,
+        parent,
+        child,
+        modal;
 
-    function url() {
-        return currentUrl;
+    function activeUrl(href) {
+        if (href) {
+            current = href;
+        } else {
+            return current;
+        }
     }
+
+    // Export these elements for other modules
+    function parentUrl() { return parent; }
+    function childUrl()  { return child;  }
+    function modalUrl()  { return modal;  }
 
     /**
      * Do an AJAX request and insert it into a view
@@ -15,6 +27,12 @@ APP.open = (function () {
      * - view: what page to insert the content int (child, parent or modal)
      */
     function page(url, view, refresh) {
+
+        if ($.supports.cordova) {
+            if (! APP.phone.isOnline) {
+                alert("offline!");
+            }
+        }
 
         // make sure to open the parent
         if (APP.views.hasChildView() && view === APP.views.parentView()) {
@@ -26,7 +44,24 @@ APP.open = (function () {
             scrollPosition = content.get(0).scrollTop,
             timeoutToken = null;
 
-            currentUrl = url;
+            current = url;
+
+            switch (view) {
+                case APP.views.parentView():
+                    parent = url;
+                    break;
+                case APP.views.childView():
+                    child = url;
+                    break;
+                case APP.modal.modalView():
+                    modal = url;
+                    break;
+            }
+
+            console.log("parent: " + parent);
+            console.log("child: " + child);
+            console.log("modal: " + modal);
+            console.log("current: " + current);
 
         $.ajax({
             url: url,
@@ -63,7 +98,10 @@ APP.open = (function () {
 
     return {
         "page": page,
-        "url": url
+        "activeUrl": activeUrl,
+        "parentUrl": parentUrl,
+        "childUrl": childUrl,
+        "modalUrl": modalUrl
     };
 
 })();
