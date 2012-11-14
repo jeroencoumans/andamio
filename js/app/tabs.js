@@ -25,6 +25,23 @@ APP.tabs = (function () {
         return html.hasClass("has-tabs") ? true : false;
     }
 
+    function tabItems() {
+
+        return tabs.children();
+    }
+
+    function activeTab(elem) {
+
+        if (elem) {
+
+            active.removeClass("tab-item-active");
+            active = elem.addClass("tab-item-active");
+        } else {
+
+            return active;
+        }
+    }
+
     /**
      * Attach event listeners
      */
@@ -36,17 +53,14 @@ APP.tabs = (function () {
                 title = APP.util.getTitle(target),
                 url = APP.util.getUrl(target);
 
-            if (target.hasClass("tab-item-active")) {
+            if (target === activeTab()) {
 
                 return true;
             }
 
             if (url) {
 
-                // set active class
-                active.removeClass("tab-item-active");
-                active = target.addClass("tab-item-active");
-
+                activeTab(target);
                 APP.open.page(url, APP.views.parentView());
             }
         });
@@ -68,7 +82,9 @@ APP.tabs = (function () {
         "init": init,
         "show": show,
         "hide": hide,
-        "status": status
+        "status": status,
+        "tabItems": tabItems,
+        "activeTab": activeTab
     };
 
 })();
