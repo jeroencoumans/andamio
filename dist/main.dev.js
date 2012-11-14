@@ -2544,7 +2544,7 @@ APP.open = (function () {
         // make sure to open the parent
         if (APP.views.hasChildView() && view === APP.views.parentView()) {
 
-            APP.views.backwardAnimation();
+            APP.views.openParentPage();
         }
 
         // variables
@@ -2553,7 +2553,10 @@ APP.open = (function () {
             timeoutToken = null;
 
         if (current === url) {
+
             console.log("opening the current url");
+            return false;
+
         } else {
 
             current = url;
@@ -2609,22 +2612,16 @@ APP.open = (function () {
      */
     function refresh() {
 
-        console.log("refreshing...");
-
         // check wether to refresh child or parent page
         if (APP.views.hasChildView()) {
 
-            console.log(child);
             page(child, APP.views.childView(), refresh);
         } else if (APP.modal.status()) {
 
-            console.log(modal);
             page(modal, APP.modal.modalView(), refresh);
-            console.log("url:" + APP.open.parentUrl());
         } else {
-            console.log(parent);
+
             page(modal, APP.views.parentView(), refresh);
-            console.log("url:" + APP.open.parentUrl());
         }
     }
 
