@@ -10,13 +10,18 @@
 .button-header-wrapper,
 .button-header-wrapper-alternate {
     height: @page-header-height;
-    .unit;
     width: 25%;
+    z-index: 2;
 }
+
+    .button-header-wrapper {
+        .overlay-left;
+    }
+
 
     // left button
     .button-header-wrapper-alternate {
-        float: right;
+        .overlay-right;
 
         .button-header {
             float: right;
