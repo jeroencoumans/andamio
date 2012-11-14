@@ -48,6 +48,7 @@ APP.core = (function () {
         }
 
         APP.events.init();
+        APP.open.init();
         APP.nav.init();
         APP.modal.init();
         APP.tabs.init();

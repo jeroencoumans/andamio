@@ -2555,23 +2555,21 @@ APP.open = (function () {
         // Set the URL of the view
         switch (view) {
             case APP.views.parentView():
-                console.log("set parent to url");
                 parent = url;
                 break;
+
             case APP.views.childView():
-                console.log("set child to url");
                 child = url;
                 break;
+
             case APP.modal.modalView():
-                console.log("set modal to url");
                 modal = url;
                 break;
         }
 
         // Prevent page load when opening the same URL
-        if (active === url) {
+        if (active === url && ! refresh) {
 
-            console.log("opening the active url");
             return false;
         } else {
 
@@ -2621,16 +2619,39 @@ APP.open = (function () {
         if (APP.views.hasChildView()) {
 
             page(child, APP.views.childView(), refresh);
+
         } else if (APP.modal.status()) {
 
             page(modal, APP.modal.modalView(), refresh);
+
         } else {
 
-            page(modal, APP.views.parentView(), refresh);
+            page(parent, APP.views.parentView(), refresh);
         }
     }
 
+    /**
+     * Attach event listeners
+     */
+    function attachListeners() {
+
+        /*** Open parent page ***/
+        APP.events.attachClickHandler(".action-refresh", function (event) {
+
+            refresh();
+        });
+    }
+
+    /***
+     * Initialize variables and attach listeners
+     */
+    function init() {
+
+        attachListeners();
+    }
+
     return {
+        "init": init,
         "page": page,
         "refresh": refresh,
         "activeUrl": activeUrl,
@@ -3111,8 +3132,6 @@ APP.views = (function () {
                 openParentPage(url, title);
             } else {
 
-                console.log("Going back without URL");
-
                 // update the active url manually since this action often doesn't use a URL
                 APP.open.activeUrl(APP.open.parentUrl());
 
@@ -3210,6 +3229,7 @@ APP.core = (function () {
         }
 
         APP.events.init();
+        APP.open.init();
         APP.nav.init();
         APP.modal.init();
         APP.tabs.init();

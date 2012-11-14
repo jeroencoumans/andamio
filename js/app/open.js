@@ -67,7 +67,7 @@ APP.open = (function () {
         }
 
         // Prevent page load when opening the same URL
-        if (active === url) {
+        if (active === url && ! refresh) {
 
             return false;
         } else {
@@ -118,16 +118,39 @@ APP.open = (function () {
         if (APP.views.hasChildView()) {
 
             page(child, APP.views.childView(), refresh);
+
         } else if (APP.modal.status()) {
 
             page(modal, APP.modal.modalView(), refresh);
+
         } else {
 
-            page(modal, APP.views.parentView(), refresh);
+            page(parent, APP.views.parentView(), refresh);
         }
     }
 
+    /**
+     * Attach event listeners
+     */
+    function attachListeners() {
+
+        /*** Open parent page ***/
+        APP.events.attachClickHandler(".action-refresh", function (event) {
+
+            refresh();
+        });
+    }
+
+    /***
+     * Initialize variables and attach listeners
+     */
+    function init() {
+
+        attachListeners();
+    }
+
     return {
+        "init": init,
         "page": page,
         "refresh": refresh,
         "activeUrl": activeUrl,
