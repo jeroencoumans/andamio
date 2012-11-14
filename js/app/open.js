@@ -4,20 +4,20 @@
 APP.open = (function () {
 
     // function variables
-    var current,
+    var active,
         parent,
         child,
         modal;
 
     /**
      * This function can be called to print or set the active URL (e.g. from views or modal)
-     * href: the new URL
+     * @param: URL, the new URL
      **/
     function activeUrl(href) {
         if (href) {
-            current = href;
+            active = href;
         } else {
-            return current;
+            return active;
         }
     }
 
@@ -51,27 +51,30 @@ APP.open = (function () {
             scrollPosition = content.get(0).scrollTop,
             timeoutToken = null;
 
-        if (current === url) {
+        // Set the URL of the view
+        switch (view) {
+            case APP.views.parentView():
+                parent = url;
+                break;
 
-            console.log("opening the current url");
-            return false;
+            case APP.views.childView():
+                child = url;
+                break;
 
-        } else {
-
-            current = url;
+            case APP.modal.modalView():
+                modal = url;
+                break;
         }
 
-            switch (view) {
-                case APP.views.parentView():
-                    parent = url;
-                    break;
-                case APP.views.childView():
-                    child = url;
-                    break;
-                case APP.modal.modalView():
-                    modal = url;
-                    break;
-            }
+        // Prevent page load when opening the same URL
+        if (active === url) {
+
+            return false;
+        } else {
+
+            // Set the active url to the passed url
+            active = url;
+        }
 
         $.ajax({
             url: url,
