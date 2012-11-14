@@ -79,7 +79,7 @@ APP.open = (function () {
 
         $.ajax({
             url: url,
-            timeout: 10000,
+            timeout: 5000,
             headers: { "X-PJAX": true },
             beforeSend: function() {
 
@@ -102,6 +102,9 @@ APP.open = (function () {
             },
             error: function(){
 
+                for (var i = 0; i < 3; i++) {
+                    refresh();
+                }
             },
             complete: function() {
 

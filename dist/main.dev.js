@@ -2586,7 +2586,7 @@ APP.open = (function () {
 
         $.ajax({
             url: url,
-            timeout: 10000,
+            timeout: 5000,
             headers: { "X-PJAX": true },
             beforeSend: function() {
 
@@ -2609,6 +2609,9 @@ APP.open = (function () {
             },
             error: function(){
 
+                for (var i = 0; i < 3; i++) {
+                    refresh();
+                }
             },
             complete: function() {
 
@@ -3187,6 +3190,78 @@ APP.views = (function () {
 })();
 
 /**
+ * Wrapper for doing an AJAX request
+ */
+APP.alert = (function () {
+
+    // variables
+    var alert,
+        hasAlert;
+
+    /**
+     * Show alert
+     * @param type of the alert (error, success, info)
+     * @param text of the alert
+     */
+    function show(text) {
+
+        if (text) {
+            alert.html(text);
+            alert.show();
+            hasAlert = true;
+        }
+    }
+
+    /**
+     * Hide alert
+     */
+    function hide() {
+
+        alert.hide();
+        hasAlert = false;
+    }
+
+    /**
+     * Status of alert
+     */
+    function status() {
+
+        return hasAlert;
+    }
+
+    /**
+     * Attach event listeners
+     */
+    function attachListeners() {
+
+        /*** Close alert ***/
+        APP.events.attachClickHandler(".action-hide-alert", function (event) {
+
+            hide();
+        });
+    }
+
+    /***
+     * Initialize variables and attach listeners
+     */
+    function init() {
+
+        // assign variables
+        alert = $("#page-alert");
+        hasAlert = false;
+
+        attachListeners();
+    }
+
+    return {
+        "init": init,
+        "show": show,
+        "hide": hide,
+        "status": status
+    };
+
+})();
+/**
  * Core module for handling events and initializing capabilities
  */
 APP.core = (function () {
@@ -3241,6 +3316,7 @@ APP.core = (function () {
         APP.modal.init();
         APP.tabs.init();
         APP.views.init();
+        APP.alert.init();
 
         if ($.supports.cordova) {
             APP.phone.init();

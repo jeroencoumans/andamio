@@ -53,6 +53,7 @@ APP.core = (function () {
         APP.modal.init();
         APP.tabs.init();
         APP.views.init();
+        APP.alert.init();
 
         if ($.supports.cordova) {
             APP.phone.init();
