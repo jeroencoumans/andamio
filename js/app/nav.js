@@ -8,8 +8,8 @@ APP.nav = (function () {
         body,
         nav,
         toggle,
-        items,
-        active,
+        navItems,
+        activeItem,
         navheight,
         bodyheight,
         pageView;
@@ -60,6 +60,31 @@ APP.nav = (function () {
     }
 
     /**
+     * Returns the nav items, useful for activating a new tab
+     */
+    function items() {
+
+        return navItems;
+    }
+
+    /**
+     * Returns the active item
+     * @elem: set the active item
+     */
+    function active(elem) {
+
+        if (elem) {
+
+            activeItem.removeClass("navigation-item-active");
+            activeItem = elem.addClass("navigation-item-active");
+        } else {
+
+            return activeItem;
+        }
+    }
+
+
+    /**
      * Attach event listeners
      */
     function attachListeners() {
@@ -91,10 +116,7 @@ APP.nav = (function () {
 
             if (url) {
 
-                // set active class
-                active.removeClass("navigation-item-active");
-                active = target.addClass("navigation-item-active");
-
+                active(target);
                 hide();
 
                 // set page title
@@ -118,8 +140,8 @@ APP.nav = (function () {
 
         nav = $("#page-navigation");
         toggle = $(".action-show-nav");
-        items = nav.find(".action-nav-item");
-        active = nav.find(".navigation-item-active");
+        navItems = nav.find(".action-nav-item");
+        activeItem = nav.find(".navigation-item-active");
 
         // make sure the navigation is as high as the page
         if (bodyheight > navheight) {
@@ -134,7 +156,9 @@ APP.nav = (function () {
         "init": init,
         "show": show,
         "hide": hide,
-        "status": status
+        "status": status,
+        "items": items,
+        "active": active
     };
 
 })();

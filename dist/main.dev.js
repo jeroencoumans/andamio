@@ -2749,8 +2749,8 @@ APP.nav = (function () {
         body,
         nav,
         toggle,
-        items,
-        active,
+        navItems,
+        activeItem,
         navheight,
         bodyheight,
         pageView;
@@ -2801,6 +2801,31 @@ APP.nav = (function () {
     }
 
     /**
+     * Returns the nav items, useful for activating a new tab
+     */
+    function items() {
+
+        return navItems;
+    }
+
+    /**
+     * Returns the active item
+     * @elem: set the active item
+     */
+    function active(elem) {
+
+        if (elem) {
+
+            activeItem.removeClass("navigation-item-active");
+            activeItem = elem.addClass("navigation-item-active");
+        } else {
+
+            return activeItem;
+        }
+    }
+
+
+    /**
      * Attach event listeners
      */
     function attachListeners() {
@@ -2832,10 +2857,7 @@ APP.nav = (function () {
 
             if (url) {
 
-                // set active class
-                active.removeClass("navigation-item-active");
-                active = target.addClass("navigation-item-active");
-
+                active(target);
                 hide();
 
                 // set page title
@@ -2859,8 +2881,8 @@ APP.nav = (function () {
 
         nav = $("#page-navigation");
         toggle = $(".action-show-nav");
-        items = nav.find(".action-nav-item");
-        active = nav.find(".navigation-item-active");
+        navItems = nav.find(".action-nav-item");
+        activeItem = nav.find(".navigation-item-active");
 
         // make sure the navigation is as high as the page
         if (bodyheight > navheight) {
@@ -2875,7 +2897,9 @@ APP.nav = (function () {
         "init": init,
         "show": show,
         "hide": hide,
-        "status": status
+        "status": status,
+        "items": items,
+        "active": active
     };
 
 })();
@@ -2888,7 +2912,8 @@ APP.tabs = (function () {
     // Variables
     var html,
         tabs,
-        active;
+        tabItems,
+        activeItem;
 
     function show() {
 
@@ -2907,20 +2932,28 @@ APP.tabs = (function () {
         return html.hasClass("has-tabs") ? true : false;
     }
 
-    function tabItems() {
+    /**
+     * Returns the tab items, useful for activating a new tab
+     */
+    function items() {
 
-        return tabs.children();
+        return tabItems;
     }
 
-    function activeTab(elem) {
+    /**
+     * Returns the active item
+     * @elem: set the active item
+     */
+
+    function active(elem) {
 
         if (elem) {
 
-            active.removeClass("tab-item-active");
-            active = elem.addClass("tab-item-active");
+            activeItem.removeClass("tab-item-active");
+            activeItem = elem.addClass("tab-item-active");
         } else {
 
-            return active;
+            return activeItem;
         }
     }
 
@@ -2935,14 +2968,14 @@ APP.tabs = (function () {
                 title = APP.util.getTitle(target),
                 url = APP.util.getUrl(target);
 
-            if (target === activeTab()) {
+            if (target === active()) {
 
                 return true;
             }
 
             if (url) {
 
-                activeTab(target);
+                active(target);
                 APP.open.page(url, APP.views.parentView());
             }
         });
@@ -2955,7 +2988,8 @@ APP.tabs = (function () {
 
         html = $("html");
         tabs = $("#page-tabs");
-        active = tabs.find(".tab-item-active");
+        tabItems = tabs.find(".action-tab-item");
+        activeItem = tabs.find(".tab-item-active");
 
         attachListeners();
     }
@@ -2965,8 +2999,8 @@ APP.tabs = (function () {
         "show": show,
         "hide": hide,
         "status": status,
-        "tabItems": tabItems,
-        "activeTab": activeTab
+        "items": items,
+        "active": active
     };
 
 })();

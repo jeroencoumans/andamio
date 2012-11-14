@@ -6,7 +6,8 @@ APP.tabs = (function () {
     // Variables
     var html,
         tabs,
-        active;
+        tabItems,
+        activeItem;
 
     function show() {
 
@@ -25,20 +26,28 @@ APP.tabs = (function () {
         return html.hasClass("has-tabs") ? true : false;
     }
 
-    function tabItems() {
+    /**
+     * Returns the tab items, useful for activating a new tab
+     */
+    function items() {
 
-        return tabs.children();
+        return tabItems;
     }
 
-    function activeTab(elem) {
+    /**
+     * Returns the active item
+     * @elem: set the active item
+     */
+
+    function active(elem) {
 
         if (elem) {
 
-            active.removeClass("tab-item-active");
-            active = elem.addClass("tab-item-active");
+            activeItem.removeClass("tab-item-active");
+            activeItem = elem.addClass("tab-item-active");
         } else {
 
-            return active;
+            return activeItem;
         }
     }
 
@@ -53,14 +62,14 @@ APP.tabs = (function () {
                 title = APP.util.getTitle(target),
                 url = APP.util.getUrl(target);
 
-            if (target === activeTab()) {
+            if (target === active()) {
 
                 return true;
             }
 
             if (url) {
 
-                activeTab(target);
+                active(target);
                 APP.open.page(url, APP.views.parentView());
             }
         });
@@ -73,7 +82,8 @@ APP.tabs = (function () {
 
         html = $("html");
         tabs = $("#page-tabs");
-        active = tabs.find(".tab-item-active");
+        tabItems = tabs.find(".action-tab-item");
+        activeItem = tabs.find(".tab-item-active");
 
         attachListeners();
     }
@@ -83,8 +93,8 @@ APP.tabs = (function () {
         "show": show,
         "hide": hide,
         "status": status,
-        "tabItems": tabItems,
-        "activeTab": activeTab
+        "items": items,
+        "active": active
     };
 
 })();
