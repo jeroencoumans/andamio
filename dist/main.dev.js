@@ -2575,6 +2575,7 @@ APP.open = (function () {
 
             // Set the active url to the passed url
             active = url;
+            content.empty();
         }
 
         $.ajax({
