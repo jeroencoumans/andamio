@@ -2261,7 +2261,13 @@ APP.phone = (function () {
 
     function isOnline() {
 
-        return connection;        
+        if (! $.supports.cordova) {
+
+            connection = window.navigator.onLine;
+        }
+
+        return connection;
+
     }
 
     /**
@@ -2318,7 +2324,7 @@ APP.phone = (function () {
         }, false);
 
         document.addEventListener("online", function() {
-            
+
             connection = true;
         }, false);
     }
