@@ -1379,7 +1379,8 @@ tr:first-child {
   width: 100%;
 }
 
-.button-list .button {
+.button-list > .button,
+.button-list > .button-wrapper {
   margin: 0 0 10px;
 }
 
