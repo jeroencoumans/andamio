@@ -55,7 +55,7 @@ APP.phone = (function () {
         document.addEventListener("active", function() {
             var now = new Date();
             if (now - lastUpdated > APP_FROM_BACKGROUND_REFRESH_TIMEOUT) {
-                APP.views.refresh();
+                APP.open.refresh();
             }
         }, false);
 

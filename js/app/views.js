@@ -81,18 +81,6 @@ APP.views = (function () {
         backwardAnimation();
     }
 
-    function refresh() {
-
-        // check wether to refresh child or parent page
-        if (hasChildView) {
-
-            APP.open.page(APP.open.url(), parent, refresh);
-        } else {
-
-            APP.open.page(APP.open.url(), child, refresh);
-        }
-    }
-
     /**
      * Attach event listeners
      */
@@ -113,6 +101,10 @@ APP.views = (function () {
             if (url) {
                 openParentPage(url, title);
             } else {
+
+                // update the active url manually since this action often doesn't use a URL
+                APP.open.activeUrl(APP.open.parentUrl());
+
                 openParentPage();
             }
         });
@@ -147,7 +139,6 @@ APP.views = (function () {
 
     return {
         "init": init,
-        "refresh": refresh,
         "pageView": pageView,
         "parentView": parentView,
         "childView": childView,

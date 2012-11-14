@@ -2257,8 +2257,12 @@ APP.phone = (function () {
 
     var APP_FROM_BACKGROUND_REFRESH_TIMEOUT = 30 * 60 * 1000,
         lastUpdated = new Date(),
-        CORDOVA_LOADED = false;
+        connection;
 
+    function isOnline() {
+
+        return connection;        
+    }
 
     /**
      * Intercepts all clicks on anchor tags
@@ -2303,8 +2307,19 @@ APP.phone = (function () {
         document.addEventListener("active", function() {
             var now = new Date();
             if (now - lastUpdated > APP_FROM_BACKGROUND_REFRESH_TIMEOUT) {
-                APP.views.refresh();
+                APP.open.refresh();
             }
+        }, false);
+
+        // Support for online/offline mode
+        document.addEventListener("online", function() {
+
+            connection = false;
+        }, false);
+
+        document.addEventListener("online", function() {
+            
+            connection = true;
         }, false);
     }
 
@@ -2316,7 +2331,8 @@ APP.phone = (function () {
     }
 
     return {
-        "init": init
+        "init": init,
+        "isOnline": isOnline
     };
 })();
 /**
@@ -2488,18 +2504,42 @@ APP.loader = (function () {
  */
 APP.open = (function () {
 
-    var currentUrl;
+    // function variables
+    var current,
+        parent,
+        child,
+        modal;
 
-    function url() {
-        return currentUrl;
+    /**
+     * This function can be called to print or set the active URL (e.g. from views or modal)
+     * href: the new URL
+     **/
+    function activeUrl(href) {
+        if (href) {
+            current = href;
+        } else {
+            return current;
+        }
     }
+
+    // Export these elements for other modules
+    function parentUrl() { return parent; }
+    function childUrl()  { return child;  }
+    function modalUrl()  { return modal;  }
 
     /**
      * Do an AJAX request and insert it into a view
      * - url: the URL to call
      * - view: what page to insert the content int (child, parent or modal)
+     * - refresh: explicitly refresh the page
      */
     function page(url, view, refresh) {
+
+        if ($.supports.cordova) {
+            if (! APP.phone.isOnline) {
+                alert("offline!");
+            }
+        }
 
         // make sure to open the parent
         if (APP.views.hasChildView() && view === APP.views.parentView()) {
@@ -2507,18 +2547,28 @@ APP.open = (function () {
             APP.views.backwardAnimation();
         }
 
+        // variables
         var content = view.find(".js-content"),
             scrollPosition = content.get(0).scrollTop,
             timeoutToken = null;
 
-            // open called while the URL is already loaded
-            if (currentUrl === url && ! refresh) {
+        if (current === url) {
+            console.log("opening the current url");
+        } else {
 
-                return true;
-            } else {
+            current = url;
+        }
 
-                currentUrl = url;
-                $(content).empty();
+            switch (view) {
+                case APP.views.parentView():
+                    parent = url;
+                    break;
+                case APP.views.childView():
+                    child = url;
+                    break;
+                case APP.modal.modalView():
+                    modal = url;
+                    break;
             }
 
         $.ajax({
@@ -2552,11 +2602,39 @@ APP.open = (function () {
                 APP.loader.hide();
             }
         });
-     }
+    }
+
+    /**
+     * Refresh the active view
+     */
+    function refresh() {
+
+        console.log("refreshing...");
+
+        // check wether to refresh child or parent page
+        if (APP.views.hasChildView()) {
+
+            console.log(child);
+            page(child, APP.views.childView(), refresh);
+        } else if (APP.modal.status()) {
+
+            console.log(modal);
+            page(modal, APP.modal.modalView(), refresh);
+            console.log("url:" + APP.open.parentUrl());
+        } else {
+            console.log(parent);
+            page(modal, APP.views.parentView(), refresh);
+            console.log("url:" + APP.open.parentUrl());
+        }
+    }
 
     return {
         "page": page,
-        "url": url
+        "refresh": refresh,
+        "activeUrl": activeUrl,
+        "parentUrl": parentUrl,
+        "childUrl": childUrl,
+        "modalUrl": modalUrl
     };
 
 })();
@@ -2619,15 +2697,16 @@ APP.modal = (function () {
 
             var target = $(event.target).closest(".action-show-modal"),
                 url = APP.util.getUrl(target),
-                title = target.text();
+                title = APP.util.getTitle(target);
 
             show();
 
             if (url) {
-
-                // set page title
-                modal.find(".js-title").text(title);
                 APP.open.page(url, modal);
+            }
+
+            if (title) {
+                modal.find(".js-title").text(title);
             }
         });
 
@@ -2926,9 +3005,9 @@ APP.views = (function () {
      */
     function openChildPage(url, title) {
 
-        child.find(".js-content").html("");
-
         if (url) {
+
+            child.find(".js-content").html("");
             APP.open.page(url, child);
         }
 
@@ -2959,18 +3038,6 @@ APP.views = (function () {
         backwardAnimation();
     }
 
-    function refresh() {
-
-        // check wether to refresh child or parent page
-        if (hasChildView) {
-
-            APP.open.page(APP.open.url(), parent, refresh);
-        } else {
-
-            APP.open.page(APP.open.url(), child, refresh);
-        }
-    }
-
     /**
      * Attach event listeners
      */
@@ -2991,6 +3058,10 @@ APP.views = (function () {
             if (url) {
                 openParentPage(url, title);
             } else {
+
+                // update the active url manually since this action often doesn't use a URL
+                APP.open.activeUrl(APP.open.parentUrl());
+
                 openParentPage();
             }
         });
@@ -3025,7 +3096,6 @@ APP.views = (function () {
 
     return {
         "init": init,
-        "refresh": refresh,
         "pageView": pageView,
         "parentView": parentView,
         "childView": childView,

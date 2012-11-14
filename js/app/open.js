@@ -3,11 +3,16 @@
  */
 APP.open = (function () {
 
+    // function variables
     var current,
         parent,
         child,
         modal;
 
+    /**
+     * This function can be called to print or set the active URL (e.g. from views or modal)
+     * href: the new URL
+     **/
     function activeUrl(href) {
         if (href) {
             current = href;
@@ -25,6 +30,7 @@ APP.open = (function () {
      * Do an AJAX request and insert it into a view
      * - url: the URL to call
      * - view: what page to insert the content int (child, parent or modal)
+     * - refresh: explicitly refresh the page
      */
     function page(url, view, refresh) {
 
@@ -40,11 +46,17 @@ APP.open = (function () {
             APP.views.backwardAnimation();
         }
 
+        // variables
         var content = view.find(".js-content"),
             scrollPosition = content.get(0).scrollTop,
             timeoutToken = null;
 
+        if (current === url) {
+            console.log("opening the current url");
+        } else {
+
             current = url;
+        }
 
             switch (view) {
                 case APP.views.parentView():
@@ -57,11 +69,6 @@ APP.open = (function () {
                     modal = url;
                     break;
             }
-
-            console.log("parent: " + parent);
-            console.log("child: " + child);
-            console.log("modal: " + modal);
-            console.log("current: " + current);
 
         $.ajax({
             url: url,
@@ -94,10 +101,35 @@ APP.open = (function () {
                 APP.loader.hide();
             }
         });
-     }
+    }
+
+    /**
+     * Refresh the active view
+     */
+    function refresh() {
+
+        console.log("refreshing...");
+
+        // check wether to refresh child or parent page
+        if (APP.views.hasChildView()) {
+
+            console.log(child);
+            page(child, APP.views.childView(), refresh);
+        } else if (APP.modal.status()) {
+
+            console.log(modal);
+            page(modal, APP.modal.modalView(), refresh);
+            console.log("url:" + APP.open.parentUrl());
+        } else {
+            console.log(parent);
+            page(modal, APP.views.parentView(), refresh);
+            console.log("url:" + APP.open.parentUrl());
+        }
+    }
 
     return {
         "page": page,
+        "refresh": refresh,
         "activeUrl": activeUrl,
         "parentUrl": parentUrl,
         "childUrl": childUrl,
