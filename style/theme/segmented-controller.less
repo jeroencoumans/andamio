@@ -1,0 +1,45 @@
+/***
+
+    Pattern to create segmented controller (tabs at the top of your page)
+
+***/
+
+@segmented-controller-background: @global-background-color;
+@segmented-controller-color: darken(@segmented-controller-background, 50%);
+
+.segmented-controller {
+    padding: @grid-s @grid-m;
+
+    .segmented-controller-item {
+        padding: @grid-s @grid-m;
+
+        .font-normal;
+        font-weight: bold;
+        font-size: @font-xs;
+        text-align: center;
+
+        border: 1px solid darken(@segmented-controller-background, 15%);
+        border-left-width: 0;
+        .gradient(@segmented-controller-background, darken(@segmented-controller-background, 15%));
+        .box-shadow(inset 0 1px 0 lighten(@segmented-controller-background, 40%));
+        color: darken(@segmented-controller-background, 50%);
+        text-shadow: 0 1px 1px lighten(@segmented-controller-background, 30%);
+
+        &.active {
+            background: darken(@segmented-controller-background, 25%);
+            border-color: darken(@segmented-controller-background, 35%);
+            .box-shadow(inset 0 1px 5px rgba(0, 0, 0, .3));
+            color: @segmented-controller-color;
+            text-shadow: 0 1px 1px @segmented-controller-background;
+        }
+
+        &:first-child {
+            border-radius: @grid-s 0 0 @grid-s;
+            border-left-width: 1px;
+        }
+
+        &:last-child {
+            border-radius: 0 @grid-s @grid-s 0;
+        }
+    }
+}
