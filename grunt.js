@@ -27,6 +27,7 @@ module.exports = function(grunt) {
                     'js/app/util.js',
                     'js/app/events.js',
                     'js/app/phone.js',
+                    'js/app/connection.js',
                     'js/app/loader.js',
                     'js/app/open.js',
                     'js/app/modal.js',

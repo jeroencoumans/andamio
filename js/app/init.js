@@ -48,6 +48,9 @@ APP.core = (function () {
         }
 
         APP.events.init();
+
+        // needs to come first so we're "online"
+        APP.connection.init();
         APP.open.init();
         APP.nav.init();
         APP.modal.init();
@@ -58,6 +61,7 @@ APP.core = (function () {
         if ($.supports.cordova) {
             APP.phone.init();
         }
+
     }
 
     return {

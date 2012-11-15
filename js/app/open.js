@@ -86,6 +86,9 @@ APP.open = (function () {
             },
             success: function(response){
 
+                // if we were offline, reset the connection to online
+                APP.connection.status("online");
+
                 $(content).html(response);
 
                 if (scrollPosition > 10) {
@@ -94,8 +97,7 @@ APP.open = (function () {
             },
             error: function(xhr, errorType, error){
 
-                var alertText = $('<a href="javascript:void(0)" class="action-refresh">Pagina kon niet geladen worden. Opnieuw laden</a>');
-                APP.alert.show(alertText);
+                APP.connection.status("offline");
             },
             complete: function() {
 
