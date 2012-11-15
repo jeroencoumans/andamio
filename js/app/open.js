@@ -34,12 +34,6 @@ APP.open = (function () {
      */
     function page(url, view, refresh) {
 
-        if ($.supports.cordova) {
-            if (! APP.phone.isOnline) {
-                alert("offline!");
-            }
-        }
-
         // make sure to open the parent
         if (APP.views.hasChildView() && view === APP.views.parentView()) {
 
@@ -100,10 +94,13 @@ APP.open = (function () {
             },
             error: function(xhr, errorType, error){
 
+                var alertText = $('<a href="javascript:void(0)" class="action-refresh">Pagina kon niet geladen worden. Opnieuw laden</a>');
+                APP.alert.show(alertText);
             },
             complete: function() {
 
                 clearTimeout(timeoutToken);
+                APP.loader.hide();
             }
         });
     }

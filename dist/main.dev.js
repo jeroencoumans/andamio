@@ -2251,96 +2251,6 @@ APP.util = (function () {
     };
 })();
 /**
- * Module that enhances the webapp with Cordova functionality
- */
-APP.phone = (function () {
-
-    var APP_FROM_BACKGROUND_REFRESH_TIMEOUT = 30 * 60 * 1000,
-        lastUpdated = new Date(),
-        connection;
-
-    function isOnline() {
-
-        if (! $.supports.cordova) {
-
-            connection = window.navigator.onLine;
-        }
-
-        return connection;
-    }
-
-    /**
-     * Intercepts all clicks on anchor tags
-     */
-    function interceptAnchorClicks() {
-
-        $(document.body).on("click", "a", function(event) {
-            if ($.supports.cordova && APP.util.isExternalLink(this)) {
-
-                // open external URL's in in-app Cordova browser
-                var href = $(this).attr("href");
-                navigator.utility.openUrl(href, "browser");
-                return false;
-            } else {
-                return true;
-            }
-        });
-    }
-
-    /**
-     * Attach Cordova listeners
-     */
-    function attachListeners() {
-
-        // hide splashscreen
-        navigator.bootstrap.addConstructor(function() {
-            cordova.exec(null, null, "SplashScreen", "hide", []);
-        });
-
-        // scroll to top on tapbar tap
-        document.addEventListener("statusbartap", function() {
-
-            var pageScroller = $(".active-view .overthrow");
-            $.scrollElement(pageScroller.get(0), 0);
-        });
-
-        // refresh when application is activated from background
-        document.addEventListener("resign", function() {
-            lastUpdated = new Date();
-        });
-
-        document.addEventListener("active", function() {
-            var now = new Date();
-            if (now - lastUpdated > APP_FROM_BACKGROUND_REFRESH_TIMEOUT) {
-                APP.open.refresh();
-            }
-        }, false);
-
-        // Support for online/offline mode
-        document.addEventListener("online", function() {
-
-            connection = false;
-        }, false);
-
-        document.addEventListener("online", function() {
-
-            connection = true;
-        }, false);
-    }
-
-    function init() {
-
-        interceptAnchorClicks();
-        // make sure to only attach the listners when Cordovia is ready
-        document.addEventListener("deviceready", attachListeners(), false);
-    }
-
-    return {
-        "init": init,
-        "isOnline": isOnline
-    };
-})();
-/**
  * Module for dealing with events, esp. preventing click events to happen
  * multiple times during animation or while content is loading.
  */
@@ -2442,6 +2352,81 @@ APP.events = (function () {
 })();
 
 /**
+ * Module that enhances the webapp with Cordova functionality
+ */
+APP.phone = (function () {
+
+    var APP_FROM_BACKGROUND_REFRESH_TIMEOUT = 30 * 60 * 1000,
+        lastUpdated = new Date();
+
+    /**
+     * Intercepts all clicks on anchor tags
+     */
+    function interceptAnchorClicks() {
+
+        $(document.body).on("click", "a", function() {
+            if (APP.util.isExternalLink(this)) {
+
+                // open external URL's in in-app Cordova browser
+                var href = $(this).attr("href");
+                navigator.utility.openUrl(href, "popover");
+                return false;
+            } else {
+                return true;
+            }
+        });
+    }
+
+    /**
+     * Attach Cordova listeners
+     */
+    function attachListeners() {
+
+        // hide splashscreen
+        navigator.bootstrap.addConstructor(function() {
+            cordova.exec(null, null, "SplashScreen", "hide", []);
+        });
+
+        // scroll to top on tapbar tap
+        document.addEventListener("statusbartap", function() {
+
+            var pageScroller = $(".active-view .overthrow");
+            $.scrollElement(pageScroller.get(0), 0);
+        }, false);
+
+        // refresh when application is activated from background
+        document.addEventListener("resign", function() {
+            lastUpdated = new Date();
+        });
+
+        document.addEventListener("active", function() {
+            var now = new Date();
+            if (now - lastUpdated > APP_FROM_BACKGROUND_REFRESH_TIMEOUT) {
+                APP.open.refresh();
+            }
+        }, false);
+    }
+
+    /**
+     * Init Cordova stuff. Only called when Cordova is actually loaded
+     */
+    function initCordova() {
+
+        interceptAnchorClicks();
+        attachListeners();
+    }
+
+    function init() {
+
+        // When Cordovia is loaded and talking to the device, initialize it
+        document.addEventListener("deviceready", initCordova(), false);
+    }
+
+    return {
+        "init": init
+    };
+})();
+/**
  * Core module for handling events and initializing capabilities
  */
 APP.loader = (function () {
@@ -2540,12 +2525,6 @@ APP.open = (function () {
      */
     function page(url, view, refresh) {
 
-        if ($.supports.cordova) {
-            if (! APP.phone.isOnline) {
-                alert("offline!");
-            }
-        }
-
         // make sure to open the parent
         if (APP.views.hasChildView() && view === APP.views.parentView()) {
 
@@ -2585,7 +2564,7 @@ APP.open = (function () {
 
         $.ajax({
             url: url,
-            timeout: 5000,
+            timeout: 500,
             headers: { "X-PJAX": true },
             beforeSend: function() {
 
@@ -2606,10 +2585,13 @@ APP.open = (function () {
             },
             error: function(xhr, errorType, error){
 
+                var alertText = $('<a href="javascript:void(0)" class="action-refresh">Pagina kon niet geladen worden. Opnieuw laden</a>');
+                APP.alert.show(alertText);
             },
             complete: function() {
 
                 clearTimeout(timeoutToken);
+                APP.loader.hide();
             }
         });
     }
@@ -3186,19 +3168,19 @@ APP.views = (function () {
 APP.alert = (function () {
 
     // variables
-    var alert,
+    var pageAlert,
         hasAlert;
 
     /**
      * Show alert
      * @param type of the alert (error, success, info)
-     * @param text of the alert
+     * @param msg of the alert
      */
-    function show(text) {
+    function show(msg) {
 
-        if (text) {
-            alert.html(text);
-            alert.show();
+        if (msg) {
+            pageAlert.html(msg);
+            pageAlert.show();
             hasAlert = true;
         }
     }
@@ -3208,7 +3190,7 @@ APP.alert = (function () {
      */
     function hide() {
 
-        alert.hide();
+        pageAlert.hide();
         hasAlert = false;
     }
 
@@ -3238,7 +3220,7 @@ APP.alert = (function () {
     function init() {
 
         // assign variables
-        alert = $("#page-alert");
+        pageAlert = $("#page-alert");
         hasAlert = false;
 
         attachListeners();
