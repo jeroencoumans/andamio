@@ -7,11 +7,22 @@ APP.phone = (function () {
         lastUpdated = new Date(),
         connection;
 
-    function isOnline() {
+    function isOnline(offline) {
 
+        // the Cordova event handlers will set the connection reported by Cordova
+        // if Cordova is not available, fall back to HTML5 or default to true
         if (! $.supports.cordova) {
 
+            // check HTML5 property
             connection = window.navigator.onLine;
+        } else if ("offline") {
+
+            // Useful for testing in offline mode
+            connection = false;
+        } else {
+
+            // By default, we assume an internet connection is present
+            connection = true;
         }
 
         return connection;
