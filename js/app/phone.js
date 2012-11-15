@@ -15,7 +15,6 @@ APP.phone = (function () {
         }
 
         return connection;
-
     }
 
     /**

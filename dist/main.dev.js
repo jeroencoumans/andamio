@@ -2267,7 +2267,6 @@ APP.phone = (function () {
         }
 
         return connection;
-
     }
 
     /**
@@ -2609,9 +2608,6 @@ APP.open = (function () {
             },
             error: function(){
 
-                for (var i = 0; i < 3; i++) {
-                    refresh();
-                }
             },
             complete: function() {
 
