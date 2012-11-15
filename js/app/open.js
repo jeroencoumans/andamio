@@ -92,20 +92,18 @@ APP.open = (function () {
             },
             success: function(response){
 
-                clearTimeout(timeoutToken);
-
                 $(content).html(response);
 
                 if (scrollPosition > 10) {
                     $.scrollElement($(content).get(0), 0);
                 }
             },
-            error: function(){
+            error: function(xhr, errorType, error){
 
             },
             complete: function() {
 
-                APP.loader.hide();
+                clearTimeout(timeoutToken);
             }
         });
     }

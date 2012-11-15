@@ -2598,20 +2598,18 @@ APP.open = (function () {
             },
             success: function(response){
 
-                clearTimeout(timeoutToken);
-
                 $(content).html(response);
 
                 if (scrollPosition > 10) {
                     $.scrollElement($(content).get(0), 0);
                 }
             },
-            error: function(){
+            error: function(xhr, errorType, error){
 
             },
             complete: function() {
 
-                APP.loader.hide();
+                clearTimeout(timeoutToken);
             }
         });
     }
@@ -3102,10 +3100,6 @@ APP.views = (function () {
      */
     function openParentPage(url, title) {
 
-        if (hasChildView()) {
-            backwardAnimation();
-        }
-
         if (url) {
             APP.open.page(url, parent);
         }
@@ -3114,6 +3108,7 @@ APP.views = (function () {
             parent.find(".js-title").text(title);
         }
 
+        // make sure that child views are hidden
         backwardAnimation();
     }
 

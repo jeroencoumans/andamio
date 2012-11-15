@@ -66,10 +66,6 @@ APP.views = (function () {
      */
     function openParentPage(url, title) {
 
-        if (hasChildView()) {
-            backwardAnimation();
-        }
-
         if (url) {
             APP.open.page(url, parent);
         }
@@ -78,6 +74,7 @@ APP.views = (function () {
             parent.find(".js-title").text(title);
         }
 
+        // make sure that child views are hidden
         backwardAnimation();
     }
 
