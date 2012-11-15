@@ -4,19 +4,19 @@
 APP.alert = (function () {
 
     // variables
-    var alert,
+    var pageAlert,
         hasAlert;
 
     /**
      * Show alert
      * @param type of the alert (error, success, info)
-     * @param text of the alert
+     * @param msg of the alert
      */
-    function show(text) {
+    function show(msg) {
 
-        if (text) {
-            alert.html(text);
-            alert.show();
+        if (msg) {
+            pageAlert.html(msg);
+            pageAlert.show();
             hasAlert = true;
         }
     }
@@ -26,7 +26,7 @@ APP.alert = (function () {
      */
     function hide() {
 
-        alert.hide();
+        pageAlert.hide();
         hasAlert = false;
     }
 
@@ -56,7 +56,7 @@ APP.alert = (function () {
     function init() {
 
         // assign variables
-        alert = $("#page-alert");
+        pageAlert = $("#page-alert");
         hasAlert = false;
 
         attachListeners();
