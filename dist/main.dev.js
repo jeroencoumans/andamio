@@ -2494,21 +2494,25 @@ APP.connection = (function () {
 APP.loader = (function () {
 
     // Variables
-    var loader,
-        spinner,
+    var pageLoader,
+        spinnerType,
+        loaderText,
+        hasLoader,
         html;
 
     /**
      * Shows the loader in an overlay
      */
     function show(msg) {
-        var loaderText = msg;
+
+        var message = msg || "";
 
         html.addClass("has-loader");
+        hasLoader = true;
 
-        if (spinner === "native") {
+        if (spinnerType === "native") {
 
-            navigator.spinner.show({"message": loaderText});
+            navigator.spinner.show({"message": message});
         } else {
 
             var img = $("#loader").find("img");
@@ -2517,7 +2521,8 @@ APP.loader = (function () {
                 img.attr("src", img.data("img-src"));
             }
 
-            loader.show();
+            pageLoader.show();
+            loaderText.text(message);
         }
 
     }
@@ -2528,13 +2533,14 @@ APP.loader = (function () {
     function hide() {
 
         html.removeClass("has-loader");
+        hasLoader = false;
 
-        if (spinner === "native") {
+        if (spinnerType === "native") {
 
             navigator.spinner.hide();
         } else {
 
-            loader.hide();
+            pageLoader.hide();
         }
     }
 
@@ -2543,7 +2549,7 @@ APP.loader = (function () {
      */
     function status() {
 
-        return html.hasClass("has-loader") ? true : false;
+        return hasLoader;
     }
 
     /**
@@ -2552,18 +2558,20 @@ APP.loader = (function () {
     function init() {
 
         html = $("html");
+        hasLoader = false;
 
         if ($.supports.cordova) {
 
             // only set the spinner to native when Cordova is injected
             navigator.bootstrap.addConstructor(function() {
-                spinner = "native";
+                spinnerType = "native";
             });
         } else {
 
-            spinner = "html",
-            loader = $("#loader"),
+            spinnerType = "html",
+            pageLoader = $("#loader"),
             html = $("html");
+            loaderText = $("#loader .loader-text");
         }
     }
 
@@ -2620,7 +2628,8 @@ APP.open = (function () {
         // variables
         var content = view.find(".js-content"),
             scrollPosition = content.get(0).scrollTop,
-            timeoutToken = null;
+            timeoutToken = null,
+            loaderText;
 
         // Set the URL of the view
         switch (view) {
@@ -2646,6 +2655,12 @@ APP.open = (function () {
             // Set the active url to the passed url
             active = url;
             content.empty();
+        }
+
+        if (refresh) {
+            loaderText = "Refreshing...";
+        } else {
+            loaderText = "Loading...";
         }
 
         $.ajax({

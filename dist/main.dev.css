@@ -717,9 +717,8 @@ sup {
   left: 0;
   z-index: 1000;
   width: 100px;
-  min-height: 100px;
   padding: 20px 10px;
-  margin: auto;
+  margin: -52px auto 0;
   text-align: center;
   background: rgba(0, 0, 0, 0.85);
   border-radius: 10px;

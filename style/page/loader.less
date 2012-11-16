@@ -7,7 +7,6 @@
 @loader-background: rgba(0,0,0, .85);
 @loader-color: #fff;
 @loader-width: 5 * @baseline;
-@loader-height: 5 * @baseline ;
 
 @loader-img-width: 32px;
 @loader-img-height: 32px;
@@ -18,8 +17,7 @@
     top: 50%;
     left: 0; right: 0;
     width: @loader-width;
-    min-height: @loader-height;
-    margin: auto;
+    margin: -(@loader-img-height + @baseline) auto 0;
     padding: @grid-l @grid-m;
     z-index: 1000;
 

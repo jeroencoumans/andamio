@@ -43,7 +43,8 @@ APP.open = (function () {
         // variables
         var content = view.find(".js-content"),
             scrollPosition = content.get(0).scrollTop,
-            timeoutToken = null;
+            timeoutToken = null,
+            loaderText;
 
         // Set the URL of the view
         switch (view) {
@@ -69,6 +70,12 @@ APP.open = (function () {
             // Set the active url to the passed url
             active = url;
             content.empty();
+        }
+
+        if (refresh) {
+            loaderText = "Refreshing...";
+        } else {
+            loaderText = "Loading...";
         }
 
         $.ajax({

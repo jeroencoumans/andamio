@@ -137,15 +137,6 @@ function checkDOM(params) {
         casper.test.assertExists(".viewport #modal-view.modal-view .page-content.js-content.overthrow");
     }
 
-    // loader
-    if (params.loader) {
-        casper.test.assertExists(".viewport #loader");
-        casper.test.assertNotVisible(".viewport #loader");
-        casper.test.assertExists(".viewport #loader.loader");
-        casper.test.assertExists(".viewport #loader.loader img");
-        casper.test.assertExists(".viewport #loader.loader img.spinner");
-    }
-
     casper.echo("*** Finished DOM");
 }
 
@@ -260,6 +251,48 @@ function checkEvents() {
 function checkLoader() {
     casper.echo("*** Checking loader...");
 
+    // loader
+    casper.test.assertExists("#loader");
+    casper.test.assertNotVisible("#loader");
+    casper.test.assertExists("#loader.loader");
+    casper.test.assertExists("#loader.loader img");
+    casper.test.assertExists("#loader.loader img.spinner");
+    casper.test.assertExists("#loader.loader .loader-text");
+
+    // check reported status
+    casper.test.assertEvalEquals(function() {
+        return APP.loader.status();
+    }, false, "Loader is hidden");
+
+    // open an alert
+    casper.evaluate(function() {
+        APP.loader.show("Hello Casper!");
+    });
+
+    // test the alert is visible
+    casper.test.assertVisible("#loader");
+
+    // test it has the correct text
+    casper.test.assertSelectorHasText('#loader .loader-text', "Hello Casper!");
+
+    // screenshot of the page with loader
+    capture("show-loader");
+
+    // check reported status
+    casper.test.assertEvalEquals(function() {
+        return APP.loader.status();
+    }, true, "Loader is shown");
+
+    // hide the loader
+    casper.evaluate(function() {
+        APP.loader.hide();
+    });
+
+    // check reported status
+    casper.test.assertEvalEquals(function() {
+        return APP.loader.status();
+    }, false, "Loader is hidden");
+
     casper.echo("*** Finished loader");
 }
 
@@ -304,6 +337,14 @@ function checkViews() {
 
     casper.echo("*** Finished views");
 }
+
+function runTests() {
+
+    checkAlert();
+    checkConnection();
+    checkLoader();
+}
+
 /***
 
     Start running the tests
@@ -339,8 +380,7 @@ casper.then(function() {
 
 casper.then(function() {
 
-    checkAlert();
-    checkConnection();
+    runTests();
 });
 
 
@@ -371,8 +411,7 @@ casper.then(function() {
 
 casper.then(function() {
 
-    checkAlert();
-    checkConnection();
+    runTests();
 });
 
 // Run it
