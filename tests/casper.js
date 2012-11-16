@@ -143,7 +143,7 @@ function checkDOM(params) {
         casper.test.assertNotVisible(".viewport #loader");
         casper.test.assertExists(".viewport #loader.loader");
         casper.test.assertExists(".viewport #loader.loader img");
-        casper.test.assertExists(".viewport #loader.loader img.spinner-dark");
+        casper.test.assertExists(".viewport #loader.loader img.spinner");
     }
 
     casper.echo("*** Finished DOM");

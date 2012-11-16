@@ -2501,13 +2501,14 @@ APP.loader = (function () {
     /**
      * Shows the loader in an overlay
      */
-    function show() {
+    function show(msg) {
+        var loaderText = msg;
 
         html.addClass("has-loader");
 
         if (spinner === "native") {
 
-            navigator.spinner.show({"message": "Laden..."});
+            navigator.spinner.show({"message": loaderText});
         } else {
 
             var img = $("#loader").find("img");
