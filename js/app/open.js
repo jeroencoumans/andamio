@@ -115,15 +115,15 @@ APP.open = (function () {
         // check wether to refresh child or parent page
         if (APP.views.hasChildView()) {
 
-            page(child, APP.views.childView(), refresh);
+            page(child, APP.views.childView(), "refresh");
 
         } else if (APP.modal.status()) {
 
-            page(modal, APP.modal.modalView(), refresh);
+            page(modal, APP.modal.modalView(), "refresh");
 
         } else {
 
-            page(parent, APP.views.parentView(), refresh);
+            page(parent, APP.views.parentView(), "refresh");
         }
     }
 
