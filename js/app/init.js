@@ -51,6 +51,7 @@ APP.core = (function () {
 
         // needs to come first so we're "online"
         APP.connection.init();
+        APP.loader.init();
         APP.open.init();
         APP.nav.init();
         APP.modal.init();

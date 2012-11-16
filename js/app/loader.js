@@ -4,8 +4,9 @@
 APP.loader = (function () {
 
     // Variables
-    var loader = $("#loader"),
-        html = $("html");
+    var loader,
+        spinner,
+        html;
 
     /**
      * Shows the loader in an overlay
@@ -14,7 +15,7 @@ APP.loader = (function () {
 
         html.addClass("has-loader");
 
-        if ($.supports.cordova && navigator.spinner) {
+        if (spinner === "native") {
 
             navigator.spinner.show({"message": "Laden..."});
         } else {
@@ -37,7 +38,7 @@ APP.loader = (function () {
 
         html.removeClass("has-loader");
 
-        if ($.supports.cordova && navigator.spinner) {
+        if (spinner === "native") {
 
             navigator.spinner.hide();
         } else {
@@ -54,7 +55,29 @@ APP.loader = (function () {
         return html.hasClass("has-loader") ? true : false;
     }
 
+    /**
+     * Check wether we use native or HTML spinner
+     */
+    function init() {
+
+        html = $("html");
+
+        if ($.supports.cordova) {
+
+            // only set the spinner to native when Cordova is injected
+            navigator.bootstrap.addConstructor(function() {
+                spinner = "native";
+            });
+        } else {
+
+            spinner = "html",
+            loader = $("#loader"),
+            html = $("html");
+        }
+    }
+
     return {
+        "init": init,
         "show": show,
         "hide": hide,
         "status": status

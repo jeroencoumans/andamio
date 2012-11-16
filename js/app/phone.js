@@ -66,7 +66,9 @@ APP.phone = (function () {
     function init() {
 
         // When Cordovia is loaded and talking to the device, initialize it
-        document.addEventListener("deviceready", initCordova, false);
+        navigator.bootstrap.addConstructor(function() {
+            initCordova();
+        });
     }
 
     return {
