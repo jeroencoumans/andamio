@@ -62,3 +62,14 @@ Just run the following command in the andamio directory:
 
 The default taks is to create development and production files:
 <code>grunt</code>
+
+Functional tests
+================
+
+To run the functional tests, you need CasperJS and PhantomJS. The tests are run
+from the root directory, which is assumed to be served at
+http://localhost/andamio/. The following command runs all current tests:
+
+<code>casperjs tests/casper.js</code>
+
+Some tests generate a screenshot, you can inspect those in tests/screenshots.
