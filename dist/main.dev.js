@@ -2250,6 +2250,14 @@ APP.util = (function () {
         "getTitle": getTitle
     };
 })();
+
+APP.delay = (function(){
+    var timer = 0;
+    return function(callback, ms){
+        clearTimeout (timer);
+        timer = setTimeout(callback, ms);
+    };
+})();
 /**
  * Module for dealing with events, esp. preventing click events to happen
  * multiple times during animation or while content is loading.
