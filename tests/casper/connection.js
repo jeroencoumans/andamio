@@ -2,6 +2,11 @@
 
     Connection module
 
+    Interfaces:
+    - status
+    - status(offline)
+    - status(online)
+
 ***/
 
 function runTest(context) {

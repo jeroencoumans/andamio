@@ -2,6 +2,13 @@
 
     Loader module
 
+    Interfaces:
+    * status
+    * show(msg)
+    * hide
+
+    TODO: test native spinner
+
 ***/
 
 function runTest(context) {

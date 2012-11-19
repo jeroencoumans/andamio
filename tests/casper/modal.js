@@ -2,6 +2,15 @@
 
     Modal module
 
+    interfaces:
+        - show
+        - hide
+        - status
+
+    event listeners:
+        - .action-show-modal
+        - .action-hide-modal
+
 ***/
 
 function initialState(context) {
