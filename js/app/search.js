@@ -76,9 +76,6 @@ APP.search = (function () {
                 APP.delay(function() {
                     doSearch();
                 }, 1000);
-            },
-            "blur": function() {
-                searchResult.hide();
             }
         });
     }

@@ -3096,10 +3096,13 @@ APP.search = (function () {
             doSearch();
         });
 
-        searchInput.on("keyup", function() {
-            APP.delay(function() {
-                doSearch();
-            }, 1000);
+        /*** Listen on keys pressed and every 1s, get the search results ***/
+        searchInput.on({
+            "keyup": function() {
+                APP.delay(function() {
+                    doSearch();
+                }, 1000);
+            }
         });
     }
 
