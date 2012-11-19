@@ -67,9 +67,9 @@ Functional tests
 ================
 
 To run the functional tests, you need CasperJS and PhantomJS. The tests are run
-from the root directory, which is assumed to be served at
-http://localhost/andamio/. The following command runs all current tests:
+from a script and check Andamio running at http://localhost/andamio/.
+The following command runs all current tests:
 
-<code>casperjs tests/casper.js</code>
+<code>./run_tests.sh</code>
 
 Some tests generate a screenshot, you can inspect those in tests/screenshots.
