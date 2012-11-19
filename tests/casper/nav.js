@@ -141,6 +141,8 @@ function actionHide(context) {
 
     casper.wait(ANIMATION_TIMEOUT, function() {
         checkHidden();
+
+        capture("action-hide-" + context);
     });
 }
 
@@ -154,7 +156,14 @@ function actionItem(context) {
         // check wether the clicked item is now also the active item
         casper.test.assertExists("#casper-click-nav.navigation-item-active");
 
+        var navText = casper.fetchText("#casper-click-nav.navigation-item-active");
+        var titleText = casper.fetchText("#parent-view .js-title");
+        casper.test.assertEquals(navText, titleText, "The parent title is equal to the active navigation item text");
+
         checkHidden();
+
+        // screenshot of the page with navigation
+        capture("action-nav-" + context);
     });
 }
 
@@ -188,9 +197,6 @@ casper.then(function () {
 
 casper.then(function () {
     actionHide("website");
-
-    capture("action-hide-website");
-
 });
 
 // test navigation links
@@ -231,8 +237,6 @@ casper.then(function () {
 
 casper.then(function () {
     actionHide("webapp");
-
-    capture("action-hide-webapp");
 });
 
 // test navigation links
