@@ -125,7 +125,7 @@ function hide(context) {
 }
 
 function actionShow(context) {
-    casper.test.info("*** Clicking on action-open-modal...");
+    casper.test.info("*** Clicking on action-show-modal...");
     casper.click(".action-show-modal");
 
     casper.wait(ANIMATION_TIMEOUT, function() {
