@@ -27,9 +27,9 @@ function capture(filename) {
 }
 
 function setupBrowser() {
-    // set iPhone dimensions
-    casper.viewport(320, 480);
-
     // set iPhone UA
     casper.userAgent(userAgentIPhone5);
+
+    // set iPhone dimensions
+    casper.viewport(320, 480);
 }
