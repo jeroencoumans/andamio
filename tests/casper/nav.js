@@ -11,8 +11,9 @@
     - active [TODO]
 
     Actions:
-    - .action-show-nav [TODO]
-    - .action-hide-nav [TODO]
+    - .action-show-nav
+    - .action-hide-nav
+    - .action-nav-item
 
 ***/
 
@@ -37,7 +38,11 @@ function initialState(context) {
         return APP.nav.items().length;
     });
 
-    casper.test.assert(navItemsLength === 5, "Length of APP.nav.items() is 5");
+    var foundNavItems = casper.evaluate(function() {
+        return __utils__.findAll(".action-nav-item").length;
+    })
+
+    casper.test.assert(navItemsLength === foundNavItems, "Length of APP.nav.items() is " + foundNavItems);
 
     // check navigation height
     var navPos = casper.getElementBounds("#page-navigation");
@@ -139,6 +144,19 @@ function actionHide(context) {
     });
 }
 
+function actionItem(context) {
+    casper.test.info("*** Clicking on a menu item...");
+    casper.click("#casper-click-nav.action-nav-item");
+
+    casper.waitForSelector("#box-1", function() {
+        casper.echo("Loading of external URL via action-nav-item works", "INFO");
+
+        // check wether the clicked item is now also the active item
+        casper.test.assertExists("#casper-click-nav.navigation-item-active");
+
+        checkHidden();
+    });
+}
 
 /***
 
@@ -154,6 +172,7 @@ casper.start(localSite, function () {
     initialState("website");
 });
 
+// test interfaces
 casper.then(function () {
     show("website");
 });
@@ -162,6 +181,7 @@ casper.then(function () {
     hide("website");
 });
 
+// test actions
 casper.then(function () {
     actionShow("website");
 });
@@ -169,15 +189,33 @@ casper.then(function () {
 casper.then(function () {
     actionHide("website");
 
+    capture("action-hide-website");
+
+});
+
+// test navigation links
+casper.then(function () {
+    show("website");
+});
+
+casper.then(function () {
+    actionItem("website");
+
     casper.test.info("*** Finished navigation");
 });
 
+/***
+
+    Start webapp test
+
+***/
 casper.thenOpen(localApp, function() {
 
     casper.test.info("*** Open webapp");
     initialState("webapp");
 });
 
+// test interfaces
 casper.then(function () {
     show("webapp");
 });
@@ -186,6 +224,7 @@ casper.then(function () {
     hide("webapp");
 });
 
+// test actions
 casper.then(function () {
     actionShow("webapp");
 });
@@ -193,9 +232,15 @@ casper.then(function () {
 casper.then(function () {
     actionHide("webapp");
 
-    casper.test.info("*** Finished navigation");
+    capture("action-hide-webapp");
 });
 
+// test navigation links
+casper.then(function () {
+    actionItem("webapp");
+
+    casper.test.info("*** Finished navigation");
+});
 
 /*** End test ***/
 
