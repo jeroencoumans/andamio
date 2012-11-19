@@ -5,7 +5,7 @@
 ***/
 
 function runTest(context) {
-    casper.echo("*** Checking connection in " + context);
+    casper.test.info("*** Checking connection in " + context);
 
     // check reported status
     casper.test.assertEvalEquals(function() {
@@ -18,7 +18,7 @@ function runTest(context) {
     });
 
     // screenshot of the page with connection alert
-    capture("connection-offline");
+    capture("connection-offline-" + context);
 
     // check reported status
     casper.test.assertEvalEquals(function() {
@@ -51,7 +51,7 @@ function runTest(context) {
         return APP.alert.status();
     }, false, "The connection alert is hidden");
 
-    casper.echo("*** Finished connection");
+    casper.test.info("*** Finished connection");
 }
 
 /***
@@ -71,14 +71,14 @@ casper.start(function () {
 
 casper.thenOpen(localSite, function() {
 
-    casper.echo("*** Open website");
+    casper.test.info("*** Open website");
     runTest("website");
 });
 
 
 casper.thenOpen(localApp, function() {
 
-    casper.echo("*** Open webapp");
+    casper.test.info("*** Open webapp");
     runTest("webapp");
 });
 

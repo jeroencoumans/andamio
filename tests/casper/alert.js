@@ -6,7 +6,7 @@
 
 function runTest(context) {
 
-    casper.echo("*** Checking alerts in " + context);
+    casper.test.info("*** Checking alerts in " + context);
 
     // check DOM
     casper.test.assertExists(".viewport > #page-alert");
@@ -30,7 +30,7 @@ function runTest(context) {
     casper.test.assertSelectorHasText('.viewport #page-alert', "Hello Casper!");
 
     // screenshot of the page with alert
-    capture("show-alert");
+    capture("show-alert-" + context);
 
     // check reported status
     casper.test.assertEvalEquals(function() {
@@ -47,7 +47,7 @@ function runTest(context) {
         return APP.alert.status();
     }, false, "Alert is hidden");
 
-    casper.echo("*** Finished alerts");
+    casper.test.info("*** Finished alerts");
 }
 
 /***
@@ -67,14 +67,14 @@ casper.start(function () {
 
 casper.thenOpen(localSite, function() {
 
-    casper.echo("*** Open website");
+    casper.test.info("*** Open website");
     runTest("website");
 });
 
 
 casper.thenOpen(localApp, function() {
 
-    casper.echo("*** Open webapp");
+    casper.test.info("*** Open webapp");
     runTest("webapp");
 });
 

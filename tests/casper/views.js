@@ -5,9 +5,9 @@
 ***/
 
 function runTest(context) {
-    casper.echo("*** Checking views in " + context);
+    casper.test.info("*** Checking views in " + context);
 
-    casper.echo("*** Finished views");
+    casper.test.info("*** Finished views");
 }
 
 /***
@@ -27,14 +27,14 @@ casper.start(function () {
 
 casper.thenOpen(localSite, function() {
 
-    casper.echo("*** Open website");
+    casper.test.info("*** Open website");
     runTest("website");
 });
 
 
 casper.thenOpen(localApp, function() {
 
-    casper.echo("*** Open webapp");
+    casper.test.info("*** Open webapp");
     runTest("webapp");
 });
 

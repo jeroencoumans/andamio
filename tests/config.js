@@ -11,6 +11,7 @@ var localSite   = "http://localhost/andamio/kitchensink.html",
     githubSite  = "http://jeroencoumans.github.com/andamio/kitchensink.html?webapp=1",
     githubApp   = "http://jeroencoumans.github.com/andamio/kitchensink.html";
 
+ANIMATION_TIMEOUT = 500;
 
 /***
 

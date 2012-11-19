@@ -11,15 +11,15 @@
 
 ***/
 
-function checkDOM(params) {
+function runTest(context) {
 
     // either webapp or website mode
-    if (params.webapp) {
-        casper.echo("*** Checking DOM of webapp...");
+    if (context === "webapp") {
+        casper.test.info("*** Checking DOM of webapp...");
         casper.test.assertExists(".webapp");
         casper.test.assertExists(".webapp .viewport");
-    } else {
-        casper.echo("*** Checking DOM of website...");
+    } else if (context === "website") {
+        casper.test.info("*** Checking DOM of website...");
         casper.test.assertExists(".website");
         casper.test.assertExists(".website .viewport");
     }
@@ -29,68 +29,69 @@ function checkDOM(params) {
     casper.test.assertExists(".viewport #page-view.page-view");
 
     // parent view
-    if (params.parentView) {
-        casper.test.assertExists(".viewport #page-view.page-view #parent-view");
-        casper.test.assertExists(".viewport #page-view.page-view #parent-view.parent-view");
+    casper.test.assertExists(".viewport #page-view.page-view #parent-view");
+    casper.test.assertExists(".viewport #page-view.page-view #parent-view.parent-view");
 
-        if (params.website) {
-            casper.test.assertVisible(".viewport #page-view.page-view #parent-view.parent-view");
-        }
-
-        casper.test.assertExists(".viewport #page-view.page-view #parent-view.parent-view .page-header");
-        casper.test.assertExists(".viewport #page-view.page-view #parent-view.parent-view .page-header .page-logo");
-        casper.test.assertExists(".viewport #page-view.page-view #parent-view.parent-view .page-header .page-logo.js-title");
-        casper.test.assertExists(".viewport #page-view.page-view #parent-view.parent-view .page-header .action-show-nav");
-        casper.test.assertExists(".viewport #page-view.page-view #parent-view.parent-view .page-header .action-show-modal");
-
-        casper.test.assertExists(".viewport #page-view.page-view #parent-view.parent-view .page-content");
-        casper.test.assertExists(".viewport #page-view.page-view #parent-view.parent-view .page-content.js-content");
-        casper.test.assertExists(".viewport #page-view.page-view #parent-view.parent-view .page-content.js-content.overthrow");
+    if (context === "website") {
+        casper.test.assertVisible(".viewport #page-view.page-view #parent-view.parent-view");
     }
+
+    casper.test.assertExists(".viewport #page-view.page-view #parent-view.parent-view .page-header");
+    casper.test.assertExists(".viewport #page-view.page-view #parent-view.parent-view .page-header .page-logo");
+    casper.test.assertExists(".viewport #page-view.page-view #parent-view.parent-view .page-header .page-logo.js-title");
+    casper.test.assertExists(".viewport #page-view.page-view #parent-view.parent-view .page-header .action-show-nav");
+    casper.test.assertExists(".viewport #page-view.page-view #parent-view.parent-view .page-header .action-show-modal");
+
+    casper.test.assertExists(".viewport #page-view.page-view #parent-view.parent-view .page-content");
+    casper.test.assertExists(".viewport #page-view.page-view #parent-view.parent-view .page-content.js-content");
+    casper.test.assertExists(".viewport #page-view.page-view #parent-view.parent-view .page-content.js-content.overthrow");
 
     // child view
-    if (params.childView) {
-        casper.test.assertExists(".viewport #page-view.page-view #child-view");
-        casper.test.assertExists(".viewport #page-view.page-view #child-view.child-view");
-        casper.test.assertExists(".viewport #page-view.page-view #child-view.child-view.view-hidden");
+    casper.test.assertExists(".viewport #page-view.page-view #child-view");
+    casper.test.assertExists(".viewport #page-view.page-view #child-view.child-view");
+    casper.test.assertExists(".viewport #page-view.page-view #child-view.child-view.view-hidden");
 
-        if (params.website) {
-            casper.test.assertNotVisible(".viewport #page-view.page-view #child-view.child-view.view-hidden");
-        }
-
-        casper.test.assertExists(".viewport #page-view.page-view #child-view.child-view .page-header");
-        casper.test.assertExists(".viewport #page-view.page-view #child-view.child-view .page-header .page-logo");
-        casper.test.assertExists(".viewport #page-view.page-view #child-view.child-view .page-header .page-logo.js-title");
-        casper.test.assertExists(".viewport #page-view.page-view #child-view.child-view .page-header .action-pop");
-
-        casper.test.assertExists(".viewport #page-view.page-view #child-view.child-view .page-content");
-        casper.test.assertExists(".viewport #page-view.page-view #child-view.child-view .page-content.js-content");
-        casper.test.assertExists(".viewport #page-view.page-view #child-view.child-view .page-content.js-content.overthrow");
+    if (context ==="website") {
+        casper.test.assertNotVisible(".viewport #page-view.page-view #child-view.child-view.view-hidden");
     }
+
+    casper.test.assertExists(".viewport #page-view.page-view #child-view.child-view .page-header");
+    casper.test.assertExists(".viewport #page-view.page-view #child-view.child-view .page-header .page-logo");
+    casper.test.assertExists(".viewport #page-view.page-view #child-view.child-view .page-header .page-logo.js-title");
+    casper.test.assertExists(".viewport #page-view.page-view #child-view.child-view .page-header .action-pop");
+
+    casper.test.assertExists(".viewport #page-view.page-view #child-view.child-view .page-content");
+    casper.test.assertExists(".viewport #page-view.page-view #child-view.child-view .page-content.js-content");
+    casper.test.assertExists(".viewport #page-view.page-view #child-view.child-view .page-content.js-content.overthrow");
+
 
     // modal view
-    if (params.modalView) {
-        casper.test.assertExists(".viewport #modal-view");
-        casper.test.assertExists(".viewport #modal-view.modal-view");
-        casper.test.assertExists(".viewport #modal-view.modal-view.view-hidden");
+    casper.test.assertExists(".viewport #modal-view");
+    casper.test.assertExists(".viewport #modal-view.modal-view");
+    casper.test.assertExists(".viewport #modal-view.modal-view.view-hidden");
 
-        if (params.website) {
-            casper.test.assertNotVisible(".viewport #modal-view.modal-view.view-hidden");
-        }
-
-        casper.test.assertExists(".viewport #modal-view.modal-view .page-header");
-        casper.test.assertExists(".viewport #modal-view.modal-view .page-header .page-logo");
-        casper.test.assertExists(".viewport #modal-view.modal-view .page-header .page-logo.js-title");
-        casper.test.assertExists(".viewport #modal-view.modal-view .page-header .action-hide-modal");
-        casper.test.assertExists(".viewport #modal-view.modal-view .page-content");
-        casper.test.assertExists(".viewport #modal-view.modal-view .page-content.js-content");
-        casper.test.assertExists(".viewport #modal-view.modal-view .page-content.js-content.overthrow");
+    if (context ==="website") {
+        casper.test.assertNotVisible(".viewport #modal-view.modal-view.view-hidden");
     }
 
-    casper.echo("*** Finished DOM");
+    casper.test.assertExists(".viewport #modal-view.modal-view .page-header");
+    casper.test.assertExists(".viewport #modal-view.modal-view .page-header .page-logo");
+    casper.test.assertExists(".viewport #modal-view.modal-view .page-header .page-logo.js-title");
+    casper.test.assertExists(".viewport #modal-view.modal-view .page-header .action-hide-modal");
+    casper.test.assertExists(".viewport #modal-view.modal-view .page-content");
+    casper.test.assertExists(".viewport #modal-view.modal-view .page-content.js-content");
+    casper.test.assertExists(".viewport #modal-view.modal-view .page-content.js-content.overthrow");
+
+    casper.test.info("*** Finished DOM");
 }
 
-/*** Run the tests, first in website, then in webapp mode ***/
+
+/***
+
+    Start running the tests
+    First we run all tests in website mode, then in webapp mode
+
+***/
 
 casper.start(function () {
     // set iPhone dimensions
@@ -102,38 +103,17 @@ casper.start(function () {
 
 casper.thenOpen(localSite, function() {
 
-    casper.echo("*** Open website");
-    casper.echo(casper.getCurrentUrl());
-    capture("home-website");
+    casper.test.info("*** Open website");
+    runTest("website");
 });
 
-casper.then(function() {
-    checkDOM({
-        "website": true,
-        "parentView": true,
-        "childView": true,
-        "pageNav": true,
-        "modalView": true
-    });
-});
 
 casper.thenOpen(localApp, function() {
 
-    casper.echo("*** Open webapp");
-    casper.echo(casper.getCurrentUrl());
-    capture("home-webapp");
+    casper.test.info("*** Open webapp");
+    runTest("webapp");
 });
 
-casper.then(function() {
-    checkDOM({
-        "website": false,
-        "webapp": true,
-        "parentView": true,
-        "childView": true,
-        "pageNav": true,
-        "modalView": true
-    });
-});
 
 /*** End test ***/
 

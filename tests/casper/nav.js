@@ -4,8 +4,8 @@
 
 ***/
 
-function runTest(context) {
-    casper.echo("*** Checking navigation in " + context);
+function checkDOM(context) {
+    casper.test.info("*** Checking navigation in " + context);
 
     // page navigation
     casper.test.assertExists(".viewport > #page-navigation");
@@ -30,36 +30,46 @@ function runTest(context) {
     }, false, "Navigation is hidden");
 
     casper.test.assertNotExists(".has-navigation");
+};
 
+function openNav(context) {
     // show navigation
+    casper.test.info("*** Showing navigation...");
     casper.evaluate(function() {
         APP.nav.show();
     });
 
-    // check reported status
-    casper.test.assertEvalEquals(function() {
-        return APP.nav.status();
-    }, true, "Navigation is shown");
+    casper.wait(ANIMATION_TIMEOUT, function() {
+        // check reported status
+        casper.test.assertEvalEquals(function() {
+            return APP.nav.status();
+        }, true, "Navigation is shown");
 
-    casper.test.assertExists(".has-navigation");
+        casper.test.assertExists(".has-navigation");
 
-    // screenshot of the page with navigation
-    capture("show-nav");
+        // screenshot of the page with navigation
+        capture("show-nav" + context);
+    });
+};
 
+function hideNav(context) {
+    casper.test.info("*** Hiding navigation...");
     // hide the navigation
     casper.evaluate(function() {
         APP.nav.hide();
     });
 
-    casper.test.assertNotExists(".has-navigation");
+    casper.wait(ANIMATION_TIMEOUT, function() {
+        casper.test.assertNotExists(".has-navigation");
 
-    // check reported status
-    casper.test.assertEvalEquals(function() {
-        return APP.nav.status();
-    }, false, "Navigation is hidden");
+        // check reported status
+        casper.test.assertEvalEquals(function() {
+            return APP.nav.status();
+        }, false, "Navigation is hidden");
+    });
 
 
-    casper.echo("*** Finished navigation");
+    casper.test.info("*** Finished navigation");
 }
 
 /***
@@ -79,15 +89,30 @@ casper.start(function () {
 
 casper.thenOpen(localSite, function() {
 
-    casper.echo("*** Open website");
-    runTest("website");
+    casper.test.info("*** Open website");
+    checkDOM("website");
 });
 
+casper.then(function () {
+    openNav("website");
+});
+
+casper.then(function () {
+    hideNav("website");
+});
 
 casper.thenOpen(localApp, function() {
 
-    casper.echo("*** Open webapp");
-    runTest("webapp");
+    casper.test.info("*** Open webapp");
+    checkDOM("webapp");
+});
+
+casper.then(function () {
+    openNav("webapp");
+});
+
+casper.then(function () {
+    hideNav("webapp");
 });
 
 

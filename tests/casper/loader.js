@@ -5,7 +5,7 @@
 ***/
 
 function runTest(context) {
-    casper.echo("*** Checking loader in " + context);
+    casper.test.info("*** Checking loader in " + context);
 
     // loader
     casper.test.assertExists(".viewport > #loader");
@@ -32,7 +32,7 @@ function runTest(context) {
     casper.test.assertSelectorHasText('#loader .loader-text', "Hello Casper!");
 
     // screenshot of the page with loader
-    capture("show-loader");
+    capture("show-loader-" + context);
 
     // check reported status
     casper.test.assertEvalEquals(function() {
@@ -49,7 +49,7 @@ function runTest(context) {
         return APP.loader.status();
     }, false, "Loader is hidden");
 
-    casper.echo("*** Finished loader");
+    casper.test.info("*** Finished loader");
 }
 
 /***
@@ -69,14 +69,14 @@ casper.start(function () {
 
 casper.thenOpen(localSite, function() {
 
-    casper.echo("*** Open website");
+    casper.test.info("*** Open website");
     runTest("website");
 });
 
 
 casper.thenOpen(localApp, function() {
 
-    casper.echo("*** Open webapp");
+    casper.test.info("*** Open webapp");
     runTest("webapp");
 });
 
