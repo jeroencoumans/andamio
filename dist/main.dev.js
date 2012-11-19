@@ -2772,7 +2772,7 @@ APP.modal = (function () {
         html.addClass("has-modalview");
         toggle.addClass("active");
         APP.views.pageView().addClass("view-hidden");
-        modal.removeClass("view-hidden");
+        modal.removeClass("view-hidden").addClass("active-view");
     }
 
     /**
@@ -2783,7 +2783,7 @@ APP.modal = (function () {
         html.removeClass("has-modalview");
         toggle.removeClass("active");
         APP.views.pageView().removeClass("view-hidden");
-        modal.addClass("view-hidden");
+        modal.addClass("view-hidden").removeClass("active-view");
     }
 
     /**

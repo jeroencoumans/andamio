@@ -14,12 +14,12 @@
 function runTest(context) {
 
     // either webapp or website mode
+    casper.test.info("*** Checking DOM of " + context);
+
     if (context === "webapp") {
-        casper.test.info("*** Checking DOM of webapp...");
         casper.test.assertExists(".webapp");
         casper.test.assertExists(".webapp .viewport");
     } else if (context === "website") {
-        casper.test.info("*** Checking DOM of website...");
         casper.test.assertExists(".website");
         casper.test.assertExists(".website .viewport");
     }
@@ -63,26 +63,6 @@ function runTest(context) {
     casper.test.assertExists(".viewport #page-view.page-view #child-view.child-view .page-content");
     casper.test.assertExists(".viewport #page-view.page-view #child-view.child-view .page-content.js-content");
     casper.test.assertExists(".viewport #page-view.page-view #child-view.child-view .page-content.js-content.overthrow");
-
-
-    // modal view
-    casper.test.assertExists(".viewport #modal-view");
-    casper.test.assertExists(".viewport #modal-view.modal-view");
-    casper.test.assertExists(".viewport #modal-view.modal-view.view-hidden");
-
-    if (context ==="website") {
-        casper.test.assertNotVisible(".viewport #modal-view.modal-view.view-hidden");
-    }
-
-    casper.test.assertExists(".viewport #modal-view.modal-view .page-header");
-    casper.test.assertExists(".viewport #modal-view.modal-view .page-header .page-logo");
-    casper.test.assertExists(".viewport #modal-view.modal-view .page-header .page-logo.js-title");
-    casper.test.assertExists(".viewport #modal-view.modal-view .page-header .action-hide-modal");
-    casper.test.assertExists(".viewport #modal-view.modal-view .page-content");
-    casper.test.assertExists(".viewport #modal-view.modal-view .page-content.js-content");
-    casper.test.assertExists(".viewport #modal-view.modal-view .page-content.js-content.overthrow");
-
-    casper.test.info("*** Finished DOM");
 }
 
 
@@ -93,20 +73,12 @@ function runTest(context) {
 
 ***/
 
-casper.start(function () {
-    // set iPhone dimensions
-    casper.viewport(320, 480);
-
-    // set iPhone UA
-    casper.userAgent(userAgentIPhone5);
-});
-
-casper.thenOpen(localSite, function() {
+casper.start(localSite, function () {
+    setupBrowser()
 
     casper.test.info("*** Open website");
     runTest("website");
 });
-
 
 casper.thenOpen(localApp, function() {
 

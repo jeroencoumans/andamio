@@ -1,6 +1,7 @@
 /***
 
     Navigation module
+    Split up in different functions so Casper will run them consecutively instead of simultaneously
 
 ***/
 
@@ -32,7 +33,7 @@ function checkDOM(context) {
     casper.test.assertNotExists(".has-navigation");
 };
 
-function openNav(context) {
+function show(context) {
     // show navigation
     casper.test.info("*** Showing navigation...");
     casper.evaluate(function() {
@@ -48,11 +49,11 @@ function openNav(context) {
         casper.test.assertExists(".has-navigation");
 
         // screenshot of the page with navigation
-        capture("show-nav" + context);
+        capture("show-nav-" + context);
     });
 };
 
-function hideNav(context) {
+function hide(context) {
     casper.test.info("*** Hiding navigation...");
     // hide the navigation
     casper.evaluate(function() {
@@ -79,26 +80,19 @@ function hideNav(context) {
 
 ***/
 
-casper.start(function () {
-    // set iPhone dimensions
-    casper.viewport(320, 480);
-
-    // set iPhone UA
-    casper.userAgent(userAgentIPhone5);
-});
-
-casper.thenOpen(localSite, function() {
+casper.start(localSite, function () {
+    setupBrowser()
 
     casper.test.info("*** Open website");
     checkDOM("website");
 });
 
 casper.then(function () {
-    openNav("website");
+    show("website");
 });
 
 casper.then(function () {
-    hideNav("website");
+    hide("website");
 });
 
 casper.thenOpen(localApp, function() {
@@ -108,11 +102,11 @@ casper.thenOpen(localApp, function() {
 });
 
 casper.then(function () {
-    openNav("webapp");
+    show("webapp");
 });
 
 casper.then(function () {
-    hideNav("webapp");
+    hide("webapp");
 });
 
 

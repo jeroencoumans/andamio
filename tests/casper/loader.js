@@ -59,20 +59,12 @@ function runTest(context) {
 
 ***/
 
-casper.start(function () {
-    // set iPhone dimensions
-    casper.viewport(320, 480);
-
-    // set iPhone UA
-    casper.userAgent(userAgentIPhone5);
-});
-
-casper.thenOpen(localSite, function() {
+casper.start(localSite, function () {
+    setupBrowser()
 
     casper.test.info("*** Open website");
     runTest("website");
 });
-
 
 casper.thenOpen(localApp, function() {
 
