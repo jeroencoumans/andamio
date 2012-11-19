@@ -105,19 +105,6 @@ function checkDOM(params) {
         casper.test.assertExists(".viewport #page-view.page-view #child-view.child-view .page-content.js-content.overthrow");
     }
 
-    // page navigation
-    if (params.pageNav) {
-        casper.test.assertExists(".viewport #page-navigation");
-        casper.test.assertExists(".viewport #page-navigation.page-navigation");
-        casper.test.assertExists(".viewport #page-navigation.page-navigation.overthrow");
-        casper.test.assertExists(".viewport #page-navigation.page-navigation.overthrow .navigation-header");
-        casper.test.assertExists(".viewport #page-navigation.page-navigation.overthrow .action-nav-item");
-        casper.test.assertExists(".viewport #page-navigation.page-navigation.overthrow .action-nav-item.navigation-item");
-        casper.test.assertExists(".viewport #page-navigation.page-navigation.overthrow .action-nav-item.navigation-item.navigation-item-active");
-        casper.test.assertExists(".viewport .page-navigation-toggle");
-        casper.test.assertExists(".viewport .page-navigation-toggle.action-hide-nav");
-    }
-
     // modal view
     if (params.modalView) {
         casper.test.assertExists(".viewport #modal-view");
@@ -146,14 +133,14 @@ function checkDOM(params) {
 
 ***/
 
-function checkAlert() {
+function checkAlert(context) {
 
-    casper.echo("*** Checking alerts...");
+    casper.echo("*** Checking alerts in " + context);
 
     // check DOM
-    casper.test.assertExists(".viewport #page-alert");
-    casper.test.assertExists(".viewport #page-alert.page-alert");
-    casper.test.assertNotVisible(".viewport #page-alert.page-alert");
+    casper.test.assertExists(".viewport > #page-alert");
+    casper.test.assertExists("#page-alert.page-alert");
+    casper.test.assertNotVisible("#page-alert.page-alert");
 
     // check reported status
     casper.test.assertEvalEquals(function() {
@@ -192,8 +179,8 @@ function checkAlert() {
     casper.echo("*** Finished alerts");
 }
 
-function checkConnection() {
-    casper.echo("*** Checking connection...");
+function checkConnection(context) {
+    casper.echo("*** Checking connection in " + context);
 
     // check reported status
     casper.test.assertEvalEquals(function() {
@@ -242,17 +229,17 @@ function checkConnection() {
     casper.echo("*** Finished connection");
 }
 
-function checkEvents() {
-    casper.echo("*** Checking events...");
+function checkEvents(context) {
+    casper.echo("*** Checking events in " + context);
 
     casper.echo("*** Finished events");
 }
 
-function checkLoader() {
-    casper.echo("*** Checking loader...");
+function checkLoader(context) {
+    casper.echo("*** Checking loader in " + context);
 
     // loader
-    casper.test.assertExists("#loader");
+    casper.test.assertExists(".viewport > #loader");
     casper.test.assertNotVisible("#loader");
     casper.test.assertExists("#loader.loader");
     casper.test.assertExists("#loader.loader img");
@@ -296,14 +283,66 @@ function checkLoader() {
     casper.echo("*** Finished loader");
 }
 
-function checkModal() {
-    casper.echo("*** Checking modals...");
+function checkModal(context) {
+    casper.echo("*** Checking modals in " + context);
 
     casper.echo("*** Finished modals");
 }
 
-function checkNav() {
-    casper.echo("*** Checking navigation...");
+function checkNav(context) {
+    casper.echo("*** Checking navigation in " + context);
+
+    // page navigation
+    casper.test.assertExists(".viewport > #page-navigation");
+    casper.test.assertExists("#page-navigation.page-navigation");
+    casper.test.assertExists("#page-navigation.page-navigation.overthrow");
+    casper.test.assertExists("#page-navigation.page-navigation.overthrow .navigation-header");
+    casper.test.assertExists("#page-navigation.page-navigation.overthrow .action-nav-item");
+    casper.test.assertExists("#page-navigation.page-navigation.overthrow .action-nav-item.navigation-item");
+    casper.test.assertExists("#page-navigation.page-navigation.overthrow .action-nav-item.navigation-item.navigation-item-active");
+    casper.test.assertExists(".viewport > .page-navigation-toggle");
+    casper.test.assertExists(".page-navigation-toggle.action-hide-nav");
+
+    if (context === "website") {
+
+    } else if (context === "webapp") {
+
+    }
+
+    // check reported status
+    casper.test.assertEvalEquals(function() {
+        return APP.nav.status();
+    }, false, "Navigation is hidden");
+
+    casper.test.assertNotExists(".has-navigation");
+
+    // show navigation
+    casper.evaluate(function() {
+        APP.nav.show();
+    });
+
+    // check reported status
+    casper.test.assertEvalEquals(function() {
+        return APP.nav.status();
+    }, true, "Navigation is shown");
+
+    casper.test.assertExists(".has-navigation");
+
+    // screenshot of the page with navigation
+    capture("show-nav");
+
+    // hide the navigation
+    casper.evaluate(function() {
+        APP.nav.hide();
+    });
+
+    casper.test.assertNotExists(".has-navigation");
+
+    // check reported status
+    casper.test.assertEvalEquals(function() {
+        return APP.nav.status();
+    }, false, "Navigation is hidden");
+
 
     casper.echo("*** Finished navigation");
 }
@@ -338,11 +377,12 @@ function checkViews() {
     casper.echo("*** Finished views");
 }
 
-function runTests() {
+function runTests(context) {
 
     checkAlert();
     checkConnection();
     checkLoader();
+    checkNav(context);
 }
 
 /***
@@ -373,14 +413,13 @@ casper.then(function() {
         "parentView": true,
         "childView": true,
         "pageNav": true,
-        "modalView": true,
-        "loader": true
+        "modalView": true
     });
 });
 
 casper.then(function() {
 
-    runTests();
+    runTests("website");
 });
 
 
@@ -404,14 +443,13 @@ casper.then(function() {
         "parentView": true,
         "childView": true,
         "pageNav": true,
-        "modalView": true,
-        "loader": true
+        "modalView": true
     });
 });
 
 casper.then(function() {
 
-    runTests();
+    runTests("webapp");
 });
 
 // Run it
