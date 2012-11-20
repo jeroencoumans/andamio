@@ -1309,6 +1309,14 @@ tr:first-child {
   vertical-align: top;
 }
 
+.local-tab-content {
+  display: none;
+}
+
+.local-tab-content.active {
+  display: block;
+}
+
 .webapp .local-tabs + .page-content {
   top: 86px;
 }
