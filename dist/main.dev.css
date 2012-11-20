@@ -1317,10 +1317,6 @@ tr:first-child {
   display: block;
 }
 
-.webapp .local-tabs + .page-content {
-  top: 86px;
-}
-
 /***
 
     Buttons
@@ -1847,7 +1843,7 @@ a {
 ***/
 
 .local-tabs {
-  padding: 5px 10px;
+  padding: 5px 5px;
   background-color: #525252;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#5e5e5e), to(#525252));
   background-image: -webkit-linear-gradient(top, #5e5e5e 0, #525252 100%);
