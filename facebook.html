@@ -288,7 +288,7 @@ APP.facebook = (function () {
         FB.api("/me/", {fields: 'id, name, picture' }, function(response) {
 
             // wrap this as Zepto object so we can set it as active item
-            var result = $(getTemplate("#fb-friend-item", response)).addClass("navigation-item-active");
+            var result = $(getTemplate("#fb-friend-item", response)).addClass("active");
 
             // update active navigation
             pageNavActive = result;
@@ -404,8 +404,8 @@ APP.facebook = (function () {
             var targetUserId = targetUser.closest(".action-user").data("user-id");
 
             // set active class
-            pageNavActive.removeClass("navigation-item-active");
-            pageNavActive = targetUser.addClass("navigation-item-active");
+            pageNavActive.removeClass("active");
+            pageNavActive = targetUser.addClass("active");
 
             APP.nav.hide();
 
@@ -423,7 +423,7 @@ APP.facebook = (function () {
     function init() {
         // Assign variables
         pageNav = $("#page-navigation");
-        pageNavActive = pageNav.find(".navigation-item-active");
+        pageNavActive = pageNav.find(".active");
         parentView = $("#parent-view .page-content");
         swipeElem = $("#swipeview");
         modalTitle = $("#modal-view .page-logo");

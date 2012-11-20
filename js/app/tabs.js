@@ -43,8 +43,8 @@ APP.tabs = (function () {
 
         if (elem) {
 
-            activeItem.removeClass("tab-item-active");
-            activeItem = elem.addClass("tab-item-active");
+            activeItem.removeClass("active");
+            activeItem = elem.addClass("active");
         } else {
 
             return activeItem;
@@ -83,7 +83,7 @@ APP.tabs = (function () {
         html = $("html");
         tabs = $("#page-tabs");
         tabItems = tabs.find(".action-tab-item");
-        activeItem = tabs.find(".tab-item-active");
+        activeItem = tabs.find(".active");
 
         attachListeners();
     }

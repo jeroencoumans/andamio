@@ -2936,8 +2936,8 @@ APP.nav = (function () {
 
         if (elem) {
 
-            activeItem.removeClass("navigation-item-active");
-            activeItem = elem.addClass("navigation-item-active");
+            activeItem.removeClass("active");
+            activeItem = elem.addClass("active");
         } else {
 
             return activeItem;
@@ -2969,7 +2969,7 @@ APP.nav = (function () {
                 url = APP.util.getUrl(target),
                 title = APP.util.getTitle(target);
 
-            if (target.hasClass("navigation-item-active")) {
+            if (target.hasClass("active")) {
 
                 hide();
                 return true;
@@ -3002,7 +3002,7 @@ APP.nav = (function () {
         nav = $("#page-navigation");
         toggle = $(".action-show-nav");
         navItems = nav.find(".action-nav-item");
-        activeItem = nav.find(".navigation-item-active");
+        activeItem = nav.find(".active");
 
         // make sure the navigation is as high as the page
         if (bodyheight > navheight) {
@@ -3171,8 +3171,8 @@ APP.tabs = (function () {
 
         if (elem) {
 
-            activeItem.removeClass("tab-item-active");
-            activeItem = elem.addClass("tab-item-active");
+            activeItem.removeClass("active");
+            activeItem = elem.addClass("active");
         } else {
 
             return activeItem;
@@ -3211,7 +3211,7 @@ APP.tabs = (function () {
         html = $("html");
         tabs = $("#page-tabs");
         tabItems = tabs.find(".action-tab-item");
-        activeItem = tabs.find(".tab-item-active");
+        activeItem = tabs.find(".active");
 
         attachListeners();
     }

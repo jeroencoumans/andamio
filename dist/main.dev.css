@@ -1764,7 +1764,7 @@ a {
   border-bottom: 1px solid #121212;
 }
 
-.navigation-item-active {
+.active {
   background-color: #2866a0;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3280c9), to(#2866a0));
   background-image: -webkit-linear-gradient(top, #3280c9 0, #2866a0 100%);
@@ -1797,7 +1797,7 @@ a {
   text-align: center;
 }
 
-.tabs .tab-item-active {
+.tabs .active {
   color: #ffffff;
   background-color: #525252;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#1e1e1e), to(#525252));

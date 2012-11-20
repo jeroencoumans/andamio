@@ -28,7 +28,7 @@ function initialState(context) {
     casper.test.assertExists("#page-navigation.page-navigation.overthrow .navigation-header");
     casper.test.assertExists("#page-navigation.page-navigation.overthrow .action-nav-item");
     casper.test.assertExists("#page-navigation.page-navigation.overthrow .action-nav-item.navigation-item");
-    casper.test.assertExists("#page-navigation.page-navigation.overthrow .action-nav-item.navigation-item.navigation-item-active");
+    casper.test.assertExists("#page-navigation.page-navigation.overthrow .action-nav-item.navigation-item.active");
     casper.test.assertExists(".viewport > .page-navigation-toggle");
     casper.test.assertExists(".page-navigation-toggle.action-hide-nav");
 
@@ -154,9 +154,9 @@ function actionItem(context) {
         casper.echo("Loading of external URL via action-nav-item works", "INFO");
 
         // check wether the clicked item is now also the active item
-        casper.test.assertExists("#casper-click-nav.navigation-item-active");
+        casper.test.assertExists("#casper-click-nav.active");
 
-        var navText = casper.fetchText("#casper-click-nav.navigation-item-active");
+        var navText = casper.fetchText("#casper-click-nav.active");
         var titleText = casper.fetchText("#parent-view .js-title");
         casper.test.assertEquals(navText, titleText, "The parent title is equal to the active navigation item text");
 
