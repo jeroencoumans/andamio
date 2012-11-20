@@ -1,0 +1,21 @@
+/***
+
+    Pattern to create segmented controller (tabs at the top of your page)
+
+***/
+
+@local-tab-height: 42px;
+
+.local-tabs {
+    .flex-row;
+
+    .local-tab-item {
+        .flex-unit;
+    }
+}
+
+.webapp {
+    .local-tabs + .page-content {
+        top: @page-header-height + @local-tab-height;
+    }
+}
