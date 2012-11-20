@@ -2513,7 +2513,7 @@ APP.loader = (function () {
      */
     function show(msg) {
 
-        var message = msg || "";
+        var message = msg || loaderText.text();
 
         html.addClass("has-loader");
         hasLoader = true;
