@@ -52,6 +52,10 @@
             // fake border
             .box-shadow(0 1px 0 lighten(@navigation-background, 10%));
         }
+
+        &.active {
+            .gradient(@blue, darken(@blue, 10%));
+        }
     }
 
     .navigation-item-secondary {
@@ -62,8 +66,4 @@
 
         color: darken(@navigation-item-color, 20%);
         text-shadow: 0 1px 1px darken(@navigation-background, 10%);
-    }
-
-    .active {
-        .gradient(@blue, darken(@blue, 10%));
     }

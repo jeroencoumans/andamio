@@ -15,11 +15,11 @@
         padding: @grid-m;
         text-align: center;
         color: @page-tabs-color;
-    }
 
-    .active {
-        .gradient(darken(@page-tabs-background, 10%), lighten(@page-tabs-background, 10%));
-        color: lighten(@page-tabs-color, 50%);
+        &.active {
+            .gradient(darken(@page-tabs-background, 10%), lighten(@page-tabs-background, 10%));
+            color: lighten(@page-tabs-color, 50%);
+        }
     }
 }
 
