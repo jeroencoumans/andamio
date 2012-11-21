@@ -56,7 +56,6 @@ APP.core = (function () {
         APP.nav.init();
         APP.modal.init();
         APP.tabs.init();
-        APP.localTabs.init();
         APP.views.init();
         APP.alert.init();
 
