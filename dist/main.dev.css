@@ -1844,19 +1844,19 @@ a {
 
 .local-tabs {
   padding: 5px 5px;
-  background-color: #525252;
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#5e5e5e), to(#525252));
-  background-image: -webkit-linear-gradient(top, #5e5e5e 0, #525252 100%);
-  background-image: -moz-linear-gradient(top, #5e5e5e 0, #525252 100%);
-  background-image: -ms-linear-gradient(top, #5e5e5e 0, #525252 100%);
-  background-image: linear-gradient(top, #5e5e5e 0, #525252 100%);
+  background-color: #474747;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#5e5e5e), to(#474747));
+  background-image: -webkit-linear-gradient(top, #5e5e5e 0, #474747 100%);
+  background-image: -moz-linear-gradient(top, #5e5e5e 0, #474747 100%);
+  background-image: -ms-linear-gradient(top, #5e5e5e 0, #474747 100%);
+  background-image: linear-gradient(top, #5e5e5e 0, #474747 100%);
   background-repeat: repeat-x;
   -webkit-box-shadow: inset 0 1px #454545;
           box-shadow: inset 0 1px #454545;
 }
 
-.local-tabs .local-tab-item {
-  padding: 3px 10px;
+.local-tab-item {
+  padding: 5px 10px;
   font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-size: 13px;
   font-weight: normal;
@@ -1872,13 +1872,18 @@ a {
   background-image: -ms-linear-gradient(top, #5e5e5e 0, #383838 100%);
   background-image: linear-gradient(top, #5e5e5e 0, #383838 100%);
   background-repeat: repeat-x;
-  border: 1px solid #1e1e1e;
-  border-left-width: 0;
-  -webkit-box-shadow: inset 0 1px 2px -1px #050505, 0 1px 1px #848484;
-          box-shadow: inset 0 1px 2px -1px #050505, 0 1px 1px #848484;
+  -webkit-box-shadow: inset 0 1px 1px -1px #121212, inset 0 1px 2px -1px #050505, 0 1px 0 #848484;
+          box-shadow: inset 0 1px 1px -1px #121212, inset 0 1px 2px -1px #050505, 0 1px 0 #848484;
 }
 
-.local-tabs .local-tab-item.active {
+@media (-webkit-max-device-pixel-ratio: 1) {
+  .local-tab-item {
+    border: 1px solid #1e1e1e;
+    border-left-width: 0;
+  }
+}
+
+.local-tab-item.active {
   color: #fff;
   text-shadow: 0 -1px 1px #1e1e1e;
   background-color: #050505;
@@ -1889,16 +1894,21 @@ a {
   background-image: linear-gradient(top, #454545 0, #050505 100%);
   background-repeat: repeat-x;
   border-color: #050505;
-  -webkit-box-shadow: inset 0 1px 2px -1px #050505, 0 1px 1px #848484;
-          box-shadow: inset 0 1px 2px -1px #050505, 0 1px 1px #848484;
+  -webkit-box-shadow: inset 0 1px 2px -1px #050505, 0 1px 0 #848484;
+          box-shadow: inset 0 1px 2px -1px #050505, 0 1px 0 #848484;
 }
 
-.local-tabs .local-tab-item:first-child {
-  border-left-width: 1px;
+.local-tab-item:first-child {
   border-radius: 5px 0 0 5px;
 }
 
-.local-tabs .local-tab-item:last-child {
+@media (-webkit-max-device-pixel-ratio: 1) {
+  .local-tab-item:first-child {
+    border-left-width: 1px;
+  }
+}
+
+.local-tab-item:last-child {
   border-radius: 0 5px 5px 0;
 }
 

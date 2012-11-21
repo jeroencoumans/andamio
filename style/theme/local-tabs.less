@@ -8,40 +8,44 @@
 @local-tabs-color: @white;
 
 .local-tabs {
-    .gradient(@local-tabs-background, darken(@local-tabs-background, 5%));
+    .gradient(@local-tabs-background, darken(@local-tabs-background, 9%));
     .box-shadow(inset 0 1px darken(@local-tabs-background, 10%));
     padding: @grid-s @grid-s;
-
+}
     .local-tab-item {
-        padding: 3px @grid-m;
+        padding: @grid-s @grid-m;
 
         .font-normal;
         font-weight: bold;
         font-size: @font-xs;
         text-align: center;
 
-        border: 1px solid darken(@local-tabs-background, 25%);
-        border-left-width: 0;
+        @media (-webkit-max-device-pixel-ratio: 1) {
+            border: 1px solid darken(@local-tabs-background, 25%);
+            border-left-width: 0;
+        }
+
         .gradient(@local-tabs-background, darken(@local-tabs-background, 15%));
-        .box-shadow(inset 0 1px 2px -1px darken(@local-tabs-background, 35%), 0 1px 1px lighten(@local-tabs-background, 15%));
+        .box-shadow(inset 0 1px 1px -1px darken(@local-tabs-background, 30%), inset 0 1px 2px -1px darken(@local-tabs-background, 35%), 0 1px 0 lighten(@local-tabs-background, 15%));
         color: darken(@local-tabs-color, 10%);
         text-shadow: 0 -1px 1px darken(@local-tabs-background, 30%);
 
         &.active {
             .gradient(darken(@local-tabs-background, 10%), darken(@local-tabs-background, 35%));
             border-color: darken(@local-tabs-background, 35%);
-            .box-shadow(inset 0 1px 2px -1px darken(@local-tabs-background, 35%), 0 1px 1px lighten(@local-tabs-background, 15%));
+            .box-shadow(inset 0 1px 2px -1px darken(@local-tabs-background, 35%), 0 1px 0 lighten(@local-tabs-background, 15%));
             color: #fff;
             text-shadow: 0 -1px 1px darken(@local-tabs-background, 25%);
         }
 
         &:first-child {
             border-radius: @grid-s 0 0 @grid-s;
-            border-left-width: 1px;
+            @media (-webkit-max-device-pixel-ratio: 1) {
+                border-left-width: 1px;
+            }
         }
 
         &:last-child {
             border-radius: 0 @grid-s @grid-s 0;
         }
     }
-}
