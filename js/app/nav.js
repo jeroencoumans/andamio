@@ -108,10 +108,17 @@ APP.nav = (function () {
                 url = APP.util.getUrl(target),
                 title = APP.util.getTitle(target);
 
-            if (target.hasClass("active")) {
+            // If user selects the active element, just close the menu
+            if (target === active()) {
 
                 hide();
                 return true;
+            }
+
+            // set page title
+            if (title) {
+
+                APP.views.parentView().find(".js-title").text(title);
             }
 
             if (url) {
@@ -119,8 +126,6 @@ APP.nav = (function () {
                 active(target);
                 hide();
 
-                // set page title
-                APP.views.parentView().find(".js-title").text(title);
                 APP.open.page(url, APP.views.parentView());
             }
         });
