@@ -14,6 +14,8 @@
 function runTest(context) {
     casper.test.info("*** Checking loader in " + context);
 
+    validateContext(context);
+
     // loader
     casper.test.assertExists(".viewport > #loader");
     casper.test.assertNotVisible("#loader");
@@ -27,6 +29,8 @@ function runTest(context) {
         return APP.loader.status();
     }, false, "Loader is hidden");
 
+    capture(context + "-loader-initial");
+
     // open an alert
     casper.evaluate(function() {
         APP.loader.show("Hello Casper!");
@@ -39,7 +43,7 @@ function runTest(context) {
     casper.test.assertSelectorHasText('#loader .loader-text', "Hello Casper!");
 
     // screenshot of the page with loader
-    capture("show-loader-" + context);
+    capture(context + "-loader-show");
 
     // check reported status
     casper.test.assertEvalEquals(function() {
@@ -55,6 +59,8 @@ function runTest(context) {
     casper.test.assertEvalEquals(function() {
         return APP.loader.status();
     }, false, "Loader is hidden");
+
+    capture(context + "-loader-hide");
 
     casper.test.info("*** Finished loader");
 }

@@ -6,6 +6,7 @@
 
 function runTest(context) {
     casper.test.info("*** Checking phone in " + context);
+    validateContext(context);
 
     casper.test.info("*** Finished phone");
 }

@@ -23,13 +23,7 @@ function initialState(context) {
     // either webapp or website mode
     casper.test.info("*** Checking DOM of " + context);
 
-    if (context === "webapp") {
-        casper.test.assertExists(".webapp");
-        casper.test.assertExists(".webapp .viewport");
-    } else if (context === "website") {
-        casper.test.assertExists(".website");
-        casper.test.assertExists(".website .viewport");
-    }
+    validateContext(context);
 
     // page view
     casper.test.assertExists(".viewport #page-view");

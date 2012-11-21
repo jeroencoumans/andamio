@@ -12,18 +12,19 @@
 function runTest(context) {
     casper.test.info("*** Checking connection in " + context);
 
+    validateContext(context);
+
     // check reported status
     casper.test.assertEvalEquals(function() {
         return APP.connection.status();
     }, "online", "The connection is online");
 
+    capture(context + "-connection-initial");
+
     // set connection to offline
     casper.evaluate(function() {
         APP.connection.status("offline");
     });
-
-    // screenshot of the page with connection alert
-    capture("connection-offline-" + context);
 
     // check reported status
     casper.test.assertEvalEquals(function() {
@@ -37,6 +38,9 @@ function runTest(context) {
     casper.test.assertEvalEquals(function() {
         return APP.alert.status();
     }, true, "The connection alert is shown");
+
+    // screenshot of the page with connection alert
+    capture(context + "-connection-offline");
 
     // set connection to online again
     casper.evaluate(function() {
@@ -55,6 +59,9 @@ function runTest(context) {
     casper.test.assertEvalEquals(function() {
         return APP.alert.status();
     }, false, "The connection alert is hidden");
+
+    // screenshot of the page with connection alert
+    capture(context + "-connection-online");
 
     casper.test.info("*** Finished connection");
 }

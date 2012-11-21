@@ -33,3 +33,14 @@ function setupBrowser() {
     // set iPhone dimensions
     casper.viewport(320, 480);
 }
+
+function validateContext(context) {
+
+    if (context === "webapp") {
+        casper.test.assertExists(".webapp");
+        casper.test.assertExists(".webapp > .viewport");
+    } else if (context === "website") {
+        casper.test.assertExists(".website");
+        casper.test.assertExists(".website > .viewport");
+    }
+}

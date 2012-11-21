@@ -18,7 +18,10 @@
 ***/
 
 function initialState(context) {
+
     casper.test.info("*** Checking navigation in " + context);
+
+    validateContext(context);
 
     // page navigation
     casper.test.assertExists(".viewport > #page-navigation");
@@ -110,11 +113,11 @@ function show(context) {
         checkShown();
 
         // screenshot of the page with navigation
-        capture("show-nav-" + context);
+        capture(context + "-nav-show");
     });
 }
 
-function hide() {
+function hide(context) {
     casper.test.info("*** Hiding navigation...");
 
     // hide the navigation
@@ -124,15 +127,18 @@ function hide() {
 
     casper.wait(ANIMATION_TIMEOUT, function() {
         checkHidden();
+        capture(context + "-nav-hide");
     });
 }
 
-function actionShow() {
+function actionShow(context) {
     casper.test.info("*** Clicking on action-show-nav...");
     casper.click(".action-show-nav");
 
     casper.wait(ANIMATION_TIMEOUT, function() {
+
         checkShown();
+        capture(context + "-nav-action-show");
     });
 }
 
@@ -141,9 +147,9 @@ function actionHide(context) {
     casper.click(".action-hide-nav");
 
     casper.wait(ANIMATION_TIMEOUT, function() {
-        checkHidden();
 
-        capture("action-hide-" + context);
+        checkHidden();
+        capture(context + "-nav-action-hide");
     });
 }
 
@@ -164,7 +170,7 @@ function actionItem(context) {
         checkHidden();
 
         // screenshot of the page loaded with navigation
-        capture("action-nav-" + context);
+        capture(context + "-nav-action-item");
     });
 }
 
@@ -183,33 +189,17 @@ casper.start(localSite, function () {
 });
 
 // test interfaces
-casper.then(function () {
-    show("website");
-});
-
-casper.then(function () {
-    hide("website");
-});
+casper.then(function () { show("website"); });
+casper.then(function () { hide("website"); });
 
 // test actions
-casper.then(function () {
-    actionShow("website");
-});
-
-casper.then(function () {
-    actionHide("website");
-});
+casper.then(function () { actionShow("website"); });
+casper.then(function () { actionHide("website"); });
 
 // test navigation links
-casper.then(function () {
-    show("website");
-});
-
-casper.then(function () {
-    actionItem("website");
-
-    casper.test.info("*** Finished navigation");
-});
+casper.then(function () { show("website"); });
+casper.then(function () { actionItem("website"); });
+casper.then(function () { casper.test.info("*** Finished navigation"); });
 
 /***
 
@@ -223,29 +213,16 @@ casper.thenOpen(localApp, function() {
 });
 
 // test interfaces
-casper.then(function () {
-    show("webapp");
-});
-
-casper.then(function () {
-    hide("webapp");
-});
+casper.then(function () { show("webapp"); });
+casper.then(function () { hide("webapp"); });
 
 // test actions
-casper.then(function () {
-    actionShow("webapp");
-});
-
-casper.then(function () {
-    actionHide("webapp");
-});
+casper.then(function () { actionShow("webapp"); });
+casper.then(function () { actionHide("webapp"); });
 
 // test navigation links
-casper.then(function () {
-    actionItem("webapp");
-
-    casper.test.info("*** Finished navigation");
-});
+casper.then(function () { actionItem("webapp"); });
+casper.then(function () {  casper.test.info("*** Finished navigation"); });
 
 /*** End test ***/
 

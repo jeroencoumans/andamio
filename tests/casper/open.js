@@ -171,6 +171,7 @@ casper.start(localSite, function () {
     setupBrowser();
 
     casper.test.info("*** Open website");
+    validateContext("website");
 });
 
 casper.then(function() {
@@ -181,13 +182,17 @@ casper.then(function() {
 casper.then(function() {
 
     checkBox2("parent");
+    capture("website-open-page-parent");
+});
+
+casper.then(function() {
     loadParent("website", "box2.html", "refresh");
 });
 
 casper.then(function() {
 
     checkBox2("parent");
-    capture("open-parent-website");
+    capture("website-open-refresh-parent");
 });
 
 casper.thenOpen(localSite, function() {
@@ -198,12 +203,17 @@ casper.thenOpen(localSite, function() {
 casper.then(function() {
 
     checkBox2("child");
+    capture("website-open-page-child");
+});
+
+casper.then(function() {
     loadChild("website", "box2.html", "refresh");
 });
 
 casper.then(function() {
 
     checkBox2("child");
+    capture("website-open-refresh-child");
 });
 
 casper.thenOpen(localSite, function() {
@@ -213,12 +223,17 @@ casper.thenOpen(localSite, function() {
 casper.then(function() {
 
     checkBox2("modal");
+    capture("website-open-page-modal");
+});
+
+casper.then(function() {
     loadModal("website", "box2.html", "refresh");
 });
 
 casper.then(function() {
 
     checkBox2("modal");
+    capture("website-open-refresh-modal");
 });
 
 /***
@@ -230,55 +245,70 @@ casper.then(function() {
 casper.thenOpen(localApp, function() {
 
     casper.test.info("*** Open webapp");
-
+    validateContext("webapp");
 });
+
 
 casper.then(function() {
 
-    loadParent("website", "box2.html");
-});
-
-casper.then(function() {
-
-    checkBox2("parent");
-    loadParent("website", "box2.html", "refresh");
+    loadParent("webapp", "box2.html");
 });
 
 casper.then(function() {
 
     checkBox2("parent");
-    capture("open-parent-webapp");
+    capture("webapp-open-page-parent");
 });
 
-casper.thenOpen(localApp, function() {
+casper.then(function() {
+    loadParent("webapp", "box2.html", "refresh");
+});
 
-    loadChild("website", "box2.html");
+casper.then(function() {
+
+    checkBox2("parent");
+    capture("webapp-open-refresh-parent");
+});
+
+casper.thenOpen(localSite, function() {
+
+    loadChild("webapp", "box2.html");
 });
 
 casper.then(function() {
 
     checkBox2("child");
-    loadChild("website", "box2.html", "refresh");
+    capture("webapp-open-page-child");
+});
+
+casper.then(function() {
+    loadChild("webapp", "box2.html", "refresh");
 });
 
 casper.then(function() {
 
     checkBox2("child");
+    capture("webapp-open-refresh-child");
 });
 
-casper.thenOpen(localApp, function() {
-    loadModal("website", "box2.html");
-});
-
-casper.then(function() {
-
-    checkBox2("modal");
-    loadModal("website", "box2.html", "refresh");
+casper.thenOpen(localSite, function() {
+    loadModal("webapp", "box2.html");
 });
 
 casper.then(function() {
 
     checkBox2("modal");
+    capture("webapp-open-page-modal");
+});
+
+casper.then(function() {
+    loadModal("webapp", "box2.html", "refresh");
+});
+
+casper.then(function() {
+
+    checkBox2("modal");
+    capture("webapp-open-refresh-modal");
 });
 
 /*** End test ***/

@@ -17,6 +17,8 @@ function initialState(context) {
 
     casper.test.info("*** Checking DOM of " + context);
 
+    validateContext(context);
+
     casper.test.assertExists(".viewport #modal-view");
     casper.test.assertExists(".viewport #modal-view.modal-view");
     casper.test.assertExists(".viewport #modal-view.modal-view.view-hidden");
@@ -38,6 +40,7 @@ function initialState(context) {
     casper.test.assertSelectorHasText(".viewport #modal-view.modal-view .page-header .page-logo.js-title", "Default modal title");
 
     checkHidden();
+    capture(context + "-modal-initial");
 
     casper.test.info("*** Finished DOM");
 }
@@ -103,9 +106,7 @@ function show(context, url, title) {
     casper.wait(ANIMATION_TIMEOUT, function() {
 
         checkShown(context);
-
-        // screenshot of the page with navigation
-        capture("show-modal-" + context);
+        capture(context + "-modal-show");
     });
 };
 
@@ -119,6 +120,7 @@ function hide(context) {
     casper.wait(ANIMATION_TIMEOUT, function() {
 
         checkHidden(context);
+        capture(context + "-modal-hide");
     });
 
     casper.test.info("*** Finished modal");
@@ -129,11 +131,11 @@ function actionShow(context) {
     casper.click(".action-show-modal");
 
     casper.wait(ANIMATION_TIMEOUT, function() {
-        capture("action-modal-" + context);
         checkShown();
 
         // also check title
         casper.test.assertSelectorHasText(".viewport #modal-view.modal-view .page-header .page-logo.js-title", "Actual modal title");
+        capture(context + "-modal-action-show");
     });
 }
 
@@ -143,6 +145,7 @@ function actionHide(context) {
 
     casper.wait(ANIMATION_TIMEOUT, function() {
         checkHidden();
+        capture(context + "-modal-action-hide");
     });
 }
 

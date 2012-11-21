@@ -7,6 +7,8 @@
 function runTest(context) {
     casper.test.info("*** Checking events in " + context);
 
+    validateContext(context);
+
     casper.test.info("*** Finished events");
 }
 

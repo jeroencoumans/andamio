@@ -93,6 +93,8 @@ function initialState(context) {
 
     casper.test.info("*** Checking alerts in " + context);
 
+    validateContext(context);
+
     // check DOM
     casper.test.assertExists(".viewport > #page-alert");
     casper.test.assertExists("#page-alert.page-alert");
@@ -103,6 +105,7 @@ function initialState(context) {
         return APP.alert.status();
     }, false, "Alert is hidden");
 
+    capture(context + "-alert-initial");
 }
 
 /***
@@ -120,24 +123,24 @@ casper.start(localSite, function () {
 });
 
 casper.then(function() {
+
     show("website");
-
-    // screenshot of the page with alert
-    capture("show-alert-website");
+    capture("website-alert-show");
 });
 
 casper.then(function() {
+
     hide("website");
+    capture("website-alert-hide");
 });
 
 casper.then(function() {
+
     showAction("website");
-
-    // screenshot of the page with alert
-    capture("show-alert-action-website");
 });
 
 casper.then(function() {
+
     hideAction("website");
 });
 
@@ -148,21 +151,19 @@ casper.thenOpen(localApp, function() {
 });
 
 casper.then(function() {
-    show("webapp");
 
-    // screenshot of the page with alert
-    capture("show-alert-webapp");
+    show("webapp");
+    capture("webapp-alert-show");
 });
 
 casper.then(function() {
+
     hide("webapp");
+    capture("webapp-alert-hide");
 });
 
 casper.then(function() {
     showAction("webapp");
-
-    // screenshot of the page with alert
-    capture("show-alert-action-webapp");
 });
 
 casper.then(function() {
