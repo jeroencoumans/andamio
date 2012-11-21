@@ -35,18 +35,18 @@ APP.localTabs = (function () {
         APP.events.attachClickHandler(".action-local-tab-item", function (event) {
 
             var target = $(event.target).closest(".action-local-tab-item"),
-                hash = $(event.target.hash);
+                url = APP.util.getUrl(target.get(0));
 
             if (target === active()) {
 
                 return true;
             }
 
-            if (hash) {
+            if (url) {
 
                 active(target);
                 tabContent.filter(".active").removeClass("active");
-                $(hash).addClass("active");
+                $(url).addClass("active");
             }
 
             // don't follow the link
