@@ -114,27 +114,23 @@ APP.nav = (function () {
                 url     = APP.util.getUrl(target),
                 title   = APP.util.getTitle(target);
 
-            // If user selects the active element, just close the menu
-            if (target === active()) {
+            // If user selects the active element, or no URL is found, just close the menu
+            if (target === active() || ! url) {
 
                 hide();
                 return;
             }
 
-            // load the page
-            if (url) {
-
-                APP.open.page(url, APP.views.parentView());
-
-                active(target);
-                hide();
-            }
+            active(target);
+            hide();
 
             // set page title
             if (title) {
 
                 APP.views.parentView().find(".js-title").text(title);
             }
+
+            APP.open.page(url, APP.views.parentView());
 
         });
     }
