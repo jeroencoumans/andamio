@@ -3033,6 +3033,70 @@ APP.nav = (function () {
 
 })();
 /**
+ * Module for revealing contet
+ */
+APP.reveal = (function () {
+
+    /**
+     * Attach event listeners
+     */
+    function attachListeners() {
+
+        APP.events.attachClickHandler(".action-reveal", function (event) {
+
+            var activeReveal,
+                activeContent,
+                targetContent,
+                activeClass = 'active',
+                activeClassSelector = '.' + activeClass,
+                target  = $(event.target);
+
+            if (!target) {
+                return;
+            }
+
+            activeReveal = target.siblings(activeClassSelector);
+
+            if (activeReveal) {
+                activeReveal.removeClass(activeClass);
+            }
+
+            target.addClass(activeClass);
+
+            targetContent = APP.util.getUrl(target);
+
+            if (!targetContent) {
+                return;
+            }
+
+            activeContent = $(targetContent).siblings(activeClassSelector);
+
+            if (activeContent) {
+                activeContent.removeClass("active");
+            }
+
+            $(targetContent).addClass(activeClass);
+
+            // don't follow the link
+            event.preventDefault();
+        });
+    }
+
+    /***
+     * Initialize variables and attach listeners
+     */
+    function init() {
+
+        attachListeners();
+    }
+
+    return {
+        "init": init
+    };
+
+})();
+
+/**
  * Module for doing search and autocomplete
  */
 APP.search = (function () {
@@ -3234,83 +3298,6 @@ APP.tabs = (function () {
         "hide": hide,
         "status": status,
         "items": items,
-        "active": active
-    };
-
-})();
-
-/**
- * Module for using tabs
- */
-APP.localTabs = (function () {
-
-    // Variables
-    var html,
-        tabs,
-        tabItems,
-        activeItem,
-        tabContent;
-
-    /**
-     * Returns the active item
-     * @elem: set the active item
-     */
-
-    function active(elem) {
-
-        if (elem) {
-
-            activeItem.removeClass("active");
-            activeItem = elem.addClass("active");
-        } else {
-
-            return activeItem;
-        }
-    }
-
-    /**
-     * Attach event listeners
-     */
-    function attachListeners() {
-
-        APP.events.attachClickHandler(".action-local-tab-item", function (event) {
-
-            var target = $(event.target).closest(".action-local-tab-item"),
-                url = APP.util.getUrl(target.get(0));
-
-            if (target === active()) {
-
-                return true;
-            }
-
-            if (url) {
-
-                active(target);
-                tabContent.filter(".active").removeClass("active");
-                $(url).addClass("active");
-            }
-
-            // don't follow the link
-            event.preventDefault();
-        });
-    }
-
-    /***
-     * Initialize variables and attach listeners
-     */
-    function init() {
-
-        html = $("html");
-        tabs = $("#local-tabs");
-        tabItems = tabs.find(".action-local-tab-item");
-        activeItem = tabs.find(".active");
-        tabContent = $(".local-tab-content");
-
-        attachListeners();
-    }
-
-    return {
-        "init": init,
         "active": active
     };
 
@@ -3597,8 +3584,8 @@ APP.core = (function () {
         APP.open.init();
         APP.nav.init();
         APP.modal.init();
+        APP.reveal.init();
         APP.tabs.init();
-        APP.localTabs.init();
         APP.views.init();
         APP.alert.init();
 

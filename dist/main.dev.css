@@ -1296,24 +1296,11 @@ tr:first-child {
 
 ***/
 
-.local-tabs {
-  display: table;
-  width: 100%;
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
-}
-
-.local-tabs .local-tab-item {
-  display: table-cell;
-  vertical-align: top;
-}
-
-.local-tab-content {
+.reveal-content {
   display: none;
 }
 
-.local-tab-content.active {
+.reveal-content.active {
   display: block;
 }
 
@@ -1429,19 +1416,18 @@ tr:first-child {
 }
 
 .button-row-pills {
-  overflow: hidden;
-  *overflow: visible;
-  *zoom: 1;
-}
-
-.button-row-pills .button {
-  float: left;
-  vertical-align: top;
-  border-left-width: 0;
-  border-radius: 0;
+  display: table;
+  width: 100%;
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
+}
+
+.button-row-pills .button {
+  display: table-cell;
+  vertical-align: top;
+  border-left-width: 0;
+  border-radius: 0;
 }
 
 .button-row-pills .button:first-child {
@@ -1838,82 +1824,6 @@ a {
 
 /***
 
-    Pattern to create segmented controller (tabs at the top of your page)
-
-***/
-
-.local-tabs {
-  padding: 5px 5px;
-  background-color: #474747;
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#5e5e5e), to(#474747));
-  background-image: -webkit-linear-gradient(top, #5e5e5e 0, #474747 100%);
-  background-image: -moz-linear-gradient(top, #5e5e5e 0, #474747 100%);
-  background-image: -ms-linear-gradient(top, #5e5e5e 0, #474747 100%);
-  background-image: linear-gradient(top, #5e5e5e 0, #474747 100%);
-  background-repeat: repeat-x;
-  -webkit-box-shadow: inset 0 1px #454545;
-          box-shadow: inset 0 1px #454545;
-}
-
-.local-tab-item {
-  padding: 5px 10px;
-  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-  font-size: 13px;
-  font-weight: normal;
-  font-weight: bold;
-  line-height: 20px;
-  color: #dcdcdc;
-  text-align: center;
-  text-shadow: 0 -1px 1px #121212;
-  background-color: #383838;
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#5e5e5e), to(#383838));
-  background-image: -webkit-linear-gradient(top, #5e5e5e 0, #383838 100%);
-  background-image: -moz-linear-gradient(top, #5e5e5e 0, #383838 100%);
-  background-image: -ms-linear-gradient(top, #5e5e5e 0, #383838 100%);
-  background-image: linear-gradient(top, #5e5e5e 0, #383838 100%);
-  background-repeat: repeat-x;
-  -webkit-box-shadow: inset 0 1px 1px -1px #121212, inset 0 1px 2px -1px #050505, 0 1px 0 #848484;
-          box-shadow: inset 0 1px 1px -1px #121212, inset 0 1px 2px -1px #050505, 0 1px 0 #848484;
-}
-
-@media (-webkit-max-device-pixel-ratio: 1) {
-  .local-tab-item {
-    border: 1px solid #1e1e1e;
-    border-left-width: 0;
-  }
-}
-
-.local-tab-item.active {
-  color: #fff;
-  text-shadow: 0 -1px 1px #1e1e1e;
-  background-color: #050505;
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#454545), to(#050505));
-  background-image: -webkit-linear-gradient(top, #454545 0, #050505 100%);
-  background-image: -moz-linear-gradient(top, #454545 0, #050505 100%);
-  background-image: -ms-linear-gradient(top, #454545 0, #050505 100%);
-  background-image: linear-gradient(top, #454545 0, #050505 100%);
-  background-repeat: repeat-x;
-  border-color: #050505;
-  -webkit-box-shadow: inset 0 1px 2px -1px #050505, 0 1px 0 #848484;
-          box-shadow: inset 0 1px 2px -1px #050505, 0 1px 0 #848484;
-}
-
-.local-tab-item:first-child {
-  border-radius: 5px 0 0 5px;
-}
-
-@media (-webkit-max-device-pixel-ratio: 1) {
-  .local-tab-item:first-child {
-    border-left-width: 1px;
-  }
-}
-
-.local-tab-item:last-child {
-  border-radius: 0 5px 5px 0;
-}
-
-/***
-
     Alert - styles for success, warning and error messages
 
 ***/
@@ -2108,6 +2018,66 @@ a {
   line-height: 30px;
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.75);
           box-shadow: 0 1px 1px rgba(0, 0, 0, 0.75);
+}
+
+/***
+
+    Pattern to create segmented controller (tabs at the top of your page)
+
+***/
+
+.button-row-pills {
+  padding: 5px 5px;
+  background-color: #474747;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#5e5e5e), to(#474747));
+  background-image: -webkit-linear-gradient(top, #5e5e5e 0, #474747 100%);
+  background-image: -moz-linear-gradient(top, #5e5e5e 0, #474747 100%);
+  background-image: -ms-linear-gradient(top, #5e5e5e 0, #474747 100%);
+  background-image: linear-gradient(top, #5e5e5e 0, #474747 100%);
+  background-repeat: repeat-x;
+  -webkit-box-shadow: inset 0 1px #454545;
+          box-shadow: inset 0 1px #454545;
+}
+
+.button-row-pills .button {
+  color: #dcdcdc;
+  text-shadow: 0 -1px 1px #121212;
+  background-color: #383838;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#5e5e5e), to(#383838));
+  background-image: -webkit-linear-gradient(top, #5e5e5e 0, #383838 100%);
+  background-image: -moz-linear-gradient(top, #5e5e5e 0, #383838 100%);
+  background-image: -ms-linear-gradient(top, #5e5e5e 0, #383838 100%);
+  background-image: linear-gradient(top, #5e5e5e 0, #383838 100%);
+  background-repeat: repeat-x;
+  -webkit-box-shadow: inset 0 1px 1px -1px #121212, inset 0 1px 2px -1px #050505, 0 1px 0 #848484;
+          box-shadow: inset 0 1px 1px -1px #121212, inset 0 1px 2px -1px #050505, 0 1px 0 #848484;
+}
+
+@media (-webkit-max-device-pixel-ratio: 1) {
+  .button-row-pills .button {
+    border-color: #1e1e1e;
+  }
+}
+
+.button-row-pills .button.active {
+  color: #fff;
+  text-shadow: 0 -1px 1px #1e1e1e;
+  background-color: #050505;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#454545), to(#050505));
+  background-image: -webkit-linear-gradient(top, #454545 0, #050505 100%);
+  background-image: -moz-linear-gradient(top, #454545 0, #050505 100%);
+  background-image: -ms-linear-gradient(top, #454545 0, #050505 100%);
+  background-image: linear-gradient(top, #454545 0, #050505 100%);
+  background-repeat: repeat-x;
+  border-color: #050505;
+  -webkit-box-shadow: inset 0 1px 2px -1px #050505, 0 1px 0 #848484;
+          box-shadow: inset 0 1px 2px -1px #050505, 0 1px 0 #848484;
+}
+
+@media (-webkit-max-device-pixel-ratio: 1) {
+  .button-row-pills .button:first-child {
+    border-left-width: 1px;
+  }
 }
 
 /***
