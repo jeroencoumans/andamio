@@ -2619,7 +2619,7 @@ APP.open = (function () {
     function page(url, view, refresh) {
 
         // make sure to open the parent
-        if (APP.views.hasChildView() && view === APP.views.parentView()) {
+        if (APP.views.hasChildPage() && view === APP.views.parentView()) {
 
             APP.views.openParentPage();
         }
@@ -2704,7 +2704,7 @@ APP.open = (function () {
     function refresh() {
 
         // check wether to refresh child or parent page
-        if (APP.views.hasChildView()) {
+        if (APP.views.hasChildPage()) {
 
             page(child, APP.views.childView(), "refresh");
 
@@ -3325,7 +3325,7 @@ APP.views = (function () {
     /**
      * Returns wether the childview is active or not
      */
-    function hasChildView() {
+    function hasChildPage() {
 
         return html.hasClass("has-childview") ? true : false;
     }
@@ -3449,7 +3449,7 @@ APP.views = (function () {
         "childView": childView,
         "openChildPage": openChildPage,
         "openParentPage": openParentPage,
-        "hasChildView": hasChildView
+        "hasChildPage": hasChildPage
     };
 
 })();

@@ -17,7 +17,7 @@ APP.views = (function () {
     /**
      * Returns wether the childview is active or not
      */
-    function hasChildView() {
+    function hasChildPage() {
 
         return html.hasClass("has-childview") ? true : false;
     }
@@ -141,7 +141,7 @@ APP.views = (function () {
         "childView": childView,
         "openChildPage": openChildPage,
         "openParentPage": openParentPage,
-        "hasChildView": hasChildView
+        "hasChildPage": hasChildPage
     };
 
 })();
