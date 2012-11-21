@@ -40,22 +40,13 @@ APP.util = (function () {
      */
     function getUrl(elem) {
 
-        var url;
+        var url = $(elem).data("url"),
+            href = $(elem).attr("href"),
+            hash = $(elem).hash;
 
-        if (elem.data("url")) {
-            url = elem.data("url");
-        } else if (elem.attr("href")) {
-            url = elem.attr("href");
-        }
-
-        if (url.substring(0,10) === "javascript" || url === "#") {
-
-            return false;
-        } else {
-
-            return url;
-        }
-
+        if (url) { return url; }
+        else if (href.substring(0,10) !== "javascript") { return href; }
+        else if (hash) { return hash; }
     }
 
     /**
