@@ -12,7 +12,8 @@ APP.nav = (function () {
         activeItem,
         navheight,
         bodyheight,
-        pageView;
+        pageView,
+        hasNavigation;
 
 
     /**
@@ -30,6 +31,7 @@ APP.nav = (function () {
      */
     function show() {
 
+        hasNavigation = true;
         html.addClass("has-navigation");
         toggle.addClass("active");
 
@@ -43,6 +45,7 @@ APP.nav = (function () {
      */
     function hide() {
 
+        hasNavigation = false;
         html.removeClass("has-navigation");
         toggle.removeClass("active");
 
@@ -56,7 +59,8 @@ APP.nav = (function () {
      */
     function status() {
 
-        return html.hasClass("has-navigation") ? true : false;
+        // return html.hasClass("has-navigation") ? true : false;
+        return hasNavigation;
     }
 
     /**
@@ -104,9 +108,9 @@ APP.nav = (function () {
         /*** TODO - page navigation stub ***/
         APP.events.attachClickHandler(".action-nav-item", function (event) {
 
-            var target = $(event.target).closest(".action-nav-item"),
-                url = APP.util.getUrl(target),
-                title = APP.util.getTitle(target);
+            var target  = $(event.target).closest(".action-nav-item"),
+                url     = APP.util.getUrl(target),
+                title   = APP.util.getTitle(target);
 
             // If user selects the active element, just close the menu
             if (target === active()) {
@@ -121,6 +125,7 @@ APP.nav = (function () {
                 APP.views.parentView().find(".js-title").text(title);
             }
 
+            // load the page
             if (url) {
 
                 active(target);
@@ -147,6 +152,8 @@ APP.nav = (function () {
         toggle = $(".action-show-nav");
         navItems = nav.find(".action-nav-item");
         activeItem = nav.find(".active");
+
+        hasNavigation = false;
 
         // make sure the navigation is as high as the page
         if (bodyheight > navheight) {

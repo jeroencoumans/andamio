@@ -2864,7 +2864,8 @@ APP.nav = (function () {
         activeItem,
         navheight,
         bodyheight,
-        pageView;
+        pageView,
+        hasNavigation;
 
 
     /**
@@ -2882,6 +2883,7 @@ APP.nav = (function () {
      */
     function show() {
 
+        hasNavigation = true;
         html.addClass("has-navigation");
         toggle.addClass("active");
 
@@ -2895,6 +2897,7 @@ APP.nav = (function () {
      */
     function hide() {
 
+        hasNavigation = false;
         html.removeClass("has-navigation");
         toggle.removeClass("active");
 
@@ -2908,7 +2911,8 @@ APP.nav = (function () {
      */
     function status() {
 
-        return html.hasClass("has-navigation") ? true : false;
+        // return html.hasClass("has-navigation") ? true : false;
+        return hasNavigation;
     }
 
     /**
@@ -2956,23 +2960,29 @@ APP.nav = (function () {
         /*** TODO - page navigation stub ***/
         APP.events.attachClickHandler(".action-nav-item", function (event) {
 
-            var target = $(event.target).closest(".action-nav-item"),
-                url = APP.util.getUrl(target),
-                title = APP.util.getTitle(target);
+            var target  = $(event.target).closest(".action-nav-item"),
+                url     = APP.util.getUrl(target),
+                title   = APP.util.getTitle(target);
 
-            if (target.hasClass("active")) {
+            // If user selects the active element, just close the menu
+            if (target === active()) {
 
                 hide();
                 return true;
             }
 
+            // set page title
+            if (title) {
+
+                APP.views.parentView().find(".js-title").text(title);
+            }
+
+            // load the page
             if (url) {
 
                 active(target);
                 hide();
 
-                // set page title
-                APP.views.parentView().find(".js-title").text(title);
                 APP.open.page(url, APP.views.parentView());
             }
         });
@@ -2995,6 +3005,8 @@ APP.nav = (function () {
         navItems = nav.find(".action-nav-item");
         activeItem = nav.find(".active");
 
+        hasNavigation = false;
+
         // make sure the navigation is as high as the page
         if (bodyheight > navheight) {
             navheight = bodyheight;
@@ -3014,7 +3026,6 @@ APP.nav = (function () {
     };
 
 })();
-
 /**
  * Module for doing search and autocomplete
  */

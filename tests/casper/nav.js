@@ -40,7 +40,7 @@ function initialState(context) {
 
     var foundNavItems = casper.evaluate(function() {
         return __utils__.findAll(".action-nav-item").length;
-    })
+    });
 
     casper.test.assert(navItemsLength === foundNavItems, "Length of APP.nav.items() is " + foundNavItems);
 
@@ -59,11 +59,11 @@ function initialState(context) {
     checkHidden();
 }
 
-function checkHidden(context) {
+function checkHidden() {
     // check reported status
     casper.test.assertEvalEquals(function() {
         return APP.nav.status();
-    }, false, "Navigation is hidden");
+    }, false, "APP.nav.status() returns false");
 
     casper.test.assertNotExists(".has-navigation");
 
@@ -75,11 +75,11 @@ function checkHidden(context) {
     casper.test.assert(pagePos.left === 0, "Page is positioned to the left");
 }
 
-function checkShown(context) {
+function checkShown() {
     // check reported status
     casper.test.assertEvalEquals(function() {
         return APP.nav.status();
-    }, true, "Navigation is shown");
+    }, true, "APP.nav.status() returns true");
 
     casper.test.assertExists(".has-navigation");
 
@@ -114,8 +114,9 @@ function show(context) {
     });
 }
 
-function hide(context) {
+function hide() {
     casper.test.info("*** Hiding navigation...");
+
     // hide the navigation
     casper.evaluate(function() {
         APP.nav.hide();
@@ -126,7 +127,7 @@ function hide(context) {
     });
 }
 
-function actionShow(context) {
+function actionShow() {
     casper.test.info("*** Clicking on action-show-nav...");
     casper.click(".action-show-nav");
 
@@ -162,7 +163,7 @@ function actionItem(context) {
 
         checkHidden();
 
-        // screenshot of the page with navigation
+        // screenshot of the page loaded with navigation
         capture("action-nav-" + context);
     });
 }
