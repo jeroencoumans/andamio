@@ -6,7 +6,8 @@ APP.modal = (function () {
     // Variables
     var html,
         modal,
-        toggle;
+        toggle,
+        hasModalview;
 
     // Export these elements for other modules
     function modalView() { return modal; }
@@ -20,6 +21,7 @@ APP.modal = (function () {
         toggle.addClass("active");
         APP.views.pageView().addClass("view-hidden");
         modal.removeClass("view-hidden").addClass("active-view");
+        hasModalview = true;
     }
 
     /**
@@ -31,6 +33,7 @@ APP.modal = (function () {
         toggle.removeClass("active");
         APP.views.pageView().removeClass("view-hidden");
         modal.addClass("view-hidden").removeClass("active-view");
+        hasModalview = false;
     }
 
     /**
@@ -38,7 +41,7 @@ APP.modal = (function () {
      */
     function status() {
 
-        return html.hasClass("has-modalview") ? true : false;
+        return hasModalview;
     }
 
     /**
@@ -84,6 +87,7 @@ APP.modal = (function () {
         html = $("html");
         modal = $("#modal-view");
         toggle = $(".action-show-modal");
+        hasModalview = html.hasClass("has-modalview") ? true : false;
 
         attachListeners();
     }

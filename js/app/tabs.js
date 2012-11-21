@@ -7,23 +7,26 @@ APP.tabs = (function () {
     var html,
         tabs,
         tabItems,
-        activeItem;
+        activeItem,
+        hasTabs;
 
     function show() {
 
         html.addClass("has-tabs");
         tabs.show();
+        hasTabs = true;
     }
 
     function hide() {
 
         html.removeClass("has-tabs");
         tabs.hide();
+        hasTabs = false;
     }
 
     function status() {
 
-        return html.hasClass("has-tabs") ? true : false;
+        return hasTabs;
     }
 
     /**
@@ -84,6 +87,7 @@ APP.tabs = (function () {
         tabs = $("#page-tabs");
         tabItems = tabs.find(".action-tab-item");
         activeItem = tabs.find(".active");
+        hasTabs = html.hasClass("has-tabs") ? true : false;
 
         attachListeners();
     }

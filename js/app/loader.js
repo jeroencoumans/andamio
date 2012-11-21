@@ -68,7 +68,7 @@ APP.loader = (function () {
     function init() {
 
         html = $("html");
-        hasLoader = false;
+        hasLoader = html.hasClass("has-loader") ? true : false;
 
         if ($.supports.cordova) {
 

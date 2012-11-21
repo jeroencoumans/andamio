@@ -31,13 +31,14 @@ APP.nav = (function () {
      */
     function show() {
 
-        hasNavigation = true;
         html.addClass("has-navigation");
         toggle.addClass("active");
 
         if (!$.supports.webapp) {
             setPageHeight(navheight);
         }
+
+        hasNavigation = true;
     }
 
     /**
@@ -45,13 +46,14 @@ APP.nav = (function () {
      */
     function hide() {
 
-        hasNavigation = false;
         html.removeClass("has-navigation");
         toggle.removeClass("active");
 
         if (!$.supports.webapp) {
             setPageHeight("");
         }
+
+        hasNavigation = false;
     }
 
     /**
@@ -153,7 +155,7 @@ APP.nav = (function () {
         navItems = nav.find(".action-nav-item");
         activeItem = nav.find(".active");
 
-        hasNavigation = false;
+        hasNavigation = html.hasClass("has-navigation") ? true : false;
 
         // make sure the navigation is as high as the page
         if (bodyheight > navheight) {
