@@ -5,7 +5,7 @@ APP.nav = (function () {
 
     // Variables
     var html,
-        body,
+        viewport,
         nav,
         toggle,
         navItems,
@@ -22,7 +22,7 @@ APP.nav = (function () {
     function setPageHeight(height) {
 
         // if navigation is enabled, set the page height to navigation height
-        body.height(height);
+        viewport.height(height);
         pageView.height(height);
     }
 
@@ -118,7 +118,16 @@ APP.nav = (function () {
             if (target === active()) {
 
                 hide();
-                return true;
+                return;
+            }
+
+            // load the page
+            if (url) {
+
+                APP.open.page(url, APP.views.parentView());
+
+                active(target);
+                hide();
             }
 
             // set page title
@@ -127,14 +136,6 @@ APP.nav = (function () {
                 APP.views.parentView().find(".js-title").text(title);
             }
 
-            // load the page
-            if (url) {
-
-                active(target);
-                hide();
-
-                APP.open.page(url, APP.views.parentView());
-            }
         });
     }
 
@@ -143,10 +144,7 @@ APP.nav = (function () {
      */
     function init() {
 
-        bodyheight = $(window).height();
-        navheight = $("#page-navigation").height();
-
-        body = $("body");
+        viewport = $(".viewport");
         pageView = $("#page-view");
         html = $("html");
 
@@ -156,6 +154,9 @@ APP.nav = (function () {
         activeItem = nav.find(".active");
 
         hasNavigation = html.hasClass("has-navigation") ? true : false;
+
+        bodyheight = $(window).height();
+        navheight = nav.height();
 
         // make sure the navigation is as high as the page
         if (bodyheight > navheight) {

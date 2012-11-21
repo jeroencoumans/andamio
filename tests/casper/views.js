@@ -1,6 +1,7 @@
 /***
 
     Views module
+
     Interfaces:
     - openParentPage
     - openChildPage
@@ -15,6 +16,10 @@
     - parentView [TODO]
     - childView [TODO]
 
+    Style:
+    .viewport
+    .parent-view[.view-hidden]
+    .child-view[.view-hidden]
 
 ***/
 

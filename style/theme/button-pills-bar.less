@@ -7,7 +7,7 @@
 @pill-background: lighten(@black, 35%);
 @pill-color: @white;
 
-.button-row-pills {
+.button-pills-bar {
     .gradient(@pill-background, darken(@pill-background, 9%));
     .box-shadow(inset 0 1px darken(@pill-background, 10%));
     padding: @grid-s @grid-s;
@@ -22,6 +22,7 @@
         .box-shadow(inset 0 1px 1px -1px darken(@pill-background, 30%), inset 0 1px 2px -1px darken(@pill-background, 35%), 0 1px 0 lighten(@pill-background, 15%));
         color: darken(@pill-color, 10%);
         text-shadow: 0 -1px 1px darken(@pill-background, 30%);
+        font-size: @font-xs;
 
         &.active {
             .gradient(darken(@pill-background, 10%), darken(@pill-background, 35%));
