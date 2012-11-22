@@ -1418,6 +1418,7 @@ tr:first-child {
 .button-pills {
   display: table;
   width: 100%;
+  margin: 0 0 10px;
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
