@@ -15,7 +15,7 @@ APP.reveal = (function () {
                 targetContent,
                 activeClass = 'active',
                 activeClassSelector = '.' + activeClass,
-                target  = $(event.target);
+                target  = $(event.target).closest(".action-reveal");
 
             if (!target) {
                 return;
