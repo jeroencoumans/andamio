@@ -69,6 +69,7 @@ APP.loader = (function () {
 
         html = $("html");
         hasLoader = html.hasClass("has-loader") ? true : false;
+        loaderText = $("#loader .loader-text");
 
         if ($.supports.cordova) {
 
@@ -81,8 +82,8 @@ APP.loader = (function () {
             spinnerType = "html",
             pageLoader = $("#loader"),
             html = $("html");
-            loaderText = $("#loader .loader-text");
         }
+
     }
 
     return {
