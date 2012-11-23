@@ -153,17 +153,35 @@ function checkChildPage(context) {
     hasChildPage(true);
 }
 
-function openChildPage(context) {
+function openChildPage(context, url) {
 
     casper.test.info("*** Opening a child page...");
-    casper.evaluate(function() {
-        APP.views.openChildPage("box2.html", "Casper Child page");
+    casper.evaluate(function(url) {
+        APP.views.openChildPage(url, "Casper Child page");
+    }, {
+        url: url
     });
 
     casper.wait(ANIMATION_TIMEOUT, function() {
         checkChildPage(context);
 
         casper.test.assertSelectorHasText("#child-view .js-title", "Casper Child page");
+    });
+}
+
+function openParentPage(context, url) {
+
+    casper.test.info("*** Opening the parent page...");
+    casper.evaluate(function(url) {
+        APP.views.openParentPage();
+    }, {
+        url: url
+    });
+
+    casper.wait(ANIMATION_TIMEOUT, function() {
+        checkParentPage(context);
+
+        casper.test.assertSelectorHasText("#parent-view .js-title", "Parent");
     });
 }
 
@@ -184,8 +202,12 @@ casper.start(localSite, function () {
 
 casper.then(function () { checkParentPage("website"); });
 casper.then(function () { capture("website-views-parent-view"); });
-casper.then(function () { openChildPage("website"); });
-casper.then(function () { capture("website-views-child-view");});
+casper.then(function () { openChildPage("website", "box.html"); });
+casper.then(function () { capture("website-views-child-view-box");});
+casper.then(function () { openParentPage("website"); });
+casper.then(function () { capture("website-views-parent-view-back");});
+casper.then(function () { openChildPage("website", "box2.html"); });
+casper.then(function () { capture("website-views-child-view-box2");});
 
 /***
 
@@ -199,10 +221,15 @@ casper.thenOpen(localApp, function() {
     initialState("webapp");
 });
 
-casper.then(function () { checkParentPage("webapp");});
-casper.then(function () { capture("webapp-views-parent-view");});
-casper.then(function () { openChildPage("webapp");});
-casper.then(function () { capture("webapp-views-child-view");});
+casper.then(function () { checkParentPage("webapp"); });
+casper.then(function () { capture("webapp-views-parent-view"); });
+casper.then(function () { openChildPage("webapp", "box.html"); });
+casper.then(function () { capture("webapp-views-child-view-box");});
+casper.then(function () { openParentPage("webapp"); });
+casper.then(function () { capture("webapp-views-parent-view-back");});
+casper.then(function () { openChildPage("webapp", "box2.html"); });
+casper.then(function () { capture("webapp-views-child-view-box2");});
+
 
 
 /*** End test ***/
