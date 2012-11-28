@@ -27,7 +27,7 @@ APP.core = (function () {
     /***
      * Initialize capabilities and attach listeners
      */
-    function init() {
+    function init(params) {
         var html = $("html");
 
         initCapabilities();
@@ -63,7 +63,6 @@ APP.core = (function () {
         if ($.supports.cordova) {
             APP.phone.init();
         }
-
     }
 
     return {
