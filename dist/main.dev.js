@@ -1253,7 +1253,7 @@ var SwipeView = (function (window, document) {
 
 			return transitionEnd[vendor];
 		})(),
-		
+
 		SwipeView = function (el, options) {
 			var i,
 				div,
@@ -1268,18 +1268,18 @@ var SwipeView = (function (window, document) {
 				hastyPageFlip: false,
 				loop: true
 			};
-		
+
 			// User defined options
 			for (i in options) this.options[i] = options[i];
-			
+
 			this.wrapper.style.overflow = 'hidden';
-			this.wrapper.style.position = 'relative';
-			
+			// this.wrapper.style.position = 'relative';
+
 			this.masterPages = [];
-			
+
 			div = document.createElement('div');
 			div.id = 'swipeview-slider';
-			div.style.cssText = 'position:relative;top:0;height:100%;width:100%;' + cssVendor + 'transition-duration:0;' + cssVendor + 'transform:translateZ(0);' + cssVendor + 'transition-timing-function:ease-out';
+			div.style.cssText = 'position:relative;top:0;height:100%;width:100%;' + cssVendor + 'transition-duration:0;' + cssVendor + 'transform:translateZ(0);';
 			this.wrapper.appendChild(div);
 			this.slider = div;
 
@@ -1293,13 +1293,13 @@ var SwipeView = (function (window, document) {
 				pageIndex = i == -1 ? this.options.numberOfPages - 1 : i;
 				div.dataset.pageIndex = pageIndex;
 				div.dataset.upcomingPageIndex = pageIndex;
-				
+
 				if (!this.options.loop && i == -1) div.style.visibility = 'hidden';
 
 				this.slider.appendChild(div);
 				this.masterPages.push(div);
 			}
-			
+
 			className = this.masterPages[1].className;
 			this.masterPages[1].className = !className ? 'swipeview-active' : className + ' swipeview-active';
 
@@ -1322,12 +1322,12 @@ var SwipeView = (function (window, document) {
 		page: 0,
 		pageIndex: 0,
 		customEvents: [],
-		
+
 		onFlip: function (fn) {
 			this.wrapper.addEventListener('swipeview-flip', fn, false);
 			this.customEvents.push(['flip', fn]);
 		},
-		
+
 		onMoveOut: function (fn) {
 			this.wrapper.addEventListener('swipeview-moveout', fn, false);
 			this.customEvents.push(['moveout', fn]);
@@ -1337,7 +1337,7 @@ var SwipeView = (function (window, document) {
 			this.wrapper.addEventListener('swipeview-movein', fn, false);
 			this.customEvents.push(['movein', fn]);
 		},
-		
+
 		onTouchStart: function (fn) {
 			this.wrapper.addEventListener('swipeview-touchstart', fn, false);
 			this.customEvents.push(['touchstart', fn]);
@@ -1348,7 +1348,7 @@ var SwipeView = (function (window, document) {
 				this.wrapper.removeEventListener('swipeview-' + this.customEvents[0][0], this.customEvents[0][1], false);
 				this.customEvents.shift();
 			}
-			
+
 			// Remove the event listeners
 			window.removeEventListener(resizeEvent, this, false);
 			this.wrapper.removeEventListener(startEvent, this, false);
@@ -1372,12 +1372,12 @@ var SwipeView = (function (window, document) {
 					Math.round(this.pageWidth * this.options.snapThreshold.replace('%', '') / 100) :
 					this.options.snapThreshold;
 		},
-		
+
 		updatePageCount: function (n) {
 			this.options.numberOfPages = n;
 			this.maxX = -this.options.numberOfPages * this.pageWidth + this.wrapperWidth;
 		},
-		
+
 		goToPage: function (p) {
 			var i;
 
@@ -1386,7 +1386,7 @@ var SwipeView = (function (window, document) {
 				className = this.masterPages[i].className;
 				/(^|\s)swipeview-loading(\s|$)/.test(className) || (this.masterPages[i].className = !className ? 'swipeview-loading' : className + ' swipeview-loading');
 			}
-			
+
 			p = p < 0 ? 0 : p > this.options.numberOfPages-1 ? this.options.numberOfPages-1 : p;
 			this.page = p;
 			this.pageIndex = p;
@@ -1401,7 +1401,7 @@ var SwipeView = (function (window, document) {
 				this.masterPages[2].style.left = this.page * 100 - 100 + '%';
 				this.masterPages[0].style.left = this.page * 100 + '%';
 				this.masterPages[1].style.left = this.page * 100 + 100 + '%';
-				
+
 				this.masterPages[2].dataset.upcomingPageIndex = this.page === 0 ? this.options.numberOfPages-1 : this.page - 1;
 				this.masterPages[0].dataset.upcomingPageIndex = this.page;
 				this.masterPages[1].dataset.upcomingPageIndex = this.page == this.options.numberOfPages-1 ? 0 : this.page + 1;
@@ -1422,13 +1422,13 @@ var SwipeView = (function (window, document) {
 				this.masterPages[2].dataset.upcomingPageIndex = this.page;
 				this.masterPages[0].dataset.upcomingPageIndex = this.page == this.options.numberOfPages-1 ? 0 : this.page + 1;
 			}
-			
+
 			this.__flip();
 		},
-		
+
 		next: function () {
 			if (!this.options.loop && this.x == this.maxX) return;
-			
+
 			this.directionX = -1;
 			this.x -= 1;
 			this.__checkPosition();
@@ -1485,9 +1485,9 @@ var SwipeView = (function (window, document) {
 			//e.preventDefault();
 
 			if (this.initiated) return;
-			
+
 			var point = hasTouch ? e.touches[0] : e;
-			
+
 			this.initiated = true;
 			this.moved = false;
 			this.thresholdExceeded = false;
@@ -1499,15 +1499,15 @@ var SwipeView = (function (window, document) {
 			this.stepsY = 0;
 			this.directionX = 0;
 			this.directionLocked = false;
-			
+
 /*			var matrix = getComputedStyle(this.slider, null).webkitTransform.replace(/[^0-9-.,]/g, '').split(',');
 			this.x = matrix[4] * 1;*/
 
 			this.slider.style[transitionDuration] = '0s';
-			
+
 			this.__event('touchstart');
 		},
-		
+
 		__move: function (e) {
 			if (!this.initiated) return;
 
@@ -1551,22 +1551,22 @@ var SwipeView = (function (window, document) {
 				this.thresholdExceeded = false;
 				this.__event('movein');
 			}
-			
+
 /*			if (newX > 0 || newX < this.maxX) {
 				newX = this.x + (deltaX / 2);
 			}*/
-			
+
 			this.__pos(newX);
 		},
-		
+
 		__end: function (e) {
 			if (!this.initiated) return;
-			
+
 			var point = hasTouch ? e.changedTouches[0] : e,
 				dist = Math.abs(point.pageX - this.startX);
 
 			this.initiated = false;
-			
+
 			if (!this.moved) return;
 
 			if (!this.options.loop && (this.x > 0 || this.x < this.maxX)) {
@@ -1583,7 +1583,7 @@ var SwipeView = (function (window, document) {
 
 			this.__checkPosition();
 		},
-		
+
 		__checkPosition: function () {
 			var pageFlip,
 				pageFlipIndex,
@@ -1621,12 +1621,12 @@ var SwipeView = (function (window, document) {
 			// Add loading class to flipped page
 			className = this.masterPages[pageFlip].className;
 			/(^|\s)swipeview-loading(\s|$)/.test(className) || (this.masterPages[pageFlip].className = !className ? 'swipeview-loading' : className + ' swipeview-loading');
-			
+
 			pageFlipIndex = pageFlipIndex - Math.floor(pageFlipIndex / this.options.numberOfPages) * this.options.numberOfPages;
 			this.masterPages[pageFlip].dataset.upcomingPageIndex = pageFlipIndex;		// Index to be loaded in the newly flipped page
 
 			newX = -this.page * this.pageWidth;
-			
+
 			this.slider.style[transitionDuration] = Math.floor(500 * Math.abs(this.x - newX) / this.pageWidth) + 'ms';
 
 			// Hide the next page if we decided to disable looping
@@ -1641,7 +1641,7 @@ var SwipeView = (function (window, document) {
 				if (this.options.hastyPageFlip) this.__flip();
 			}
 		},
-		
+
 		__flip: function () {
 			this.__event('flip');
 
@@ -1650,10 +1650,10 @@ var SwipeView = (function (window, document) {
 				this.masterPages[i].dataset.pageIndex = this.masterPages[i].dataset.upcomingPageIndex;
 			}
 		},
-		
+
 		__event: function (type) {
 			var ev = document.createEvent("Event");
-			
+
 			ev.initEvent('swipeview-' + type, true, true);
 
 			this.wrapper.dispatchEvent(ev);
@@ -2499,7 +2499,9 @@ APP.open = (function () {
      * - view: what page to insert the content int (child, parent or modal)
      * - refresh: explicitly refresh the page
      */
-    function page(url, view, refresh) {
+    function page(url, view, refresh, callback) {
+
+        if (! url || ! view) return;
 
         // make sure to open the parent
         if (APP.views.hasChildPage() && view === APP.views.parentView()) {
@@ -2508,7 +2510,7 @@ APP.open = (function () {
         }
 
         // variables
-        var content = view.find(".js-content"),
+        var content = $(view).find(".js-content"),
             scrollPosition = content.get(0).scrollTop,
             timeoutToken = null,
             loaderText;
@@ -2547,7 +2549,7 @@ APP.open = (function () {
 
         $.ajax({
             url: url,
-            timeout: 5000,
+            timeout: 7500,
             headers: { "X-PJAX": true },
             beforeSend: function() {
 
@@ -2558,7 +2560,7 @@ APP.open = (function () {
                 }, 250);
 
             },
-            success: function(response){
+            success: function(response) {
 
                 // if we were offline, reset the connection to online
                 APP.connection.status("online");
@@ -2569,14 +2571,16 @@ APP.open = (function () {
                     $.scrollElement($(content).get(0), 0);
                 }
             },
-            error: function(xhr, errorType, error){
+            error: function(xhr, errorType, error) {
 
                 APP.connection.status("offline");
+                $(document.body).trigger("APP:open:page:error");
             },
             complete: function() {
 
                 clearTimeout(timeoutToken);
                 APP.loader.hide();
+                if ($.isFunction(callback)) callback();
             }
         });
     }
@@ -2609,6 +2613,7 @@ APP.open = (function () {
         /*** Open parent page ***/
         APP.events.attachClickHandler(".action-refresh", function (event) {
 
+            APP.alert.hide();
             refresh();
         });
     }
@@ -3436,7 +3441,7 @@ APP.core = (function () {
     /***
      * Initialize capabilities and attach listeners
      */
-    function init() {
+    function init(params) {
         var html = $("html");
 
         initCapabilities();
@@ -3472,7 +3477,6 @@ APP.core = (function () {
         if ($.supports.cordova) {
             APP.phone.init();
         }
-
     }
 
     return {

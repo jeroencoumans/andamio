@@ -598,6 +598,7 @@ sup {
 }
 
 .webapp .child-view.view-hidden {
+  z-index: -1;
   -webkit-transform: translate(100%, 0) translateZ(0);
           transform: translate(100%, 0) translateZ(0);
 }
