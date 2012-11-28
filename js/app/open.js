@@ -32,7 +32,9 @@ APP.open = (function () {
      * - view: what page to insert the content int (child, parent or modal)
      * - refresh: explicitly refresh the page
      */
-    function page(url, view, refresh) {
+    function page(url, view, refresh, callback) {
+
+        if (! url || ! view) return;
 
         // make sure to open the parent
         if (APP.views.hasChildPage() && view === APP.views.parentView()) {
@@ -41,7 +43,7 @@ APP.open = (function () {
         }
 
         // variables
-        var content = view.find(".js-content"),
+        var content = $(view).find(".js-content"),
             scrollPosition = content.get(0).scrollTop,
             timeoutToken = null,
             loaderText;
@@ -80,7 +82,7 @@ APP.open = (function () {
 
         $.ajax({
             url: url,
-            timeout: 5000,
+            timeout: 7500,
             headers: { "X-PJAX": true },
             beforeSend: function() {
 
@@ -91,7 +93,7 @@ APP.open = (function () {
                 }, 250);
 
             },
-            success: function(response){
+            success: function(response) {
 
                 // if we were offline, reset the connection to online
                 APP.connection.status("online");
@@ -102,14 +104,16 @@ APP.open = (function () {
                     $.scrollElement($(content).get(0), 0);
                 }
             },
-            error: function(xhr, errorType, error){
+            error: function(xhr, errorType, error) {
 
                 APP.connection.status("offline");
+                $(document.body).trigger("APP:open:page:error");
             },
             complete: function() {
 
                 clearTimeout(timeoutToken);
                 APP.loader.hide();
+                if ($.isFunction(callback)) callback();
             }
         });
     }
@@ -142,6 +146,7 @@ APP.open = (function () {
         /*** Open parent page ***/
         APP.events.attachClickHandler(".action-refresh", function (event) {
 
+            APP.alert.hide();
             refresh();
         });
     }
