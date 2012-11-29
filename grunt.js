@@ -34,6 +34,7 @@ module.exports = function(grunt) {
                     'js/app/nav.js',
                     'js/app/reveal.js',
                     'js/app/search.js',
+                    'js/app/store.js',
                     'js/app/tabs.js',
                     'js/app/views.js',
                     'js/app/alert.js',

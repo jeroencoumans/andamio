@@ -56,6 +56,7 @@ APP.core = (function () {
         APP.nav.init();
         APP.modal.init();
         APP.reveal.init();
+        APP.store.init(params);
         APP.tabs.init();
         APP.views.init();
         APP.alert.init();

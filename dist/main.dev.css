@@ -1470,7 +1470,7 @@ button {
 .icon-arrow-down {
   width: 21px;
   height: 21px;
-  background: url(../icons/arrows.png) 0 0 no-repeat;
+  background: url(andamio/style/icons/arrows.png) 0 0 no-repeat;
   background-size: 21px 84px;
 }
 
