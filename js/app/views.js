@@ -106,7 +106,7 @@ APP.views = (function () {
      */
     function attachListeners() {
 
-        /*** Open parent page ***/
+        // Open parent page
         APP.events.attachClickHandler(".action-pop", function (event) {
 
             /*
@@ -133,7 +133,7 @@ APP.views = (function () {
             }
         });
 
-        /*** Open child page ***/
+        // Open child page
         APP.events.attachClickHandler(".action-push", function (event) {
 
             var target = $(event.target).closest(".action-push"),

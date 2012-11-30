@@ -62,7 +62,7 @@ APP.modal = (function () {
      */
     function attachListeners() {
 
-        /**
+        /*
          * Open modal
          * - if data-url is specified, it will be loaded into the modal content
          * - otherwise, if href has a URL, it will be loaded into the modal content
@@ -85,7 +85,7 @@ APP.modal = (function () {
             }
         });
 
-        /**
+        /*
          * Close modal
          */
         APP.events.attachClickHandler(".action-hide-modal", function () {

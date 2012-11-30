@@ -83,13 +83,13 @@ APP.search = (function () {
      */
     function attachListeners() {
 
-        /*** Submit search form ***/
+        // Submit search form
         APP.events.attachClickHandler(".action-search-submit", function (event) {
 
             doSearch();
         });
 
-        /*** Listen on keys pressed and every 1s, get the search results ***/
+        // Listen on keys pressed and every 1s, get the search results
         searchInput.on({
             "keyup": function() {
                 APP.delay(function() {
@@ -99,7 +99,7 @@ APP.search = (function () {
         });
     }
 
-    /***
+    /**
      * Initialize variables and attach listeners.
      *
      * Sets searchInput (`.action-search-input`), searchSubmit (`.action-search-submit`) and searchResult (`.js-search-results`) based on the searchForm

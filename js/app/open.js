@@ -165,7 +165,7 @@ APP.open = (function () {
      */
     function attachListeners() {
 
-        /*** Open parent page ***/
+        // Open parent page
         APP.events.attachClickHandler(".action-refresh", function (event) {
 
             APP.alert.hide();

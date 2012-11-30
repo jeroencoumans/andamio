@@ -111,19 +111,19 @@ APP.nav = (function () {
      */
     function attachListeners() {
 
-        /*** Menu button ***/
+        // Menu button
         APP.events.attachClickHandler(".action-show-nav", function () {
 
             show();
         });
 
-        /*** Hide menu when it's open ***/
+        // Hide menu when it's open
         APP.events.attachClickHandler(".action-hide-nav", function () {
 
             hide();
         });
 
-        /*** TODO - page navigation stub ***/
+        // page navigation
         APP.events.attachClickHandler(".action-nav-item", function (event) {
 
             var target  = $(event.target).closest(".action-nav-item"),
@@ -151,10 +151,10 @@ APP.nav = (function () {
         });
     }
 
-    /***
+    /**
      * Initialize capabilities and attach listeners
-     * Sets the active navigation element
-     * Sets the navigation status based on the `has-navigation` class on the HTML element
+     * - Sets the active navigation element
+     * - Sets the navigation status based on the `has-navigation` class on the HTML element
      * @method init
      */
     function init() {

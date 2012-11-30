@@ -63,7 +63,7 @@ APP.phone = (function () {
 
     /**
      * Init Cordova stuff. Only called when Cordova is actually loaded
-     * @initCordova
+     * @method initCordova
      * @private
      */
     function initCordova() {
@@ -74,7 +74,7 @@ APP.phone = (function () {
 
     /**
      * Checks wether Cordova is available, and then calls initCordova
-     * @init
+     * @method init
      */
     function init() {
 

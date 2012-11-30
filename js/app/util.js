@@ -64,6 +64,7 @@ APP.util = (function () {
 
     /**
      * Get title from the data attribute, falling back to the text
+     * @method getTitle
      * @param {HTMLElement} elem the element to get the title from
      * @return {String} the value of `data-title` if it's found, else the text of the element
      */

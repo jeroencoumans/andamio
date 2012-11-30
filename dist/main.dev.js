@@ -2280,6 +2280,7 @@ APP.util = (function () {
 
     /**
      * Get title from the data attribute, falling back to the text
+     * @method getTitle
      * @param {HTMLElement} elem the element to get the title from
      * @return {String} the value of `data-title` if it's found, else the text of the element
      */
@@ -2494,7 +2495,7 @@ APP.phone = (function () {
 
     /**
      * Init Cordova stuff. Only called when Cordova is actually loaded
-     * @initCordova
+     * @method initCordova
      * @private
      */
     function initCordova() {
@@ -2505,7 +2506,7 @@ APP.phone = (function () {
 
     /**
      * Checks wether Cordova is available, and then calls initCordova
-     * @init
+     * @method init
      */
     function init() {
 
@@ -2863,7 +2864,7 @@ APP.open = (function () {
      */
     function attachListeners() {
 
-        /*** Open parent page ***/
+        // Open parent page
         APP.events.attachClickHandler(".action-refresh", function (event) {
 
             APP.alert.hide();
@@ -2956,7 +2957,7 @@ APP.modal = (function () {
      */
     function attachListeners() {
 
-        /**
+        /*
          * Open modal
          * - if data-url is specified, it will be loaded into the modal content
          * - otherwise, if href has a URL, it will be loaded into the modal content
@@ -2979,7 +2980,7 @@ APP.modal = (function () {
             }
         });
 
-        /**
+        /*
          * Close modal
          */
         APP.events.attachClickHandler(".action-hide-modal", function () {
@@ -3125,19 +3126,19 @@ APP.nav = (function () {
      */
     function attachListeners() {
 
-        /*** Menu button ***/
+        // Menu button
         APP.events.attachClickHandler(".action-show-nav", function () {
 
             show();
         });
 
-        /*** Hide menu when it's open ***/
+        // Hide menu when it's open
         APP.events.attachClickHandler(".action-hide-nav", function () {
 
             hide();
         });
 
-        /*** TODO - page navigation stub ***/
+        // page navigation
         APP.events.attachClickHandler(".action-nav-item", function (event) {
 
             var target  = $(event.target).closest(".action-nav-item"),
@@ -3165,10 +3166,10 @@ APP.nav = (function () {
         });
     }
 
-    /***
+    /**
      * Initialize capabilities and attach listeners
-     * Sets the active navigation element
-     * Sets the navigation status based on the `has-navigation` class on the HTML element
+     * - Sets the active navigation element
+     * - Sets the navigation status based on the `has-navigation` class on the HTML element
      * @method init
      */
     function init() {
@@ -3361,13 +3362,13 @@ APP.search = (function () {
      */
     function attachListeners() {
 
-        /*** Submit search form ***/
+        // Submit search form
         APP.events.attachClickHandler(".action-search-submit", function (event) {
 
             doSearch();
         });
 
-        /*** Listen on keys pressed and every 1s, get the search results ***/
+        // Listen on keys pressed and every 1s, get the search results
         searchInput.on({
             "keyup": function() {
                 APP.delay(function() {
@@ -3377,7 +3378,7 @@ APP.search = (function () {
         });
     }
 
-    /***
+    /**
      * Initialize variables and attach listeners.
      *
      * Sets searchInput (`.action-search-input`), searchSubmit (`.action-search-submit`) and searchResult (`.js-search-results`) based on the searchForm
@@ -3770,7 +3771,7 @@ APP.views = (function () {
      */
     function attachListeners() {
 
-        /*** Open parent page ***/
+        // Open parent page
         APP.events.attachClickHandler(".action-pop", function (event) {
 
             /*
@@ -3797,7 +3798,7 @@ APP.views = (function () {
             }
         });
 
-        /*** Open child page ***/
+        // Open child page
         APP.events.attachClickHandler(".action-push", function (event) {
 
             var target = $(event.target).closest(".action-push"),
@@ -3849,7 +3850,6 @@ APP.views = (function () {
  */
 APP.alert = (function () {
 
-    // variables
     var pageAlert,
         hasAlert;
 

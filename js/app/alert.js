@@ -6,7 +6,6 @@
  */
 APP.alert = (function () {
 
-    // variables
     var pageAlert,
         hasAlert;
 
