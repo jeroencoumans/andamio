@@ -1,0 +1,120 @@
+/*** Import Andamio ***/
+@import "../style/main.less";
+
+/*** Styling ***/
+@webapp-background-color: @global-background-color;
+@header-font-family: "Myriad", "HelveticaNeue-Bold", "HelveticaNeue Regular","Helvetica Neue",Helvetica,Arial,sans-serif;
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    text-shadow: 0 1px 1px #fff;
+    //font-weight: normal;
+}
+
+/*** Layout ***/
+
+.webapp {
+    overflow: auto;
+
+    .viewport {
+        position: static;
+    }
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    .gradient(@global-background-color, fadeout(@global-background-color, 100%), 25%, 100%);
+    padding: @grid-l 0 3 * @grid-l;
+    max-width: 3 * @iphone-width + @grid-l;
+    margin: auto;
+
+    .page-title {
+        float: left;
+    }
+
+    .button-pills {
+        width: auto;
+        float: right;
+    }
+}
+
+.desktop-view {
+    .row;
+    min-width: 2 * @iphone-width + @grid-l;
+    max-width: 3 * @iphone-width + @grid-l;
+    margin: auto;
+
+    .main {
+        width: 50%;
+        padding-top: 4 * @grid-l;
+    }
+
+    .sidebar {
+        .overlay-right;
+        position: fixed;
+        .p50;
+    }
+}
+
+/*** iPhone preview window ***/
+@iphone-width: 380px;
+@iphone-height: 748px;
+
+.iphone {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    width: @iphone-width;
+    height: @iphone-height;
+
+    margin-top: -(@iphone-height / 2);
+    margin-left: -(@iphone-width / 2);
+
+
+    background: url(../doc/iphone.jpg) 50% 50% no-repeat;
+    background-size: contain;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+
+    padding: 153px 26px 134px 30px;
+}
+
+    .iphone-glare {
+        position: absolute;
+        top: 128px;
+        right: 23px;
+        background: url(../doc/iphone-glare.png);
+        background-size: contain;
+        width: 137px;
+        height: 366px;
+
+        pointer-events: none;
+    }
+
+    .iphone-content {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+
+/*** Boxes ***/
+.box {
+    margin: 0;
+    padding: 3 * @grid-l 0;
+    .animate(opacity);
+    opacity: 0.3;
+
+    &.active {
+        opacity: 1;
+    }
+}

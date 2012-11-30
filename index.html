@@ -1,151 +1,163 @@
 <!DOCTYPE html>
-<html lang="nl" class="website">
+<html lang="nl" class="webapp desktop no-touch">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <title>Andamio</title>
-    <link rel="stylesheet" type="text/css" href="dist/main.dev.css">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>Andamio</title>
+	<link rel="stylesheet" type="text/css" href="doc/main.css">
 </head>
 
 <body class="viewport">
+	<div class="desktop-view">
 
-    <div id="page-view" class="page-view">
-        <div id="parent-view" class="parent-view">
-            <div class="page-header">
-                <a href="/" class="page-logo js-title">Patterns</a>
-                <a href="javascript:void(0);" class="button-header-wrapper action-show-nav"><span class="button-header">Menu</span></a>
-                <a href="javascript:void(0);" class="button-header-wrapper-alternate action-show-modal" data-title="Information"><span class="button-header">Info</span></a>
-            </div>
+		<div class="header">
+			<h1 class="page-title">Andamio</h1>
+			<!-- <div id="nav" class="button-pills"></div> -->
+		</div>
 
-            <div class="page-content overthrow js-content">
+		<div id="main" class="main js-content">
 
+			<!-- Page setup -->
+			<div class="box active" id="doc-page-view" data-app-in="APP.views.openChildPage()" data-app-out="APP.views.openParentPage()">
+				<h2 class="box-header">Page views</h2>
 
-            </div>
-        </div>
+				<pre class="language-markup"><code>
+&lt;div id=&quot;page-view&quot; class=&quot;page-view&quot;&gt;
+	&lt;div id=&quot;parent-view&quot; class=&quot;parent-view active-view&quot;&gt;
 
-        <div id="child-view" class="child-view view-hidden">
-            <header class="page-header">
-                <a href="/" class="page-logo js-title"></a>
-                <a href="javascript:void(0)" class="button-header-wrapper action-pop"><span class="button-header">Terug</span></a>
-            </header>
+	&lt;/div&gt;
 
-            <div class="page-content overthrow js-content">
+	&lt;div id=&quot;child-view&quot; class=&quot;child-view view-hidden&quot;&gt;
 
+	&lt;/div&gt;
+&lt;/div&gt;
+				</code></pre>
+			</div>
 
-            </div>
-        </div>
-    </div>
+			<div class="box" id="doc-modal-view" data-app-in="APP.modal.show()" data-app-out="APP.modal.hide()">
+				<h2 class="box-header">Modals</h2>
 
-    <div id="page-navigation" class="page-navigation overthrow">
-        <h2 class="navigation-header">Structure</h2>
-        <a href="style/page/page.html" class="navigation-item active action-nav-item">Page</a>
-        <a href="style/page/views.html" class="navigation-item action-nav-item">Views</a>
-        <a href="style/page/modal.html" class="navigation-item action-nav-item">Modal views</a>
-        <a href="style/page/page-navigation.html" class="navigation-item action-nav-item">Navigation</a>
-        <a href="style/page/tabs.html" class="navigation-item action-nav-item">Tabs</a>
-        <a href="style/page/loader.html" class="navigation-item action-nav-item">Loader</a>
-        <a href="style/page/overthrow.html" class="navigation-item action-nav-item">Scrollable content</a>
+				<pre class="language-markup"><code>
+&lt;div id="modal-view" class="modal-view view-hidden"&gt;
+	&lt;div class="page-header"&gt;
+		&lt;a href="#" class="page-logo js-title"&gt;
+			Modal
+		&lt;/a&gt;
+		&lt;a href="#" class="button-header-wrapper action-hide-modal"&gt;
+			&lt;span class="button-header"&gt;
+				Close
+			&lt;/span&gt;
+		&lt;/a&gt;
+	&lt;/div&gt;
 
-        <h2 class="navigation-header">Base</h2>
-        <a href="style/base/normalize.html" class="navigation-item action-nav-item">Normalize</a>
-        <a href="style/base/typography.html" class="navigation-item action-nav-item">Typography</a>
-        <a href="style/base/grid.html" class="navigation-item action-nav-item">Grids</a>
-        <a href="style/base/overlay.html" class="navigation-item action-nav-item">Positioning</a>
+	&lt;div class="page-content overthrow js-content"&gt;
 
-        <h2 class="navigation-header">Lists</h2>
-        <a href="style/lists/bullet-list.html" class="navigation-item action-nav-item">Bullet list</a>
-        <a href="style/lists/definition-list.html" class="navigation-item action-nav-item">Definition list</a>
-        <a href="style/lists/number-list.html" class="navigation-item action-nav-item">Number list</a>
-        <a href="style/lists/media-object-list.html" class="navigation-item action-nav-item">Media object list</a>
-        <a href="style/lists/table-view.html" class="navigation-item action-nav-item">Table view</a>
-        <a href="style/lists/table-view-grouped.html" class="navigation-item action-nav-item">Table view grouped</a>
-        <a href="style/lists/tables.html" class="navigation-item action-nav-item">Tables</a>
-
-        <h2 class="navigation-header">UI components</h2>
-        <a href="style/theme/alert.html" class="navigation-item action-nav-item">Alert</a>
-        <a href="style/ui/badge.html" class="navigation-item action-nav-item">Badges</a>
-        <a href="style/theme/box.html" class="navigation-item action-nav-item">Box</a>
-        <a href="style/ui/click-block.html" class="navigation-item action-nav-item">Clickable elements</a>
-        <a href="style/ui/divider.html" class="navigation-item action-nav-item">Divider</a>
-        <a href="style/ui/pager.html" class="navigation-item action-nav-item">Pager</a>
-
-        <h2 class="navigation-header">Buttons</h2>
-        <a href="style/ui/button.html" class="navigation-item action-nav-item">Buttons</a>
-        <a href="style/ui/button-header.html" class="navigation-item action-nav-item">Button header</a>
-        <a href="style/ui/button-wrapper.html" class="navigation-item action-nav-item">Button wrapper</a>
-        <a href="style/ui/button-list.html" class="navigation-item action-nav-item">Button list</a>
-        <a href="style/ui/button-row.html" class="navigation-item action-nav-item">Button row</a>
-        <a href="style/ui/button-pills.html" class="navigation-item action-nav-item">Button pills</a>
-
-        <h2 class="navigation-header">Forms</h2>
-        <a href="style/ui/forms.html" class="navigation-item action-nav-item">Forms</a>
-        <a href="style/ui/form-horizontal.html" class="navigation-item action-nav-item">Horizontal forms</a>
-        <a href="style/ui/form-vertical.html" class="navigation-item action-nav-item">Vertical forms</a>
-        <a href="style/ui/form-search.html" class="navigation-item action-nav-item">Search</a>
+	&lt;/div&gt;
+&lt;/div&gt;
+				</code></pre>
+			</div>
 
 
-        <h2 class="navigation-header">Icons</h2>
-        <a href="style/ui/icons.html" class="navigation-item action-nav-item">Icons</a>
-        <a href="style/ui/icon-arrows.html" class="navigation-item action-nav-item">Arrows</a>
+			<div class="box" id="doc-views-content" data-app-in="">
+				<h2 class="box-header">Views content</h2>
+
+				<pre class="language-markup"><code>
+&lt;div class=&quot;page-header&quot;&gt;
+	&lt;a href=&quot;/&quot; class=&quot;page-logo action-page-title&quot;&gt;
+		Title
+	&lt;/a&gt;
+	&lt;a href=&quot;#&quot; class=&quot;button-header-wrapper action-show-nav&quot;&gt;
+		&lt;span class=&quot;button-header&quot;&gt;
+			Menu
+		&lt;/span&gt;
+	&lt;/a&gt;
+&lt;/div&gt;
+&lt;div class=&quot;page-content overthrow&quot;&gt;
 
 
-        <h2 class="navigation-header">Media</h2>
-        <a href="style/ui/media.html" class="navigation-item action-nav-item">Media</a>
-        <a href="style/ui/media-caption.html" class="navigation-item action-nav-item">Media with caption</a>
-        <a href="style/ui/media-object.html" class="navigation-item action-nav-item">Media object</a>
-        <a href="style/ui/video.html" class="navigation-item action-nav-item">Video</a>
+&lt;/div&gt;
+				</code></pre>
+			</div>
 
-        <h2 class="navigation-header">CSS mixins</h2>
-        <a href="style/mixins/animate.html" class="navigation-item action-nav-item">Animate</a>
-        <a href="style/mixins/border-radius.html" class="navigation-item action-nav-item">Border radius</a>
-        <a href="style/mixins/box-shadow.html" class="navigation-item action-nav-item">Box shadow</a>
-        <a href="style/mixins/box-sizing.html" class="navigation-item action-nav-item">Box sizing</a>
-        <a href="style/mixins/button-gradient.html" class="navigation-item action-nav-item">Button gradient</a>
-        <a href="style/mixins/center-block.html" class="navigation-item action-nav-item">Center block</a>
-        <a href="style/mixins/gradient.html" class="navigation-item action-nav-item">Gradient</a>
-        <a href="style/mixins/hide-text.html" class="navigation-item action-nav-item">Hide text</a>
-        <a href="style/mixins/striped-list.html" class="navigation-item action-nav-item">Striped list</a>
-        <a href="style/mixins/transform.html" class="navigation-item action-nav-item">Transform</a>
-        <a href="style/mixins/truncate.html" class="navigation-item action-nav-item">Truncate</a>
-    </div>
+			<!-- Page navigation -->
+			<div class="box active" id="doc-page-navigation" data-app-in="APP.nav.show()" data-app-out="APP.nav.hide()">
+				<h2 class="box-header">Page navigation</h2>
+				<pre class="language-markup"><code>
+&lt;div id=&quot;page-navigation&quot; class=&quot;page-navigation overthrow&quot;&gt;
+	&lt;h2 class=&quot;navigation-header&quot;&gt;
+		Navigation header
+	&lt;/h2&gt;
+	&lt;a href=&quot;#&quot; class=&quot;navigation-item active action-nav-item&quot;&gt;
+		Active navigation item
+	&lt;/a&gt;
+	&lt;a href=&quot;#&quot; class=&quot;navigation-item action-nav-item&quot;&gt;
+		Navigation item
+	&lt;/a&gt;
+	&lt;a href=&quot;#&quot; class=&quot;navigation-item action-nav-item&quot;&gt;
+		Navigation item
+	&lt;/a&gt;
+&lt;/div&gt;
 
-    <a href="javascript:void(0)" class="page-navigation-toggle action-hide-nav"></a>
+&lt;a href=&quot;#&quot; class=&quot;page-navigation-toggle action-hide-nav&quot;&gt;&lt;/a&gt;
+				</code></pre>
+			</div>
 
-    <div id="modal-view" class="modal-view view-hidden">
-        <div class="page-header">
-            <a href="/" class="page-logo js-title">About Andamio</a>
-            <a href="javascript:void(0);" class="button-header-wrapper action-hide-modal"><span class="button-header">Close</span></a>
-        </div>
+			<div class="box" id="doc-loader" data-app-in="APP.loader.show()" data-app-out="APP.loader.hide()">
+				<h2 class="box-header">Loader</h2>
+				<pre class="language-markup"><code>
+&lt;div id=&quot;loader&quot; class=&quot;loader&quot; style=&quot;display:none&quot;&gt;
+	&lt;img src=&quot;img/spinner-dark.gif&quot; class=&quot;spinner&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;
+	&lt;div class=&quot;loader-text&quot;&gt;Loading...&lt;/div&gt;
+&lt;/div&gt;
+				</code></pre>
+			</div>
 
-        <div class="page-content overthrow js-content">
-            <div class="box">
-                Andamio was created by Jeroen Coumans to speed up prototyping and creating the frontend for mobile web applications.
-            </div>
-        </div>
-    </div>
 
-    <div id="loader" class="loader" style="display:none">
-        <img src="img/spinner-dark.gif" class="spinner" width="32" height="32">
-        <div class="loader-text"></div>
-    </div>
+			<div class="box">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+			</div>
 
-    <div id="page-alert" class="page-alert action-hide-alert" style="display:none">
-        <a href="#" class="action-refresh button">Refresh</a>
-    </div>
+		</div>
+		<div class="sidebar">
+			<div id="iphone" class="iphone startup">
+				<div class="iphone-glare"></div>
+				<iframe class="iphone-content" src="tests/index.html?webapp=1" id="iphone-content"></iframe>
+			</div>
+		</div>
+	</div>
 
-    <script src="dist/main.dev.js"></script>
+	<script src="dist/main.dev.js"></script>
+	<script src="doc/prism.js"></script>
+	<script src="doc/main.js"></script>
 
-    <script>
+	<script>
 
-        $(document).ready(function() {
-            APP.core.init();
+		$(document).ready(function() {
 
-            // Seed parent-view
-            APP.open.page("style/page/page.html", APP.views.parentView());
-        });
-    </script>
+			APP.core.init();
+			APP.doc.init();
+		});
+
+	</script>
 </body>
 </html>

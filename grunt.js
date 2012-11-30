@@ -54,6 +54,14 @@ module.exports = function(grunt) {
 
         // CSS compilation & linting
         recess: {
+            doc: {
+                src: ['doc/main.less', 'doc/prism.css'],
+                dest: 'doc/main.css',
+                options: {
+                    compile: true,
+                    compress: true
+                }
+            },
             dev: {
                 src: ['style/main.less'],
                 dest: 'dist/main.dev.css',
@@ -72,8 +80,8 @@ module.exports = function(grunt) {
         },
         watch: {
             css: {
-                files: ['style/main.less', 'style/*/*.less'],
-                tasks: 'recess:dev'
+                files: ['style/main.less', 'style/*/*.less', 'doc/main.less'],
+                tasks: ['recess:dev', 'recess:doc']
             },
             js: {
                 files: ['js/*/*.js'],
