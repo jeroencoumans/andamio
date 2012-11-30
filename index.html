@@ -14,17 +14,35 @@
 	<div class="desktop-view">
 
 		<div class="header">
-			<h1 class="page-title">Andamio</h1>
-			<!-- <div id="nav" class="button-pills"></div> -->
+            <div class="logo">
+                <img class="logo-img" src="doc/img/logo.png" width="259" height="278">
+    			<h1 class="logo-title">Andamio</h1>
+            </div>
 		</div>
 
 		<div id="main" class="main js-content">
 
-			<!-- Page setup -->
-			<div class="box active" id="doc-page-view" data-app-in="APP.views.openChildPage()" data-app-out="APP.views.openParentPage()">
-				<h2 class="box-header">Page views</h2>
+            <div class="jumbotron">
+                <h2 class="jumbotron-title">Getting started</h2>
+                <p class="jumbotron-subtitle">After you download Andamio, here's how to get started</p>
+            </div>
 
-				<pre class="language-markup"><code>
+			<!-- Page setup -->
+			<div class="box" id="doc-page-view" data-app-in="APP.views.openChildPage()" data-app-out="APP.views.openParentPage()">
+				<h2 class="box-header">Page views</h2>
+                <p>This describes the structure of the HTML document. </p>
+                <p>The <code>html</code> element can contain one of the following classes:</p>
+                <ul>
+                    <li><code class="language-css">.website</code>: for mobile website</li>
+                    <li><code class="language-css">.webapp</code>: for mobile web application</li>
+                    <li><code class="language-css">.desktop</code>: for desktop website</li>
+                    <li><code class="language-css">.desktop.webapp</code>: for desktop web application</li>
+                </ul>
+
+                <p>The <code>.viewport</code> class is mandatory for the <code>body</code> element.</p>
+                <p>After that, we use the following DOM structure for setting up the main page view:</p>
+
+				<pre><code class="language-markup">
 &lt;div id=&quot;page-view&quot; class=&quot;page-view&quot;&gt;
 	&lt;div id=&quot;parent-view&quot; class=&quot;parent-view active-view&quot;&gt;
 
@@ -40,7 +58,7 @@
 			<div class="box" id="doc-modal-view" data-app-in="APP.modal.show()" data-app-out="APP.modal.hide()">
 				<h2 class="box-header">Modals</h2>
 
-				<pre class="language-markup"><code>
+				<pre><code class="language-markup">
 &lt;div id="modal-view" class="modal-view view-hidden"&gt;
 	&lt;div class="page-header"&gt;
 		&lt;a href="#" class="page-logo js-title"&gt;
@@ -64,7 +82,7 @@
 			<div class="box" id="doc-views-content" data-app-in="">
 				<h2 class="box-header">Views content</h2>
 
-				<pre class="language-markup"><code>
+				<pre><code class="language-markup">
 &lt;div class=&quot;page-header&quot;&gt;
 	&lt;a href=&quot;/&quot; class=&quot;page-logo action-page-title&quot;&gt;
 		Title
@@ -85,7 +103,7 @@
 			<!-- Page navigation -->
 			<div class="box active" id="doc-page-navigation" data-app-in="APP.nav.show()" data-app-out="APP.nav.hide()">
 				<h2 class="box-header">Page navigation</h2>
-				<pre class="language-markup"><code>
+				<pre><code class="language-markup">
 &lt;div id=&quot;page-navigation&quot; class=&quot;page-navigation overthrow&quot;&gt;
 	&lt;h2 class=&quot;navigation-header&quot;&gt;
 		Navigation header
@@ -107,7 +125,7 @@
 
 			<div class="box" id="doc-loader" data-app-in="APP.loader.show()" data-app-out="APP.loader.hide()">
 				<h2 class="box-header">Loader</h2>
-				<pre class="language-markup"><code>
+				<pre><code class="language-markup">
 &lt;div id=&quot;loader&quot; class=&quot;loader&quot; style=&quot;display:none&quot;&gt;
 	&lt;img src=&quot;img/spinner-dark.gif&quot; class=&quot;spinner&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;
 	&lt;div class=&quot;loader-text&quot;&gt;Loading...&lt;/div&gt;
@@ -145,9 +163,9 @@
 			</div>
 		</div>
 
-        <div id="nav" class="navigation">
+        <!-- <div id="nav" class="navigation">
 
-        </div>
+        </div> -->
 	</div>
 
 	<script src="dist/main.dev.js"></script>

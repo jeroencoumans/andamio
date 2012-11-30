@@ -77,9 +77,15 @@ APP.doc = (function () {
 
         win.on("scroll", calculateScroll);
 
-        APP.events.attachClickHandler(".action-app-reset", function (event) {
+        APP.events.attachClickHandler(".action-app-reset", function () {
 
             andamio.location.reload();
+        });
+
+        iphone.on("scroll", function(event) {
+            console.log("Scrolling in the iPhone?");
+
+            event.preventDefault();
         });
     }
 

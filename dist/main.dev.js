@@ -3880,6 +3880,7 @@ APP.alert = (function () {
     /**
      * Status of alert
      * @method status
+     * @return {Boolean} true when alert is displayed, false when alert is hidden
      */
     function status() {
 
@@ -3888,8 +3889,8 @@ APP.alert = (function () {
 
     /**
      * Attach event listeners
-     * @private
      * @method attachListeners
+     * @private
      */
     function attachListeners() {
 
@@ -3924,7 +3925,7 @@ APP.alert = (function () {
 /**
  * Core module for initializing capabilities and modules
  * @author Jeroen Coumans
- * @class core
+ * @module core
  * @namespace APP
  */
 APP.core = (function () {

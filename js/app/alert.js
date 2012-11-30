@@ -36,6 +36,7 @@ APP.alert = (function () {
     /**
      * Status of alert
      * @method status
+     * @return {Boolean} true when alert is displayed, false when alert is hidden
      */
     function status() {
 
@@ -44,8 +45,8 @@ APP.alert = (function () {
 
     /**
      * Attach event listeners
-     * @private
      * @method attachListeners
+     * @private
      */
     function attachListeners() {
 

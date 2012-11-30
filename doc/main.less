@@ -5,6 +5,22 @@
 @webapp-background-color: @global-background-color;
 @header-font-family: "Myriad", "HelveticaNeue-Bold", "HelveticaNeue Regular","Helvetica Neue",Helvetica,Arial,sans-serif;
 
+@header-height: 256px;
+
+.website .viewport,
+.webapp .viewport {
+    background-image: url(img/pattern.png);
+
+    &:after {
+        content: "";
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        height: @header-height / 4;
+        background-image: url(img/pattern.png);
+        opacity: 0.5;
+    }
+}
+
 h1,
 h2,
 h3,
@@ -12,7 +28,6 @@ h4,
 h5,
 h6 {
     text-shadow: 0 1px 1px #fff;
-    //font-weight: normal;
 }
 
 /*** Layout ***/
@@ -27,22 +42,60 @@ h6 {
 
 .header {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 0; left: 0; right: 0;
+    height: @header-height;
     z-index: 10;
-    .gradient(@global-background-color, fadeout(@global-background-color, 100%), 25%, 100%);
-    padding: @grid-l 0 3 * @grid-l;
-    max-width: 3 * @iphone-width + @grid-l;
-    margin: auto;
 
-    .page-title {
-        float: left;
+    padding: @grid-l 0 3 * @grid-l;
+    max-width: 4 * @iphone-width + @grid-l;
+    margin: auto;
+    background: url(img/header.jpg) 50% @header-height / 4 no-repeat;
+
+    .logo {
+        position: relative;
+        margin: -20px auto 0;
+        width: 259px;
+        height: 278px;
     }
 
-    .button-pills {
-        width: auto;
-        float: right;
+    .logo-title {
+        font-size: 36px;
+        color: #fff;
+        text-shadow: 0 1px 2px rgba(10,86,144, .75);
+        position: absolute;
+        top: 128px;
+        left: 40px;
+        .rotate(-20deg);
+        text-transform: uppercase;
+    }
+
+}
+
+/*** Jumbotron ***/
+.jumbotron {
+    padding: @grid-l 0;
+
+    .jumbotron-title {
+        font-size: 2 * @font-huge;
+        line-height: 1.25;
+    }
+
+    .jumbotron-subtitle {
+        font-size: @font-l;
+        line-height: 1;
+        color: @grey;
+    }
+
+    h3 {
+        font-size: @font-s;
+    }
+
+    .unit {
+        padding: @grid-l @grid-m;
+
+        &:first-child {
+            padding-left: 0;
+        }
     }
 }
 
@@ -54,13 +107,31 @@ h6 {
 
     .main {
         width: 50%;
-        padding-top: 4 * @grid-l;
+        padding-top: @header-height + 4 * @grid-l;
+
+        /*** Boxes ***/
+        .box {
+            margin: 0;
+            padding: 3 * @grid-l 0;
+            .animate(opacity);
+            opacity: 0.3;
+
+            &.active {
+                opacity: 1;
+            }
+        }
     }
 
     .sidebar {
         .overlay-right;
         position: fixed;
+        z-index: 20;
         .p50;
+    }
+
+    pre {
+        max-width: 100%;
+        overflow: auto;
     }
 }
 
@@ -80,7 +151,7 @@ h6 {
     margin-left: -(@iphone-width / 2);
 
 
-    background: url(../doc/iphone.jpg) 50% 50% no-repeat;
+    background: url(img/iphone-white.png) 50% 50% no-repeat;
     background-size: contain;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -92,14 +163,13 @@ h6 {
         position: absolute;
         top: 128px;
         right: 23px;
-        background: url(../doc/iphone-glare.png);
+        background: url(img/iphone-glare.png);
         background-size: contain;
         width: 137px;
         height: 366px;
 
         pointer-events: none;
     }
-}
 
     .iphone-home-button {
         position: absolute;
@@ -114,17 +184,6 @@ h6 {
         width: 100%;
         height: 100%;
         border: 0;
-    }
-
-/*** Boxes ***/
-.box {
-    margin: 0;
-    padding: 3 * @grid-l 0;
-    .animate(opacity);
-    opacity: 0.3;
-
-    &.active {
-        opacity: 1;
     }
 }
 
