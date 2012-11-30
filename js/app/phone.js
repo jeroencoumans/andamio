@@ -1,5 +1,8 @@
 /**
  * Module that enhances the webapp with Cordova functionality
+ * @author Jeroen Coumans
+ * @class phone
+ * @namespace APP
  */
 APP.phone = (function () {
 
@@ -7,7 +10,9 @@ APP.phone = (function () {
         lastUpdated = new Date();
 
     /**
-     * Intercepts all clicks on anchor tags
+     * Listens to all clicks on anchor tags and opens them in Cordova popover if it's an external URL
+     * @method interceptAnchorClicks
+     * @private
      */
     function interceptAnchorClicks() {
 
@@ -26,6 +31,8 @@ APP.phone = (function () {
 
     /**
      * Attach Cordova listeners
+     * @method attachListeners
+     * @private
      */
     function attachListeners() {
 
@@ -56,6 +63,8 @@ APP.phone = (function () {
 
     /**
      * Init Cordova stuff. Only called when Cordova is actually loaded
+     * @initCordova
+     * @private
      */
     function initCordova() {
 
@@ -63,6 +72,10 @@ APP.phone = (function () {
         attachListeners();
     }
 
+    /**
+     * Checks wether Cordova is available, and then calls initCordova
+     * @init
+     */
     function init() {
 
         // When Cordovia is loaded and talking to the device, initialize it

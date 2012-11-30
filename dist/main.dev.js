@@ -2214,6 +2214,12 @@ var APP = APP || {};
 
 APP.globals = {};
 
+/**
+ * Various utility functions
+ * @author Jeroen Coumans
+ * @class util
+ * @namespace APP
+ */
 APP.util = (function () {
 
     /**
@@ -2298,8 +2304,10 @@ APP.delay = (function(){
     };
 })();
 /**
- * Module for dealing with events, esp. preventing click events to happen
- * multiple times during animation or while content is loading.
+ * Module for dealing with events, esp. preventing click events to happen multiple times during animation or while content is loading.
+ * @author Jeroen Coumans
+ * @class events
+ * @namespace APP
  */
 APP.events = (function () {
 
@@ -2312,9 +2320,9 @@ APP.events = (function () {
 
     /**
      * Enable or disables the event lock. The event lock prevents double tapping during animation.
-     *
-     * @param Boolean lock Whether to lock or unlock events: EVENT_LOCK_LOCKED or EVENT_LOCK_UNLOCKED
-     * @param Integer timeout The timeout before the lock will automatically unlock.
+     * @method setEventLock
+     * @param {Boolean} lock Whether to lock or unlock events: `EVENT_LOCK_LOCKED` or `EVENT_LOCK_UNLOCKED`
+     * @param {Integer} timeout The timeout before the lock will automatically unlock.
      * Set to 0 to disable
      */
     function setEventLock(lock, timeout) {
@@ -2329,7 +2337,8 @@ APP.events = (function () {
 
     /**
      * Locks all click events
-     * @param Integer timeout Optional timeout before lock will automatically unlock.
+     * @method lock
+     * @param {Integer} timeout Optional timeout before lock will automatically unlock.
      * Default is 500ms, set to 0 to disable
      */
     function lock(timeout) {
@@ -2339,6 +2348,7 @@ APP.events = (function () {
 
     /**
      * Unlocks click events lock
+     * @method unlock
      */
     function unlock() {
 
@@ -2346,7 +2356,8 @@ APP.events = (function () {
     }
 
     /**
-     * @return Bool Whether click events are currently locked
+     * @method isLocked
+     * @return {Boolean} Whether click events are currently locked
      */
     function isLocked() {
 
@@ -2357,9 +2368,10 @@ APP.events = (function () {
      * Attaches a 'click' handler to elements with the given
      * selector. Will use 'tap' events if supported by the browser.
      *
-     * @selector String element selector
-     * @fn Function the function to call when clicked
-     * @boolean bubbles Whether the event will bubble up. Default: false
+     * @method attachClickHandler
+     * @param {String} selector element selector
+     * @param {Function} fn the function to call when clicked
+     * @param {Boolean} [bubbles] Whether the event will bubble up. Default: false
      */
     function attachClickHandler(selector, fn, bubbles) {
 
@@ -2373,6 +2385,10 @@ APP.events = (function () {
         });
     }
 
+    /**
+     * Initialize variables and ftFastClick
+     * @method init
+     */
     function init() {
 
         // initialize variables
@@ -2400,6 +2416,9 @@ APP.events = (function () {
 
 /**
  * Module that enhances the webapp with Cordova functionality
+ * @author Jeroen Coumans
+ * @class phone
+ * @namespace APP
  */
 APP.phone = (function () {
 
@@ -2407,7 +2426,9 @@ APP.phone = (function () {
         lastUpdated = new Date();
 
     /**
-     * Intercepts all clicks on anchor tags
+     * Listens to all clicks on anchor tags and opens them in Cordova popover if it's an external URL
+     * @method interceptAnchorClicks
+     * @private
      */
     function interceptAnchorClicks() {
 
@@ -2426,6 +2447,8 @@ APP.phone = (function () {
 
     /**
      * Attach Cordova listeners
+     * @method attachListeners
+     * @private
      */
     function attachListeners() {
 
@@ -2456,6 +2479,8 @@ APP.phone = (function () {
 
     /**
      * Init Cordova stuff. Only called when Cordova is actually loaded
+     * @initCordova
+     * @private
      */
     function initCordova() {
 
@@ -2463,6 +2488,10 @@ APP.phone = (function () {
         attachListeners();
     }
 
+    /**
+     * Checks wether Cordova is available, and then calls initCordova
+     * @init
+     */
     function init() {
 
         // When Cordovia is loaded and talking to the device, initialize it
@@ -2477,13 +2506,20 @@ APP.phone = (function () {
 })();
 /**
  * Module that deals with internet connectivity
+ * @author Jeroen Coumans
+ * @class connection
+ * @namespace APP
  */
 APP.connection = (function () {
 
     // variables
     var connection;
 
-    // called when the connection goes online
+    /**
+     * Called when the connection goes online, will hide the offline alert
+     * @method goOnline
+     * @private
+     */
     function goOnline() {
 
         connection = "online";
@@ -2493,7 +2529,11 @@ APP.connection = (function () {
         }
     }
 
-    // called when the connection goes offline
+    /**
+     * Called when the connection goes offline, will show an offline alert
+     * @method goOffline
+     * @private
+     */
     function goOffline() {
 
         connection = "offline";
@@ -2503,11 +2543,12 @@ APP.connection = (function () {
     }
 
     /**
-     * returns the status of the connection
-     * @param msg string: pass either "offline" or "online" to set the connection status
-     * typically called from APP.open.page() when a timeout occurs
+     * Returns the status of the connection, typically called from APP.open.page() when a timeout occurs
+     * @method status
+     * @param [msg] {String} accepts `offline` or `online` to set the connection status
+     * @return {String} the connection, either `offline` or `online`
+     *
      **/
-
     function status(msg) {
 
         // useful for testing offline / online
@@ -2521,7 +2562,8 @@ APP.connection = (function () {
     }
 
     /***
-     * Initialize variables and attach listeners
+     * Sets the default connection to online
+     * @method init
      */
     function init() {
 
@@ -2536,7 +2578,10 @@ APP.connection = (function () {
 
 })();
 /**
- * Core module for handling events and initializing capabilities
+ * Controls the global loader
+ * @author Jeroen Coumans
+ * @class loader
+ * @namespace APP
  */
 APP.loader = (function () {
 
@@ -2548,7 +2593,9 @@ APP.loader = (function () {
         html;
 
     /**
-     * Shows the loader in an overlay
+     * Shows the loader on top of the page. When no message is given, it will use the text inside #loader .loader-text
+     * @method show
+     * @param {String} [msg] the message to show in the spinner
      */
     function show(msg) {
 
@@ -2576,6 +2623,7 @@ APP.loader = (function () {
 
     /**
      * Hides the loader
+     * @method hide
      */
     function hide() {
 
@@ -2593,6 +2641,7 @@ APP.loader = (function () {
 
     /**
      * Returns wether the loader is active or not
+     * @method status
      */
     function status() {
 
@@ -2600,7 +2649,8 @@ APP.loader = (function () {
     }
 
     /**
-     * Check wether we use native or HTML spinner
+     * Check wether we use native or HTML spinner based on $.supports.cordova
+     * @method init
      */
     function init() {
 
@@ -2633,6 +2683,9 @@ APP.loader = (function () {
 })();
 /**
  * Wrapper for doing an AJAX request
+ * @author Jeroen Coumans
+ * @class open
+ * @namespace APP
  */
 APP.open = (function () {
 
@@ -2643,8 +2696,10 @@ APP.open = (function () {
         modal;
 
     /**
-     * This function can be called to print or set the active URL (e.g. from views or modal)
-     * @param: URL, the new URL
+     * This method is used to set or return the active URL. It's used for e.g. refreshing the current page
+     * @method activeUrl
+     * @param {String} [href] the URL that should be set to active
+     * @return {String} the URL that is currently set to active
      **/
     function activeUrl(href) {
         if (href) {
@@ -2654,16 +2709,31 @@ APP.open = (function () {
         }
     }
 
-    // Export these elements for other modules
+    /**
+     * @method parentUrl
+     * @return {String} the URL that is loaded in the parent element
+    */
     function parentUrl() { return parent; }
+
+    /**
+     * @method childUrl
+     * @return {String} the URL that is loaded in the child element
+    */
     function childUrl()  { return child;  }
+
+    /**
+     * @method modalUrl
+     * @return {String} the URL that is loaded in the modal element
+    */
     function modalUrl()  { return modal;  }
 
     /**
-     * Do an AJAX request and insert it into a view
-     * - url: the URL to call
-     * - view: what page to insert the content int (child, parent or modal)
-     * - refresh: explicitly refresh the page
+     * Do an AJAX request and insert it into a view. This method also maintains the URL's for each view, and sets the activeUrl to the called URL.
+     * @method page
+     * @param {String} url the URL to call
+     * @param {HTMLElement} view what page to insert the content int (child, parent or modal)
+     * @param {Boolean} [refresh] when set, the activeUrl will be downloaded again. You need to set this parameter if you want to explicitly refresh a page.
+     * @param {Function} [callback] optional callback function that will be called when the AJAX call completes
      */
     function page(url, view, refresh, callback) {
 
@@ -2752,27 +2822,29 @@ APP.open = (function () {
     }
 
     /**
-     * Refresh the active view
+     * Checks what the active view is and then calls APP.open.page with its respective URL, view and refresh
+     * @method refresh
      */
     function refresh() {
 
         // check wether to refresh child or parent page
         if (APP.views.hasChildPage()) {
 
-            page(child, APP.views.childView(), "refresh");
+            page(child, APP.views.childView(), true);
 
         } else if (APP.modal.status()) {
 
-            page(modal, APP.modal.modalView(), "refresh");
+            page(modal, APP.modal.modalView(), true);
 
         } else {
 
-            page(parent, APP.views.parentView(), "refresh");
+            page(parent, APP.views.parentView(), true);
         }
     }
 
     /**
      * Attach event listeners
+     * @method attachListeners
      */
     function attachListeners() {
 
@@ -2785,7 +2857,8 @@ APP.open = (function () {
     }
 
     /***
-     * Initialize variables and attach listeners
+     * Attach listeners
+     * @method init
      */
     function init() {
 
@@ -2806,6 +2879,9 @@ APP.open = (function () {
 
 /**
  * Module for dealing with modals
+ * @author Jeroen Coumans
+ * @class modal
+ * @namespace APP
  */
 APP.modal = (function () {
 
@@ -2815,11 +2891,16 @@ APP.modal = (function () {
         toggle,
         hasModalview;
 
-    // Export these elements for other modules
+    /**
+     * @method modalView
+     * @static
+     * @return {HTMLElement} the modal element
+     */
     function modalView() { return modal; }
 
     /**
      * Opens the modal view
+     * @method show
      */
     function show() {
 
@@ -2832,6 +2913,7 @@ APP.modal = (function () {
 
     /**
      * Hides the modal view
+     * @method hide
      */
     function hide() {
 
@@ -2844,6 +2926,8 @@ APP.modal = (function () {
 
     /**
      * Returns the status of the modal view
+     * @method status
+     * @return {Boolean} wether modal view is shown or not
      */
     function status() {
 
@@ -2852,6 +2936,8 @@ APP.modal = (function () {
 
     /**
      * Attach event listeners
+     * @method attachListeners
+     * @private
      */
     function attachListeners() {
 
@@ -2878,15 +2964,18 @@ APP.modal = (function () {
             }
         });
 
-        /*** Close modal ***/
+        /**
+         * Close modal
+         */
         APP.events.attachClickHandler(".action-hide-modal", function () {
 
             hide();
         });
     }
 
-    /***
+    /**
      * Initialize variables and attach listeners
+     * @method init
      */
     function init() {
 
@@ -2910,6 +2999,9 @@ APP.modal = (function () {
 
 /**
  * Module for page navigation
+ * @author Jeroen Coumans
+ * @class nav
+ * @namespace APP
  */
 APP.nav = (function () {
 
@@ -2928,6 +3020,9 @@ APP.nav = (function () {
 
     /**
      * Sets height of content based on height of navigation
+     * @method setPageHeight
+     * @private
+     * @param {Integer} height the height to which the page must be set
      */
     function setPageHeight(height) {
 
@@ -2938,6 +3033,7 @@ APP.nav = (function () {
 
     /**
      * Shows the navigation
+     * @method show
      */
     function show() {
 
@@ -2953,6 +3049,7 @@ APP.nav = (function () {
 
     /**
      * Hides the navigation
+     * @method hide
      */
     function hide() {
 
@@ -2968,15 +3065,19 @@ APP.nav = (function () {
 
     /**
      * Returns the status of the navigation
+     * @method status
+     * @return {Boolean} wether the navigation is shown or hidden
      */
     function status() {
 
-        // return html.hasClass("has-navigation") ? true : false;
         return hasNavigation;
     }
 
     /**
      * Returns the nav items, useful for activating a new tab
+     * @method items
+     * @static
+     * @return {HTMLElement} the navigation items
      */
     function items() {
 
@@ -2985,7 +3086,9 @@ APP.nav = (function () {
 
     /**
      * Returns the active item
-     * @elem: set the active item
+     * @method active
+     * @param {HTMLElement} [elem] sets the HTMLElement to the active navigation element
+     * @return {HTMLElement} the active navigation element
      */
     function active(elem) {
 
@@ -3002,6 +3105,8 @@ APP.nav = (function () {
 
     /**
      * Attach event listeners
+     * @method attachListeners
+     * @private
      */
     function attachListeners() {
 
@@ -3047,6 +3152,9 @@ APP.nav = (function () {
 
     /***
      * Initialize capabilities and attach listeners
+     * Sets the active navigation element
+     * Sets the navigation status based on the `has-navigation` class on the HTML element
+     * @method init
      */
     function init() {
 
@@ -3085,11 +3193,16 @@ APP.nav = (function () {
 })();
 /**
  * Module for revealing contet
+ * @author Jeroen Coumans
+ * @class reveal
+ * @namespace APP
  */
 APP.reveal = (function () {
 
     /**
      * Attach event listeners
+     * @method attachListeners
+     * @private
      */
     function attachListeners() {
 
@@ -3134,7 +3247,8 @@ APP.reveal = (function () {
     }
 
     /***
-     * Initialize variables and attach listeners
+     * Ataches listeners
+     * @method init
      */
     function init() {
 
@@ -3149,6 +3263,9 @@ APP.reveal = (function () {
 
 /**
  * Module for doing search and autocomplete
+ * @author Jeroen Coumans
+ * @class search
+ * @namespace APP
  */
 APP.search = (function () {
 
@@ -3161,10 +3278,20 @@ APP.search = (function () {
         searchResult,
         searchDelay;
 
+    /**
+     * @method form
+     * @return {HTMLElement} the search form
+     */
     function form() {
         return searchForm;
     }
 
+    /**
+     * Does an AJAX post to a URL and inserts it into searchResult
+     * @method loadResults
+     * @param {String} URL the URL to post to
+     * @private
+     */
     function loadResults(request) {
 
         $.ajax({
@@ -3198,6 +3325,11 @@ APP.search = (function () {
         });
     }
 
+    /**
+     * Calls loadResults with the searchText. If no query is given, it will check the value of searchInput and use that
+     * @method doSearch
+     * @param {String} [query] text that should be searched
+     */
     function doSearch(query) {
 
         var searchText = query || searchInput.attr("value");
@@ -3210,6 +3342,7 @@ APP.search = (function () {
 
     /**
      * Attach event listeners
+     * @method attachListeners
      */
     function attachListeners() {
 
@@ -3230,7 +3363,11 @@ APP.search = (function () {
     }
 
     /***
-     * Initialize variables and attach listeners
+     * Initialize variables and attach listeners.
+     *
+     * Sets searchInput (`.action-search-input`), searchSubmit (`.action-search-submit`) and searchResult (`.js-search-results`) based on the searchForm
+     * @method init
+     * @param {String} [id="#search-form"] sets searchForm to the ID specified
      */
     function init(id) {
 
@@ -3251,19 +3388,29 @@ APP.search = (function () {
 })();
 /**
  * Provides methods for storing HTML documents offline
+ * @author Jeroen Coumans
+ * @class store
+ * @namespace APP
  */
 APP.store = (function() {
 
     var server,
         isLoading;
 
+    /**
+     * @method loading
+     * @return {Boolean} wether we're currently loading
+     */
     function loading() {
 
         return isLoading;
     }
 
     /**
-     * Loads an URL from localStorage
+     * Loads an URL from localStorage.
+     * @method showUrl
+     * @param {String} url the URL that will be loaded. The URL is used as the key. The value will be parsed as JSON.
+     * @return {String} the value that was stored. Usually, this is raw HTML.
      */
     function showUrl(url) {
 
@@ -3275,7 +3422,10 @@ APP.store = (function() {
 
     /*
      * Does an AJAX call to URL and stores it with the URL as the key
-     * @param url: the URL to be stored
+     * @method storeUrl
+     * @param {String} url the relative URL to be stored. Do not include the hostname!
+     * @param {String} [host] the hostname. If not set, the server variable that is passed into init will be prefixed.
+     * @param {Function} [callback] callback function when the AJAX call is complete
     */
     function storeUrl(url, host, callback) {
 
@@ -3362,6 +3512,9 @@ APP.store = (function() {
 
 /**
  * Module for using tabs
+ * @author Jeroen Coumans
+ * @class tabs
+ * @namespace APP
  */
 APP.tabs = (function () {
 
@@ -3467,6 +3620,9 @@ APP.tabs = (function () {
 
 /**
  * Module for handling views
+ * @author Jeroen Coumans
+ * @class views
+ * @namespace APP
  */
 APP.views = (function () {
 
@@ -3618,7 +3774,10 @@ APP.views = (function () {
 })();
 
 /**
- * Wrapper for doing an AJAX request
+ * Controls global alerts
+ * @author Jeroen Coumans
+ * @class alert
+ * @namespace APP
  */
 APP.alert = (function () {
 
@@ -3628,8 +3787,8 @@ APP.alert = (function () {
 
     /**
      * Show alert
-     * @param type of the alert (error, success, info)
-     * @param msg of the alert
+     * @method show
+     * @param {String} msg the message of the alert
      */
     function show(msg) {
 
@@ -3642,6 +3801,7 @@ APP.alert = (function () {
 
     /**
      * Hide alert
+     * @method hide
      */
     function hide() {
 
@@ -3651,6 +3811,7 @@ APP.alert = (function () {
 
     /**
      * Status of alert
+     * @method status
      */
     function status() {
 
@@ -3659,18 +3820,21 @@ APP.alert = (function () {
 
     /**
      * Attach event listeners
+     * @private
+     * @method attachListeners
      */
     function attachListeners() {
 
-        /*** Close alert ***/
+        // Calls hide() when .action-hide-alert is clicked
         APP.events.attachClickHandler(".action-hide-alert", function (event) {
 
             hide();
         });
     }
 
-    /***
+    /**
      * Initialize variables and attach listeners
+     * @method init
      */
     function init() {
 
@@ -3690,10 +3854,17 @@ APP.alert = (function () {
 
 })();
 /**
- * Core module for handling events and initializing capabilities
+ * Core module for initializing capabilities and modules
+ * @author Jeroen Coumans
+ * @class core
+ * @namespace APP
  */
 APP.core = (function () {
 
+    /**
+     * Initialize capabilities based on UA detection
+     * @method initCapabilities
+     */
     function initCapabilities() {
 
         $.os = $.os || {};
@@ -3715,8 +3886,9 @@ APP.core = (function () {
         $.supports.ftfastclick = $.os.ios;
     }
 
-    /***
-     * Initialize capabilities and attach listeners
+    /**
+     * Initialize variables and attach listeners
+     * @method init
      */
     function init(params) {
         var html = $("html");

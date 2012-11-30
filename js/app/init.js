@@ -1,8 +1,15 @@
 /**
- * Core module for handling events and initializing capabilities
+ * Core module for initializing capabilities and modules
+ * @author Jeroen Coumans
+ * @class core
+ * @namespace APP
  */
 APP.core = (function () {
 
+    /**
+     * Initialize capabilities based on UA detection
+     * @method initCapabilities
+     */
     function initCapabilities() {
 
         $.os = $.os || {};
@@ -24,8 +31,9 @@ APP.core = (function () {
         $.supports.ftfastclick = $.os.ios;
     }
 
-    /***
-     * Initialize capabilities and attach listeners
+    /**
+     * Initialize variables and attach listeners
+     * @method init
      */
     function init(params) {
         var html = $("html");

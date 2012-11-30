@@ -1,5 +1,8 @@
 /**
  * Module for handling views
+ * @author Jeroen Coumans
+ * @class views
+ * @namespace APP
  */
 APP.views = (function () {
 

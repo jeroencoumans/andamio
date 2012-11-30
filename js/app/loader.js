@@ -1,5 +1,8 @@
 /**
- * Core module for handling events and initializing capabilities
+ * Controls the global loader
+ * @author Jeroen Coumans
+ * @class loader
+ * @namespace APP
  */
 APP.loader = (function () {
 
@@ -11,7 +14,9 @@ APP.loader = (function () {
         html;
 
     /**
-     * Shows the loader in an overlay
+     * Shows the loader on top of the page. When no message is given, it will use the text inside #loader .loader-text
+     * @method show
+     * @param {String} [msg] the message to show in the spinner
      */
     function show(msg) {
 
@@ -39,6 +44,7 @@ APP.loader = (function () {
 
     /**
      * Hides the loader
+     * @method hide
      */
     function hide() {
 
@@ -56,6 +62,7 @@ APP.loader = (function () {
 
     /**
      * Returns wether the loader is active or not
+     * @method status
      */
     function status() {
 
@@ -63,7 +70,8 @@ APP.loader = (function () {
     }
 
     /**
-     * Check wether we use native or HTML spinner
+     * Check wether we use native or HTML spinner based on $.supports.cordova
+     * @method init
      */
     function init() {
 

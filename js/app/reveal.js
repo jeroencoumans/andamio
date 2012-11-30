@@ -1,10 +1,15 @@
 /**
  * Module for revealing contet
+ * @author Jeroen Coumans
+ * @class reveal
+ * @namespace APP
  */
 APP.reveal = (function () {
 
     /**
      * Attach event listeners
+     * @method attachListeners
+     * @private
      */
     function attachListeners() {
 
@@ -49,7 +54,8 @@ APP.reveal = (function () {
     }
 
     /***
-     * Initialize variables and attach listeners
+     * Ataches listeners
+     * @method init
      */
     function init() {
 

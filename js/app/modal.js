@@ -1,5 +1,8 @@
 /**
  * Module for dealing with modals
+ * @author Jeroen Coumans
+ * @class modal
+ * @namespace APP
  */
 APP.modal = (function () {
 
@@ -9,11 +12,16 @@ APP.modal = (function () {
         toggle,
         hasModalview;
 
-    // Export these elements for other modules
+    /**
+     * @method modalView
+     * @static
+     * @return {HTMLElement} the modal element
+     */
     function modalView() { return modal; }
 
     /**
      * Opens the modal view
+     * @method show
      */
     function show() {
 
@@ -26,6 +34,7 @@ APP.modal = (function () {
 
     /**
      * Hides the modal view
+     * @method hide
      */
     function hide() {
 
@@ -38,6 +47,8 @@ APP.modal = (function () {
 
     /**
      * Returns the status of the modal view
+     * @method status
+     * @return {Boolean} wether modal view is shown or not
      */
     function status() {
 
@@ -46,6 +57,8 @@ APP.modal = (function () {
 
     /**
      * Attach event listeners
+     * @method attachListeners
+     * @private
      */
     function attachListeners() {
 
@@ -72,15 +85,18 @@ APP.modal = (function () {
             }
         });
 
-        /*** Close modal ***/
+        /**
+         * Close modal
+         */
         APP.events.attachClickHandler(".action-hide-modal", function () {
 
             hide();
         });
     }
 
-    /***
+    /**
      * Initialize variables and attach listeners
+     * @method init
      */
     function init() {
 

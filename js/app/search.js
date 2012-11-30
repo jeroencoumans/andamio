@@ -1,5 +1,8 @@
 /**
  * Module for doing search and autocomplete
+ * @author Jeroen Coumans
+ * @class search
+ * @namespace APP
  */
 APP.search = (function () {
 
@@ -12,10 +15,20 @@ APP.search = (function () {
         searchResult,
         searchDelay;
 
+    /**
+     * @method form
+     * @return {HTMLElement} the search form
+     */
     function form() {
         return searchForm;
     }
 
+    /**
+     * Does an AJAX post to a URL and inserts it into searchResult
+     * @method loadResults
+     * @param {String} URL the URL to post to
+     * @private
+     */
     function loadResults(request) {
 
         $.ajax({
@@ -49,6 +62,11 @@ APP.search = (function () {
         });
     }
 
+    /**
+     * Calls loadResults with the searchText. If no query is given, it will check the value of searchInput and use that
+     * @method doSearch
+     * @param {String} [query] text that should be searched
+     */
     function doSearch(query) {
 
         var searchText = query || searchInput.attr("value");
@@ -61,6 +79,7 @@ APP.search = (function () {
 
     /**
      * Attach event listeners
+     * @method attachListeners
      */
     function attachListeners() {
 
@@ -81,7 +100,11 @@ APP.search = (function () {
     }
 
     /***
-     * Initialize variables and attach listeners
+     * Initialize variables and attach listeners.
+     *
+     * Sets searchInput (`.action-search-input`), searchSubmit (`.action-search-submit`) and searchResult (`.js-search-results`) based on the searchForm
+     * @method init
+     * @param {String} [id="#search-form"] sets searchForm to the ID specified
      */
     function init(id) {
 

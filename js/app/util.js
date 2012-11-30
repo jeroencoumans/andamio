@@ -1,3 +1,9 @@
+/**
+ * Various utility functions
+ * @author Jeroen Coumans
+ * @class util
+ * @namespace APP
+ */
 APP.util = (function () {
 
     /**

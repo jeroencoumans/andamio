@@ -1,12 +1,19 @@
 /**
  * Module that deals with internet connectivity
+ * @author Jeroen Coumans
+ * @class connection
+ * @namespace APP
  */
 APP.connection = (function () {
 
     // variables
     var connection;
 
-    // called when the connection goes online
+    /**
+     * Called when the connection goes online, will hide the offline alert
+     * @method goOnline
+     * @private
+     */
     function goOnline() {
 
         connection = "online";
@@ -16,7 +23,11 @@ APP.connection = (function () {
         }
     }
 
-    // called when the connection goes offline
+    /**
+     * Called when the connection goes offline, will show an offline alert
+     * @method goOffline
+     * @private
+     */
     function goOffline() {
 
         connection = "offline";
@@ -26,11 +37,12 @@ APP.connection = (function () {
     }
 
     /**
-     * returns the status of the connection
-     * @param msg string: pass either "offline" or "online" to set the connection status
-     * typically called from APP.open.page() when a timeout occurs
+     * Returns the status of the connection, typically called from APP.open.page() when a timeout occurs
+     * @method status
+     * @param [msg] {String} accepts `offline` or `online` to set the connection status
+     * @return {String} the connection, either `offline` or `online`
+     *
      **/
-
     function status(msg) {
 
         // useful for testing offline / online
@@ -44,7 +56,8 @@ APP.connection = (function () {
     }
 
     /***
-     * Initialize variables and attach listeners
+     * Sets the default connection to online
+     * @method init
      */
     function init() {
 

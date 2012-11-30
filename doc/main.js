@@ -77,6 +77,10 @@ APP.doc = (function () {
 
         win.on("scroll", calculateScroll);
 
+        APP.events.attachClickHandler(".action-app-reset", function (event) {
+
+            andamio.location.reload();
+        });
     }
 
     /**

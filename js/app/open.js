@@ -1,5 +1,8 @@
 /**
  * Wrapper for doing an AJAX request
+ * @author Jeroen Coumans
+ * @class open
+ * @namespace APP
  */
 APP.open = (function () {
 
@@ -10,8 +13,10 @@ APP.open = (function () {
         modal;
 
     /**
-     * This function can be called to print or set the active URL (e.g. from views or modal)
-     * @param: URL, the new URL
+     * This method is used to set or return the active URL. It's used for e.g. refreshing the current page
+     * @method activeUrl
+     * @param {String} [href] the URL that should be set to active
+     * @return {String} the URL that is currently set to active
      **/
     function activeUrl(href) {
         if (href) {
@@ -21,16 +26,31 @@ APP.open = (function () {
         }
     }
 
-    // Export these elements for other modules
+    /**
+     * @method parentUrl
+     * @return {String} the URL that is loaded in the parent element
+    */
     function parentUrl() { return parent; }
+
+    /**
+     * @method childUrl
+     * @return {String} the URL that is loaded in the child element
+    */
     function childUrl()  { return child;  }
+
+    /**
+     * @method modalUrl
+     * @return {String} the URL that is loaded in the modal element
+    */
     function modalUrl()  { return modal;  }
 
     /**
-     * Do an AJAX request and insert it into a view
-     * - url: the URL to call
-     * - view: what page to insert the content int (child, parent or modal)
-     * - refresh: explicitly refresh the page
+     * Do an AJAX request and insert it into a view. This method also maintains the URL's for each view, and sets the activeUrl to the called URL.
+     * @method page
+     * @param {String} url the URL to call
+     * @param {HTMLElement} view what page to insert the content int (child, parent or modal)
+     * @param {Boolean} [refresh] when set, the activeUrl will be downloaded again. You need to set this parameter if you want to explicitly refresh a page.
+     * @param {Function} [callback] optional callback function that will be called when the AJAX call completes
      */
     function page(url, view, refresh, callback) {
 
@@ -119,27 +139,29 @@ APP.open = (function () {
     }
 
     /**
-     * Refresh the active view
+     * Checks what the active view is and then calls APP.open.page with its respective URL, view and refresh
+     * @method refresh
      */
     function refresh() {
 
         // check wether to refresh child or parent page
         if (APP.views.hasChildPage()) {
 
-            page(child, APP.views.childView(), "refresh");
+            page(child, APP.views.childView(), true);
 
         } else if (APP.modal.status()) {
 
-            page(modal, APP.modal.modalView(), "refresh");
+            page(modal, APP.modal.modalView(), true);
 
         } else {
 
-            page(parent, APP.views.parentView(), "refresh");
+            page(parent, APP.views.parentView(), true);
         }
     }
 
     /**
      * Attach event listeners
+     * @method attachListeners
      */
     function attachListeners() {
 
@@ -152,7 +174,8 @@ APP.open = (function () {
     }
 
     /***
-     * Initialize variables and attach listeners
+     * Attach listeners
+     * @method init
      */
     function init() {
 

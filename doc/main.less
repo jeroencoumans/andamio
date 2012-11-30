@@ -86,9 +86,9 @@ h6 {
     box-sizing: border-box;
 
     padding: 153px 26px 134px 30px;
-}
 
-    .iphone-glare {
+    &:after {
+        content: "";
         position: absolute;
         top: 128px;
         right: 23px;
@@ -98,6 +98,15 @@ h6 {
         height: 366px;
 
         pointer-events: none;
+    }
+}
+
+    .iphone-home-button {
+        position: absolute;
+        bottom: 30px;
+        left: 150px;
+        width: 85px;
+        height: 80px;
     }
 
     .iphone-content {

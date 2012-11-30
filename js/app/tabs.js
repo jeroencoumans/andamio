@@ -1,5 +1,8 @@
 /**
  * Module for using tabs
+ * @author Jeroen Coumans
+ * @class tabs
+ * @namespace APP
  */
 APP.tabs = (function () {
 

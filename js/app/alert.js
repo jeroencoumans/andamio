@@ -1,5 +1,8 @@
 /**
- * Wrapper for doing an AJAX request
+ * Controls global alerts
+ * @author Jeroen Coumans
+ * @class alert
+ * @namespace APP
  */
 APP.alert = (function () {
 
@@ -9,8 +12,8 @@ APP.alert = (function () {
 
     /**
      * Show alert
-     * @param type of the alert (error, success, info)
-     * @param msg of the alert
+     * @method show
+     * @param {String} msg the message of the alert
      */
     function show(msg) {
 
@@ -23,6 +26,7 @@ APP.alert = (function () {
 
     /**
      * Hide alert
+     * @method hide
      */
     function hide() {
 
@@ -32,6 +36,7 @@ APP.alert = (function () {
 
     /**
      * Status of alert
+     * @method status
      */
     function status() {
 
@@ -40,18 +45,21 @@ APP.alert = (function () {
 
     /**
      * Attach event listeners
+     * @private
+     * @method attachListeners
      */
     function attachListeners() {
 
-        /*** Close alert ***/
+        // Calls hide() when .action-hide-alert is clicked
         APP.events.attachClickHandler(".action-hide-alert", function (event) {
 
             hide();
         });
     }
 
-    /***
+    /**
      * Initialize variables and attach listeners
+     * @method init
      */
     function init() {
 

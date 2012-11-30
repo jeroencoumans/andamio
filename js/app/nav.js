@@ -1,5 +1,8 @@
 /**
  * Module for page navigation
+ * @author Jeroen Coumans
+ * @class nav
+ * @namespace APP
  */
 APP.nav = (function () {
 
@@ -18,6 +21,9 @@ APP.nav = (function () {
 
     /**
      * Sets height of content based on height of navigation
+     * @method setPageHeight
+     * @private
+     * @param {Integer} height the height to which the page must be set
      */
     function setPageHeight(height) {
 
@@ -28,6 +34,7 @@ APP.nav = (function () {
 
     /**
      * Shows the navigation
+     * @method show
      */
     function show() {
 
@@ -43,6 +50,7 @@ APP.nav = (function () {
 
     /**
      * Hides the navigation
+     * @method hide
      */
     function hide() {
 
@@ -58,15 +66,19 @@ APP.nav = (function () {
 
     /**
      * Returns the status of the navigation
+     * @method status
+     * @return {Boolean} wether the navigation is shown or hidden
      */
     function status() {
 
-        // return html.hasClass("has-navigation") ? true : false;
         return hasNavigation;
     }
 
     /**
      * Returns the nav items, useful for activating a new tab
+     * @method items
+     * @static
+     * @return {HTMLElement} the navigation items
      */
     function items() {
 
@@ -75,7 +87,9 @@ APP.nav = (function () {
 
     /**
      * Returns the active item
-     * @elem: set the active item
+     * @method active
+     * @param {HTMLElement} [elem] sets the HTMLElement to the active navigation element
+     * @return {HTMLElement} the active navigation element
      */
     function active(elem) {
 
@@ -92,6 +106,8 @@ APP.nav = (function () {
 
     /**
      * Attach event listeners
+     * @method attachListeners
+     * @private
      */
     function attachListeners() {
 
@@ -137,6 +153,9 @@ APP.nav = (function () {
 
     /***
      * Initialize capabilities and attach listeners
+     * Sets the active navigation element
+     * Sets the navigation status based on the `has-navigation` class on the HTML element
+     * @method init
      */
     function init() {
 

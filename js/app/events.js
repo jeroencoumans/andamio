@@ -1,6 +1,8 @@
 /**
- * Module for dealing with events, esp. preventing click events to happen
- * multiple times during animation or while content is loading.
+ * Module for dealing with events, esp. preventing click events to happen multiple times during animation or while content is loading.
+ * @author Jeroen Coumans
+ * @class events
+ * @namespace APP
  */
 APP.events = (function () {
 
@@ -13,9 +15,9 @@ APP.events = (function () {
 
     /**
      * Enable or disables the event lock. The event lock prevents double tapping during animation.
-     *
-     * @param Boolean lock Whether to lock or unlock events: EVENT_LOCK_LOCKED or EVENT_LOCK_UNLOCKED
-     * @param Integer timeout The timeout before the lock will automatically unlock.
+     * @method setEventLock
+     * @param {Boolean} lock Whether to lock or unlock events: `EVENT_LOCK_LOCKED` or `EVENT_LOCK_UNLOCKED`
+     * @param {Integer} timeout The timeout before the lock will automatically unlock.
      * Set to 0 to disable
      */
     function setEventLock(lock, timeout) {
@@ -30,7 +32,8 @@ APP.events = (function () {
 
     /**
      * Locks all click events
-     * @param Integer timeout Optional timeout before lock will automatically unlock.
+     * @method lock
+     * @param {Integer} timeout Optional timeout before lock will automatically unlock.
      * Default is 500ms, set to 0 to disable
      */
     function lock(timeout) {
@@ -40,6 +43,7 @@ APP.events = (function () {
 
     /**
      * Unlocks click events lock
+     * @method unlock
      */
     function unlock() {
 
@@ -47,7 +51,8 @@ APP.events = (function () {
     }
 
     /**
-     * @return Bool Whether click events are currently locked
+     * @method isLocked
+     * @return {Boolean} Whether click events are currently locked
      */
     function isLocked() {
 
@@ -58,9 +63,10 @@ APP.events = (function () {
      * Attaches a 'click' handler to elements with the given
      * selector. Will use 'tap' events if supported by the browser.
      *
-     * @selector String element selector
-     * @fn Function the function to call when clicked
-     * @boolean bubbles Whether the event will bubble up. Default: false
+     * @method attachClickHandler
+     * @param {String} selector element selector
+     * @param {Function} fn the function to call when clicked
+     * @param {Boolean} [bubbles] Whether the event will bubble up. Default: false
      */
     function attachClickHandler(selector, fn, bubbles) {
 
@@ -74,6 +80,10 @@ APP.events = (function () {
         });
     }
 
+    /**
+     * Initialize variables and ftFastClick
+     * @method init
+     */
     function init() {
 
         // initialize variables
