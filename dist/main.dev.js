@@ -2224,11 +2224,12 @@ APP.util = (function () {
 
     /**
      * Returns the value for a given query string key.
+     * @method getQueryParam
      * @todo It would be better to parse the query string once and cache the result.
      *
-     * @param name Query string key
-     * @param defaultValue If the query string is not found it returns this value.
-     * @param queryString Query string to pick the value from, if none is provided
+     * @param {String} name Query string key
+     * @param {String} defaultValue If the query string is not found it returns this value.
+     * @param {String} queryString Query string to pick the value from, if none is provided
      *                    window.location.search query string will be used. This
      *                    parameter makes the function testable.
      *
@@ -2249,16 +2250,22 @@ APP.util = (function () {
 
     /**
      * Returns whether the given (anchor) element contains an external link
+     * @method isExternalLink
+     * @param {HTMLElement} elem an anchor element
+     * @return {Boolean} true when the anchor contains `target="_blank"`
      */
-    function isExternalLink(element) {
+    function isExternalLink(elem) {
 
-        element = $(element);
+        var element = $(elem);
 
         return element.attr("target") === "_blank";
     }
 
     /**
      * Get URL from the data attribute, falling back to the href
+     * @method getUrl
+     * @param {HTMLElement} elem the element to get the URL from
+     * @return {String} Will return the URL when a `data-url` value is found, else return the href if an href is found that doesn't start with `javascript`, else return the hash if hash is found
      */
     function getUrl(elem) {
 
@@ -2273,7 +2280,8 @@ APP.util = (function () {
 
     /**
      * Get title from the data attribute, falling back to the text
-     *
+     * @param {HTMLElement} elem the element to get the title from
+     * @return {String} the value of `data-title` if it's found, else the text of the element
      */
     function getTitle(elem) {
 
@@ -2296,6 +2304,13 @@ APP.util = (function () {
     };
 })();
 
+/**
+ * Executes the callback function after a specified delay
+ * @author Jeroen Coumans
+ * @class delay
+ * @namespace APP
+ * @param {Integer} timer the delay in milliseconds after which to execute the callback
+ */
 APP.delay = (function(){
     var timer = 0;
     return function(callback, ms){
@@ -3420,7 +3435,7 @@ APP.store = (function() {
         return result;
     }
 
-    /*
+    /**
      * Does an AJAX call to URL and stores it with the URL as the key
      * @method storeUrl
      * @param {String} url the relative URL to be stored. Do not include the hostname!
@@ -3454,8 +3469,12 @@ APP.store = (function() {
         });
     }
 
-    /*
-     * Wrapper around storeUrl to store an array of URL's
+    /**
+     * Wrapper around storeUrl to store an array of URLs
+     * @method storeUrlList
+     * @param {Array} list an array of URL's
+     * @param {String} [host="server"] hostname, if not set, the server variable will be used
+     * @param {Function} [callback] callback function when all storeUrl calls are complete
      */
     function storeUrlList(list, host, callback) {
 
@@ -3471,9 +3490,11 @@ APP.store = (function() {
         if ($.isFunction(callback)) callback();
     }
 
-    /*
+    /**
      * Returns an array of URL's
-     * @param selector: the selector used to get the DOM elements, e.g. ".article-list .action-pjax"
+     * @method getUrlList
+     * @param {HTMLElement} selector the selector used to get the DOM elements, e.g. ".article-list .action-pjax"
+     * @return {Array} an array of URL's
      */
     function getUrlList(selector) {
 
@@ -3490,8 +3511,10 @@ APP.store = (function() {
         return urlList;
     }
 
-    /***
+    /**
      * Initialize variables and settings
+     * @method init
+     * @param {Object} [params.server] optional server that will be used as the default host
      */
     function init(params) {
 
@@ -3525,6 +3548,10 @@ APP.tabs = (function () {
         activeItem,
         hasTabs;
 
+    /**
+     * Shows the tabs
+     * @method show
+     */
     function show() {
 
         html.addClass("has-tabs");
@@ -3532,6 +3559,10 @@ APP.tabs = (function () {
         hasTabs = true;
     }
 
+    /**
+     * Hides the tabs
+     * @method hide
+     */
     function hide() {
 
         html.removeClass("has-tabs");
@@ -3539,6 +3570,11 @@ APP.tabs = (function () {
         hasTabs = false;
     }
 
+    /**
+     * Wether the tabs are shown or not
+     * @method status
+     * @return {Boolean} true when shown, false when hidden
+     */
     function status() {
 
         return hasTabs;
@@ -3546,6 +3582,8 @@ APP.tabs = (function () {
 
     /**
      * Returns the tab items, useful for activating a new tab
+     * @method items
+     * @return {Object} returns an object that contains all .action-tab-item elements
      */
     function items() {
 
@@ -3553,8 +3591,11 @@ APP.tabs = (function () {
     }
 
     /**
-     * Returns the active item
-     * @elem: set the active item
+     * Sets or returns the active tab item. NOTE: this only sets the `active` class on the tab item!
+     *
+     * @method active
+     * @param {HTMLElement} [elem] set the active tab item
+     * @return {HTMLElement} the active tab item
      */
 
     function active(elem) {
@@ -3571,6 +3612,8 @@ APP.tabs = (function () {
 
     /**
      * Attach event listeners
+     * @method attachListeners
+     * @private
      */
     function attachListeners() {
 
@@ -3595,6 +3638,7 @@ APP.tabs = (function () {
 
     /***
      * Initialize variables and attach listeners
+     * @method init
      */
     function init() {
 
@@ -3633,13 +3677,28 @@ APP.views = (function () {
         child,
         hasChild;
 
-    // Export these elements for other modules
+    /**
+     * @method parentView
+     * @return {HTMLElement} returns the parent element
+     */
     function parentView() { return parent; }
+
+    /**
+     * @method childView
+     * @return {HTMLElement} returns the child element
+     */
     function childView()  { return child;  }
+
+    /**
+     * @method pageView
+     * @return {HTMLElement} returns the page element
+     */
     function pageView()   { return page;   }
 
     /**
      * Returns wether the childview is active or not
+     * @method hasChildPage
+     * @return {Boolean} true if childPage is active, false if parentView is active
      */
     function hasChildPage() {
 
@@ -3648,6 +3707,9 @@ APP.views = (function () {
 
     /**
      * Opens child page
+     * @method openChildPage
+     * @param {String} [url] will call APP.open.page to do an AJAX request to URL and open it in the `.js-content` of childView
+     * @param {String} [title] will set the title of the childView in the `.js-title` element
      */
     function openChildPage(url, title) {
 
@@ -3674,7 +3736,10 @@ APP.views = (function () {
     }
 
     /**
-     * Opens parent page
+     * Opens parent page. If a childView is active, first go back to the parentView.
+     * @method openParentPage
+     * @param {String} [url] will call APP.open.page to do an AJAX request to URL and open it in the `.js-content` of parentView
+     * @param {String} [title] will set the title of the parentView in the `.js-title` element
      */
     function openParentPage(url, title) {
 
@@ -3700,6 +3765,8 @@ APP.views = (function () {
 
     /**
      * Attach event listeners
+     * @method attachListeners
+     * @private
      */
     function attachListeners() {
 
@@ -3748,7 +3815,8 @@ APP.views = (function () {
     }
 
     /***
-     * Initialize variables and attach listeners
+     * Initialize variables and attach listeners. Sets the status of hasChildPage to true if the `html` element has the `.has-childview` class
+     * @method init
      */
     function init() {
 
@@ -3826,7 +3894,7 @@ APP.alert = (function () {
     function attachListeners() {
 
         // Calls hide() when .action-hide-alert is clicked
-        APP.events.attachClickHandler(".action-hide-alert", function (event) {
+        APP.events.attachClickHandler(".action-hide-alert", function () {
 
             hide();
         });

@@ -13,6 +13,10 @@ APP.tabs = (function () {
         activeItem,
         hasTabs;
 
+    /**
+     * Shows the tabs
+     * @method show
+     */
     function show() {
 
         html.addClass("has-tabs");
@@ -20,6 +24,10 @@ APP.tabs = (function () {
         hasTabs = true;
     }
 
+    /**
+     * Hides the tabs
+     * @method hide
+     */
     function hide() {
 
         html.removeClass("has-tabs");
@@ -27,6 +35,11 @@ APP.tabs = (function () {
         hasTabs = false;
     }
 
+    /**
+     * Wether the tabs are shown or not
+     * @method status
+     * @return {Boolean} true when shown, false when hidden
+     */
     function status() {
 
         return hasTabs;
@@ -34,6 +47,8 @@ APP.tabs = (function () {
 
     /**
      * Returns the tab items, useful for activating a new tab
+     * @method items
+     * @return {Object} returns an object that contains all .action-tab-item elements
      */
     function items() {
 
@@ -41,8 +56,11 @@ APP.tabs = (function () {
     }
 
     /**
-     * Returns the active item
-     * @elem: set the active item
+     * Sets or returns the active tab item. NOTE: this only sets the `active` class on the tab item!
+     *
+     * @method active
+     * @param {HTMLElement} [elem] set the active tab item
+     * @return {HTMLElement} the active tab item
      */
 
     function active(elem) {
@@ -59,6 +77,8 @@ APP.tabs = (function () {
 
     /**
      * Attach event listeners
+     * @method attachListeners
+     * @private
      */
     function attachListeners() {
 
@@ -83,6 +103,7 @@ APP.tabs = (function () {
 
     /***
      * Initialize variables and attach listeners
+     * @method init
      */
     function init() {
 

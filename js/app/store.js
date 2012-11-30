@@ -32,7 +32,7 @@ APP.store = (function() {
         return result;
     }
 
-    /*
+    /**
      * Does an AJAX call to URL and stores it with the URL as the key
      * @method storeUrl
      * @param {String} url the relative URL to be stored. Do not include the hostname!
@@ -66,8 +66,12 @@ APP.store = (function() {
         });
     }
 
-    /*
-     * Wrapper around storeUrl to store an array of URL's
+    /**
+     * Wrapper around storeUrl to store an array of URLs
+     * @method storeUrlList
+     * @param {Array} list an array of URL's
+     * @param {String} [host="server"] hostname, if not set, the server variable will be used
+     * @param {Function} [callback] callback function when all storeUrl calls are complete
      */
     function storeUrlList(list, host, callback) {
 
@@ -83,9 +87,11 @@ APP.store = (function() {
         if ($.isFunction(callback)) callback();
     }
 
-    /*
+    /**
      * Returns an array of URL's
-     * @param selector: the selector used to get the DOM elements, e.g. ".article-list .action-pjax"
+     * @method getUrlList
+     * @param {HTMLElement} selector the selector used to get the DOM elements, e.g. ".article-list .action-pjax"
+     * @return {Array} an array of URL's
      */
     function getUrlList(selector) {
 
@@ -102,8 +108,10 @@ APP.store = (function() {
         return urlList;
     }
 
-    /***
+    /**
      * Initialize variables and settings
+     * @method init
+     * @param {Object} [params.server] optional server that will be used as the default host
      */
     function init(params) {
 

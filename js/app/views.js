@@ -13,13 +13,28 @@ APP.views = (function () {
         child,
         hasChild;
 
-    // Export these elements for other modules
+    /**
+     * @method parentView
+     * @return {HTMLElement} returns the parent element
+     */
     function parentView() { return parent; }
+
+    /**
+     * @method childView
+     * @return {HTMLElement} returns the child element
+     */
     function childView()  { return child;  }
+
+    /**
+     * @method pageView
+     * @return {HTMLElement} returns the page element
+     */
     function pageView()   { return page;   }
 
     /**
      * Returns wether the childview is active or not
+     * @method hasChildPage
+     * @return {Boolean} true if childPage is active, false if parentView is active
      */
     function hasChildPage() {
 
@@ -28,6 +43,9 @@ APP.views = (function () {
 
     /**
      * Opens child page
+     * @method openChildPage
+     * @param {String} [url] will call APP.open.page to do an AJAX request to URL and open it in the `.js-content` of childView
+     * @param {String} [title] will set the title of the childView in the `.js-title` element
      */
     function openChildPage(url, title) {
 
@@ -54,7 +72,10 @@ APP.views = (function () {
     }
 
     /**
-     * Opens parent page
+     * Opens parent page. If a childView is active, first go back to the parentView.
+     * @method openParentPage
+     * @param {String} [url] will call APP.open.page to do an AJAX request to URL and open it in the `.js-content` of parentView
+     * @param {String} [title] will set the title of the parentView in the `.js-title` element
      */
     function openParentPage(url, title) {
 
@@ -80,6 +101,8 @@ APP.views = (function () {
 
     /**
      * Attach event listeners
+     * @method attachListeners
+     * @private
      */
     function attachListeners() {
 
@@ -128,7 +151,8 @@ APP.views = (function () {
     }
 
     /***
-     * Initialize variables and attach listeners
+     * Initialize variables and attach listeners. Sets the status of hasChildPage to true if the `html` element has the `.has-childview` class
+     * @method init
      */
     function init() {
 

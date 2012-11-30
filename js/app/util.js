@@ -8,11 +8,12 @@ APP.util = (function () {
 
     /**
      * Returns the value for a given query string key.
+     * @method getQueryParam
      * @todo It would be better to parse the query string once and cache the result.
      *
-     * @param name Query string key
-     * @param defaultValue If the query string is not found it returns this value.
-     * @param queryString Query string to pick the value from, if none is provided
+     * @param {String} name Query string key
+     * @param {String} defaultValue If the query string is not found it returns this value.
+     * @param {String} queryString Query string to pick the value from, if none is provided
      *                    window.location.search query string will be used. This
      *                    parameter makes the function testable.
      *
@@ -33,16 +34,22 @@ APP.util = (function () {
 
     /**
      * Returns whether the given (anchor) element contains an external link
+     * @method isExternalLink
+     * @param {HTMLElement} elem an anchor element
+     * @return {Boolean} true when the anchor contains `target="_blank"`
      */
-    function isExternalLink(element) {
+    function isExternalLink(elem) {
 
-        element = $(element);
+        var element = $(elem);
 
         return element.attr("target") === "_blank";
     }
 
     /**
      * Get URL from the data attribute, falling back to the href
+     * @method getUrl
+     * @param {HTMLElement} elem the element to get the URL from
+     * @return {String} Will return the URL when a `data-url` value is found, else return the href if an href is found that doesn't start with `javascript`, else return the hash if hash is found
      */
     function getUrl(elem) {
 
@@ -57,7 +64,8 @@ APP.util = (function () {
 
     /**
      * Get title from the data attribute, falling back to the text
-     *
+     * @param {HTMLElement} elem the element to get the title from
+     * @return {String} the value of `data-title` if it's found, else the text of the element
      */
     function getTitle(elem) {
 
@@ -80,6 +88,13 @@ APP.util = (function () {
     };
 })();
 
+/**
+ * Executes the callback function after a specified delay
+ * @author Jeroen Coumans
+ * @class delay
+ * @namespace APP
+ * @param {Integer} timer the delay in milliseconds after which to execute the callback
+ */
 APP.delay = (function(){
     var timer = 0;
     return function(callback, ms){

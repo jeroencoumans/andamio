@@ -51,7 +51,7 @@ APP.alert = (function () {
     function attachListeners() {
 
         // Calls hide() when .action-hide-alert is clicked
-        APP.events.attachClickHandler(".action-hide-alert", function (event) {
+        APP.events.attachClickHandler(".action-hide-alert", function () {
 
             hide();
         });
