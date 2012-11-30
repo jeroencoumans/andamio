@@ -22,7 +22,7 @@ APP.doc = (function () {
     function updateNav() {
 
         for (var i=0;i<boxes.length;i++) {
-            var currentBox     = $(boxes[i]),
+            var currentBox  = $(boxes[i]),
                 boxId       = currentBox.attr("id"),
                 boxTitle    = currentBox.find(".box-header").text();
 
