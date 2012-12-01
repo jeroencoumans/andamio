@@ -1,7 +1,7 @@
 /**
  * Core module for initializing capabilities and modules
  * @author Jeroen Coumans
- * @module core
+ * @class core
  * @namespace APP
  */
 APP.core = (function () {

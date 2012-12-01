@@ -1,5 +1,5 @@
 /**
- * Core module for handling events and initializing capabilities
+ * Module for handling scrolling and pushing events to Andamio iframe
  */
 APP.doc = (function () {
 
@@ -61,8 +61,8 @@ APP.doc = (function () {
                 previous.removeClass('active');
                 currentBox.addClass("active");
 
-                andamio.eval(actionOut)
-                andamio.eval(actionIn);
+                if (actionOut) andamio.eval(actionOut);
+                if (actionIn) andamio.eval(actionIn);
 
                 break;
             }
@@ -104,10 +104,19 @@ APP.doc = (function () {
         iphone          = $("#iphone");
         nav             = $("#nav");
 
-        andamio = window.frames[0];
+        // iframe injection with onload handler http://www.nczonline.net/blog/2009/09/15/iframes-onload-and-documentdomain/
+        var iframe = document.createElement("iframe");
+            iframe.src = "tests/index.html?webapp=1";
+            iframe.className = "iphone-content";
+
+        iframe.onload = function(){
+            console.log("Andamio loaded");
+            andamio = iframe.contentWindow;
+            attachListeners();
+        };
 
         updateNav();
-        attachListeners();
+        iphone.append(iframe);
     }
 
     return {
