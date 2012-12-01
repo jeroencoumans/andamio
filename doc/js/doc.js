@@ -6,9 +6,8 @@ APP.doc = (function () {
     // Variables
     var iframe,
         andamio,
-        win,
-        winHeight,
-        viewport,
+        content,
+        contentHeight,
         boxes,
         current,
         previous,
@@ -30,8 +29,6 @@ APP.doc = (function () {
 
             nav.append('<a href="#' + boxId + '" class="button">' + boxTitle + '</a>');
         }
-
-        console.log(boxes);
     }
 
     /**
@@ -41,7 +38,7 @@ APP.doc = (function () {
 
         // Save scrollTop value
         var currentBox,
-            currentTop = win.scrollTop(),
+            currentTop = content.scrollTop(),
             actionIn,
             actionOut;
 
@@ -49,14 +46,18 @@ APP.doc = (function () {
 
         // Injection of boxess into phone
         for (var i = boxes.length; i--;) {
-            if ((topCache[i] - currentTop) < winHeight) {
+            if ((topCache[i] - currentTop) < contentHeight) {
                 if (current == i) return;
 
-                previous = viewport.find('.box.active');
+                previous = content.find('.box.active');
                 actionOut = previous.data("app-out");
+
                 current = i;
                 currentBox = $(boxes[i]);
                 actionIn = currentBox.data("app-in");
+
+                console.log(actionIn);
+                console.log(actionOut);
 
                 previous.removeClass('active');
                 currentBox.addClass("active");
@@ -75,18 +76,13 @@ APP.doc = (function () {
      */
     function attachListeners() {
 
-        win.on("scroll", calculateScroll);
+        content.on("scroll", calculateScroll);
 
         APP.events.attachClickHandler(".action-app-reset", function () {
 
             andamio.location.reload();
         });
 
-        iphone.on("scroll", function(event) {
-            console.log("Scrolling in the iPhone?");
-
-            event.preventDefault();
-        });
     }
 
     /**
@@ -94,15 +90,16 @@ APP.doc = (function () {
      */
     function init() {
 
-        win             = $(window);
-        winHeight       = $(window).height() / 3;
-        boxes           = $(".box");
+        content         = APP.views.parentView().find(".js-content");
+        contentHeight   = content.height() / 2;
+        boxes           = content.find(".js-box");
         current         = 0;
         previous        = 0;
         topCache        = boxes.map(function () { return $(this).offset().top });
-        viewport        = $("body");
         iphone          = $("#iphone");
         nav             = $("#nav");
+
+        console.log(contentHeight);
 
         // iframe injection with onload handler http://www.nczonline.net/blog/2009/09/15/iframes-onload-and-documentdomain/
         var iframe = document.createElement("iframe");
@@ -115,7 +112,7 @@ APP.doc = (function () {
             attachListeners();
         };
 
-        updateNav();
+        // updateNav();
         iphone.append(iframe);
     }
 

@@ -1,25 +1,12 @@
 /*** Import Andamio ***/
-@import "../style/main.less";
+@import "../style/base/base.less";
+@import "../style/mixins/mixins.less";
+@import "../style/page/page.less";
+@import "../style/lists/lists.less";
+@import "../style/ui/ui.less";
+@import "../style/theme/theme.less";
 
 /*** Styling ***/
-@webapp-background-color: @global-background-color;
-@header-font-family: "Myriad", "HelveticaNeue-Bold", "HelveticaNeue Regular","Helvetica Neue",Helvetica,Arial,sans-serif;
-
-@header-height: 256px;
-
-.website .viewport,
-.webapp .viewport {
-    background-image: url(img/pattern.png);
-
-    &:after {
-        content: "";
-        position: fixed;
-        top: 0; left: 0; right: 0;
-        height: @header-height / 4;
-        background-image: url(img/pattern.png);
-        opacity: 0.5;
-    }
-}
 
 h1,
 h2,
@@ -30,50 +17,82 @@ h6 {
     text-shadow: 0 1px 1px #fff;
 }
 
-/*** Layout ***/
+/*** Extra sidebar ***/
+@iphone-width: 378px;
+@iphone-height: 744px;
 
 .webapp {
-    overflow: auto;
 
-    .viewport {
-        position: static;
+    .page-view {
+        right: 33.33333333%;
+        overflow: hidden;
+    }
+
+    .parent-view,
+    .child-view {
+        background-image: url(img/pattern.png);
     }
 }
 
-.header {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    height: @header-height;
-    z-index: 10;
+/*** Pageheader ***/
+@page-header-background: lighten(@grey, 25%);
+@page-header-border: darken(@page-header-background, 35%);
+@page-header-color: darken(@grey, 35%);
 
-    padding: @grid-l 0 3 * @grid-l;
-    max-width: 4 * @iphone-width + @grid-l;
-    margin: auto;
-    background: url(img/header.jpg) 50% @header-height / 4 no-repeat;
+.page-logo {
+    text-shadow: 0 1px 1px lighten(@page-header-background, 25%);
+}
 
-    .logo {
-        position: relative;
-        margin: -20px auto 0;
-        width: 259px;
-        height: 278px;
+.button-header {
+    color: @page-header-color;
+    text-shadow: 0 1px 1px lighten(@page-header-background, 25%);
+}
+
+/*** Page navigation ***/
+@navigation-background: @global-background-color;
+@navigation-header-background: darken(@navigation-background, 10%);
+@navigation-header-color: @grey, 25%;
+@navigation-item-color: @blue;
+
+.desktop,
+.ios6 {
+    .page-navigation-toggle {
+        .box-shadow(-@grid-s 0 @grid-l -@grid-s rgba(0,0,0, .5));
     }
+}
 
-    .logo-title {
-        font-size: 36px;
-        color: #fff;
-        text-shadow: 0 1px 2px rgba(10,86,144, .75);
-        position: absolute;
-        top: 128px;
-        left: 40px;
-        .rotate(-20deg);
-        text-transform: uppercase;
+.navigation-header {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.navigation-item {
+
+    &.active {
+        color: @white;
+        .gradient(@blue, darken(@blue, 10%));
+        text-shadow: 0 1px 1px darken(@blue, 25%);
     }
+}
 
+/*** Boxes ***/
+.box {
+    margin: 0;
+    padding: @grid-l;
+}
+
+.js-box {
+    .animate(opacity);
+    opacity: 0.3;
+
+    &.active {
+        opacity: 1;
+    }
 }
 
 /*** Jumbotron ***/
 .jumbotron {
-    padding: @grid-l 0;
+    padding: @grid-l;
 
     .jumbotron-title {
         font-size: 2 * @font-huge;
@@ -99,64 +118,24 @@ h6 {
     }
 }
 
-.desktop-view {
-    .row;
-    min-width: 2 * @iphone-width + @grid-l;
-    max-width: 3 * @iphone-width + @grid-l;
-    margin: auto;
-
-    .main {
-        width: 50%;
-        padding-top: @header-height + 4 * @grid-l;
-
-        /*** Boxes ***/
-        .box {
-            margin: 0;
-            padding: 3 * @grid-l 0;
-            .animate(opacity);
-            opacity: 0.3;
-
-            &.active {
-                opacity: 1;
-            }
-        }
-    }
-
-    .sidebar {
-        .overlay-right;
-        position: fixed;
-        z-index: 20;
-        .p50;
-    }
-
-    pre {
-        max-width: 100%;
-        overflow: auto;
-    }
-}
-
 /*** iPhone preview window ***/
-@iphone-width: 380px;
-@iphone-height: 748px;
-
 .iphone {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-
     width: @iphone-width;
     height: @iphone-height;
 
-    margin-top: -(@iphone-height / 2);
-    margin-left: -(@iphone-width / 2);
+    position: absolute;
+    top: 50%;
+    right: 0;
+    left: 66.66666666%;
+    margin: -(@iphone-height / 2) auto;
 
+    background: url(img/iphone-white.png) 50% 0 no-repeat;
+    background-size: @iphone-width @iphone-height;
+    .box-sizing(border-box);
+    .border-radius(70px);
+    .box-shadow(0 20px 60px rgba(0,0,0, .35));
 
-    background: url(img/iphone-white.png) 50% 50% no-repeat;
-    background-size: contain;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-
-    padding: 153px 26px 134px 30px;
+    padding: 153px 26px 130px 30px;
 
     &:after {
         content: "";
@@ -185,9 +164,4 @@ h6 {
         height: 100%;
         border: 0;
     }
-}
-
-/*** Modal ***/
-.modal-view .page-content {
-    padding: @grid-l @grid-m;
 }

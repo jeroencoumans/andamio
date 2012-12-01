@@ -3181,7 +3181,7 @@ APP.nav = (function () {
         nav = $("#page-navigation");
         toggle = $(".action-show-nav");
         navItems = nav.find(".action-nav-item");
-        activeItem = nav.find(".active");
+        activeItem = navItems.filter(".active");
 
         hasNavigation = html.hasClass("has-navigation") ? true : false;
 
