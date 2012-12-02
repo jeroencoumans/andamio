@@ -1,0 +1,592 @@
+<div class="section-header">
+    <h1 class="section-title">APP.events Class</h1>
+    <div class="section-description"><p>Module for dealing with events, esp. preventing click events to happen multiple times during animation or while content is loading.</p></div>
+</div>
+
+<div class="box meta">
+    
+
+    
+
+    
+        <div class="detail">
+            Defined in: <a class="action-push" href="doc/api/files/..&#x2F;files&#x2F;js_app_events.js.html#l1"><code>js&#x2F;app&#x2F;events.js:1</code></a>
+        </div>
+    
+
+    
+
+    
+</div>
+
+
+
+
+
+
+<div class="box">
+    <div class="box-header row">
+        <h2 class="box-title unit">Methods</h2>
+
+        <div class="unit-right">
+            
+            <a href="#method_attachClickHandler" class="method">
+                attachClickHandler
+            </a>
+            
+            <a href="#method_init" class="method">
+                init
+            </a>
+            
+            <a href="#method_isLocked" class="method">
+                isLocked
+            </a>
+            
+            <a href="#method_lock" class="method">
+                lock
+            </a>
+            
+            <a href="#method_setEventLock" class="method">
+                setEventLock
+            </a>
+            
+            <a href="#method_unlock" class="method">
+                unlock
+            </a>
+            
+        </div>
+    </div>
+</div>
+
+
+    <hr class="divider">
+
+<div class="box">
+    <h3 class="token tag">
+        <code>attachClickHandler</code>
+        
+            <small class="token punctuation">(</small>
+            <small>
+                
+                    
+                        <code class="token attr-value comma">selector</code>
+                    
+                
+                    
+                        <code class="token attr-value comma">fn</code>
+                    
+                
+                    
+                        <code class="token attr-name comma">[bubbles]</code>
+                    
+                
+            </small>
+            <small class="token punctuation">)</small>
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+    </h3>
+
+    <div class="token comment">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a class="action-push" href="doc/api/files/..&#x2F;files&#x2F;js_app_events.js.html#l62"><code>js&#x2F;app&#x2F;events.js:62</code></a>
+        
+        </p>
+
+        
+
+        
+
+    </div>
+
+    <div class="description">
+        <p>Attaches a 'click' handler to elements with the given
+selector. Will use 'tap' events if supported by the browser.</p>
+    </div>
+</div>
+
+
+    <div class="box params">
+        <h4>Parameters:</h4>
+
+        <dl class="params-list">
+        
+            <dt class="param">
+                
+                    <code class="token attr-name">selector</code>
+                    <span class="token comment">String</span>
+                
+
+                
+            </dt>
+
+            <dd>
+                <div class="param-description">
+                    <p>element selector</p>
+                </div>
+
+                
+            </dd>
+        
+            <dt class="param">
+                
+                    <code class="token attr-name">fn</code>
+                    <span class="token comment">Function</span>
+                
+
+                
+            </dt>
+
+            <dd>
+                <div class="param-description">
+                    <p>the function to call when clicked</p>
+                </div>
+
+                
+            </dd>
+        
+            <dt class="param">
+                
+                    <code class="token attr-name">[bubbles]</code>
+                    <span class="token comment">Boolean</span>
+                    <span class="token comment" title="This parameter is optional.">optional</span>
+                
+
+                
+            </dt>
+
+            <dd>
+                <div class="param-description">
+                    <p>Whether the event will bubble up. Default: false</p>
+                </div>
+
+                
+            </dd>
+        
+        </dl>
+    </div>
+
+
+
+
+
+
+
+    <hr class="divider">
+
+<div class="box">
+    <h3 class="token tag">
+        <code>init</code>
+        
+            <small class="token punctuation">()</small>
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+    </h3>
+
+    <div class="token comment">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a class="action-push" href="doc/api/files/..&#x2F;files&#x2F;js_app_events.js.html#l83"><code>js&#x2F;app&#x2F;events.js:83</code></a>
+        
+        </p>
+
+        
+
+        
+
+    </div>
+
+    <div class="description">
+        <p>Initialize variables and ftFastClick</p>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <hr class="divider">
+
+<div class="box">
+    <h3 class="token tag">
+        <code>isLocked</code>
+        
+            <small class="token punctuation">()</small>
+        
+
+        
+            <small class="token comment">Boolean</small>
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+    </h3>
+
+    <div class="token comment">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a class="action-push" href="doc/api/files/..&#x2F;files&#x2F;js_app_events.js.html#l53"><code>js&#x2F;app&#x2F;events.js:53</code></a>
+        
+        </p>
+
+        
+
+        
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+</div>
+
+
+
+
+    <div class="box returns">
+        <h4>Returns:</h4>
+
+        <div class="returns-description">
+            
+                
+                    <span class="type">Boolean</span>:
+                
+                Whether click events are currently locked
+            
+        </div>
+    </div>
+
+
+
+
+
+    <hr class="divider">
+
+<div class="box">
+    <h3 class="token tag">
+        <code>lock</code>
+        
+            <small class="token punctuation">(</small>
+            <small>
+                
+                    
+                        <code class="token attr-value comma">timeout</code>
+                    
+                
+            </small>
+            <small class="token punctuation">)</small>
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+    </h3>
+
+    <div class="token comment">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a class="action-push" href="doc/api/files/..&#x2F;files&#x2F;js_app_events.js.html#l33"><code>js&#x2F;app&#x2F;events.js:33</code></a>
+        
+        </p>
+
+        
+
+        
+
+    </div>
+
+    <div class="description">
+        <p>Locks all click events</p>
+    </div>
+</div>
+
+
+    <div class="box params">
+        <h4>Parameters:</h4>
+
+        <dl class="params-list">
+        
+            <dt class="param">
+                
+                    <code class="token attr-name">timeout</code>
+                    <span class="token comment">Integer</span>
+                
+
+                
+            </dt>
+
+            <dd>
+                <div class="param-description">
+                    <p>Optional timeout before lock will automatically unlock.
+Default is 500ms, set to 0 to disable</p>
+                </div>
+
+                
+            </dd>
+        
+        </dl>
+    </div>
+
+
+
+
+
+
+
+    <hr class="divider">
+
+<div class="box">
+    <h3 class="token tag">
+        <code>setEventLock</code>
+        
+            <small class="token punctuation">(</small>
+            <small>
+                
+                    
+                        <code class="token attr-value comma">lock</code>
+                    
+                
+                    
+                        <code class="token attr-value comma">timeout</code>
+                    
+                
+            </small>
+            <small class="token punctuation">)</small>
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+    </h3>
+
+    <div class="token comment">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a class="action-push" href="doc/api/files/..&#x2F;files&#x2F;js_app_events.js.html#l16"><code>js&#x2F;app&#x2F;events.js:16</code></a>
+        
+        </p>
+
+        
+
+        
+
+    </div>
+
+    <div class="description">
+        <p>Enable or disables the event lock. The event lock prevents double tapping during animation.</p>
+    </div>
+</div>
+
+
+    <div class="box params">
+        <h4>Parameters:</h4>
+
+        <dl class="params-list">
+        
+            <dt class="param">
+                
+                    <code class="token attr-name">lock</code>
+                    <span class="token comment">Boolean</span>
+                
+
+                
+            </dt>
+
+            <dd>
+                <div class="param-description">
+                    <p>Whether to lock or unlock events: <code>EVENT_LOCK_LOCKED</code> or <code>EVENT_LOCK_UNLOCKED</code></p>
+                </div>
+
+                
+            </dd>
+        
+            <dt class="param">
+                
+                    <code class="token attr-name">timeout</code>
+                    <span class="token comment">Integer</span>
+                
+
+                
+            </dt>
+
+            <dd>
+                <div class="param-description">
+                    <p>The timeout before the lock will automatically unlock.
+Set to 0 to disable</p>
+                </div>
+
+                
+            </dd>
+        
+        </dl>
+    </div>
+
+
+
+
+
+
+
+    <hr class="divider">
+
+<div class="box">
+    <h3 class="token tag">
+        <code>unlock</code>
+        
+            <small class="token punctuation">()</small>
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+    </h3>
+
+    <div class="token comment">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a class="action-push" href="doc/api/files/..&#x2F;files&#x2F;js_app_events.js.html#l44"><code>js&#x2F;app&#x2F;events.js:44</code></a>
+        
+        </p>
+
+        
+
+        
+
+    </div>
+
+    <div class="description">
+        <p>Unlocks click events lock</p>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

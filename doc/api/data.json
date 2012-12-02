@@ -1,0 +1,1513 @@
+{
+    "project": {},
+    "files": {
+        "js/app/alert.js": {
+            "name": "js/app/alert.js",
+            "modules": {},
+            "classes": {
+                "APP.alert": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "APP": 1
+            }
+        },
+        "js/app/connection.js": {
+            "name": "js/app/connection.js",
+            "modules": {},
+            "classes": {
+                "APP.connection": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "APP": 1
+            }
+        },
+        "js/app/events.js": {
+            "name": "js/app/events.js",
+            "modules": {},
+            "classes": {
+                "APP.events": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "APP": 1
+            }
+        },
+        "js/app/init.js": {
+            "name": "js/app/init.js",
+            "modules": {},
+            "classes": {
+                "APP.core": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "APP": 1
+            }
+        },
+        "js/app/loader.js": {
+            "name": "js/app/loader.js",
+            "modules": {},
+            "classes": {
+                "APP.loader": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "APP": 1
+            }
+        },
+        "js/app/modal.js": {
+            "name": "js/app/modal.js",
+            "modules": {},
+            "classes": {
+                "APP.modal": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "APP": 1
+            }
+        },
+        "js/app/nav.js": {
+            "name": "js/app/nav.js",
+            "modules": {},
+            "classes": {
+                "APP.nav": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "APP": 1
+            }
+        },
+        "js/app/open.js": {
+            "name": "js/app/open.js",
+            "modules": {},
+            "classes": {
+                "APP.open": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "APP": 1
+            }
+        },
+        "js/app/phone.js": {
+            "name": "js/app/phone.js",
+            "modules": {},
+            "classes": {
+                "APP.phone": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "APP": 1
+            }
+        },
+        "js/app/reveal.js": {
+            "name": "js/app/reveal.js",
+            "modules": {},
+            "classes": {
+                "APP.reveal": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "APP": 1
+            }
+        },
+        "js/app/search.js": {
+            "name": "js/app/search.js",
+            "modules": {},
+            "classes": {
+                "APP.search": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "APP": 1
+            }
+        },
+        "js/app/store.js": {
+            "name": "js/app/store.js",
+            "modules": {},
+            "classes": {
+                "APP.store": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "APP": 1
+            }
+        },
+        "js/app/tabs.js": {
+            "name": "js/app/tabs.js",
+            "modules": {},
+            "classes": {
+                "APP.tabs": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "APP": 1
+            }
+        },
+        "js/app/util.js": {
+            "name": "js/app/util.js",
+            "modules": {},
+            "classes": {
+                "APP.util": 1,
+                "APP.delay": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "APP": 1
+            }
+        },
+        "js/app/views.js": {
+            "name": "js/app/views.js",
+            "modules": {},
+            "classes": {
+                "APP.views": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "APP": 1
+            }
+        }
+    },
+    "modules": {},
+    "classes": {
+        "APP.alert": {
+            "name": "APP.alert",
+            "shortname": "APP.alert",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "APP",
+            "file": "js/app/alert.js",
+            "line": 1,
+            "description": "Controls global alerts",
+            "author": "Jeroen Coumans"
+        },
+        "APP.connection": {
+            "name": "APP.connection",
+            "shortname": "APP.connection",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "APP",
+            "file": "js/app/connection.js",
+            "line": 1,
+            "description": "Module that deals with internet connectivity",
+            "author": "Jeroen Coumans"
+        },
+        "APP.events": {
+            "name": "APP.events",
+            "shortname": "APP.events",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "APP",
+            "file": "js/app/events.js",
+            "line": 1,
+            "description": "Module for dealing with events, esp. preventing click events to happen multiple times during animation or while content is loading.",
+            "author": "Jeroen Coumans"
+        },
+        "APP.core": {
+            "name": "APP.core",
+            "shortname": "APP.core",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "APP",
+            "file": "js/app/init.js",
+            "line": 1,
+            "description": "Core module for initializing capabilities and modules",
+            "author": "Jeroen Coumans"
+        },
+        "APP.loader": {
+            "name": "APP.loader",
+            "shortname": "APP.loader",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "APP",
+            "file": "js/app/loader.js",
+            "line": 1,
+            "description": "Controls the global loader",
+            "author": "Jeroen Coumans"
+        },
+        "APP.modal": {
+            "name": "APP.modal",
+            "shortname": "APP.modal",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "APP",
+            "file": "js/app/modal.js",
+            "line": 1,
+            "description": "Module for dealing with modals",
+            "author": "Jeroen Coumans"
+        },
+        "APP.nav": {
+            "name": "APP.nav",
+            "shortname": "APP.nav",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "APP",
+            "file": "js/app/nav.js",
+            "line": 1,
+            "description": "Module for page navigation",
+            "author": "Jeroen Coumans"
+        },
+        "APP.open": {
+            "name": "APP.open",
+            "shortname": "APP.open",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "APP",
+            "file": "js/app/open.js",
+            "line": 1,
+            "description": "Wrapper for doing an AJAX request",
+            "author": "Jeroen Coumans"
+        },
+        "APP.phone": {
+            "name": "APP.phone",
+            "shortname": "APP.phone",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "APP",
+            "file": "js/app/phone.js",
+            "line": 1,
+            "description": "Module that enhances the webapp with Cordova functionality",
+            "author": "Jeroen Coumans"
+        },
+        "APP.reveal": {
+            "name": "APP.reveal",
+            "shortname": "APP.reveal",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "APP",
+            "file": "js/app/reveal.js",
+            "line": 1,
+            "description": "Module for revealing contet",
+            "author": "Jeroen Coumans"
+        },
+        "APP.search": {
+            "name": "APP.search",
+            "shortname": "APP.search",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "APP",
+            "file": "js/app/search.js",
+            "line": 1,
+            "description": "Module for doing search and autocomplete",
+            "author": "Jeroen Coumans"
+        },
+        "APP.store": {
+            "name": "APP.store",
+            "shortname": "APP.store",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "APP",
+            "file": "js/app/store.js",
+            "line": 1,
+            "description": "Provides methods for storing HTML documents offline",
+            "author": "Jeroen Coumans"
+        },
+        "APP.tabs": {
+            "name": "APP.tabs",
+            "shortname": "APP.tabs",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "APP",
+            "file": "js/app/tabs.js",
+            "line": 1,
+            "description": "Module for using tabs",
+            "author": "Jeroen Coumans"
+        },
+        "APP.util": {
+            "name": "APP.util",
+            "shortname": "APP.util",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "APP",
+            "file": "js/app/util.js",
+            "line": 1,
+            "description": "Various utility functions",
+            "author": "Jeroen Coumans"
+        },
+        "APP.delay": {
+            "name": "APP.delay",
+            "shortname": "APP.delay",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "APP",
+            "file": "js/app/util.js",
+            "line": 92,
+            "description": "Executes the callback function after a specified delay",
+            "author": "Jeroen Coumans",
+            "params": [
+                {
+                    "name": "timer",
+                    "description": "the delay in milliseconds after which to execute the callback",
+                    "type": "Integer"
+                }
+            ]
+        },
+        "APP.views": {
+            "name": "APP.views",
+            "shortname": "APP.views",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "APP",
+            "file": "js/app/views.js",
+            "line": 1,
+            "description": "Module for handling views",
+            "author": "Jeroen Coumans"
+        }
+    },
+    "classitems": [
+        {
+            "file": "js/app/alert.js",
+            "line": 12,
+            "description": "Show alert",
+            "itemtype": "method",
+            "name": "show",
+            "params": [
+                {
+                    "name": "msg",
+                    "description": "the message of the alert",
+                    "type": "String"
+                }
+            ],
+            "class": "APP.alert",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/alert.js",
+            "line": 26,
+            "description": "Hide alert",
+            "itemtype": "method",
+            "name": "hide",
+            "class": "APP.alert",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/alert.js",
+            "line": 36,
+            "description": "Status of alert",
+            "itemtype": "method",
+            "name": "status",
+            "return": {
+                "description": "true when alert is displayed, false when alert is hidden",
+                "type": "Boolean"
+            },
+            "class": "APP.alert",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/alert.js",
+            "line": 46,
+            "description": "Attach event listeners",
+            "itemtype": "method",
+            "name": "attachListeners",
+            "access": "private",
+            "tagname": "",
+            "class": "APP.alert",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/alert.js",
+            "line": 60,
+            "description": "Initialize variables and attach listeners",
+            "itemtype": "method",
+            "name": "init",
+            "class": "APP.alert",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/connection.js",
+            "line": 12,
+            "description": "Called when the connection goes online, will hide the offline alert",
+            "itemtype": "method",
+            "name": "goOnline",
+            "access": "private",
+            "tagname": "",
+            "class": "APP.connection",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/connection.js",
+            "line": 26,
+            "description": "Called when the connection goes offline, will show an offline alert",
+            "itemtype": "method",
+            "name": "goOffline",
+            "access": "private",
+            "tagname": "",
+            "class": "APP.connection",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/connection.js",
+            "line": 39,
+            "description": "Returns the status of the connection, typically called from APP.open.page() when a timeout occurs",
+            "itemtype": "method",
+            "name": "status",
+            "params": [
+                {
+                    "name": "msg",
+                    "description": "accepts `offline` or `online` to set the connection status",
+                    "type": "String",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "the connection, either `offline` or `online`",
+                "type": "String"
+            },
+            "class": "APP.connection",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/connection.js",
+            "line": 58,
+            "description": "Sets the default connection to online",
+            "itemtype": "method",
+            "name": "init",
+            "class": "APP.connection",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/events.js",
+            "line": 16,
+            "description": "Enable or disables the event lock. The event lock prevents double tapping during animation.",
+            "itemtype": "method",
+            "name": "setEventLock",
+            "params": [
+                {
+                    "name": "lock",
+                    "description": "Whether to lock or unlock events: `EVENT_LOCK_LOCKED` or `EVENT_LOCK_UNLOCKED`",
+                    "type": "Boolean"
+                },
+                {
+                    "name": "timeout",
+                    "description": "The timeout before the lock will automatically unlock.\nSet to 0 to disable",
+                    "type": "Integer"
+                }
+            ],
+            "class": "APP.events",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/events.js",
+            "line": 33,
+            "description": "Locks all click events",
+            "itemtype": "method",
+            "name": "lock",
+            "params": [
+                {
+                    "name": "timeout",
+                    "description": "Optional timeout before lock will automatically unlock.\nDefault is 500ms, set to 0 to disable",
+                    "type": "Integer"
+                }
+            ],
+            "class": "APP.events",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/events.js",
+            "line": 44,
+            "description": "Unlocks click events lock",
+            "itemtype": "method",
+            "name": "unlock",
+            "class": "APP.events",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/events.js",
+            "line": 53,
+            "itemtype": "method",
+            "name": "isLocked",
+            "return": {
+                "description": "Whether click events are currently locked",
+                "type": "Boolean"
+            },
+            "class": "APP.events",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/events.js",
+            "line": 62,
+            "description": "Attaches a 'click' handler to elements with the given\nselector. Will use 'tap' events if supported by the browser.",
+            "itemtype": "method",
+            "name": "attachClickHandler",
+            "params": [
+                {
+                    "name": "selector",
+                    "description": "element selector",
+                    "type": "String"
+                },
+                {
+                    "name": "fn",
+                    "description": "the function to call when clicked",
+                    "type": "Function"
+                },
+                {
+                    "name": "bubbles",
+                    "description": "Whether the event will bubble up. Default: false",
+                    "type": "Boolean",
+                    "optional": true
+                }
+            ],
+            "class": "APP.events",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/events.js",
+            "line": 83,
+            "description": "Initialize variables and ftFastClick",
+            "itemtype": "method",
+            "name": "init",
+            "class": "APP.events",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/init.js",
+            "line": 9,
+            "description": "Initialize capabilities based on UA detection",
+            "itemtype": "method",
+            "name": "initCapabilities",
+            "class": "APP.core",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/init.js",
+            "line": 34,
+            "description": "Initialize variables and attach listeners",
+            "itemtype": "method",
+            "name": "init",
+            "class": "APP.core",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/loader.js",
+            "line": 16,
+            "description": "Shows the loader on top of the page. When no message is given, it will use the text inside #loader .loader-text",
+            "itemtype": "method",
+            "name": "show",
+            "params": [
+                {
+                    "name": "msg",
+                    "description": "the message to show in the spinner",
+                    "type": "String",
+                    "optional": true
+                }
+            ],
+            "class": "APP.loader",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/loader.js",
+            "line": 45,
+            "description": "Hides the loader",
+            "itemtype": "method",
+            "name": "hide",
+            "class": "APP.loader",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/loader.js",
+            "line": 63,
+            "description": "Returns wether the loader is active or not",
+            "itemtype": "method",
+            "name": "status",
+            "class": "APP.loader",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/loader.js",
+            "line": 72,
+            "description": "Check wether we use native or HTML spinner based on $.supports.cordova",
+            "itemtype": "method",
+            "name": "init",
+            "class": "APP.loader",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/modal.js",
+            "line": 15,
+            "itemtype": "method",
+            "name": "modalView",
+            "static": 1,
+            "return": {
+                "description": "the modal element",
+                "type": "HTMLElement"
+            },
+            "class": "APP.modal",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/modal.js",
+            "line": 22,
+            "description": "Opens the modal view",
+            "itemtype": "method",
+            "name": "show",
+            "class": "APP.modal",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/modal.js",
+            "line": 35,
+            "description": "Hides the modal view",
+            "itemtype": "method",
+            "name": "hide",
+            "class": "APP.modal",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/modal.js",
+            "line": 48,
+            "description": "Returns the status of the modal view",
+            "itemtype": "method",
+            "name": "status",
+            "return": {
+                "description": "wether modal view is shown or not",
+                "type": "Boolean"
+            },
+            "class": "APP.modal",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/modal.js",
+            "line": 58,
+            "description": "Attach event listeners",
+            "itemtype": "method",
+            "name": "attachListeners",
+            "access": "private",
+            "tagname": "",
+            "class": "APP.modal",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/modal.js",
+            "line": 97,
+            "description": "Initialize variables and attach listeners",
+            "itemtype": "method",
+            "name": "init",
+            "class": "APP.modal",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/nav.js",
+            "line": 22,
+            "description": "Sets height of content based on height of navigation",
+            "itemtype": "method",
+            "name": "setPageHeight",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "height",
+                    "description": "the height to which the page must be set",
+                    "type": "Integer"
+                }
+            ],
+            "class": "APP.nav",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/nav.js",
+            "line": 35,
+            "description": "Shows the navigation",
+            "itemtype": "method",
+            "name": "show",
+            "class": "APP.nav",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/nav.js",
+            "line": 51,
+            "description": "Hides the navigation",
+            "itemtype": "method",
+            "name": "hide",
+            "class": "APP.nav",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/nav.js",
+            "line": 67,
+            "description": "Returns the status of the navigation",
+            "itemtype": "method",
+            "name": "status",
+            "return": {
+                "description": "wether the navigation is shown or hidden",
+                "type": "Boolean"
+            },
+            "class": "APP.nav",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/nav.js",
+            "line": 77,
+            "description": "Returns the nav items, useful for activating a new tab",
+            "itemtype": "method",
+            "name": "items",
+            "static": 1,
+            "return": {
+                "description": "the navigation items",
+                "type": "HTMLElement"
+            },
+            "class": "APP.nav",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/nav.js",
+            "line": 88,
+            "description": "Returns the active item",
+            "itemtype": "method",
+            "name": "active",
+            "params": [
+                {
+                    "name": "elem",
+                    "description": "sets the HTMLElement to the active navigation element",
+                    "type": "HTMLElement",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "the active navigation element",
+                "type": "HTMLElement"
+            },
+            "class": "APP.nav",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/nav.js",
+            "line": 107,
+            "description": "Attach event listeners",
+            "itemtype": "method",
+            "name": "attachListeners",
+            "access": "private",
+            "tagname": "",
+            "class": "APP.nav",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/nav.js",
+            "line": 154,
+            "description": "Initialize capabilities and attach listeners\n- Sets the active navigation element\n- Sets the navigation status based on the `has-navigation` class on the HTML element",
+            "itemtype": "method",
+            "name": "init",
+            "class": "APP.nav",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/open.js",
+            "line": 15,
+            "description": "This method is used to set or return the active URL. It's used for e.g. refreshing the current page",
+            "itemtype": "method",
+            "name": "activeUrl",
+            "params": [
+                {
+                    "name": "href",
+                    "description": "the URL that should be set to active",
+                    "type": "String",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "the URL that is currently set to active",
+                "type": "String"
+            },
+            "class": "APP.open",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/open.js",
+            "line": 29,
+            "itemtype": "method",
+            "name": "parentUrl",
+            "return": {
+                "description": "the URL that is loaded in the parent element",
+                "type": "String"
+            },
+            "class": "APP.open",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/open.js",
+            "line": 35,
+            "itemtype": "method",
+            "name": "childUrl",
+            "return": {
+                "description": "the URL that is loaded in the child element",
+                "type": "String"
+            },
+            "class": "APP.open",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/open.js",
+            "line": 41,
+            "itemtype": "method",
+            "name": "modalUrl",
+            "return": {
+                "description": "the URL that is loaded in the modal element",
+                "type": "String"
+            },
+            "class": "APP.open",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/open.js",
+            "line": 47,
+            "description": "Do an AJAX request and insert it into a view. This method also maintains the URL's for each view, and sets the activeUrl to the called URL.",
+            "itemtype": "method",
+            "name": "page",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "the URL to call",
+                    "type": "String"
+                },
+                {
+                    "name": "view",
+                    "description": "what page to insert the content int (child, parent or modal)",
+                    "type": "HTMLElement"
+                },
+                {
+                    "name": "refresh",
+                    "description": "when set, the activeUrl will be downloaded again. You need to set this parameter if you want to explicitly refresh a page.",
+                    "type": "Boolean",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "optional callback function that will be called when the AJAX call completes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "APP.open",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/open.js",
+            "line": 141,
+            "description": "Checks what the active view is and then calls APP.open.page with its respective URL, view and refresh",
+            "itemtype": "method",
+            "name": "refresh",
+            "class": "APP.open",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/open.js",
+            "line": 162,
+            "description": "Attach event listeners",
+            "itemtype": "method",
+            "name": "attachListeners",
+            "class": "APP.open",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/open.js",
+            "line": 176,
+            "description": "Attach listeners",
+            "itemtype": "method",
+            "name": "init",
+            "class": "APP.open",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/phone.js",
+            "line": 12,
+            "description": "Listens to all clicks on anchor tags and opens them in Cordova popover if it's an external URL",
+            "itemtype": "method",
+            "name": "interceptAnchorClicks",
+            "access": "private",
+            "tagname": "",
+            "class": "APP.phone",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/phone.js",
+            "line": 32,
+            "description": "Attach Cordova listeners",
+            "itemtype": "method",
+            "name": "attachListeners",
+            "access": "private",
+            "tagname": "",
+            "class": "APP.phone",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/phone.js",
+            "line": 64,
+            "description": "Init Cordova stuff. Only called when Cordova is actually loaded",
+            "itemtype": "method",
+            "name": "initCordova",
+            "access": "private",
+            "tagname": "",
+            "class": "APP.phone",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/phone.js",
+            "line": 75,
+            "description": "Checks wether Cordova is available, and then calls initCordova",
+            "itemtype": "method",
+            "name": "init",
+            "class": "APP.phone",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/reveal.js",
+            "line": 9,
+            "description": "Attach event listeners",
+            "itemtype": "method",
+            "name": "attachListeners",
+            "access": "private",
+            "tagname": "",
+            "class": "APP.reveal",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/reveal.js",
+            "line": 56,
+            "description": "Ataches listeners",
+            "itemtype": "method",
+            "name": "init",
+            "class": "APP.reveal",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/search.js",
+            "line": 18,
+            "itemtype": "method",
+            "name": "form",
+            "return": {
+                "description": "the search form",
+                "type": "HTMLElement"
+            },
+            "class": "APP.search",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/search.js",
+            "line": 26,
+            "description": "Does an AJAX post to a URL and inserts it into searchResult",
+            "itemtype": "method",
+            "name": "loadResults",
+            "params": [
+                {
+                    "name": "URL",
+                    "description": "the URL to post to",
+                    "type": "String"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "APP.search",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/search.js",
+            "line": 65,
+            "description": "Calls loadResults with the searchText. If no query is given, it will check the value of searchInput and use that",
+            "itemtype": "method",
+            "name": "doSearch",
+            "params": [
+                {
+                    "name": "query",
+                    "description": "text that should be searched",
+                    "type": "String",
+                    "optional": true
+                }
+            ],
+            "class": "APP.search",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/search.js",
+            "line": 80,
+            "description": "Attach event listeners",
+            "itemtype": "method",
+            "name": "attachListeners",
+            "class": "APP.search",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/search.js",
+            "line": 102,
+            "description": "Initialize variables and attach listeners.\n\nSets searchInput (`.action-search-input`), searchSubmit (`.action-search-submit`) and searchResult (`.js-search-results`) based on the searchForm",
+            "itemtype": "method",
+            "name": "init",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "sets searchForm to the ID specified",
+                    "type": "String",
+                    "optional": true,
+                    "optdefault": "\"#search-form\""
+                }
+            ],
+            "class": "APP.search",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/store.js",
+            "line": 12,
+            "itemtype": "method",
+            "name": "loading",
+            "return": {
+                "description": "wether we're currently loading",
+                "type": "Boolean"
+            },
+            "class": "APP.store",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/store.js",
+            "line": 21,
+            "description": "Loads an URL from localStorage.",
+            "itemtype": "method",
+            "name": "showUrl",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "the URL that will be loaded. The URL is used as the key. The value will be parsed as JSON.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "the value that was stored. Usually, this is raw HTML.",
+                "type": "String"
+            },
+            "class": "APP.store",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/store.js",
+            "line": 35,
+            "description": "Does an AJAX call to URL and stores it with the URL as the key",
+            "itemtype": "method",
+            "name": "storeUrl",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "the relative URL to be stored. Do not include the hostname!",
+                    "type": "String"
+                },
+                {
+                    "name": "host",
+                    "description": "the hostname. If not set, the server variable that is passed into init will be prefixed.",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "callback function when the AJAX call is complete",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "APP.store",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/store.js",
+            "line": 69,
+            "description": "Wrapper around storeUrl to store an array of URLs",
+            "itemtype": "method",
+            "name": "storeUrlList",
+            "params": [
+                {
+                    "name": "list",
+                    "description": "an array of URL's",
+                    "type": "Array"
+                },
+                {
+                    "name": "host",
+                    "description": "hostname, if not set, the server variable will be used",
+                    "type": "String",
+                    "optional": true,
+                    "optdefault": "\"server\""
+                },
+                {
+                    "name": "callback",
+                    "description": "callback function when all storeUrl calls are complete",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "APP.store",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/store.js",
+            "line": 90,
+            "description": "Returns an array of URL's",
+            "itemtype": "method",
+            "name": "getUrlList",
+            "params": [
+                {
+                    "name": "selector",
+                    "description": "the selector used to get the DOM elements, e.g. \".article-list .action-pjax\"",
+                    "type": "HTMLElement"
+                }
+            ],
+            "return": {
+                "description": "an array of URL's",
+                "type": "Array"
+            },
+            "class": "APP.store",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/store.js",
+            "line": 111,
+            "description": "Initialize variables and settings",
+            "itemtype": "method",
+            "name": "init",
+            "params": [
+                {
+                    "name": "params.server",
+                    "description": "optional server that will be used as the default host",
+                    "type": "Object",
+                    "optional": true
+                }
+            ],
+            "class": "APP.store",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/tabs.js",
+            "line": 16,
+            "description": "Shows the tabs",
+            "itemtype": "method",
+            "name": "show",
+            "class": "APP.tabs",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/tabs.js",
+            "line": 27,
+            "description": "Hides the tabs",
+            "itemtype": "method",
+            "name": "hide",
+            "class": "APP.tabs",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/tabs.js",
+            "line": 38,
+            "description": "Wether the tabs are shown or not",
+            "itemtype": "method",
+            "name": "status",
+            "return": {
+                "description": "true when shown, false when hidden",
+                "type": "Boolean"
+            },
+            "class": "APP.tabs",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/tabs.js",
+            "line": 48,
+            "description": "Returns the tab items, useful for activating a new tab",
+            "itemtype": "method",
+            "name": "items",
+            "return": {
+                "description": "returns an object that contains all .action-tab-item elements",
+                "type": "Object"
+            },
+            "class": "APP.tabs",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/tabs.js",
+            "line": 58,
+            "description": "Sets or returns the active tab item. NOTE: this only sets the `active` class on the tab item!",
+            "itemtype": "method",
+            "name": "active",
+            "params": [
+                {
+                    "name": "elem",
+                    "description": "set the active tab item",
+                    "type": "HTMLElement",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "the active tab item",
+                "type": "HTMLElement"
+            },
+            "class": "APP.tabs",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/tabs.js",
+            "line": 78,
+            "description": "Attach event listeners",
+            "itemtype": "method",
+            "name": "attachListeners",
+            "access": "private",
+            "tagname": "",
+            "class": "APP.tabs",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/tabs.js",
+            "line": 104,
+            "description": "Initialize variables and attach listeners",
+            "itemtype": "method",
+            "name": "init",
+            "class": "APP.tabs",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/util.js",
+            "line": 9,
+            "description": "Returns the value for a given query string key.",
+            "itemtype": "method",
+            "name": "getQueryParam",
+            "todo": [
+                "It would be better to parse the query string once and cache the result."
+            ],
+            "params": [
+                {
+                    "name": "name",
+                    "description": "Query string key",
+                    "type": "String"
+                },
+                {
+                    "name": "defaultValue",
+                    "description": "If the query string is not found it returns this value.",
+                    "type": "String"
+                },
+                {
+                    "name": "queryString",
+                    "description": "Query string to pick the value from, if none is provided\n                   window.location.search query string will be used. This\n                   parameter makes the function testable.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The value of the query string or defaultValue if the key is\n        not found. If the value is empty an empty string is returned."
+            },
+            "class": "APP.util",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/util.js",
+            "line": 35,
+            "description": "Returns whether the given (anchor) element contains an external link",
+            "itemtype": "method",
+            "name": "isExternalLink",
+            "params": [
+                {
+                    "name": "elem",
+                    "description": "an anchor element",
+                    "type": "HTMLElement"
+                }
+            ],
+            "return": {
+                "description": "true when the anchor contains `target=\"_blank\"`",
+                "type": "Boolean"
+            },
+            "class": "APP.util",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/util.js",
+            "line": 48,
+            "description": "Get URL from the data attribute, falling back to the href",
+            "itemtype": "method",
+            "name": "getUrl",
+            "params": [
+                {
+                    "name": "elem",
+                    "description": "the element to get the URL from",
+                    "type": "HTMLElement"
+                }
+            ],
+            "return": {
+                "description": "Will return the URL when a `data-url` value is found, else return the href if an href is found that doesn't start with `javascript`, else return the hash if hash is found",
+                "type": "String"
+            },
+            "class": "APP.util",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/util.js",
+            "line": 65,
+            "description": "Get title from the data attribute, falling back to the text",
+            "itemtype": "method",
+            "name": "getTitle",
+            "params": [
+                {
+                    "name": "elem",
+                    "description": "the element to get the title from",
+                    "type": "HTMLElement"
+                }
+            ],
+            "return": {
+                "description": "the value of `data-title` if it's found, else the text of the element",
+                "type": "String"
+            },
+            "class": "APP.util",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 16,
+            "itemtype": "method",
+            "name": "parentView",
+            "return": {
+                "description": "returns the parent element",
+                "type": "HTMLElement"
+            },
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 22,
+            "itemtype": "method",
+            "name": "childView",
+            "return": {
+                "description": "returns the child element",
+                "type": "HTMLElement"
+            },
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 28,
+            "itemtype": "method",
+            "name": "pageView",
+            "return": {
+                "description": "returns the page element",
+                "type": "HTMLElement"
+            },
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 34,
+            "description": "Returns wether the childview is active or not",
+            "itemtype": "method",
+            "name": "hasChildPage",
+            "return": {
+                "description": "true if childPage is active, false if parentView is active",
+                "type": "Boolean"
+            },
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 44,
+            "description": "Opens child page",
+            "itemtype": "method",
+            "name": "openChildPage",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "will call APP.open.page to do an AJAX request to URL and open it in the `.js-content` of childView",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "title",
+                    "description": "will set the title of the childView in the `.js-title` element",
+                    "type": "String",
+                    "optional": true
+                }
+            ],
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 74,
+            "description": "Opens parent page. If a childView is active, first go back to the parentView.",
+            "itemtype": "method",
+            "name": "openParentPage",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "will call APP.open.page to do an AJAX request to URL and open it in the `.js-content` of parentView",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "title",
+                    "description": "will set the title of the parentView in the `.js-title` element",
+                    "type": "String",
+                    "optional": true
+                }
+            ],
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 102,
+            "description": "Attach event listeners",
+            "itemtype": "method",
+            "name": "attachListeners",
+            "access": "private",
+            "tagname": "",
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 153,
+            "description": "Initialize variables and attach listeners. Sets the status of hasChildPage to true if the `html` element has the `.has-childview` class",
+            "itemtype": "method",
+            "name": "init",
+            "class": "APP.views",
+            "namespace": "APP"
+        }
+    ],
+    "warnings": []
+}
