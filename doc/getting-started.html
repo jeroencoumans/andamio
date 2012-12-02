@@ -1,0 +1,111 @@
+<div class="section-header">
+    <h2 class="section-title">Getting started</h2>
+    <p class="section-description">After you download Andamio, here's how to get started</p>
+</div>
+
+<div class="box js-box active" id="doc-page-view" data-app-in="APP.views.openChildPage()" data-app-out="APP.views.openParentPage()">
+    <h2 class="box-header">Page views</h2>
+    <p>This describes the structure of the HTML document. </p>
+    <p>The <code>html</code> element can contain one of the following classes:</p>
+    <ul>
+        <li><code class="language-css">.website</code>: for mobile website</li>
+        <li><code class="language-css">.webapp</code>: for mobile web application</li>
+        <li><code class="language-css">.desktop</code>: for desktop website</li>
+        <li><code class="language-css">.desktop.webapp</code>: for desktop web application</li>
+    </ul>
+
+    <p>The <code>.viewport</code> class is mandatory for the <code>body</code> element.</p>
+    <p>After that, we use the following DOM structure for setting up the main page view:</p>
+
+    <pre><code class="language-markup">
+&lt;div id=&quot;page-view&quot; class=&quot;page-view&quot;&gt;
+&lt;div id=&quot;parent-view&quot; class=&quot;parent-view active-view&quot;&gt;
+
+&lt;/div&gt;
+
+&lt;div id=&quot;child-view&quot; class=&quot;child-view view-hidden&quot;&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+    </code></pre>
+</div>
+
+<div class="box js-box" id="doc-modal-view" data-app-in="APP.modal.show()" data-app-out="APP.modal.hide()">
+    <h2 class="box-header">Modals</h2>
+
+    <pre><code class="language-markup">
+&lt;div id="modal-view" class="modal-view view-hidden"&gt;
+&lt;div class="page-header"&gt;
+&lt;a href="#" class="page-logo js-title"&gt;
+Modal
+&lt;/a&gt;
+&lt;a href="#" class="button-header-wrapper action-hide-modal"&gt;
+&lt;span class="button-header"&gt;
+Close
+&lt;/span&gt;
+&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div class="page-content overthrow js-content"&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+    </code></pre>
+</div>
+
+<div class="box js-box" id="doc-views-content" data-app-in="" data-app-out="">
+    <h2 class="box-header">Views content</h2>
+
+    <pre><code class="language-markup">
+&lt;div class=&quot;page-header&quot;&gt;
+&lt;a href=&quot;/&quot; class=&quot;page-logo action-page-title&quot;&gt;
+Title
+&lt;/a&gt;
+&lt;a href=&quot;#&quot; class=&quot;button-header-wrapper action-show-nav&quot;&gt;
+&lt;span class=&quot;button-header&quot;&gt;
+Menu
+&lt;/span&gt;
+&lt;/a&gt;
+&lt;/div&gt;
+&lt;div class=&quot;page-content overthrow&quot;&gt;
+
+&lt;/div&gt;
+    </code></pre>
+</div>
+
+<div class="box js-box" id="doc-page-navigation" data-app-in="APP.nav.show()" data-app-out="APP.nav.hide()">
+    <h2 class="box-header">Page navigation</h2>
+    <pre><code class="language-markup">
+&lt;div id=&quot;page-navigation&quot; class=&quot;page-navigation overthrow&quot;&gt;
+&lt;h2 class=&quot;navigation-header&quot;&gt;
+Navigation header
+&lt;/h2&gt;
+&lt;a href=&quot;#&quot; class=&quot;navigation-item active action-nav-item&quot;&gt;
+Active navigation item
+&lt;/a&gt;
+&lt;a href=&quot;#&quot; class=&quot;navigation-item action-nav-item&quot;&gt;
+Navigation item
+&lt;/a&gt;
+&lt;a href=&quot;#&quot; class=&quot;navigation-item action-nav-item&quot;&gt;
+Navigation item
+&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;a href=&quot;#&quot; class=&quot;page-navigation-toggle action-hide-nav&quot;&gt;&lt;/a&gt;
+    </code></pre>
+</div>
+
+<div class="box js-box" id="doc-loader" data-app-in="APP.loader.show()" data-app-out="APP.loader.hide()">
+    <h2 class="box-header">Loader</h2>
+    <pre><code class="language-markup">
+&lt;div id=&quot;loader&quot; class=&quot;loader&quot; style=&quot;display:none&quot;&gt;
+&lt;img src=&quot;img/spinner-dark.gif&quot; class=&quot;spinner&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;
+&lt;div class=&quot;loader-text&quot;&gt;Loading...&lt;/div&gt;
+&lt;/div&gt;
+    </code></pre>
+</div>
+
+<div class="box">
+    <p>Andamio was created by Jeroen Coumans to speed up prototyping and creating the frontend for mobile web applications.</p>
+
+</div>
