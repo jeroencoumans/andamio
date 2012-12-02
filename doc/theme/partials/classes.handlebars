@@ -1,0 +1,107 @@
+<div class="section-header">
+    <h1 class="section-title">{{name}} Class</h1>
+    <div class="section-description">{{{classDescription}}}</div>
+</div>
+
+<div class="box meta">
+    {{#if uses}}
+        <div class="uses">
+            Uses {{#uses}}<a class="action-push" href="doc/api/{{.}}.html">{{.}}</a>, {{/uses}}
+        </div>
+    {{/if}}
+
+    {{#if extends}}
+        <div class="extends">
+            Extends {{#crossLink extends}}{{/crossLink}}
+        </div>
+    {{/if}}
+
+    {{#if foundAt}}
+        <div class="detail">
+            Defined in: <a class="action-push" href="doc/api/files/{{foundAt}}">`{{{file}}}:{{{line}}}`</a>
+        </div>
+    {{/if}}
+
+    {{#if module}}
+        {{#if submodule}}
+            Module: {{#crossLinkModule submodule}}{{/crossLinkModule}}<br>
+            Parent Module: {{#crossLinkModule module}}{{/crossLinkModule}}
+        {{else}}
+            Module: {{#crossLinkModule module}}{{/crossLinkModule}}
+        {{/if}}
+    {{/if}}
+
+    {{#if since}}
+        <p>Available since {{since}}</p>
+    {{/if}}
+</div>
+
+{{#if deprecated}}
+<div class="alert error">
+    <p>
+    {{#if deprecationMessage}}
+        <strong>Deprecated:</strong> {{deprecationMessage}}
+    {{else}}
+        This class is deprecated.
+    {{/if}}
+    </p>
+</div>
+{{/if}}
+
+{{#is_constructor}}
+<div class="box">
+    <h2 class="table-header">Constructor</h2>
+    {{>method}}
+</div>
+{{/is_constructor}}
+
+{{#if methods}}
+<div class="box">
+    <div class="box-header row">
+        <h2 class="box-title unit">Methods</h2>
+
+        <div class="unit-right">
+            {{#methods}}
+            <a href="#method_{{name}}" class="method{{#if access}} {{access}}{{/if}}{{#if deprecated}} deprecated{{/if}}{{#if overwritten_from}} inherited{{/if}}{{#if extended_from}} inherited{{/if}}">
+                {{name}}
+            </a>
+            {{/methods}}
+        </div>
+    </div>
+</div>
+
+{{#methods}}
+    {{>method}}
+{{/methods}}
+
+{{/if}}
+
+{{#if properties}}
+    <div id="doc-properties" class="box">
+        <h2 class="table-header">Properties</h2>
+
+        {{#properties}}
+            {{>props}}
+        {{/properties}}
+    </div>
+{{/if}}
+
+{{#if attrs}}
+    <div id="doc-attrs" class="box">
+        <h2 class="table-header">Attributes</h2>
+
+        {{#attrs}}
+            {{>attrs}}
+        {{/attrs}}
+    </div>
+{{/if}}
+
+{{#if events}}
+    <div id="doc-events" class="box">
+        <h2 class="table-header">Events</h2>
+
+        {{#events}}
+            {{>events}}
+        {{/events}}
+    </div>
+{{/if}}
