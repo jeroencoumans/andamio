@@ -64,7 +64,7 @@ module.exports = function(grunt) {
         // CSS compilation & linting
         recess: {
             doc: {
-                src: ['doc/main.less', 'doc/prism.css'],
+                src: ['doc/main.less'],
                 dest: 'doc/main.css',
                 options: {
                     compile: true,

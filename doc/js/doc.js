@@ -16,22 +16,6 @@ APP.doc = (function () {
         nav;
 
     /**
-     * Populates the navigation
-     */
-    function updateNav() {
-
-        for (var i=0;i<boxes.length;i++) {
-            var currentBox  = $(boxes[i]),
-                boxId       = currentBox.attr("id"),
-                boxTitle    = currentBox.find(".box-header").text();
-
-            if (! boxId || ! boxTitle) return;
-
-            nav.append('<a href="#' + boxId + '" class="button">' + boxTitle + '</a>');
-        }
-    }
-
-    /**
      * Checks the scrollposition and updates the active boxes
      */
     function calculateScroll() {
@@ -56,14 +40,11 @@ APP.doc = (function () {
                 currentBox = $(boxes[i]);
                 actionIn = currentBox.data("app-in");
 
-                console.log(actionIn);
-                console.log(actionOut);
-
                 previous.removeClass('active');
                 currentBox.addClass("active");
 
-                if (actionOut) andamio.eval(actionOut);
-                if (actionIn) andamio.eval(actionIn);
+                if (actionOut && andamio) andamio.eval(actionOut);
+                if (actionIn && andamio) andamio.eval(actionIn);
 
                 break;
             }
@@ -83,12 +64,16 @@ APP.doc = (function () {
             andamio.location.reload();
         });
 
+        // Listen to the global ajaxComplete event to trigger syntax highlighting and reset the scroll variables
+        $(document).on("ajaxSuccess", function() {
+
+            console.log("New page loaded");
+            initScroll();
+            Prism.highlightAll();
+        });
     }
 
-    /**
-     * Check wether we use native or HTML spinner
-     */
-    function init() {
+    function initScroll() {
 
         content         = APP.views.parentView().find(".js-content");
         contentHeight   = content.height() / 2;
@@ -96,24 +81,34 @@ APP.doc = (function () {
         current         = 0;
         previous        = 0;
         topCache        = boxes.map(function () { return $(this).offset().top });
-        iphone          = $("#iphone");
-        nav             = $("#nav");
+    }
 
-        console.log(contentHeight);
+    /**
+     *
+     */
+    function init() {
 
-        // iframe injection with onload handler http://www.nczonline.net/blog/2009/09/15/iframes-onload-and-documentdomain/
-        var iframe = document.createElement("iframe");
-            iframe.src = "tests/index.html?webapp=1";
-            iframe.className = "iphone-content";
+        initScroll();
+        iphone = $("#iphone");
+        nav    = $("#nav");
 
-        iframe.onload = function(){
-            console.log("Andamio loaded");
-            andamio = iframe.contentWindow;
+        if (document.width >= 980) {
+            // iframe injection with onload handler http://www.nczonline.net/blog/2009/09/15/iframes-onload-and-documentdomain/
+            var iframe = document.createElement("iframe");
+                iframe.src = "tests/index.html?webapp=1";
+                iframe.className = "iphone-content";
+
+            iframe.onload = function(){
+                console.log("Andamio loaded");
+                andamio = iframe.contentWindow;
+                attachListeners();
+            };
+
+            iphone.append(iframe);
+        } else {
+            andamio = false;
             attachListeners();
-        };
-
-        // updateNav();
-        iphone.append(iframe);
+        }
     }
 
     return {

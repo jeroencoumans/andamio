@@ -1307,6 +1307,27 @@ tr:first-child {
 
 /***
 
+    Big section headers
+
+***/
+
+.section-header {
+  padding: 10px;
+}
+
+.section-header .section-title {
+  font-size: 45px;
+  line-height: 1.25;
+}
+
+.section-header .section-description {
+  font-size: 23px;
+  line-height: 1;
+  color: #a2a2a2;
+}
+
+/***
+
     Buttons
 
 ***/
@@ -1470,7 +1491,7 @@ button {
 .icon-arrow-down {
   width: 21px;
   height: 21px;
-  background: url(andamio/style/icons/arrows.png) 0 0 no-repeat;
+  background: url(/andamio/style/icons/arrows.png) 0 0 no-repeat;
   background-size: 21px 84px;
 }
 
@@ -1771,6 +1792,10 @@ a {
   text-shadow: 0 1px 1px #121212;
   border-top: 1px solid #454545;
   border-bottom: 1px solid #121212;
+}
+
+.page-view {
+  border-left: 1px solid #121212;
 }
 
 /***

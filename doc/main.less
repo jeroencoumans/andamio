@@ -1,167 +1,168 @@
 /*** Import Andamio ***/
-@import "../style/base/base.less";
-@import "../style/mixins/mixins.less";
-@import "../style/page/page.less";
-@import "../style/lists/lists.less";
-@import "../style/ui/ui.less";
-@import "../style/theme/theme.less";
+@import "../style/main.less";
 
-/*** Styling ***/
+/*** Import Prism ***/
+@import "prism.css";
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    text-shadow: 0 1px 1px #fff;
-}
 
-/*** Extra sidebar ***/
-@iphone-width: 378px;
-@iphone-height: 744px;
-
-.webapp {
-
-    .page-view {
-        right: 33.33333333%;
-        overflow: hidden;
+/*** Comma-separated items ***/
+.comma {
+    &:before {
+        content: ", ";
     }
 
-    .parent-view,
-    .child-view {
-        background-image: url(img/pattern.png);
-    }
-}
-
-/*** Pageheader ***/
-@page-header-background: lighten(@grey, 25%);
-@page-header-border: darken(@page-header-background, 35%);
-@page-header-color: darken(@grey, 35%);
-
-.page-logo {
-    text-shadow: 0 1px 1px lighten(@page-header-background, 25%);
-}
-
-.button-header {
-    color: @page-header-color;
-    text-shadow: 0 1px 1px lighten(@page-header-background, 25%);
-}
-
-/*** Page navigation ***/
-@navigation-background: @global-background-color;
-@navigation-header-background: darken(@navigation-background, 10%);
-@navigation-header-color: @grey, 25%;
-@navigation-item-color: @blue;
-
-.desktop,
-.ios6 {
-    .page-navigation-toggle {
-        .box-shadow(-@grid-s 0 @grid-l -@grid-s rgba(0,0,0, .5));
-    }
-}
-
-.navigation-header {
-    text-transform: uppercase;
-    font-weight: bold;
-}
-
-.navigation-item {
-
-    &.active {
-        color: @white;
-        .gradient(@blue, darken(@blue, 10%));
-        text-shadow: 0 1px 1px darken(@blue, 25%);
-    }
-}
-
-/*** Boxes ***/
-.box {
-    margin: 0;
-    padding: @grid-l;
-}
-
-.js-box {
-    .animate(opacity);
-    opacity: 0.3;
-
-    &.active {
-        opacity: 1;
-    }
-}
-
-/*** Jumbotron ***/
-.jumbotron {
-    padding: @grid-l;
-
-    .jumbotron-title {
-        font-size: 2 * @font-huge;
-        line-height: 1.25;
+    &:first-child:before {
+        content: " ";
     }
 
-    .jumbotron-subtitle {
-        font-size: @font-l;
-        line-height: 1;
-        color: @grey;
-    }
+}
 
-    h3 {
-        font-size: @font-s;
-    }
+/***
 
-    .unit {
-        padding: @grid-l @grid-m;
+    Desktop-specific styling
 
-        &:first-child {
-            padding-left: 0;
+***/
+
+.desktop {
+
+    /*** Boxes ***/
+    .js-box {
+        .animate(opacity);
+        opacity: 0.3;
+
+        &.active {
+            opacity: 1;
         }
     }
-}
 
-/*** iPhone preview window ***/
-.iphone {
-    width: @iphone-width;
-    height: @iphone-height;
-
-    position: absolute;
-    top: 50%;
-    right: 0;
-    left: 66.66666666%;
-    margin: -(@iphone-height / 2) auto;
-
-    background: url(img/iphone-white.png) 50% 0 no-repeat;
-    background-size: @iphone-width @iphone-height;
-    .box-sizing(border-box);
-    .border-radius(70px);
-    .box-shadow(0 20px 60px rgba(0,0,0, .35));
-
-    padding: 153px 26px 130px 30px;
-
-    &:after {
-        content: "";
-        position: absolute;
-        top: 128px;
-        right: 23px;
-        background: url(img/iphone-glare.png);
-        background-size: contain;
-        width: 137px;
-        height: 366px;
-
-        pointer-events: none;
+    /*** Background ***/
+    .viewport {
+        background: darken(@global-background-color, 10%);
     }
 
-    .iphone-home-button {
-        position: absolute;
-        bottom: 30px;
-        left: 150px;
-        width: 85px;
-        height: 80px;
+    /*** Page view ***/
+    .page-view {
+        top: @grid-m;
+        margin-right: 33.33333333%; // make room for the iPhone
+        overflow: hidden;
+        border: 1px solid darken(@global-background-color, 25%);
+        border-radius: @grid-m @grid-m 0 0;
+
+        .parent-view,
+        .child-view {
+            border-radius: @grid-m @grid-m 0 0;
+        }
+
+        .overthrow {
+            padding-bottom: 2 * @grid-l;
+        }
+
+        // Fadeout header
+        .page-header {
+            border-radius: @grid-m @grid-m 0 0;
+            .gradient(@global-background-color, fadeout(@global-background-color, 100%));
+            border: 0;
+            z-index: 2;
+        }
+
+            .page-logo {
+                color: @grey;
+                text-shadow: 0 1px 0 #fff;
+                width: 50%;
+            }
+
+        // Allow page content to scroll behind the page header
+        .page-content {
+            top: 0;
+            padding-top: @page-header-height;
+        }
     }
 
-    .iphone-content {
-        display: block;
-        width: 100%;
-        height: 100%;
-        border: 0;
+    /*** Page navigation ***/
+    .page-navigation {
+        background: darken(@global-background-color, 10%);
+        padding-top: @grid-m;
+    }
+
+        .navigation-header {
+            font-size: @font-xs;
+            font-weight: bold;
+            text-transform: uppercase;
+            background: none;
+            color: @grey;
+            text-shadow: 0 1px 0 #fff;
+            border-bottom-color: darken(@global-background-color, 20%);
+        }
+
+        .navigation-item {
+            color: darken(@grey, 25%);
+            text-shadow: 0 1px 0 #fff;
+            border-top-color: #fff;
+            border-bottom-color: darken(@global-background-color, 20%);
+
+            &.active {
+                .gradient(lighten(@webapp-background-color, 25%), @webapp-background-color);
+                color: #fff;
+                text-shadow: 0 1px 0 darken(@webapp-background-color, 10%);
+            }
+
+            &:last-of-type {
+                .box-shadow(0 1px 0 #fff);
+            }
+        }
+
+    .page-navigation-toggle {
+        display: none;
+    }
+
+    /*** iPhone preview window ***/
+    @iphone-width: 378px;
+    @iphone-height: 744px;
+
+    .iphone {
+        width: @iphone-width;
+        height: @iphone-height;
+
+        position: absolute;
+        top: 50%;
+        right: 0;
+        left: 66.66666666%;
+        margin: -(@iphone-height / 2) auto;
+
+        background: url(img/iphone-white.png) 50% 0 no-repeat;
+        background-size: @iphone-width @iphone-height;
+        .box-sizing(border-box);
+        .border-radius(70px);
+        .box-shadow(0 20px 60px rgba(0,0,0, .35));
+
+        padding: 153px 26px 130px 30px;
+
+        &:after {
+            content: "";
+            position: absolute;
+            top: 128px;
+            right: 23px;
+            background: url(img/iphone-glare.png);
+            background-size: contain;
+            width: 137px;
+            height: 366px;
+
+            pointer-events: none;
+        }
+
+        .iphone-home-button {
+            position: absolute;
+            bottom: 30px;
+            left: 150px;
+            width: 85px;
+            height: 80px;
+        }
+
+        .iphone-content {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
     }
 }
