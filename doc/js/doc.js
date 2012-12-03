@@ -80,6 +80,21 @@ APP.doc = (function () {
         topCache        = boxes.map(function () { return $(this).offset().top });
     }
 
+    function loadTabs() {
+
+        var tabJS = $("#tab-js");
+
+        $.ajax({
+            url: "doc/api/index.html",
+            timeout: 7500,
+            headers: { "X-PJAX": true },
+            success: function(response) {
+
+                tabJS.html(response);
+            }
+        });
+    }
+
     /**
      *
      */
@@ -88,6 +103,7 @@ APP.doc = (function () {
         initScroll();
         iphone = $("#iphone");
         nav    = $("#nav");
+        loadTabs();
 
         if (document.width >= 980) {
             // iframe injection with onload handler http://www.nczonline.net/blog/2009/09/15/iframes-onload-and-documentdomain/

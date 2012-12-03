@@ -1,0 +1,13 @@
+{{#if classes}}
+<h2 class="navigation-header">Classes</h2>
+{{#classes}}{{!
+}}<a class="navigation-item action-nav-item" href="doc/api/{{projectRoot}}classes/{{name}}.html">{{displayName}}</a>
+{{/classes}}
+{{/if}}
+
+{{#if allModules}}
+<h2 class="navigation-header">Modules</h2>
+{{#allModules}}
+    <a href="doc/api/{{projectRoot}}modules/{{name}}.html">{{displayName}}</a>
+{{/allModules}}
+{{/if}}
