@@ -1141,6 +1141,13 @@
                     "optional": true
                 },
                 {
+                    "name": "expiration",
+                    "description": "after how long should the stored URL expire. Set in minutes, defaults to 1 day.",
+                    "type": "Integer",
+                    "optional": true,
+                    "optdefault": "1440"
+                },
+                {
                     "name": "callback",
                     "description": "callback function when the AJAX call is complete",
                     "type": "Function",
@@ -1152,7 +1159,7 @@
         },
         {
             "file": "js/app/store.js",
-            "line": 69,
+            "line": 70,
             "description": "Wrapper around storeUrl to store an array of URLs",
             "itemtype": "method",
             "name": "storeUrlList",
@@ -1181,7 +1188,7 @@
         },
         {
             "file": "js/app/store.js",
-            "line": 90,
+            "line": 91,
             "description": "Returns an array of URL's",
             "itemtype": "method",
             "name": "getUrlList",
@@ -1201,7 +1208,7 @@
         },
         {
             "file": "js/app/store.js",
-            "line": 111,
+            "line": 112,
             "description": "Initialize variables and settings",
             "itemtype": "method",
             "name": "init",
