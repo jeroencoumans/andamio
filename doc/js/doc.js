@@ -26,8 +26,6 @@ APP.doc = (function () {
             actionIn,
             actionOut;
 
-        // console.log(currentTop);
-
         // Injection of boxess into phone
         for (var i = boxes.length; i--;) {
             if ((topCache[i] - currentTop) < contentHeight) {
@@ -67,7 +65,6 @@ APP.doc = (function () {
         // Listen to the global ajaxComplete event to trigger syntax highlighting and reset the scroll variables
         $(document).on("ajaxSuccess", function() {
 
-            console.log("New page loaded");
             initScroll();
             Prism.highlightAll();
         });
@@ -99,7 +96,7 @@ APP.doc = (function () {
                 iframe.className = "iphone-content";
 
             iframe.onload = function(){
-                console.log("Andamio loaded");
+
                 andamio = iframe.contentWindow;
                 attachListeners();
             };

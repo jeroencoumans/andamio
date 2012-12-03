@@ -1,0 +1,121 @@
+<div class="section-header">
+    <h1 class="section-title">Page structure</h1>
+    <p class="section-description">How to setup a new page</p>
+</div>
+
+<div class="box js-box active">
+    <p>Andamio can run perfectly fine with only 1 main <code>index.html</code>. Start from this template (found in <code>boilerplate/index.html</code>:</p>
+
+<pre class="language-markup" data-line="2, 23"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;nl&quot; class=&quot;website&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge,chrome=1&quot;&gt;
+
+    &lt;!-- Set these for mobile-optimized website that doesn&#039;t require the user to zoom in. Required for webapp --&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;initial-scale=1.0, maximum-scale=1.0, user-scalable=0&quot;&gt;
+
+    &lt;!-- Set these to allow the mobile website/webapp to be installed on the home screen --&gt;
+    &lt;meta name=&quot;apple-mobile-web-app-capable&quot; content=&quot;yes&quot;&gt;
+    &lt;meta name=&quot;apple-mobile-web-app-status-bar-style&quot; content=&quot;black&quot;&gt;
+
+    &lt;!-- Set a shorter title for iOS6 devices when saved to home screen --&gt;
+    &lt;meta name=&quot;apple-mobile-web-app-title&quot; content=&quot;Andamio&quot;&gt;
+    &lt;title&gt;Andamio&lt;/title&gt;
+
+    &lt;!-- Include the main bundle or create your own --&gt;
+    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;style/main.css&quot;&gt;
+&lt;/head&gt;
+
+&lt;body class=&quot;viewport&quot;&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+    <p>The <code>&lt;html&gt;</code> element can contain one of the following classes:</p>
+    <ul>
+        <li><code>.website</code>: for mobile website</li>
+        <li><code>.webapp</code>: for mobile web application</li>
+        <li><code>.desktop</code>: for desktop website</li>
+        <li><code>.desktop.webapp</code>: for desktop web application</li>
+    </ul>
+
+    <p>The <code>.viewport</code> class is mandatory for the <code>&lt;body&gt;</code> element.</p>
+    <p>The <code>&lt;body&gt;</code> can contain one of the following elements:</p>
+</div>
+
+<hr class="divider">
+
+<div class="box js-box" id="doc-page-view" data-app-in="APP.views.openChildPage()" data-app-out="APP.views.openParentPage()">
+    <h3>1. Page views</h3>
+    <p>The page-view is a wrapper for the parent-view and any (optional) child-view. </p>
+
+    <pre><code class="language-markup">
+    &lt;div id=&quot;page-view&quot; class=&quot;page-view&quot;&gt;
+        &lt;div id=&quot;parent-view&quot; class=&quot;parent-view active-view&quot;&gt;
+
+        &lt;/div&gt;
+
+        &lt;div id=&quot;child-view&quot; class=&quot;child-view view-hidden&quot;&gt;
+
+        &lt;/div&gt;
+    &lt;/div&gt;
+    </code></pre>
+</div>
+
+<hr class="divider">
+
+<div class="box js-box" id="doc-page-navigation" data-app-in="APP.nav.show()" data-app-out="APP.nav.hide()">
+    <h3>2. Page navigation</h3>
+    <p>Contains navigation elements. On mobile, it will appear as a slide-out menu from the left. On desktop, it will remain fixed to the left.</p>
+    <p>The <code>.action-hide-nav</code> link overlaps the content when the navigation is open. This makes it easier to close the menu just by tapping anywhere outside it.</p>
+
+<pre><code class="language-markup">
+&lt;div id=&quot;page-navigation&quot; class=&quot;page-navigation overthrow&quot;&gt;
+    &lt;h2 class=&quot;navigation-header&quot;&gt;Docs&lt;/h2&gt;
+    &lt;a class=&quot;navigation-item action-nav-item active&quot; href=&quot;doc/getting-started.html&quot;&gt;Getting started&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;a href=&quot;javascript:void(0)&quot; class=&quot;page-navigation-toggle action-hide-nav&quot;&gt;&lt;/a&gt;
+</code></pre>
+</div>
+
+<hr class="divider">
+
+<div class="box js-box" id="doc-modal-view" data-app-in="APP.modal.show()" data-app-out="APP.modal.hide()">
+    <h3>3. Modal views</h3>
+    <p>Wrapper for any modal views. These will slide up from the bottom.</p>
+
+<pre><code class="language-markup">
+&lt;div id=&quot;modal-view&quot; class=&quot;modal-view view-hidden&quot;&gt;
+
+&lt;/div&gt;
+</code></pre>
+</div>
+
+<hr class="divider">
+
+<div class="box js-box" id="doc-loader" data-app-in="APP.loader.show()" data-app-out="APP.loader.hide()">
+    <h3>4. Page loader</h3>
+    <p>When any content takes longer than half a second to load, a spinner will appear on top of the content. The loader contains the spinner. </p>
+
+<pre><code class="language-markup">
+&lt;div id=&quot;loader&quot; class=&quot;loader&quot; style=&quot;display:none&quot;&gt;
+    &lt;img src=&quot;img/spinner-dark.gif&quot; class=&quot;spinner&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;
+    &lt;div class=&quot;loader-text&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+</div>
+
+<hr class="divider">
+
+<div class="box">
+    <h3>5. Page alerts</h3>
+    <p>This will display alert messages inside an overlay on top of the page.</p>
+
+<pre><code class="language-markup">
+&lt;div id=&quot;page-alert&quot; class=&quot;page-alert action-hide-alert&quot; style=&quot;display:none&quot;&gt;
+    &lt;a href=&quot;#&quot; class=&quot;action-refresh button&quot;&gt;Refresh&lt;/a&gt;
+&lt;/div&gt;
+</code></pre>
+</div>

@@ -1,111 +1,91 @@
+<div class="media-object">
+    <div class="box media-action">
+        <a class="button button-primary" href="https://github.com/jeroencoumans/andamio/archive/master.zip">Download Andamio</a>
+    </div>
+    <div class="media-img andamio-logo">
+        <img class="andamio-logo-img" src="doc/img/logo.png">
+        <h1 class="andamio-logo-text">Andamio</h1>
+    </div>
+    <div class="media-bd">
+        <h1>What is Andamio?</h1>
+        <p>Andamio is a frontend framework to help you create a near-native mobile app experiences using only HTML, CSS and Javascript. It includes default interaction patterns and styles to quickly create high-fidelity prototypes that can be further developed for production builds. It assumes a mobile-first approach where you start with creating the interaction design for the mobile website, and enhance it for specific platforms using Phonegap. Since all interaction patterns are liquid, it's also very easy to extend it to support tablet and even desktop experiences.</p>
+        <p>These docs are meant to help you quickly setup a new project with Andamio. The preview window on the right shows you a sample of the interaction patterns, go ahead and try them!</p>
+    </div>
+</div>
+
+<hr class="divider">
+
 <div class="section-header">
-    <h2 class="section-title">Getting started</h2>
-    <p class="section-description">After you download Andamio, here's how to get started</p>
+    <h1 class="section-title">Getting started</h1>
+    <p class="section-description">So you want to use Andamio. Now what?</p>
 </div>
 
-<div class="box js-box active" id="doc-page-view" data-app-in="APP.views.openChildPage()" data-app-out="APP.views.openParentPage()">
-    <h2 class="box-header">Page views</h2>
-    <p>This describes the structure of the HTML document. </p>
-    <p>The <code>html</code> element can contain one of the following classes:</p>
-    <ul>
-        <li><code class="language-css">.website</code>: for mobile website</li>
-        <li><code class="language-css">.webapp</code>: for mobile web application</li>
-        <li><code class="language-css">.desktop</code>: for desktop website</li>
-        <li><code class="language-css">.desktop.webapp</code>: for desktop web application</li>
-    </ul>
+<div class="getting-started-steps">
+    <div class="getting-started-steps-item">
+        <h2>1. Create your index.html</h2>
+        <p class="detail">You can find out-of-the-box defaults in the boilerplate directory. </p>
+        <p><a href="doc/html/index.html" class="action-pop">More about the page structure</a></p>
+    </div>
+    <div class="getting-started-steps-item">
+        <h2>2. Add any of the default page patterns</h2>
+        <p class="detail">There are patterns for creating parent/child views, modal views, slide-out menu, and many more!</p>
+        <p><a href="#tab-css" class="action-reveal">Check the CSS patterns in the sidebar</a></p>
+    </div>
 
-    <p>The <code>.viewport</code> class is mandatory for the <code>body</code> element.</p>
-    <p>After that, we use the following DOM structure for setting up the main page view:</p>
-
-    <pre><code class="language-markup">
-&lt;div id=&quot;page-view&quot; class=&quot;page-view&quot;&gt;
-&lt;div id=&quot;parent-view&quot; class=&quot;parent-view active-view&quot;&gt;
-
-&lt;/div&gt;
-
-&lt;div id=&quot;child-view&quot; class=&quot;child-view view-hidden&quot;&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-    </code></pre>
-</div>
-
-<div class="box js-box" id="doc-modal-view" data-app-in="APP.modal.show()" data-app-out="APP.modal.hide()">
-    <h2 class="box-header">Modals</h2>
-
-    <pre><code class="language-markup">
-&lt;div id="modal-view" class="modal-view view-hidden"&gt;
-&lt;div class="page-header"&gt;
-&lt;a href="#" class="page-logo js-title"&gt;
-Modal
-&lt;/a&gt;
-&lt;a href="#" class="button-header-wrapper action-hide-modal"&gt;
-&lt;span class="button-header"&gt;
-Close
-&lt;/span&gt;
-&lt;/a&gt;
-&lt;/div&gt;
-
-&lt;div class="page-content overthrow js-content"&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-    </code></pre>
-</div>
-
-<div class="box js-box" id="doc-views-content" data-app-in="" data-app-out="">
-    <h2 class="box-header">Views content</h2>
-
-    <pre><code class="language-markup">
-&lt;div class=&quot;page-header&quot;&gt;
-&lt;a href=&quot;/&quot; class=&quot;page-logo action-page-title&quot;&gt;
-Title
-&lt;/a&gt;
-&lt;a href=&quot;#&quot; class=&quot;button-header-wrapper action-show-nav&quot;&gt;
-&lt;span class=&quot;button-header&quot;&gt;
-Menu
-&lt;/span&gt;
-&lt;/a&gt;
-&lt;/div&gt;
-&lt;div class=&quot;page-content overthrow&quot;&gt;
-
-&lt;/div&gt;
-    </code></pre>
-</div>
-
-<div class="box js-box" id="doc-page-navigation" data-app-in="APP.nav.show()" data-app-out="APP.nav.hide()">
-    <h2 class="box-header">Page navigation</h2>
-    <pre><code class="language-markup">
-&lt;div id=&quot;page-navigation&quot; class=&quot;page-navigation overthrow&quot;&gt;
-&lt;h2 class=&quot;navigation-header&quot;&gt;
-Navigation header
-&lt;/h2&gt;
-&lt;a href=&quot;#&quot; class=&quot;navigation-item active action-nav-item&quot;&gt;
-Active navigation item
-&lt;/a&gt;
-&lt;a href=&quot;#&quot; class=&quot;navigation-item action-nav-item&quot;&gt;
-Navigation item
-&lt;/a&gt;
-&lt;a href=&quot;#&quot; class=&quot;navigation-item action-nav-item&quot;&gt;
-Navigation item
-&lt;/a&gt;
-&lt;/div&gt;
-
-&lt;a href=&quot;#&quot; class=&quot;page-navigation-toggle action-hide-nav&quot;&gt;&lt;/a&gt;
-    </code></pre>
-</div>
-
-<div class="box js-box" id="doc-loader" data-app-in="APP.loader.show()" data-app-out="APP.loader.hide()">
-    <h2 class="box-header">Loader</h2>
-    <pre><code class="language-markup">
-&lt;div id=&quot;loader&quot; class=&quot;loader&quot; style=&quot;display:none&quot;&gt;
-&lt;img src=&quot;img/spinner-dark.gif&quot; class=&quot;spinner&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;
-&lt;div class=&quot;loader-text&quot;&gt;Loading...&lt;/div&gt;
-&lt;/div&gt;
-    </code></pre>
+    <div class="getting-started-steps-item">
+        <h2>3. Hook up any other pages</h2>
+        <p class="detail">It's very easy to dynamically load in new content - just link the pages with the correct <code>action-</code> classes! </p>
+        <p><a href="#tab-js" class="action-reveal">Check the included default actions</a></p>
+    </div>
 </div>
 
 <div class="box">
-    <p>Andamio was created by Jeroen Coumans to speed up prototyping and creating the frontend for mobile web applications.</p>
+    <h1>Andamio's design philosophy</h1>
+
+    <p>Andamio includes a lot of building blocks that take out the grunt work of setting up a website. </p>
+
+    <h2>CSS patterns:</h2>
+    <p>The CSS patterns are coded in Less and can be found in the style/ directory. This directory contains main.less file which includes the major components. Each component contains a <component>.less file which includes the individual patterns. This makes it easy for the frontend-developer to include only the required patterns, override the theming of the patterns where needed, and include any custom patterns. For building project-specific CSS, it's trivial to adapt the default grunt.js. </p>
+
+    <p>Note that the CSS patterns are not in any dependent on the Javascript modules. The naming of a design pattern is the same for CSS, Javascript and unit test (e.g. loader.less & loader.js). </p>
+
+    <dl>
+        <dt>mixins:</dt>
+        <dd>a set of mixins that normalize vendor-prefixes, which can be used by the frontend-developer to easily create custom styles</dd>
+        <dt>base:</dt>
+        <dd>normalize styling of HTML elements, float-based grid, table-based grid, positioning and typography.</dd>
+        <dt>page:</dt>
+        <dd>sets up the layout of the page, by default includes patterns for fixed headers, centered loader, slidable navigation, tabs and parent/child views</dd>
+        <dt>lists:</dt>
+        <dd>bullet, definition and numbered lists, media object lists (newsfeed pattern), table-cell lists (iOS-style lists with arrows) and tables</dd>
+        <dt>ui:</dt>
+        <dd>commonly used UI elements, like badges, buttons, pill-buttons, dividers, forms, icons, liquid images and video's, etc.</dd>
+        <dt>theme:</dt>
+        <dd>contains the default theming for all patterns, like colors, gradients, shadows, typography etc.</dd>
+    </dl>
+
+    <h2>Javascript modules:</h2>
+    <p>The Andamio Javascript modules are in the js/app/ directory, the external libraries are in the js/lib/ directory. The following conventions are used:</p>
+
+    <ul class="bullet-list">
+        <li>The Javascript files follow the module pattern in the APP namespace. The structure of a module is as follows:</li>
+        <li>Interface names are kept as short, semantic and predictable as possible.</li>
+        <li>Modules can be called from your project Javascript or by using structured HTML with optional data- attributes.</li>
+        <li>Event listeners are always prefixed with the action- class - no ID's are used to make them reusable.</li>
+        <li>Structural page elements that should only be defined once (like the page navigation or the global loader) use the element's ID.</li>
+        <li>All modules are initialized from init.js, and init.js is initialized by calling APP.core.init() on document.ready.</li>
+        <li>Some modules depend on CSS styling (like modals or parent/child elements). In that case, both the functionality as well as the styling is tested in the function tests with CasperJS.</li>
+        <li>Javascript functionality is attached to DOM elements by using the js- prefix on the class. These classes should not include styling (the CSS linter checks for that).</li>
+    </ul>
+
+    <h2>Unit testing</h2>
+    <p>Unit tests are created in CasperjJS, which runs in PhantomJS.</p>
+
+    <p>Functional and unit tests are found in the tests/ directory. The <code>run_tests.sh</code> script executes all unit tests in CasperJS. Tests are split up by module, and each test describes the interfaces, elements, actions and CSS that is tested. This is still work in progress, there are still some modules that have no tests.</p>
+
+    <h2>Creating production &amp; development builds</h2>
+    <p>The default task lints and uglifies the Javascript files, and uses grunt-recess (which uses Twitter Recess) to lint, compile and minify the Less files.</p>
+    <p>There's a watch task that checks for changes in the JS and CSS files, and will concat those into main.dev.js and main.dev.css</p>
+    <p>The source files do not need to be present in the static directory of your project; only the distribution builds are required.</p>
 
 </div>
