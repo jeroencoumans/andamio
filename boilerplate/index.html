@@ -11,20 +11,32 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-    <!-- Set a shorter title for iOS6 devices when saved to home screen -->
+    <!-- Set a shorter custom title for iOS6 devices when saved to home screen -->
     <meta name="apple-mobile-web-app-title" content="Andamio">
+
+    <!-- Your custom title here -->
     <title>Andamio</title>
 
-    <!-- Include the main bundle or create your own -->
-    <link rel="stylesheet/less" type="text/css" href="style/main.less">
+    <!-- Include Andamio. If you use additional patterns, compile them into main.css by creating a custom grunt.js file -->
+    <link rel="stylesheet" type="text/css" href="dist/main.css">
 </head>
 
 <body class="viewport">
 
-    <!-- page-view -->
-    <!-- page-navigation -->
-    <!-- modal-view -->
-    <!-- loader -->
-    <!-- scripts -->
+    <!-- include page-view -->
+    <!-- include page-navigation -->
+    <!-- include modal-view -->
+    <!-- include loader -->
+
+    <!-- Include Andamio. If you use additional modules, compile them into main.js by creating a custom grunt.js file -->
+    <script src="dist/main.js"></script>
+
+    <!-- Initialize Andamio when the page is ready. If you have custom modules, initialize them here as well. -->
+    <script>
+        $(document).ready(function() {
+            APP.core.init();
+        });
+    </script>
+
 </body>
 </html>

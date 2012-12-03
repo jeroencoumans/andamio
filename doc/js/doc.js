@@ -4,8 +4,7 @@
 APP.doc = (function () {
 
     // Variables
-    var iframe,
-        andamio,
+    var andamio,
         content,
         contentHeight,
         boxes,
@@ -14,6 +13,44 @@ APP.doc = (function () {
         topCache,
         iphone,
         nav;
+
+    /**
+     * Dynamic loading of navigation tabs
+     */
+    function loadTabs() {
+
+        var tabJS = $("#tab-js");
+
+        $.ajax({
+            url: "doc/api/index.html",
+            timeout: 7500,
+            headers: { "X-PJAX": true },
+            success: function(response) {
+
+                tabJS.html(response);
+            }
+        });
+    }
+
+    /**
+     * Load the content of source files and activate Prism
+     */
+    function loadSource(callback) {
+
+        content.find('[data-src]').each(function(i, elem) {
+            var src = $(elem).data('src');
+
+            $.ajax({
+                url: src,
+                global: false,
+                success: function(data) {
+                    $(elem).text(data);
+                    Prism.highlightElement(elem);
+                    if ($.isFunction(callback)) callback();
+                }
+            });
+        });
+    }
 
     /**
      * Checks the scrollposition and updates the active boxes
@@ -49,11 +86,22 @@ APP.doc = (function () {
         }
     }
 
+    /*
+     * Sets up variables used to do the scroll detection
+     */
+    function initScroll() {
+
+        contentHeight   = content.height() / 2;
+        boxes           = content.find(".js-box");
+        current         = 0;
+        previous        = 0;
+        topCache        = boxes.map(function() { return $(this).offset().top;});
+    }
 
     /**
      * Attach event listeners
      */
-    function attachListeners() {
+    function attachScrollListeners() {
 
         content.on("scroll", calculateScroll);
 
@@ -61,37 +109,21 @@ APP.doc = (function () {
 
             andamio.location.reload();
         });
+    }
 
-        // Listen to the global ajaxComplete event to trigger syntax highlighting and reset the scroll variables
+    /**
+     * Attach event listeners
+     */
+    function attachListeners() {
+
+        // Listen to the global ajaxComplete event to trigger syntax highlighting
         $(document).on("ajaxSuccess", function() {
 
-            initScroll();
-            Prism.highlightAll();
-        });
-    }
+            loadSource(function() {
 
-    function initScroll() {
-
-        content         = APP.views.parentView().find(".js-content");
-        contentHeight   = content.height() / 2;
-        boxes           = content.find(".js-box");
-        current         = 0;
-        previous        = 0;
-        topCache        = boxes.map(function () { return $(this).offset().top });
-    }
-
-    function loadTabs() {
-
-        var tabJS = $("#tab-js");
-
-        $.ajax({
-            url: "doc/api/index.html",
-            timeout: 7500,
-            headers: { "X-PJAX": true },
-            success: function(response) {
-
-                tabJS.html(response);
-            }
+                Prism.highlightAll();
+                if (andamio) initScroll();
+            });
         });
     }
 
@@ -100,12 +132,15 @@ APP.doc = (function () {
      */
     function init() {
 
-        initScroll();
-        iphone = $("#iphone");
-        nav    = $("#nav");
+        content = APP.views.parentView().find(".js-content");
+        iphone  = $("#iphone");
+        nav     = $("#nav");
         loadTabs();
+        attachListeners();
 
         if (document.width >= 980) {
+            initScroll();
+
             // iframe injection with onload handler http://www.nczonline.net/blog/2009/09/15/iframes-onload-and-documentdomain/
             var iframe = document.createElement("iframe");
                 iframe.src = "tests/index.html?webapp=1";
@@ -118,9 +153,10 @@ APP.doc = (function () {
             };
 
             iphone.append(iframe);
+
+            attachScrollListeners();
         } else {
             andamio = false;
-            attachListeners();
         }
     }
 

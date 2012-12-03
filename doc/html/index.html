@@ -6,31 +6,7 @@
 <div class="box js-box active">
     <p>Andamio can run perfectly fine with only 1 main <code>index.html</code>. Start from this template (found in <code>boilerplate/index.html</code>:</p>
 
-<pre class="language-markup" data-line="17"><code>&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;nl&quot; class=&quot;website&quot;&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;utf-8&quot;&gt;
-    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge,chrome=1&quot;&gt;
-
-    &lt;!-- Set these for mobile-optimized website that doesn&#039;t require the user to zoom in. Required for webapp --&gt;
-    &lt;meta name=&quot;viewport&quot; content=&quot;initial-scale=1.0, maximum-scale=1.0, user-scalable=0&quot;&gt;
-
-    &lt;!-- Set these to allow the mobile website/webapp to be installed on the home screen --&gt;
-    &lt;meta name=&quot;apple-mobile-web-app-capable&quot; content=&quot;yes&quot;&gt;
-    &lt;meta name=&quot;apple-mobile-web-app-status-bar-style&quot; content=&quot;black&quot;&gt;
-
-    &lt;!-- Set a shorter title for iOS6 devices when saved to home screen --&gt;
-    &lt;meta name=&quot;apple-mobile-web-app-title&quot; content=&quot;Andamio&quot;&gt;
-    &lt;title&gt;Andamio&lt;/title&gt;
-
-    &lt;!-- Include the main bundle or create your own --&gt;
-    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;style/main.css&quot;&gt;
-&lt;/head&gt;
-
-&lt;body class=&quot;viewport&quot;&gt;
-
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>
+<pre class="language-markup" data-line="17" data-src="boilerplate/index.html"></pre>
 
     <p>By default, the <code>&lt;html&gt;</code> element should always start with the <code>.website</code> class. Andamio will check the environment it runs in and will adjust this class for the following cases:</p>
     <ul>
@@ -51,17 +27,7 @@
     <p>The page-view is a wrapper for the parent-view and any (optional) child-view. </p>
     <p>By default, Andamio supports a two-level hierarchy. The default displayed page is called the parent-view, while any sub-page is called the child-view. The default HTML structure looks like this (minus any content):</p>
 
-    <pre><code class="language-markup">
-    &lt;div id=&quot;page-view&quot; class=&quot;page-view&quot;&gt;
-        &lt;div id=&quot;parent-view&quot; class=&quot;parent-view active-view&quot;&gt;
-
-        &lt;/div&gt;
-
-        &lt;div id=&quot;child-view&quot; class=&quot;child-view view-hidden&quot;&gt;
-
-        &lt;/div&gt;
-    &lt;/div&gt;
-    </code></pre>
+<pre class="language-markup" data-line="17" data-src="boilerplate/page-view.html"></pre>
 
     <p>The animation is controlled with the following classes: <code>.active-view</code> and <code>.view-hidden</code>. </p>
 
@@ -82,14 +48,7 @@
     <h3>2. Page navigation</h3>
     <p>Contains navigation elements. On mobile, it will appear as a slide-out menu from the left. On desktop, it will remain fixed to the left.</p>
 
-<pre><code class="language-markup">
-&lt;div id=&quot;page-navigation&quot; class=&quot;page-navigation overthrow&quot;&gt;
-    &lt;h2 class=&quot;navigation-header&quot;&gt;Docs&lt;/h2&gt;
-    &lt;a class=&quot;navigation-item action-nav-item active&quot; href=&quot;doc/getting-started.html&quot;&gt;Getting started&lt;/a&gt;
-&lt;/div&gt;
-
-&lt;a href=&quot;javascript:void(0)&quot; class=&quot;page-navigation-toggle action-hide-nav&quot;&gt;&lt;/a&gt;
-</code></pre>
+<pre class="language-markup" data-line="17" data-src="boilerplate/page-navigation.html"></pre>
 
     <p>The page-navigation can be set to allow scrolling by adding the <code>.overthrow</code> class (included by default). </p>
     <p>Andamio will set the <code>.active</code> class on the clicked navigation item. </p>
@@ -113,12 +72,7 @@
     <h3>3. Modal views</h3>
     <p>Wrapper for any modal views. These will slide up from the bottom. Note that you can open as many modals as you want, they will just replace each other's content (so no modal stack is yet available).</p>
 
-<pre><code class="language-markup">
-&lt;div id=&quot;modal-view&quot; class=&quot;modal-view view-hidden&quot;&gt;
-
-&lt;/div&gt;
-</code></pre>
-
+<pre class="language-markup" data-src="boilerplate/modal-view.html"></pre>
 
     <h4>Actions:</h4>
     <dl>
@@ -137,23 +91,16 @@
     <h3>4. Page loader</h3>
     <p>When any content takes longer than half a second to load, a spinner will appear on top of the content. The loader contains the spinner. </p>
 
-<pre><code class="language-markup">
-&lt;div id=&quot;loader&quot; class=&quot;loader&quot; style=&quot;display:none&quot;&gt;
-    &lt;img src=&quot;img/spinner-dark.gif&quot; class=&quot;spinner&quot; width=&quot;32&quot; height=&quot;32&quot;&gt;
-    &lt;div class=&quot;loader-text&quot;&gt;&lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
+<pre class="language-markup" data-src="boilerplate/page-loader.html"></pre>
+
 </div>
 
 <hr class="divider">
 
-<div class="box js-box" id="doc-alerts" data-app-in="APP.alert.show('Hello world!')" data-app-out="APP.alert.hide()">
+<div class="box js-box" id="doc-page-alert" data-app-in="APP.alert.show('Hello world!')" data-app-out="APP.alert.hide()">
     <h3>5. Page alerts</h3>
     <p>This will display alert messages inside an overlay on top of the page.</p>
 
-<pre><code class="language-markup">
-&lt;div id=&quot;page-alert&quot; class=&quot;page-alert action-hide-alert&quot; style=&quot;display:none&quot;&gt;
-    &lt;a href=&quot;#&quot; class=&quot;action-refresh button&quot;&gt;Refresh&lt;/a&gt;
-&lt;/div&gt;
-</code></pre>
+<pre class="language-markup" data-src="boilerplate/page-alert.html"></pre>
+
 </div>
