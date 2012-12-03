@@ -153,6 +153,7 @@ h1,
 h2,
 .h2 {
   font-size: 23px;
+  line-height: 25px;
 }
 
 h3,
@@ -963,7 +964,7 @@ ul {
 }
 
 .bullet-list {
-  list-style-type: bullet;
+  list-style-type: disc;
 }
 
 .arrow-list {
@@ -1317,7 +1318,7 @@ tr:first-child {
 
 .section-header .section-title {
   font-size: 45px;
-  line-height: 1.25;
+  line-height: 1;
 }
 
 .section-header .section-description {
@@ -1471,6 +1472,7 @@ form {
 
 label {
   font-weight: bold;
+  color: #a2a2a2;
 }
 
 input,

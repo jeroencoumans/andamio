@@ -32,6 +32,7 @@ module.exports = function(grunt) {
                     'js/lib/zepto.scroll.js',
                     'js/lib/swipeview.js',
                     'js/lib/fastclick.js',
+                    'js/lib/lscache.js',
                     'js/app/globals.js',
                     'js/app/util.js',
                     'js/app/events.js',

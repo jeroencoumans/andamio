@@ -26,7 +26,7 @@ APP.store = (function() {
      */
     function showUrl(url) {
 
-        var result = JSON.parse(localStorage.getItem(url));
+        var result = lscache.get(url);
 
         if (! url || ! result) return;
         return result;
@@ -37,11 +37,13 @@ APP.store = (function() {
      * @method storeUrl
      * @param {String} url the relative URL to be stored. Do not include the hostname!
      * @param {String} [host] the hostname. If not set, the server variable that is passed into init will be prefixed.
+     * @param {Integer} [expiration=1440] after how long should the stored URL expire. Set in minutes, defaults to 1 day.
      * @param {Function} [callback] callback function when the AJAX call is complete
     */
-    function storeUrl(url, host, callback) {
+    function storeUrl(url, host, expiration, callback) {
 
-        if (! url || localStorage.getItem(url)) return;
+        if (! url || lscache.get(url)) return;
+        var expire = expiration ? expiration : 1440;
 
         var fullUrl = host !== "" ? host + url : server + url;
 
@@ -55,8 +57,7 @@ APP.store = (function() {
             },
             success: function(response) {
 
-                var result = JSON.stringify(response);
-                localStorage.setItem(url, result);
+                lscache.set(url, response, expire);
             },
             complete: function() {
 
