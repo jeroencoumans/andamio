@@ -3710,34 +3710,60 @@ APP.store = (function() {
      * Loads an URL from localStorage.
      * @method showUrl
      * @param {String} url the URL that will be loaded. The URL is used as the key. The value will be parsed as JSON.
+     * @param {Boolean} loaded wether or not to load silently (default) or show a loader when fetching the URL
      * @return {String} the value that was stored. Usually, this is raw HTML.
      */
-    function showUrl(url) {
+    function showUrl(url, loader, callback) {
 
+        if (! url) return;
+
+        // set result
         var result = lscache.get(url);
 
-        if (! url || ! result) return;
-        return result;
+        if (result) {
+
+            callback(result);
+        } else {
+
+            if (loader) APP.loader.show();
+            // console.log("Article wasn't stored, storing it now...");
+
+            storeUrl(url, false, false, function(status) {
+
+                // console.log("Article stored, calling showUrl again...");
+
+                if (status === "success") {
+
+                    if (loader) APP.loader.hide();
+                    var result = lscache.get(url);
+                    callback(result);
+                } else {
+
+                    APP.alert.show("Couldn't load article");
+                }
+            });
+        }
     }
 
     /**
      * Does an AJAX call to URL and stores it with the URL as the key
      * @method storeUrl
-     * @param {String} url the relative URL to be stored. Do not include the hostname!
-     * @param {String} [host] the hostname. If not set, the server variable that is passed into init will be prefixed.
-     * @param {Integer} [expiration=1440] after how long should the stored URL expire. Set in minutes, defaults to 1 day.
+     * @param {String} url the URL to be stored
+     * @param {Boolean} [absolute] if false, the server will be prefixed to URL's
+     * @param {Integer} [expiration=365*24*60] after how long should the stored URL expire. Set in minutes, defaults to 1 year.
      * @param {Function} [callback] callback function when the AJAX call is complete
     */
-    function storeUrl(url, host, expiration, callback) {
+    function storeUrl(url, absolute, expiration, callback) {
 
         if (! url || lscache.get(url)) return;
-        var expire = expiration ? expiration : 1440;
 
-        var fullUrl = host !== "" ? host + url : server + url;
+        var expire = expiration ? expiration : 365*24*60,
+            request = absolute ? url : server + url;
 
         $.ajax({
-            url: fullUrl,
-            timeout: 5000,
+            url: request,
+            timeout: 20000,
+            global: false, // don't fire off global AJAX events, we want to load in the background
             headers: { "X-PJAX": true },
             beforeSend: function() {
 
@@ -3747,10 +3773,11 @@ APP.store = (function() {
 
                 lscache.set(url, response, expire);
             },
-            complete: function() {
+            complete: function(xhr,status) {
 
                 isLoading = false;
-                if ($.isFunction(callback)) callback();
+
+                if ($.isFunction(callback)) callback(status);
             }
         });
     }
@@ -3759,18 +3786,28 @@ APP.store = (function() {
      * Wrapper around storeUrl to store an array of URLs
      * @method storeUrlList
      * @param {Array} list an array of URL's
-     * @param {String} [host="server"] hostname, if not set, the server variable will be used
-     * @param {Function} [callback] callback function when all storeUrl calls are complete
+     * @param {Boolean} [absolute] if false, the server will be prefixed to URL's
+     * @param {Integer} [expiration=365*24*60] after how long should the stored URL expire. Set in minutes, defaults to 1 year.
+     * @param {Function} [callback] callback function when the AJAX call is complete
      */
-    function storeUrlList(list, host, callback) {
+    function storeUrlList(list, absolute, expiration, callback) {
 
         if (! list) return;
 
-        if (! host) host = server;
+        // TODO: show progress meter
+        // var loaded = 0;
 
         $(list).each(function(index, item) {
 
-            storeUrl(item, host);
+            storeUrl(item, absolute, expiration, function(status) {
+                if (status === "success") {
+                    // loaded++;
+                    // var loadedPercentage = Math.round(loaded / list.length * 100) + "%";
+                    // console.log(loadedPercentage);
+                } else {
+                    // console.log(status);
+                }
+            });
         });
 
         if ($.isFunction(callback)) callback();
@@ -3805,7 +3842,7 @@ APP.store = (function() {
     function init(params) {
 
         isLoading = false;
-        server = params && params.server !== "" ? params.server : "http://localhost";
+        server = (params && params.server) ? params.server : "http://localhost";
     }
 
     return {
