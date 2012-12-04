@@ -94,7 +94,7 @@ module.exports = function(grunt) {
                 tasks: ['recess:dev', 'recess:doc']
             },
             js: {
-                files: ['js/*/*.js'],
+                files: ['js/*/*.js', 'doc/js/*.js'],
                 tasks: ['concat:dev']
             }
         }
