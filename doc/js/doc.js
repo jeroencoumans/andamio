@@ -33,26 +33,6 @@ APP.doc = (function () {
     }
 
     /**
-     * Load the content of source files and activate Prism
-     */
-    function loadSource(callback) {
-
-        content.find('[data-src]').each(function(i, elem) {
-            var src = $(elem).data('src');
-
-            $.ajax({
-                url: src,
-                global: false,
-                success: function(data) {
-                    $(elem).text(data);
-                    Prism.highlightElement(elem);
-                    if ($.isFunction(callback)) callback();
-                }
-            });
-        });
-    }
-
-    /**
      * Checks the scrollposition and updates the active boxes
      */
     function calculateScroll() {
@@ -119,11 +99,29 @@ APP.doc = (function () {
         // Listen to the global ajaxComplete event to trigger syntax highlighting
         $(document).on("ajaxSuccess", function() {
 
-            loadSource(function() {
+            var loadSource = content.find('[data-src]');
+            // console.log(loadSource.length);
 
-                Prism.highlightAll();
+            if (loadSource.length > 0) {
+
+                loadSource.each(function(i, elem) {
+                    var src = $(elem).data('src');
+
+                    $.ajax({
+                        url: src,
+                        global: false,
+                        success: function(data) {
+                            $(elem).text(data);
+                            Prism.highlightElement(elem);
+                            if (andamio) initScroll();
+                        }
+                    });
+                });
+            } else {
+
                 if (andamio) initScroll();
-            });
+                Prism.highlightAll();
+            }
         });
     }
 

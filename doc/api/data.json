@@ -1113,6 +1113,11 @@
                     "name": "url",
                     "description": "the URL that will be loaded. The URL is used as the key. The value will be parsed as JSON.",
                     "type": "String"
+                },
+                {
+                    "name": "loaded",
+                    "description": "wether or not to load silently (default) or show a loader when fetching the URL",
+                    "type": "Boolean"
                 }
             ],
             "return": {
@@ -1124,28 +1129,28 @@
         },
         {
             "file": "js/app/store.js",
-            "line": 35,
+            "line": 60,
             "description": "Does an AJAX call to URL and stores it with the URL as the key",
             "itemtype": "method",
             "name": "storeUrl",
             "params": [
                 {
                     "name": "url",
-                    "description": "the relative URL to be stored. Do not include the hostname!",
+                    "description": "the URL to be stored",
                     "type": "String"
                 },
                 {
-                    "name": "host",
-                    "description": "the hostname. If not set, the server variable that is passed into init will be prefixed.",
-                    "type": "String",
+                    "name": "absolute",
+                    "description": "if false, the server will be prefixed to URL's",
+                    "type": "Boolean",
                     "optional": true
                 },
                 {
                     "name": "expiration",
-                    "description": "after how long should the stored URL expire. Set in minutes, defaults to 1 day.",
+                    "description": "after how long should the stored URL expire. Set in minutes, defaults to 1 year.",
                     "type": "Integer",
                     "optional": true,
-                    "optdefault": "1440"
+                    "optdefault": "365*24*60"
                 },
                 {
                     "name": "callback",
@@ -1159,7 +1164,7 @@
         },
         {
             "file": "js/app/store.js",
-            "line": 70,
+            "line": 97,
             "description": "Wrapper around storeUrl to store an array of URLs",
             "itemtype": "method",
             "name": "storeUrlList",
@@ -1170,15 +1175,21 @@
                     "type": "Array"
                 },
                 {
-                    "name": "host",
-                    "description": "hostname, if not set, the server variable will be used",
-                    "type": "String",
+                    "name": "absolute",
+                    "description": "if false, the server will be prefixed to URL's",
+                    "type": "Boolean",
+                    "optional": true
+                },
+                {
+                    "name": "expiration",
+                    "description": "after how long should the stored URL expire. Set in minutes, defaults to 1 year.",
+                    "type": "Integer",
                     "optional": true,
-                    "optdefault": "\"server\""
+                    "optdefault": "365*24*60"
                 },
                 {
                     "name": "callback",
-                    "description": "callback function when all storeUrl calls are complete",
+                    "description": "callback function when the AJAX call is complete",
                     "type": "Function",
                     "optional": true
                 }
@@ -1188,7 +1199,7 @@
         },
         {
             "file": "js/app/store.js",
-            "line": 91,
+            "line": 128,
             "description": "Returns an array of URL's",
             "itemtype": "method",
             "name": "getUrlList",
@@ -1208,7 +1219,7 @@
         },
         {
             "file": "js/app/store.js",
-            "line": 112,
+            "line": 149,
             "description": "Initialize variables and settings",
             "itemtype": "method",
             "name": "init",

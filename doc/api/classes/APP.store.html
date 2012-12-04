@@ -104,7 +104,7 @@
             
         
         
-        <a class="action-push" href="doc/api/files/..&#x2F;files&#x2F;js_app_store.js.html#l91"><code>js&#x2F;app&#x2F;store.js:91</code></a>
+        <a class="action-push" href="doc/api/files/..&#x2F;files&#x2F;js_app_store.js.html#l128"><code>js&#x2F;app&#x2F;store.js:128</code></a>
         
         </p>
 
@@ -207,7 +207,7 @@
             
         
         
-        <a class="action-push" href="doc/api/files/..&#x2F;files&#x2F;js_app_store.js.html#l112"><code>js&#x2F;app&#x2F;store.js:112</code></a>
+        <a class="action-push" href="doc/api/files/..&#x2F;files&#x2F;js_app_store.js.html#l149"><code>js&#x2F;app&#x2F;store.js:149</code></a>
         
         </p>
 
@@ -340,6 +340,10 @@
                         <code class="token attr-value comma">url</code>
                     
                 
+                    
+                        <code class="token attr-value comma">loaded</code>
+                    
+                
             </small>
             <small class="token punctuation">)</small>
         
@@ -410,6 +414,23 @@
                 
             </dd>
         
+            <dt class="param">
+                
+                    <code class="token attr-name">loaded</code>
+                    <span class="token comment">Boolean</span>
+                
+
+                
+            </dt>
+
+            <dd>
+                <div class="param-description">
+                    <p>wether or not to load silently (default) or show a loader when fetching the URL</p>
+                </div>
+
+                
+            </dd>
+        
         </dl>
     </div>
 
@@ -446,11 +467,11 @@
                     
                 
                     
-                        <code class="token attr-name comma">[host]</code>
+                        <code class="token attr-name comma">[absolute]</code>
                     
                 
                     
-                        <code class="token attr-name comma">[expiration=1440]</code>
+                        <code class="token attr-name comma">[expiration=365*24*60]</code>
                     
                 
                     
@@ -487,7 +508,7 @@
             
         
         
-        <a class="action-push" href="doc/api/files/..&#x2F;files&#x2F;js_app_store.js.html#l35"><code>js&#x2F;app&#x2F;store.js:35</code></a>
+        <a class="action-push" href="doc/api/files/..&#x2F;files&#x2F;js_app_store.js.html#l60"><code>js&#x2F;app&#x2F;store.js:60</code></a>
         
         </p>
 
@@ -519,7 +540,7 @@
 
             <dd>
                 <div class="param-description">
-                    <p>the relative URL to be stored. Do not include the hostname!</p>
+                    <p>the URL to be stored</p>
                 </div>
 
                 
@@ -527,8 +548,8 @@
         
             <dt class="param">
                 
-                    <code class="token attr-name">[host]</code>
-                    <span class="token comment">String</span>
+                    <code class="token attr-name">[absolute]</code>
+                    <span class="token comment">Boolean</span>
                     <span class="token comment" title="This parameter is optional.">optional</span>
                 
 
@@ -537,7 +558,7 @@
 
             <dd>
                 <div class="param-description">
-                    <p>the hostname. If not set, the server variable that is passed into init will be prefixed.</p>
+                    <p>if false, the server will be prefixed to URL's</p>
                 </div>
 
                 
@@ -545,7 +566,7 @@
         
             <dt class="param">
                 
-                    <code class="token attr-name">[expiration=1440]</code>
+                    <code class="token attr-name">[expiration=365*24*60]</code>
                     <span class="token comment">Integer</span>
                     <span class="token comment" title="This parameter is optional.">optional</span>
                 
@@ -555,7 +576,7 @@
 
             <dd>
                 <div class="param-description">
-                    <p>after how long should the stored URL expire. Set in minutes, defaults to 1 day.</p>
+                    <p>after how long should the stored URL expire. Set in minutes, defaults to 1 year.</p>
                 </div>
 
                 
@@ -602,7 +623,11 @@
                     
                 
                     
-                        <code class="token attr-name comma">[host=&quot;server&quot;]</code>
+                        <code class="token attr-name comma">[absolute]</code>
+                    
+                
+                    
+                        <code class="token attr-name comma">[expiration=365*24*60]</code>
                     
                 
                     
@@ -639,7 +664,7 @@
             
         
         
-        <a class="action-push" href="doc/api/files/..&#x2F;files&#x2F;js_app_store.js.html#l70"><code>js&#x2F;app&#x2F;store.js:70</code></a>
+        <a class="action-push" href="doc/api/files/..&#x2F;files&#x2F;js_app_store.js.html#l97"><code>js&#x2F;app&#x2F;store.js:97</code></a>
         
         </p>
 
@@ -679,8 +704,8 @@
         
             <dt class="param">
                 
-                    <code class="token attr-name">[host=&quot;server&quot;]</code>
-                    <span class="token comment">String</span>
+                    <code class="token attr-name">[absolute]</code>
+                    <span class="token comment">Boolean</span>
                     <span class="token comment" title="This parameter is optional.">optional</span>
                 
 
@@ -689,7 +714,25 @@
 
             <dd>
                 <div class="param-description">
-                    <p>hostname, if not set, the server variable will be used</p>
+                    <p>if false, the server will be prefixed to URL's</p>
+                </div>
+
+                
+            </dd>
+        
+            <dt class="param">
+                
+                    <code class="token attr-name">[expiration=365*24*60]</code>
+                    <span class="token comment">Integer</span>
+                    <span class="token comment" title="This parameter is optional.">optional</span>
+                
+
+                
+            </dt>
+
+            <dd>
+                <div class="param-description">
+                    <p>after how long should the stored URL expire. Set in minutes, defaults to 1 year.</p>
                 </div>
 
                 
@@ -707,7 +750,7 @@
 
             <dd>
                 <div class="param-description">
-                    <p>callback function when all storeUrl calls are complete</p>
+                    <p>callback function when the AJAX call is complete</p>
                 </div>
 
                 

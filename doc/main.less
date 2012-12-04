@@ -4,6 +4,41 @@
 /*** Import Prism ***/
 @import "prism.css";
 
+//
+// Responsive: Utility classes
+// --------------------------------------------------
+
+// Visibility utilities
+
+// For desktops
+.visible-phone     { display: none !important; }
+.visible-tablet    { display: none !important; }
+.hidden-phone      { }
+.hidden-tablet     { }
+.hidden-desktop    { display: none !important; }
+.visible-desktop   { display: inherit !important; }
+
+// Tablets & small desktops only
+@media (min-width: 768px) and (max-width: 979px) {
+  // Hide everything else
+  .hidden-desktop    { display: inherit !important; }
+  .visible-desktop   { display: none !important ; }
+  // Show
+  .visible-tablet    { display: inherit !important; }
+  // Hide
+  .hidden-tablet     { display: none !important; }
+}
+
+// Phones only
+@media (max-width: 767px) {
+  // Hide everything else
+  .hidden-desktop    { display: inherit !important; }
+  .visible-desktop   { display: none !important; }
+  // Show
+  .visible-phone     { display: inherit !important; } // Use inherit to restore previous behavior
+  // Hide
+  .hidden-phone      { display: none !important; }
+}
 
 /*** Comma-separated items ***/
 .comma {
@@ -25,20 +60,6 @@
 
 .desktop {
 
-    /*** Logo ***/
-    .andamio-logo {
-        .overlay-wrapper;
-    }
-
-        .andamio-logo-text {
-            position: absolute;
-            top: 130px; left: 60px;
-            .rotate(-20deg);
-            color: #fff;
-            font-size: @font-huge;
-            text-shadow: 0 2px 3px rgba(0,0,0, .75);
-        }
-
     .getting-started-steps {
         .flex-row;
         width: auto;
@@ -49,9 +70,9 @@
         .getting-started-steps-item {
             .table-cell;
             .flex-unit;
-            .p33;
             padding: @grid-m;
             border-top: 1px solid @table-view-border;
+            .p33;
 
             &:first-of-type {
                 .border-radius(@grid-s 0 0 @grid-s);
