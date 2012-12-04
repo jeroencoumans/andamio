@@ -1493,7 +1493,7 @@ button {
 .icon-arrow-down {
   width: 21px;
   height: 21px;
-  background: url(/andamio/style/icons/arrows.png) 0 0 no-repeat;
+  background: url(andamio/style/icons/arrows.png) 0 0 no-repeat;
   background-size: 21px 84px;
 }
 
@@ -1743,8 +1743,13 @@ a {
   background: #2b2b2b;
 }
 
+.page-navigation-toggle {
+  border-left: 1px solid #121212;
+}
+
 .desktop .page-navigation-toggle,
 .ios6 .page-navigation-toggle {
+  border-left: 0;
   -webkit-box-shadow: -10px 0 20px -5px #121212;
           box-shadow: -10px 0 20px -5px #121212;
 }
@@ -1794,10 +1799,6 @@ a {
   text-shadow: 0 1px 1px #121212;
   border-top: 1px solid #454545;
   border-bottom: 1px solid #121212;
-}
-
-.page-view {
-  border-left: 1px solid #121212;
 }
 
 /***
