@@ -28,6 +28,7 @@ module.exports = function(grunt) {
             },
             dev: {
                 src: [
+                    // 'js/lib/jquery/jquery-1.8.3.min.js',
                     'js/lib/zepto.js',
                     'js/lib/zepto.scroll.js',
                     'js/lib/swipeview.js',
