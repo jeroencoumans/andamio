@@ -1485,7 +1485,7 @@
         },
         {
             "file": "js/app/views.js",
-            "line": 74,
+            "line": 80,
             "description": "Opens parent page. If a childView is active, first go back to the parentView.",
             "itemtype": "method",
             "name": "openParentPage",
@@ -1508,7 +1508,7 @@
         },
         {
             "file": "js/app/views.js",
-            "line": 102,
+            "line": 113,
             "description": "Attach event listeners",
             "itemtype": "method",
             "name": "attachListeners",
@@ -1519,7 +1519,7 @@
         },
         {
             "file": "js/app/views.js",
-            "line": 153,
+            "line": 164,
             "description": "Initialize variables and attach listeners. Sets the status of hasChildPage to true if the `html` element has the `.has-childview` class",
             "itemtype": "method",
             "name": "init",

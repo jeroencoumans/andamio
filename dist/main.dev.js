@@ -4010,13 +4010,13 @@ APP.views = (function () {
      * @method childView
      * @return {HTMLElement} returns the child element
      */
-    function childView()  { return child;  }
+    function childView() { return child; }
 
     /**
      * @method pageView
      * @return {HTMLElement} returns the page element
      */
-    function pageView()   { return page;   }
+    function pageView() { return page; }
 
     /**
      * Returns wether the childview is active or not
@@ -4038,9 +4038,15 @@ APP.views = (function () {
 
         // go forward when called from parent page
         if (! hasChild) {
+            html.addClass("childview-in");
             child.removeClass("view-hidden").addClass("active-view");
             parent.addClass("view-hidden").removeClass("active-view");
-            html.addClass("has-childview");
+
+            // execute after animation timeout
+            APP.delay(function() {
+                html.addClass("has-childview");
+                html.removeClass("childview-in");
+            }, 300);
         }
 
         // load URL
@@ -4068,9 +4074,14 @@ APP.views = (function () {
 
         // go back when called from child page
         if (hasChild) {
+            html.addClass("childview-out");
             child.addClass("view-hidden").removeClass("active-view");
             parent.removeClass("view-hidden").addClass("active-view");
-            html.removeClass("has-childview");
+
+            // execute after animation timeout
+            APP.delay(function() {
+                html.removeClass("has-childview childview-out");
+            }, 300);
         }
 
         // load URL
@@ -4163,7 +4174,6 @@ APP.views = (function () {
     };
 
 })();
-
 /**
  * Controls global alerts
  * @author Jeroen Coumans
