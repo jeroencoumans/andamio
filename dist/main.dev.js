@@ -2772,6 +2772,8 @@ APP.phone = (function () {
         document.addEventListener("active", function() {
             var now = new Date();
             if (now - lastUpdated > APP_FROM_BACKGROUND_REFRESH_TIMEOUT) {
+
+                if (APP.alert.status) APP.alert.hide();
                 APP.open.refresh();
             }
         }, false);
@@ -3151,7 +3153,7 @@ APP.open = (function () {
         // Open parent page
         APP.events.attachClickHandler(".action-refresh", function (event) {
 
-            APP.alert.hide();
+            if (APP.alert.status) APP.alert.hide();
             refresh();
         });
     }
@@ -3203,6 +3205,8 @@ APP.modal = (function () {
      * @method show
      */
     function show() {
+
+        if (APP.alert.status) APP.alert.hide();
 
         html.addClass("has-modalview");
         toggle.addClass("active");
@@ -3736,6 +3740,7 @@ APP.store = (function() {
 
                     if (loader) APP.loader.hide();
                     var result = lscache.get(url);
+
                     callback(result);
                 } else {
 
@@ -4036,6 +4041,8 @@ APP.views = (function () {
      */
     function openChildPage(url, title) {
 
+        if (APP.alert.status) APP.alert.hide();
+
         // go forward when called from parent page
         if (! hasChild) {
             html.addClass("childview-in");
@@ -4071,6 +4078,8 @@ APP.views = (function () {
      * @param {String} [title] will set the title of the parentView in the `.js-title` element
      */
     function openParentPage(url, title) {
+
+        if (APP.alert.status) APP.alert.hide();
 
         // go back when called from child page
         if (hasChild) {

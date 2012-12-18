@@ -693,7 +693,7 @@
         },
         {
             "file": "js/app/modal.js",
-            "line": 35,
+            "line": 37,
             "description": "Hides the modal view",
             "itemtype": "method",
             "name": "hide",
@@ -702,7 +702,7 @@
         },
         {
             "file": "js/app/modal.js",
-            "line": 48,
+            "line": 50,
             "description": "Returns the status of the modal view",
             "itemtype": "method",
             "name": "status",
@@ -715,7 +715,7 @@
         },
         {
             "file": "js/app/modal.js",
-            "line": 58,
+            "line": 60,
             "description": "Attach event listeners",
             "itemtype": "method",
             "name": "attachListeners",
@@ -726,7 +726,7 @@
         },
         {
             "file": "js/app/modal.js",
-            "line": 97,
+            "line": 99,
             "description": "Initialize variables and attach listeners",
             "itemtype": "method",
             "name": "init",
@@ -978,7 +978,7 @@
         },
         {
             "file": "js/app/phone.js",
-            "line": 64,
+            "line": 66,
             "description": "Init Cordova stuff. Only called when Cordova is actually loaded",
             "itemtype": "method",
             "name": "initCordova",
@@ -989,7 +989,7 @@
         },
         {
             "file": "js/app/phone.js",
-            "line": 75,
+            "line": 77,
             "description": "Checks wether Cordova is available, and then calls initCordova",
             "itemtype": "method",
             "name": "init",
@@ -1129,7 +1129,7 @@
         },
         {
             "file": "js/app/store.js",
-            "line": 60,
+            "line": 61,
             "description": "Does an AJAX call to URL and stores it with the URL as the key",
             "itemtype": "method",
             "name": "storeUrl",
@@ -1164,7 +1164,7 @@
         },
         {
             "file": "js/app/store.js",
-            "line": 97,
+            "line": 98,
             "description": "Wrapper around storeUrl to store an array of URLs",
             "itemtype": "method",
             "name": "storeUrlList",
@@ -1199,7 +1199,7 @@
         },
         {
             "file": "js/app/store.js",
-            "line": 128,
+            "line": 129,
             "description": "Returns an array of URL's",
             "itemtype": "method",
             "name": "getUrlList",
@@ -1219,7 +1219,7 @@
         },
         {
             "file": "js/app/store.js",
-            "line": 149,
+            "line": 150,
             "description": "Initialize variables and settings",
             "itemtype": "method",
             "name": "init",
@@ -1485,7 +1485,7 @@
         },
         {
             "file": "js/app/views.js",
-            "line": 80,
+            "line": 82,
             "description": "Opens parent page. If a childView is active, first go back to the parentView.",
             "itemtype": "method",
             "name": "openParentPage",
@@ -1508,7 +1508,7 @@
         },
         {
             "file": "js/app/views.js",
-            "line": 113,
+            "line": 117,
             "description": "Attach event listeners",
             "itemtype": "method",
             "name": "attachListeners",
@@ -1519,7 +1519,7 @@
         },
         {
             "file": "js/app/views.js",
-            "line": 164,
+            "line": 168,
             "description": "Initialize variables and attach listeners. Sets the status of hasChildPage to true if the `html` element has the `.has-childview` class",
             "itemtype": "method",
             "name": "init",

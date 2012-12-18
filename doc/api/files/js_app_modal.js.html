@@ -31,6 +31,8 @@ APP.modal = (function () {
      */
     function show() {
 
+        if (APP.alert.status) APP.alert.hide();
+
         html.addClass("has-modalview");
         toggle.addClass("active");
         APP.views.pageView().addClass("view-hidden");

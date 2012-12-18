@@ -49,6 +49,8 @@ APP.views = (function () {
      */
     function openChildPage(url, title) {
 
+        if (APP.alert.status) APP.alert.hide();
+
         // go forward when called from parent page
         if (! hasChild) {
             html.addClass("childview-in");
@@ -84,6 +86,8 @@ APP.views = (function () {
      * @param {String} [title] will set the title of the parentView in the `.js-title` element
      */
     function openParentPage(url, title) {
+
+        if (APP.alert.status) APP.alert.hide();
 
         // go back when called from child page
         if (hasChild) {

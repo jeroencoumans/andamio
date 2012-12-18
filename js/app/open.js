@@ -168,7 +168,7 @@ APP.open = (function () {
         // Open parent page
         APP.events.attachClickHandler(".action-refresh", function (event) {
 
-            APP.alert.hide();
+            if (APP.alert.status) APP.alert.hide();
             refresh();
         });
     }
