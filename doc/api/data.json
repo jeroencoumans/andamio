@@ -978,7 +978,7 @@
         },
         {
             "file": "js/app/phone.js",
-            "line": 66,
+            "line": 83,
             "description": "Init Cordova stuff. Only called when Cordova is actually loaded",
             "itemtype": "method",
             "name": "initCordova",
@@ -989,7 +989,7 @@
         },
         {
             "file": "js/app/phone.js",
-            "line": 77,
+            "line": 94,
             "description": "Checks wether Cordova is available, and then calls initCordova",
             "itemtype": "method",
             "name": "init",
