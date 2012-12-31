@@ -114,7 +114,7 @@ module.exports = function(grunt) {
             },
             js: {
                 files: ['js/*/*.js', 'doc/js/*.js'],
-                tasks: ['concat:dev']
+                tasks: ['concat:mobile', 'concat:desktop']
             }
         }
     });
