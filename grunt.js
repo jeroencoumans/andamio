@@ -26,14 +26,8 @@ module.exports = function(grunt) {
                     ],
                 dest: 'js/lib/zepto.js'
             },
-            dev: {
+            andamio: {
                 src: [
-                    // 'js/lib/jquery/jquery-1.8.3.min.js',
-                    'js/lib/zepto.js',
-                    'js/lib/zepto.scroll.js',
-                    'js/lib/swipeview.js',
-                    'js/lib/fastclick.js',
-                    'js/lib/lscache.js',
                     'js/app/globals.js',
                     'js/app/util.js',
                     'js/app/events.js',
@@ -50,16 +44,40 @@ module.exports = function(grunt) {
                     'js/app/views.js',
                     'js/app/alert.js',
                     'js/app/init.js'
+                ],
+                dest: 'dist/andamio-lib.js'
+            },
+            mobile: {
+                src: [
+                    'js/lib/zepto.js',
+                    'js/lib/zepto.scroll.js',
+                    'js/lib/swipeview.js',
+                    'js/lib/fastclick.js',
+                    'js/lib/lscache.js',
+                    'dist/andamio-lib.js'
                     ],
                 dest: 'dist/main.dev.js'
+            },
+            desktop: {
+                src: [
+                    'js/lib/jquery/jquery-1.8.3.min.js',
+                    'js/lib/swipeview.js',
+                    'js/lib/lscache.js',
+                    'dist/andamio-lib.js'
+                    ],
+                dest: 'dist/main-desktop.dev.js'
             }
         },
 
         // Javascript minification
         min: {
-            dist: {
+            mobile: {
                 src: ['dist/main.dev.js'],
                 dest: 'dist/main.js'
+            },
+            desktop: {
+                src: ['dist/main-desktop.dev.js'],
+                dest: 'dist/main-desktop.js'
             }
         },
 
