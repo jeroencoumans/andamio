@@ -3,50 +3,42 @@
     Typography
 
 ***/
-
 /***
 
     Colors
 
 ***/
-
 /***
 
     Grid & media sizes
 
 ***/
-
 /***
 
     Layout
 
 ***/
-
 /* =============================================================================
    Base
    ========================================================================== */
-
 /*
  * 1. Corrects text resizing oddly in IE6/7 when body font-size is set using em units
  *    http://clagnut.com/blog/348/#c790
  * 2. Prevents iOS text size adjust after orientation change, without disabling user zoom
  *    www.456bereastreet.com/archive/201012/controlling_text_size_in_safari_for_ios_without_disabling_user_zoom/
  */
-
 html {
   font-size: 100%;
   /* 1 */
 
   -webkit-text-size-adjust: 100%;
-      -ms-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
   /* 2 */
 
 }
-
 /*
  * Addresses font-family inconsistency between 'textarea' and other form elements.
  */
-
 html,
 button,
 input,
@@ -54,48 +46,46 @@ select,
 textarea {
   font-family: sans-serif;
 }
-
 /*
  * Addresses style set to 'bolder' in FF3+, S4/5, Chrome
 */
-
 b,
 strong {
   font-weight: bold;
 }
-
 /*
  * 1. Corrects font size not being inherited in all browsers
  * 2. Addresses margins set differently in IE6/7, FF3+, S5, Chrome
  * 3. Improves appearance and consistency in all browsers
  */
-
 button,
 input,
 select,
 textarea {
-  margin: 0;
   font-size: 100%;
+  /* 1 */
+
+  margin: 0;
+  /* 2 */
+
   vertical-align: baseline;
   *vertical-align: middle;
-}
+  /* 3 */
 
+}
 /*
  * Addresses FF3/4 setting line-height on 'input' using !important in the UA stylesheet
  */
-
 button,
 input {
   line-height: normal;
   /* 1 */
 
 }
-
 /*
  * 1. Removes default vertical scrollbar in IE6/7/8/9
  * 2. Improves readability and alignment in all browsers
  */
-
 textarea {
   overflow: auto;
   /* 1 */
@@ -104,21 +94,18 @@ textarea {
   /* 2 */
 
 }
-
 /***
 
     Fonts
 
 ***/
-
 body,
 .font-normal {
   font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-size: 13px;
-  font-weight: normal;
   line-height: 20px;
+  font-weight: normal;
 }
-
 h1,
 h2,
 h3,
@@ -132,214 +119,171 @@ h6,
 .h5,
 .h6,
 legend {
-  margin: 0 0 5px;
   font-family: "HelveticaNeue-Bold", "HelveticaNeue Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
   line-height: 20px;
   text-rendering: optimizeLegibility;
+  margin: 0 0 5px;
 }
-
 .font-huge {
   font-size: 30px;
   line-height: 25px;
 }
-
 h1,
 .h1,
 .font-extra-large {
   font-size: 27px;
   line-height: 25px;
 }
-
 h2,
 .h2 {
   font-size: 23px;
   line-height: 25px;
 }
-
 h3,
 .h3 {
   font-size: 19px;
 }
-
 h4,
 .h4 {
   font-size: 15px;
 }
-
 h5,
 .h5 {
   font-size: 13px;
 }
-
 h6,
 .h6 {
   font-size: 13px;
 }
-
 p,
 form,
 ul,
 ol,
 dl,
 table {
-  padding: 0;
   margin: 0 0 10px;
+  padding: 0;
 }
-
 a {
   text-decoration: none;
 }
-
 a:focus {
   text-decoration: underline;
 }
-
 small,
 sub,
 sup {
   font-size: 13px;
   line-height: 10px;
 }
-
 /***
 
     Flexible grids
 
 ***/
-
 .flex-row {
   display: table;
   width: 100%;
   -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
-
 .flex-unit {
   display: table-cell;
   vertical-align: top;
 }
-
 .row {
   overflow: hidden;
   *overflow: visible;
   *zoom: 1;
 }
-
 .unit {
   float: left;
   -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
-
 .unit-right {
   float: right;
   -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
-
 .p5 {
   width: 5%;
 }
-
 .p10 {
   width: 10%;
 }
-
 .p15 {
   width: 15%;
 }
-
 .p20 {
   width: 20%;
 }
-
 .p25 {
   width: 25%;
 }
-
 .p30 {
   width: 30%;
 }
-
 .p33 {
   width: 33.333333%;
 }
-
 .p35 {
   width: 35%;
 }
-
 .p40 {
   width: 40%;
 }
-
 .p45 {
   width: 45%;
 }
-
 .p50 {
   width: 50%;
 }
-
 .p55 {
   width: 55%;
 }
-
 .p60 {
   width: 60%;
 }
-
 .p65 {
   width: 65%;
 }
-
 .p66 {
   width: 66.666666%;
 }
-
 .p70 {
   width: 70%;
 }
-
 .p75 {
   width: 75%;
 }
-
 .p80 {
   width: 80%;
 }
-
 .p85 {
   width: 85%;
 }
-
 .p90 {
   width: 90%;
 }
-
 .p95 {
   width: 95%;
 }
-
 .p100 {
   width: 100%;
 }
-
 /***
 
     Generic positioning
 
 ***/
-
 .overlay-wrapper {
   position: relative;
 }
-
 /* These classes let you position anything, anywhere */
-
 .overlay-top,
 .overlay-top-left,
 .overlay-top-right,
@@ -357,88 +301,72 @@ sup {
 .overlay-total {
   position: absolute;
 }
-
 .overlay-top {
   top: 0;
   right: 0;
   left: 0;
 }
-
 .overlay-top-left {
   top: 0;
   left: 0;
 }
-
 .overlay-top-right {
   top: 0;
   right: 0;
 }
-
 .overlay-bottom {
-  right: 0;
   bottom: 0;
+  right: 0;
   left: 0;
 }
-
 .overlay-bottom-left {
   bottom: 0;
   left: 0;
 }
-
 .overlay-bottom-right {
-  right: 0;
   bottom: 0;
+  right: 0;
 }
-
 .overlay-left {
+  left: 0;
   top: 0;
   bottom: 0;
-  left: 0;
 }
-
 .overlay-left-top {
-  top: 0;
   left: 0;
+  top: 0;
 }
-
 .overlay-left-center {
-  top: 50%;
   left: 0;
+  top: 50%;
 }
-
 .overlay-left-bottom {
-  bottom: 0;
   left: 0;
-}
-
-.overlay-right {
-  top: 0;
-  right: 0;
   bottom: 0;
 }
-
-.overlay-right-top {
+.overlay-right {
+  right: 0;
   top: 0;
-  right: 0;
+  bottom: 0;
 }
-
+.overlay-right-top {
+  right: 0;
+  top: 0;
+}
 .overlay-right-center {
-  top: 50%;
   right: 0;
+  top: 50%;
 }
-
 .overlay-right-bottom {
   right: 0;
   bottom: 0;
 }
-
 .overlay-total {
   top: 0;
+  left: 0;
   right: 0;
   bottom: 0;
-  left: 0;
 }
-
 /***
 
     Makes an element animate from one state to another.
@@ -446,7 +374,6 @@ sup {
     @duration: how long the animation should last
 
 ***/
-
 /***
 
     Specify a border radius
@@ -454,20 +381,17 @@ sup {
     .border-radius(@radius @radius @radius @radius): allows you to set different units for every corner (top left, top right, bottom right, bottom left)
 
 ***/
-
 /***
 
     Allows you to set any mix of inner or outer box shadows.
 
 ***/
-
 /***
 
     Specifies how to calculate the width of a block element.
     By default, sets it to border-box (box width = 100% - border width + padding)
 
 ***/
-
 /***
 
     Sets the gradient for a button.
@@ -475,7 +399,6 @@ sup {
     @endColor: the bottom color
 
 ***/
-
 /***
 
     Allows you to easily create a gradient background.
@@ -486,7 +409,6 @@ sup {
     @endPoint: where the gradient should end (0-100%, default 100%)
 
 ***/
-
 /***
 
     Helper to generate striped list. The first item will not get a top border and the last item will not get a bottom border.
@@ -495,15 +417,12 @@ sup {
     @bottom-border: sets the color of the bottom border (default: @grey)
 
 ***/
-
 /***
 
     Easily transform an element
 
 ***/
-
 /*** http://dropshado.ws/post/1015351370/webkit-line-clamp ***/
-
 /***
 
     Sets up the layout for mobile website/webapp
@@ -525,17 +444,14 @@ sup {
             .child-view[.view-hidden]
 
 ***/
-
 .parent-view,
 .child-view,
 .modal-view {
   background: #f3f3f3;
 }
-
 .website .view-hidden {
   display: none;
 }
-
 .webapp {
   width: 100%;
   height: 100%;
@@ -545,97 +461,88 @@ sup {
   /*** Bottom/top animation for modal view ***/
 
 }
-
 .webapp .viewport {
   position: absolute;
   top: 0;
+  left: 0;
   right: 0;
   bottom: 0;
-  left: 0;
   overflow: hidden;
 }
-
 .webapp .parent-view {
+  border-radius: 5px 5px 0 0;
+  -webkit-background-clip: padding;
+  background-clip: padding-box;
   position: absolute;
   top: 0;
+  left: 0;
   right: 0;
   bottom: 0;
-  left: 0;
-  border-radius: 5px 5px 0 0;
   -webkit-transform: translate(0, 0) translateZ(0);
-          transform: translate(0, 0) translateZ(0);
+  transform: translate(0, 0) translateZ(0);
   -webkit-transition-delay: 0;
-  -webkit-transition-duration: 300ms;
-  -webkit-transition-property: all;
-  -webkit-transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
-  -webkit-background-clip: padding;
-          background-clip: padding-box;
   -webkit-backface-visibility: hidden;
   -webkit-transform-style: flat;
+  -webkit-transition-property: all;
+  -webkit-transition-duration: 300ms;
+  -webkit-transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
 }
-
 .webapp .parent-view.view-hidden {
   -webkit-transform: translate(-100%, 0) translateZ(0);
-          transform: translate(-100%, 0) translateZ(0);
+  transform: translate(-100%, 0) translateZ(0);
 }
-
 .webapp .child-view {
+  border-radius: 5px 5px 0 0;
+  -webkit-background-clip: padding;
+  background-clip: padding-box;
   position: absolute;
   top: 0;
+  left: 0;
   right: 0;
   bottom: 0;
-  left: 0;
-  border-radius: 5px 5px 0 0;
   -webkit-transform: translate(0, 0) translateZ(0);
-          transform: translate(0, 0) translateZ(0);
+  transform: translate(0, 0) translateZ(0);
   -webkit-transition-delay: 0;
-  -webkit-transition-duration: 300ms;
-  -webkit-transition-property: -webkit-transform;
-  -webkit-transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
-  -webkit-background-clip: padding;
-          background-clip: padding-box;
   -webkit-backface-visibility: hidden;
   -webkit-transform-style: flat;
+  -webkit-transition-property: -webkit-transform;
+  -webkit-transition-duration: 300ms;
+  -webkit-transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
 }
-
 .webapp .child-view.view-hidden {
-  z-index: -1;
   -webkit-transform: translate(100%, 0) translateZ(0);
-          transform: translate(100%, 0) translateZ(0);
+  transform: translate(100%, 0) translateZ(0);
+  z-index: -1;
 }
-
 .webapp .page-content {
   position: absolute;
-  top: 44px;
-  right: 0;
   bottom: 0;
+  right: 0;
   left: 0;
+  top: 44px;
 }
-
 .webapp .modal-view {
+  border-radius: 5px 5px 0 0;
+  -webkit-background-clip: padding;
+  background-clip: padding-box;
   position: absolute;
   top: 0;
+  left: 0;
   right: 0;
   bottom: 0;
-  left: 0;
-  border-radius: 5px 5px 0 0;
   -webkit-transform: translate(0, 0) translateZ(0);
-          transform: translate(0, 0) translateZ(0);
+  transform: translate(0, 0) translateZ(0);
   -webkit-transition-delay: 0;
-  -webkit-transition-duration: 300ms;
-  -webkit-transition-property: -webkit-transform;
-  -webkit-transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
-  -webkit-background-clip: padding;
-          background-clip: padding-box;
   -webkit-backface-visibility: hidden;
   -webkit-transform-style: flat;
+  -webkit-transition-property: -webkit-transform;
+  -webkit-transition-duration: 300ms;
+  -webkit-transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
 }
-
 .webapp .modal-view.view-hidden {
   -webkit-transform: translate(0, 100%) translateZ(0);
-          transform: translate(0, 100%) translateZ(0);
+  transform: translate(0, 100%) translateZ(0);
 }
-
 .webapp.has-modalview.ios5,
 .webapp.has-navigation.ios5 {
   /***
@@ -646,125 +553,107 @@ sup {
         ***/
 
 }
-
 .webapp.has-modalview.ios5 .page-view .page-content,
 .webapp.has-navigation.ios5 .page-view .page-content {
   overflow: hidden;
   -webkit-overflow-scrolling: default;
 }
-
 .desktop .modal-view {
-  top: 100px;
-  right: 20%;
-  left: 20%;
   -webkit-box-shadow: 0 20px 20px rgba(0, 0, 0, 0.5);
-          box-shadow: 0 20px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.5);
+  top: 100px;
+  left: 20%;
+  right: 20%;
 }
-
 .desktop .modal-view.view-hidden {
   top: auto;
   bottom: -100%;
 }
-
 .desktop.has-modalview .page-view,
 .desktop.has-modalview .page-navigation {
   -webkit-filter: blur(1px) opacity(0.5);
 }
-
 .webapp .overthrow {
-  overflow: auto;
   -webkit-overflow-scrolling: touch;
+  overflow: auto;
 }
-
 .desktop .overthrow {
   overflow: auto;
 }
-
 /***
 
     Setup page header
 
 ***/
-
 .page-header {
-  position: relative;
   height: 42px;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  position: relative;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  border-top: 1px solid;
-  border-bottom: 1px solid;
 }
-
 .page-header br {
   display: none;
 }
-
 .webapp .page-header {
   border-radius: 5px 5px 0 0;
   -webkit-background-clip: padding;
-          background-clip: padding-box;
+  background-clip: padding-box;
 }
-
 /***
 
     Loader
 
 ***/
-
 .loader {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   position: fixed;
   top: 50%;
-  right: 0;
   left: 0;
-  z-index: 1000;
+  right: 0;
   width: 100px;
-  padding: 20px 10px;
   margin: -52px auto 0;
-  text-align: center;
+  padding: 20px 10px;
+  z-index: 1000;
   background: rgba(0, 0, 0, 0.85);
   border-radius: 10px;
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
+  text-align: center;
 }
-
 .loader .spinner {
+  margin: 0 auto 10px;
   width: 32px;
   height: 32px;
-  margin: 0 auto 10px;
 }
-
 .loader .loader-text {
   font-size: 15px;
   font-weight: bold;
   color: #fff;
 }
-
 .has-loader .page-content {
   opacity: 0.5;
 }
-
 /***
 
     Global alert messages
 
 ***/
-
 .page-alert {
   position: fixed;
   top: 25%;
-  right: 25%;
   left: 25%;
+  right: 25%;
+  border-radius: 10px;
   z-index: 1000;
   padding: 20px 10px;
-  font-weight: bold;
-  color: #fff;
   text-align: center;
   background: rgba(0, 0, 0, 0.85);
-  border-radius: 10px;
+  color: #fff;
+  font-weight: bold;
 }
-
 /***
 
     Provides a Facebook-like off-canvas menu pattern
@@ -780,115 +669,97 @@ sup {
     .has-navigation on the document
 
 ***/
-
 /*** .page-navigation is positioned outside the .page-content ***/
-
 .page-navigation {
   position: absolute;
   top: 0;
   right: 0;
-  left: -260px;
   width: 260px;
+  left: -260px;
 }
-
 /*** Navigation toggle ***/
-
 .page-navigation-toggle {
   position: absolute;
   top: 0;
+  left: 0;
   right: 0;
   bottom: 0;
-  left: 0;
   pointer-events: none;
-}
+  /*** TODO: IE9 ***/
 
+}
 .has-navigation .page-navigation-toggle {
   pointer-events: auto;
 }
-
 .website {
   overflow-x: hidden;
   overflow-y: scroll;
 }
-
 .website .viewport {
   position: relative;
   overflow: hidden;
 }
-
 .website .page-view {
   position: relative;
 }
-
 .website.has-navigation {
   /*** Put it in the correct place ***/
 
 }
-
 .website.has-navigation .page-view,
 .website.has-navigation .page-navigation-toggle {
-  left: 260px;
   overflow: hidden;
+  left: 260px;
 }
-
 .website.has-navigation .page-navigation {
   left: 0;
 }
-
 .webapp .page-view,
 .webapp .page-navigation,
 .webapp .page-navigation-toggle {
   -webkit-transform: translate(0, 0) translateZ(0);
-          transform: translate(0, 0) translateZ(0);
+  transform: translate(0, 0) translateZ(0);
   -webkit-transition-delay: 0;
-  -webkit-transition-duration: 300ms;
-  -webkit-transition-property: -webkit-transform;
-  -webkit-transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
   -webkit-backface-visibility: hidden;
   -webkit-transform-style: flat;
+  -webkit-transition-property: -webkit-transform;
+  -webkit-transition-duration: 300ms;
+  -webkit-transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
 }
-
 .webapp .page-navigation {
   bottom: 0;
 }
-
 .webapp .page-view {
   width: 100%;
   height: 100%;
   border-radius: 5px 5px 0 0;
   -webkit-background-clip: padding;
-          background-clip: padding-box;
+  background-clip: padding-box;
 }
-
 .webapp.has-navigation .page-view,
 .webapp.has-navigation .page-navigation,
 .webapp.has-navigation .page-navigation-toggle {
   -webkit-transform: translate(260px, 0) translateZ(0);
-          transform: translate(260px, 0) translateZ(0);
+  transform: translate(260px, 0) translateZ(0);
 }
-
 .desktop .page-navigation {
-  bottom: 0;
   left: 0;
+  bottom: 0;
 }
-
 .desktop .page-view {
+  width: auto;
   position: absolute;
-  top: 0;
   right: 0;
+  top: 0;
   bottom: 0;
   left: 260px;
-  width: auto;
 }
-
 .desktop .page-navigation-toggle {
   left: 260px;
 }
-
 .desktop .action-show-nav {
   display: none;
 }
-
 /***
 
     iOS-like navigation tabs at the bottom
@@ -901,99 +772,80 @@ sup {
             .tab-item-icon
 
 ***/
-
 .tabs {
   display: table;
   width: 100%;
   -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
-
 .tabs .tab-item {
   display: table-cell;
+  vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  vertical-align: top;
 }
-
 .tabs .tab-item br {
   display: none;
 }
-
 .website .tab-item-icon {
   display: none;
 }
-
 .webapp .tabs {
   position: absolute;
-  right: 0;
   bottom: 0;
+  right: 0;
   left: 0;
   font-size: 10px;
   line-height: 10px;
 }
-
 .webapp .tabs .tab-item {
   height: 45px;
   padding: 0 0 4px;
   vertical-align: bottom;
 }
-
 .webapp .tabs .tab-item-icon {
   display: block;
   margin: 2px auto 0;
 }
-
 .webapp .tabs + .page-content {
   bottom: 49px;
 }
-
 /*** Global tabs ***/
-
 .has-tabs .parent-view,
 .has-tabs .child-view {
   bottom: 49px;
 }
-
 ul {
+  list-style: none outside;
   padding: 0 0 0 20px;
   margin: 0 0 10px;
-  list-style: none outside;
 }
-
 .bullet-list {
   list-style-type: disc;
 }
-
 .arrow-list {
-  padding: 0;
   list-style-type: none;
+  padding: 0;
 }
-
 .arrow-list li::before {
   content: "\00BB \0020";
 }
-
 dl {
   margin: 0 0 20px;
 }
-
 dt {
-  margin: 0 0 5px;
   font-weight: bold;
+  margin: 0 0 5px;
 }
-
 dd {
   margin: 0 0 10px 20px;
 }
-
 ol {
-  padding: 0 0 0 30px;
   list-style-type: decimal;
+  padding: 0 0 0 30px;
 }
-
 /***
 
     Wrapper classes for the media object.
@@ -1001,25 +853,20 @@ ol {
     .media-object-list-feed sets striping and some margins for the media image
 
 ***/
-
 .media-object-list > .media-object {
-  padding: 10px;
   border-top: 1px solid #ffffff;
   border-bottom: 1px solid #a2a2a2;
+  padding: 10px;
 }
-
 .media-object-list > .media-object:first-child {
   border-top: 0;
 }
-
 .media-object-list > .media-object:last-child {
   border-bottom: 0;
 }
-
 .box .media-object-list > .media-object {
   padding: 10px 0;
 }
-
 /***
 
     iOS style tableview
@@ -1031,42 +878,37 @@ ol {
 
 
 ***/
-
 .table-view {
   -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
-
 .table-header {
-  padding: 5px 10px;
-  margin: 0;
   font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-size: 15px;
   font-weight: normal;
-  color: #393939;
   text-align: center;
+  margin: 0;
+  padding: 5px 10px;
   background: #f3f3f3;
   border-bottom: 1px solid #a2a2a2;
+  color: #393939;
 }
-
 .table-footer {
   padding: 10px 0;
 }
-
 .table-cell {
   display: block;
-  padding: 10px;
-  margin: 0;
   overflow: hidden;
   *overflow: visible;
+  *zoom: 1;
+  margin: 0;
+  padding: 10px;
   background: #ffffff;
+  border-left: 1px solid #f3f3f3;
   border-right: 1px solid #f3f3f3;
   border-bottom: 1px solid #a2a2a2;
-  border-left: 1px solid #f3f3f3;
-  *zoom: 1;
 }
-
 .table-cell h1,
 .table-cell h2,
 .table-cell h3,
@@ -1075,14 +917,10 @@ ol {
 .table-cell h6 {
   margin: 0;
 }
-
 .table-cell .icon-arrow-right {
   float: right;
 }
-
 .table-cell.active {
-  color: #ffffff;
-  text-shadow: #193f63;
   background-color: #2866a0;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3280c9), to(#2866a0));
   background-image: -webkit-linear-gradient(top, #3280c9 0, #2866a0 100%);
@@ -1090,8 +928,9 @@ ol {
   background-image: -ms-linear-gradient(top, #3280c9 0, #2866a0 100%);
   background-image: linear-gradient(top, #3280c9 0, #2866a0 100%);
   background-repeat: repeat-x;
+  color: #ffffff;
+  text-shadow: #193f63;
 }
-
 .table-cell.active h1,
 .table-cell.active h2,
 .table-cell.active h3,
@@ -1101,123 +940,102 @@ ol {
   color: #ffffff;
   text-shadow: #193f63;
 }
-
 .table-cell-title {
   margin: 0;
 }
-
 .table-view-grouped {
   margin: 15px 10px;
 }
-
 .table-view-grouped .table-header {
   border: 0;
 }
-
 .table-view-grouped .table-cell {
   border-color: #f3f3f3 #a2a2a2 #a2a2a2;
 }
-
 .table-view-grouped .table-cell:first-of-type {
   border-top: 1px solid #a2a2a2;
   border-radius: 5px 5px 0 0;
   -webkit-background-clip: padding;
-          background-clip: padding-box;
+  background-clip: padding-box;
 }
-
 .table-view-grouped .table-cell:last-of-type {
-  border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
-
 .table-cell-centered {
   padding: 0;
   overflow: hidden;
   *overflow: visible;
   *zoom: 1;
 }
-
 .table-cell-centered .table-cell-label {
   float: left;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   width: 40%;
   padding: 10px 0 10px 10px;
-  overflow: hidden;
   color: #a2a2a2;
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
 }
-
 .table-cell-centered .table-cell-label br {
   display: none;
 }
-
 .table-cell-centered .table-cell-value {
   float: left;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   width: 60%;
   padding: 10px;
-  overflow: hidden;
-  color: #050505;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   border: 0;
   outline: 0;
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
+  color: #050505;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-
 .table-cell-centered .table-cell-value br {
   display: none;
 }
-
 table {
   width: 100%;
   border-spacing: 0;
 }
-
 th,
 td {
-  padding: 5px;
   text-align: left;
   vertical-align: top;
+  padding: 5px;
   border-bottom: 1px solid #e6e6e6;
 }
-
 th p:last-child,
 td p:last-child {
   margin: 0;
 }
-
 /*** Fake table headings... ***/
-
 tr:first-child {
   font-weight: bold;
 }
-
 /***
 
     A badge is used for showing a highlighted number. It's useful for showing unread messages or updates.
 
 ***/
-
 .badge {
   display: inline-block;
   padding: 0 5px;
 }
-
 .badge-medium {
   padding: 5px 10px;
   font-size: 19px;
 }
-
 .badge-large {
   padding: 10px 20px;
   font-size: 23px;
 }
-
 /***
 
     A pattern to make a whole block clickable by adding an (empty) anchor which is displayed over the content.
@@ -1231,31 +1049,26 @@ tr:first-child {
         .click-block-action
 
 ***/
-
 .click-block {
   position: relative;
 }
-
 .click-block .click-block-link {
+  background: url(data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==);
   position: absolute;
   top: 0;
+  left: 0;
   right: 0;
   bottom: 0;
-  left: 0;
   z-index: 1;
-  background: url(data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==);
 }
-
 .click-block .click-block-content {
   position: relative;
   z-index: 0;
 }
-
 .click-block .click-block-action {
   position: relative;
   z-index: 2;
 }
-
 /***
 
     Just a simple border to separate some content.
@@ -1266,21 +1079,17 @@ tr:first-child {
     <p>Lorem ipsum dolor sit amet...</p>
 
 ***/
-
 .divider {
   height: 1px;
-  margin: 10px;
   border: 0;
+  margin: 10px;
 }
-
 .box .divider {
   margin: 10px 0;
 }
-
 .pager-dots {
   text-align: center;
 }
-
 .pager-dot-item {
   display: inline-block;
   width: 5px;
@@ -1289,70 +1098,58 @@ tr:first-child {
   border: #626262;
   border-radius: 2px;
   -webkit-background-clip: padding;
-          background-clip: padding-box;
+  background-clip: padding-box;
 }
-
 /***
 
     Pattern to create segmented controller (tabs at the top of your page)
 
 ***/
-
 .reveal-content {
   display: none;
 }
-
 .reveal-content.active {
   display: block;
 }
-
 /***
 
     Big section headers
 
 ***/
-
 .section-header {
   padding: 10px;
 }
-
 .section-header .section-title {
   font-size: 45px;
   line-height: 1;
 }
-
 .section-header .section-description {
   font-size: 23px;
   line-height: 1;
   color: #a2a2a2;
 }
-
 /***
 
     Buttons
 
 ***/
-
 .button {
-  display: inline-block;
   -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  display: inline-block;
   -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
-
 .button-block {
   display: block;
   width: 100%;
 }
-
 .button-disabled {
   opacity: 0.5;
 }
-
 /***
 
     Header buttons
@@ -1360,37 +1157,31 @@ tr:first-child {
         .button-header: takes care of button styling
 
 ***/
-
 .button-header-wrapper,
 .button-header-wrapper-alternate {
-  z-index: 2;
-  width: 25%;
   height: 44px;
+  width: 25%;
+  z-index: 2;
 }
-
 .button-header-wrapper {
   position: absolute;
+  left: 0;
   top: 0;
   bottom: 0;
-  left: 0;
 }
-
 .button-header-wrapper-alternate {
   position: absolute;
-  top: 0;
   right: 0;
+  top: 0;
   bottom: 0;
 }
-
 .button-header-wrapper-alternate .button-header {
   float: right;
 }
-
 .button-header {
   display: block;
   float: left;
 }
-
 /***
 
     iOS-style button
@@ -1399,54 +1190,45 @@ tr:first-child {
         .button
 
 ***/
-
 .button-wrapper {
   display: block;
 }
-
 .button-wrapper .button {
   display: block;
   width: 100%;
 }
-
 .button-list > .button,
 .button-list > .button-wrapper {
   margin: 0 0 10px;
 }
-
 /***
 
     @requires grid
 
 ***/
-
 .button-row {
   overflow: hidden;
   *overflow: visible;
   *zoom: 1;
 }
-
 .button-row .button {
   float: left;
-  margin: 0 10px 0 0;
   -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0 10px 0 0;
 }
-
 .button-row .button:last-child {
   margin: 0;
 }
-
 .button-pills {
   display: table;
   width: 100%;
-  margin: 0 0 10px;
   -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0 0 10px;
 }
-
 .button-pills .button,
 .button-pills .button-pill {
   display: table-cell;
@@ -1454,79 +1236,65 @@ tr:first-child {
   border-left-width: 0;
   border-radius: 0;
 }
-
 .button-pills .button:first-child,
 .button-pills .button-pill:first-child {
-  border-left-width: 1px;
   border-radius: 5px 0 0 5px;
+  border-left-width: 1px;
 }
-
 .button-pills .button:last-child,
 .button-pills .button-pill:last-child {
   border-radius: 0 5px 5px 0;
 }
-
 form {
   margin: 10px;
 }
-
 label {
   font-weight: bold;
   color: #a2a2a2;
 }
-
 input,
 button {
+  line-height: inherit;
   display: block;
   width: 100%;
-  line-height: inherit;
 }
-
 .icon {
   display: inline-block;
   vertical-align: text-bottom;
 }
-
 .icon-arrow-right,
 .icon-arrow-left,
 .icon-arrow-up,
 .icon-arrow-down {
-  width: 21px;
-  height: 21px;
   background-image: url('data:image/png;base64,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');
   background-size: 21px 84px;
+  width: 21px;
+  height: 21px;
 }
-
 .icon-arrow-right {
   background-position: 0 0;
 }
-
 .icon-arrow-left {
   background-position: 0 -21px;
 }
-
 .icon-arrow-up {
   background-position: 0 -42px;
 }
-
 .icon-arrow-down {
   background-position: 0 -63px;
 }
-
 img,
 video {
   display: block;
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
   -ms-interpolation-mode: bicubic;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
-
 .media-fluid {
   width: 100%;
   height: auto;
 }
-
 /***
 
     For showing a caption on top of an image/video/whatever
@@ -1534,11 +1302,9 @@ video {
         .media-caption
 
 ***/
-
 .media-item {
   position: relative;
 }
-
 .media-caption {
   position: absolute;
   top: 0;
@@ -1546,112 +1312,90 @@ video {
   display: inline-block;
   padding: 0 5px;
   margin: 5px;
+  background: rgba(0, 0, 0, 0.75);
   color: #ffffff;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.75);
-  background: rgba(0, 0, 0, 0.75);
 }
-
 /***
 
     These classes will produce styles that allow you to create various types of content that feature a left-aligned image, some content and optional actions on the right.
     It's a very simple grid system with flexible dimensions and suitable for things like newsfeeds, comments, etc.
 
 ***/
-
 .media-object {
   display: block;
   overflow: hidden;
 }
-
 /* OPTIONAL: an image that will be shown left */
-
 .media-img {
   float: left;
-  margin: 0 10px 0 0;
   text-align: center;
+  margin: 0 10px 0 0;
 }
-
 /* The actions that are shown on the right */
-
 .media-action {
   float: right;
-  margin: 0 0 0 10px;
   text-align: right;
+  margin: 0 0 0 10px;
 }
-
 /* The content in the middle will be positioned right between the image left and the actions right. If you want it to wrap instead, don't use this class */
-
 .media-bd {
   display: block;
   overflow: hidden;
 }
-
 /*** Video ***/
-
 .media-video {
   position: relative;
-  height: 0;
   padding-bottom: 56.25%;
+  height: 0;
   overflow: hidden;
 }
-
 .media-video video {
   position: absolute;
   top: 0;
-  right: 0;
-  bottom: 0;
   left: 0;
+  bottom: 0;
+  right: 0;
 }
-
 .fade {
   opacity: 0;
 }
-
 .unfade {
   opacity: 1;
 }
-
 .shrink {
   -webkit-transform: scale(0.7);
-          transform: scale(0.7);
+  transform: scale(0.7);
 }
-
 .unshrink {
   -webkit-transform: scale(1);
-          transform: scale(1);
+  transform: scale(1);
 }
-
 .slide-right {
   -webkit-transform: translate(100%, 0) translateZ(0);
-          transform: translate(100%, 0) translateZ(0);
+  transform: translate(100%, 0) translateZ(0);
 }
-
 .slide-left {
   -webkit-transform: translate(-100%, 0) translateZ(0);
-          transform: translate(-100%, 0) translateZ(0);
+  transform: translate(-100%, 0) translateZ(0);
 }
-
 .slide-default {
   -webkit-transform: translate(0, 0) translateZ(0);
-          transform: translate(0, 0) translateZ(0);
+  transform: translate(0, 0) translateZ(0);
 }
-
 html,
 body {
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
-
 .viewport {
+  background: #f3f3f3;
   color: #050505;
   word-wrap: break-word;
-  background: #f3f3f3;
 }
-
 .webapp .viewport {
   background: #2b2b2b;
 }
-
 h1,
 h2,
 h3,
@@ -1660,40 +1404,33 @@ h5,
 h6 {
   color: #393939;
 }
-
 a {
   color: #3280c9;
 }
-
 .detail {
   color: #929191;
 }
-
 .website {
   -webkit-text-size-adjust: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0.25);
 }
-
 .webapp {
   -webkit-text-size-adjust: none;
-  -webkit-user-select: none;
-          user-select: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-user-select: none;
+  user-select: none;
 }
-
 .page-footer {
-  padding: 20px 10px;
+  background: #050505;
   color: #fff;
   text-align: center;
-  background: #050505;
+  padding: 20px 10px;
 }
-
 /***
 
     Setup page header
 
 ***/
-
 .page-header {
   background-color: #1e1e1e;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#5e5e5e), to(#1e1e1e));
@@ -1705,32 +1442,33 @@ a {
   border-top-color: #787878;
   border-bottom-color: #9e9e9e;
 }
-
 .page-logo {
-  position: absolute;
-  right: 0;
-  left: 0;
-  z-index: 1;
+  /*** center and ensure it stays on top ***/
+
   display: block;
-  width: 140px;
-  height: 44px;
   margin: auto;
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+  /*** take it out of the flow ***/
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  width: 140px;
+  height: 44px;
+  line-height: 44px;
   font-family: "HelveticaNeue-Bold", "HelveticaNeue Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 23px;
   font-weight: bold;
-  line-height: 44px;
   color: #ffffff;
-  text-align: center;
-  text-overflow: ellipsis;
   text-shadow: 0 1px 1px #121212;
-  white-space: nowrap;
 }
-
 .page-logo br {
   display: none;
 }
-
 /***
 
     .page-navigation
@@ -1738,50 +1476,43 @@ a {
         .navigation-item
 
 ***/
-
 .page-navigation {
   background: #2b2b2b;
 }
-
 .page-navigation-toggle {
   border-left: 1px solid #121212;
 }
-
 .desktop .page-navigation-toggle,
 .ios6 .page-navigation-toggle {
   border-left: 0;
   -webkit-box-shadow: -10px 0 20px -5px #121212;
-          box-shadow: -10px 0 20px -5px #121212;
+  box-shadow: -10px 0 20px -5px #121212;
 }
-
 .navigation-header {
-  padding: 5px 10px;
-  margin: 0;
   font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-  font-size: 15px;
   font-weight: normal;
-  color: #848484;
+  font-size: 15px;
   text-align: center;
-  text-shadow: 0 1px 1px #121212;
   background: #121212;
   border-bottom: 1px solid #121212;
+  color: #848484;
+  text-shadow: 0 1px 1px #121212;
+  margin: 0;
+  padding: 5px 10px;
 }
-
 .navigation-item {
   display: block;
   padding: 10px;
   font-weight: bold;
-  color: #f5f5f5;
-  text-shadow: 0 1px 1px #121212;
   border-top: 1px solid #454545;
   border-bottom: 1px solid #121212;
+  color: #f5f5f5;
+  text-shadow: 0 1px 1px #121212;
 }
-
 .navigation-item:last-child {
   -webkit-box-shadow: 0 1px 0 #454545;
-          box-shadow: 0 1px 0 #454545;
+  box-shadow: 0 1px 0 #454545;
 }
-
 .navigation-item.active {
   background-color: #2866a0;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3280c9), to(#2866a0));
@@ -1791,24 +1522,20 @@ a {
   background-image: linear-gradient(top, #3280c9 0, #2866a0 100%);
   background-repeat: repeat-x;
 }
-
 .navigation-item-secondary {
   display: block;
   padding: 5px 10px;
-  color: #c2c2c2;
-  text-shadow: 0 1px 1px #121212;
   border-top: 1px solid #454545;
   border-bottom: 1px solid #121212;
+  color: #c2c2c2;
+  text-shadow: 0 1px 1px #121212;
 }
-
 /***
 
     Tabs
 
 ***/
-
 .tabs {
-  text-shadow: 1px 1px 1px #000000;
   background-color: #121212;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#383838), to(#121212));
   background-image: -webkit-linear-gradient(top, #383838 0, #121212 100%);
@@ -1816,16 +1543,14 @@ a {
   background-image: -ms-linear-gradient(top, #383838 0, #121212 100%);
   background-image: linear-gradient(top, #383838 0, #121212 100%);
   background-repeat: repeat-x;
+  text-shadow: 1px 1px 1px #000000;
 }
-
 .tabs .tab-item {
   padding: 10px;
-  color: #c4c4c4;
   text-align: center;
+  color: #c4c4c4;
 }
-
 .tabs .tab-item.active {
-  color: #ffffff;
   background-color: #525252;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#1e1e1e), to(#525252));
   background-image: -webkit-linear-gradient(top, #1e1e1e 0, #525252 100%);
@@ -1833,63 +1558,52 @@ a {
   background-image: -ms-linear-gradient(top, #1e1e1e 0, #525252 100%);
   background-image: linear-gradient(top, #1e1e1e 0, #525252 100%);
   background-repeat: repeat-x;
+  color: #ffffff;
 }
-
 .website .tabs {
   border-top: 1px solid #121212;
   border-bottom: 1px solid #000000;
 }
-
 .website .tabs .tab-item {
-  border-right: 1px solid #1e1e1e;
   border-left: 1px solid rgba(56, 56, 56, 0.7);
+  border-right: 1px solid #1e1e1e;
 }
-
 .webapp .tabs {
   border-top: 1px solid #383838;
   border-bottom: 0;
 }
-
 .webapp .tabs .tab-item {
   -webkit-box-shadow: inset 0 1px 0 #5e5e5e, inset 1px 0 0 rgba(56, 56, 56, 0.8), inset -1px 0 0 #121212;
-          box-shadow: inset 0 1px 0 #5e5e5e, inset 1px 0 0 rgba(56, 56, 56, 0.8), inset -1px 0 0 #121212;
+  box-shadow: inset 0 1px 0 #5e5e5e, inset 1px 0 0 rgba(56, 56, 56, 0.8), inset -1px 0 0 #121212;
 }
-
 /***
 
     Alert - styles for success, warning and error messages
 
 ***/
-
 .alert {
-  padding: 10px;
   margin: 10px;
-  color: #050505;
+  padding: 10px;
   background: #a2a2a2;
   border: 1px solid #898989;
+  color: #050505;
 }
-
 .alert-error {
-  color: #f5f5f5;
   background: #b70201;
   border: 1px solid #840101;
-}
-
-.alert-success {
   color: #f5f5f5;
+}
+.alert-success {
   background: #57a84b;
   border: 1px solid #45853b;
+  color: #f5f5f5;
 }
-
 /***
 
     Skin for badges
 
 ***/
-
 .badge {
-  font-weight: bold;
-  color: #393939;
   background-color: #c0c0c0;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f3f3f3), to(#c0c0c0));
   background-image: -webkit-linear-gradient(top, #f3f3f3 0, #c0c0c0 100%);
@@ -1897,111 +1611,99 @@ a {
   background-image: -ms-linear-gradient(top, #f3f3f3 0, #c0c0c0 100%);
   background-image: linear-gradient(top, #f3f3f3 0, #c0c0c0 100%);
   background-repeat: repeat-x;
-  border-radius: 20px;
   -webkit-box-shadow: 0 -1px 1px #ffffff, 0 1px 3px #343434;
-          box-shadow: 0 -1px 1px #ffffff, 0 1px 3px #343434;
+  box-shadow: 0 -1px 1px #ffffff, 0 1px 3px #343434;
+  border-radius: 20px;
   -webkit-background-clip: padding;
-          background-clip: padding-box;
+  background-clip: padding-box;
+  color: #393939;
+  font-weight: bold;
 }
-
 .box {
   margin: 10px;
 }
-
 .box-content {
   margin: 10px;
 }
-
 .box-header {
   margin: 0 0 10px;
 }
-
 /***
 
     Buttons
 
 ***/
-
 .button {
-  padding: 5px 10px;
-  margin: 0 0 1px;
   font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-size: 13px;
-  font-size: 15px;
+  line-height: 20px;
   font-weight: normal;
   font-weight: bold;
-  line-height: 20px;
-  color: #050505;
-  text-align: center;
-  text-shadow: 0 1px 1px #e6e6e6;
+  font-size: 15px;
+  margin: 0 0 1px;
   background: #cccccc;
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f2f2f2), color-stop(49%, #e6e6e6), color-stop(50%, #d9d9d9), color-stop(100%, #cccccc));
   background: -webkit-linear-gradient(top, #f2f2f2 0%, #e6e6e6 49%, #d9d9d9 50%, #cccccc 100%);
   background: -moz-linear-gradient(top, #f2f2f2 0%, #e6e6e6 49%, #d9d9d9 50%, #cccccc 100%);
   background: -ms-linear-gradient(top, #f2f2f2 0%, #e6e6e6 49%, #d9d9d9 50%, #cccccc 100%);
   background: linear-gradient(to bottom, #f2f2f2 0%, #e6e6e6 49%, #d9d9d9 50%, #cccccc 100%);
+  -webkit-box-shadow: 0 1px 0 rgba(204, 204, 204, 0.75);
+  box-shadow: 0 1px 0 rgba(204, 204, 204, 0.75);
   border: 1px solid #b3b3b3;
   border-radius: 2px;
-  -webkit-box-shadow: 0 1px 0 rgba(204, 204, 204, 0.75);
-          box-shadow: 0 1px 0 rgba(204, 204, 204, 0.75);
   -webkit-background-clip: padding;
-          background-clip: padding-box;
+  background-clip: padding-box;
+  color: #050505;
+  text-shadow: 0 1px 1px #e6e6e6;
+  padding: 5px 10px;
+  text-align: center;
 }
-
 .button.active {
   background: #bfbfbf;
   border-color: #8c8c8c;
   -webkit-box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.3);
-          box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.3);
 }
-
 .no-touch .button:active {
   background: #bfbfbf;
   border-color: #8c8c8c;
   -webkit-box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.3);
-          box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.3);
 }
-
 /***
 
     Styling for header buttons
 
 ***/
-
 .button-header {
   padding: 0 10px;
   margin: 5px 5px 0;
-  font-weight: bold;
   line-height: 32px;
-  color: #ffffff;
-  text-shadow: 0 1px 1px #050505;
   background: #121212;
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #383838), color-stop(49%, #2b2b2b), color-stop(50%, #1e1e1e), color-stop(100%, #121212));
   background: -webkit-linear-gradient(top, #383838 0%, #2b2b2b 49%, #1e1e1e 50%, #121212 100%);
   background: -moz-linear-gradient(top, #383838 0%, #2b2b2b 49%, #1e1e1e 50%, #121212 100%);
   background: -ms-linear-gradient(top, #383838 0%, #2b2b2b 49%, #1e1e1e 50%, #121212 100%);
   background: linear-gradient(to bottom, #383838 0%, #2b2b2b 49%, #1e1e1e 50%, #121212 100%);
+  -webkit-box-shadow: inset 0 1px 2px #121212;
+  box-shadow: inset 0 1px 2px #121212;
   border-bottom: 1px solid #5e5e5e;
   border-radius: 2px;
-  -webkit-box-shadow: inset 0 1px 2px #121212;
-          box-shadow: inset 0 1px 2px #121212;
   -webkit-background-clip: padding;
-          background-clip: padding-box;
+  background-clip: padding-box;
+  color: #ffffff;
+  font-weight: bold;
+  text-shadow: 0 1px 1px #050505;
 }
-
 .active > .button-header {
   background: #1e1e1e;
 }
-
 /***
 
 	Primary button
 
 ***/
-
 .button-primary {
-  color: #f5f5f5;
-  text-shadow: 0 1px 1px #14324e;
   background-color: #2866a0;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3280c9), to(#2866a0));
   background-image: -webkit-linear-gradient(top, #3280c9 0, #2866a0 100%);
@@ -2010,18 +1712,17 @@ a {
   background-image: linear-gradient(top, #3280c9 0, #2866a0 100%);
   background-repeat: repeat-x;
   border-color: #23598c #1e4c77 #0e253a;
+  color: #f5f5f5;
+  text-shadow: 0 1px 1px #14324e;
 }
-
 .button-primary.active {
   background: #23598c;
   border-color: #193f63 #14324e #091826;
 }
-
 .no-touch .button-primary:active {
   background: #2d73b5;
   border-color: #193f63 #14324e #091826;
 }
-
 /***
 
     iOS-style button
@@ -2030,9 +1731,13 @@ a {
         .button
 
 ***/
-
 .button-wrapper {
+  border-radius: 4px;
+  -webkit-background-clip: padding;
+  background-clip: padding-box;
   padding: 3px 4px;
+  border-top: 1px solid rgba(0, 0, 0, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   background-color: #4a4a4a;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#585858), to(#4a4a4a));
   background-image: -webkit-linear-gradient(top, #585858 0, #4a4a4a 100%);
@@ -2040,27 +1745,18 @@ a {
   background-image: -ms-linear-gradient(top, #585858 0, #4a4a4a 100%);
   background-image: linear-gradient(top, #585858 0, #4a4a4a 100%);
   background-repeat: repeat-x;
-  border-top: 1px solid rgba(0, 0, 0, 0.8);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 4px;
-  -webkit-background-clip: padding;
-          background-clip: padding-box;
 }
-
 .button-wrapper .button {
-  line-height: 30px;
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.75);
-          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.75);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.75);
+  line-height: 30px;
 }
-
 /***
 
     Pattern to create segmented controller (tabs at the top of your page)
 
 ***/
-
 .button-pills-bar {
-  padding: 5px 5px;
   background-color: #474747;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#5e5e5e), to(#474747));
   background-image: -webkit-linear-gradient(top, #5e5e5e 0, #474747 100%);
@@ -2069,13 +1765,10 @@ a {
   background-image: linear-gradient(top, #5e5e5e 0, #474747 100%);
   background-repeat: repeat-x;
   -webkit-box-shadow: inset 0 1px #454545;
-          box-shadow: inset 0 1px #454545;
+  box-shadow: inset 0 1px #454545;
+  padding: 5px 5px;
 }
-
 .button-pills-bar .button {
-  font-size: 13px;
-  color: #dcdcdc;
-  text-shadow: 0 -1px 1px #121212;
   background-color: #383838;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#5e5e5e), to(#383838));
   background-image: -webkit-linear-gradient(top, #5e5e5e 0, #383838 100%);
@@ -2084,18 +1777,17 @@ a {
   background-image: linear-gradient(top, #5e5e5e 0, #383838 100%);
   background-repeat: repeat-x;
   -webkit-box-shadow: inset 0 1px 1px -1px #121212, inset 0 1px 2px -1px #050505, 0 1px 0 #848484;
-          box-shadow: inset 0 1px 1px -1px #121212, inset 0 1px 2px -1px #050505, 0 1px 0 #848484;
+  box-shadow: inset 0 1px 1px -1px #121212, inset 0 1px 2px -1px #050505, 0 1px 0 #848484;
+  color: #dcdcdc;
+  text-shadow: 0 -1px 1px #121212;
+  font-size: 13px;
 }
-
 @media (-webkit-max-device-pixel-ratio: 1) {
   .button-pills-bar .button {
     border-color: #1e1e1e;
   }
 }
-
 .button-pills-bar .button.active {
-  color: #fff;
-  text-shadow: 0 -1px 1px #1e1e1e;
   background-color: #050505;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#454545), to(#050505));
   background-image: -webkit-linear-gradient(top, #454545 0, #050505 100%);
@@ -2105,21 +1797,20 @@ a {
   background-repeat: repeat-x;
   border-color: #050505;
   -webkit-box-shadow: inset 0 1px 2px -1px #050505, 0 1px 0 #848484;
-          box-shadow: inset 0 1px 2px -1px #050505, 0 1px 0 #848484;
+  box-shadow: inset 0 1px 2px -1px #050505, 0 1px 0 #848484;
+  color: #fff;
+  text-shadow: 0 -1px 1px #1e1e1e;
 }
-
 @media (-webkit-max-device-pixel-ratio: 1) {
   .button-pills-bar .button:first-child {
     border-left-width: 1px;
   }
 }
-
 /***
 
     Styling for divider
 
 ***/
-
 .divider {
   background: #a2a2a2;
   box-shadow: 0 1px 0 #ffffff;
