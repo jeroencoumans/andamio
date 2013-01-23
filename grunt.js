@@ -30,6 +30,7 @@ module.exports = function(grunt) {
                 src: [
                     'js/app/globals.js',
                     'js/app/util.js',
+                    'js/app/capabilities.js',
                     'js/app/events.js',
                     'js/app/phone.js',
                     'js/app/connection.js',
@@ -82,35 +83,34 @@ module.exports = function(grunt) {
         },
 
         // CSS compilation & linting
-        recess: {
+        less: {
             doc: {
-                src: ['doc/main.less'],
-                dest: 'doc/main.css',
                 options: {
-                    compile: true,
-                    compress: true
+                    yuicompress: true
+                },
+                files: {
+                    'doc/main.css': 'doc/main.less'
                 }
             },
             dev: {
-                src: ['style/main.less'],
-                dest: 'dist/main.dev.css',
-                options: {
-                    compile: true
+
+                files: {
+                    'dist/main.dev.css': 'style/main.less'
                 }
             },
             dist: {
-                src: ['style/main.less'],
-                dest: 'dist/main.css',
                 options: {
-                    compile: true,
-                    compress: true
+                    yuicompress: true
+                },
+                files: {
+                    'dist/main.css': 'style/main.less'
                 }
             }
         },
         watch: {
             css: {
                 files: ['style/main.less', 'style/*/*.less', 'doc/main.less'],
-                tasks: ['recess:dev', 'recess:doc']
+                tasks: ['less:dev', 'less:doc']
             },
             js: {
                 files: ['js/*/*.js', 'doc/js/*.js'],
@@ -120,9 +120,9 @@ module.exports = function(grunt) {
     });
 
     // Load tasks
-    grunt.loadNpmTasks('grunt-recess');
+    grunt.loadNpmTasks('grunt-contrib-less');
 
     // Default task.
-    grunt.registerTask('default', 'lint concat min recess');
+    grunt.registerTask('default', 'lint concat min less');
 
 };
