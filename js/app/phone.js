@@ -16,7 +16,7 @@ APP.phone = (function () {
      */
     function interceptAnchorClicks() {
 
-        $(document.body).on("click", "a", function() {
+        APP.dom.viewport.on("click", "a", function() {
             if (APP.util.isExternalLink(this)) {
 
                 // open external URL's in in-app Cordova browser
@@ -48,7 +48,7 @@ APP.phone = (function () {
 
             if (APP.nav.status()) {
 
-                pageScroller = $("#page-navigation.overthrow");
+                pageScroller = APP.dom.pageNav;
             } else {
 
                 pageScroller = $(".active-view").find(".overthrow");

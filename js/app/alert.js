@@ -6,8 +6,7 @@
  */
 APP.alert = (function () {
 
-    var pageAlert,
-        hasAlert;
+    var hasAlert;
 
     /**
      * Show alert
@@ -17,8 +16,8 @@ APP.alert = (function () {
     function show(msg) {
 
         if (msg) {
-            pageAlert.html(msg);
-            pageAlert.show();
+            APP.dom.pageAlert.html(msg);
+            APP.dom.pageAlert.show();
             hasAlert = true;
         }
     }
@@ -29,7 +28,7 @@ APP.alert = (function () {
      */
     function hide() {
 
-        pageAlert.hide();
+        APP.dom.pageAlert.hide();
         hasAlert = false;
     }
 
@@ -64,7 +63,6 @@ APP.alert = (function () {
     function init() {
 
         // assign variables
-        pageAlert = $("#page-alert");
         hasAlert = false;
 
         attachListeners();

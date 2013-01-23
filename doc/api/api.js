@@ -5,6 +5,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "APP.connection",
         "APP.core",
         "APP.delay",
+        "APP.dom",
         "APP.events",
         "APP.loader",
         "APP.modal",

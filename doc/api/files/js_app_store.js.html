@@ -16,15 +16,6 @@ APP.store = (function() {
         isLoading;
 
     /**
-     * @method loading
-     * @return {Boolean} wether we're currently loading
-     */
-    function loading() {
-
-        return isLoading;
-    }
-
-    /**
      * Loads an URL from localStorage.
      * @method showUrl
      * @param {String} url the URL that will be loaded. The URL is used as the key. The value will be parsed as JSON.
@@ -166,7 +157,7 @@ APP.store = (function() {
 
     return {
         "init": init,
-        "loading": loading,
+        "loading": isLoading,
         "storeUrl": storeUrl,
         "storeUrlList": storeUrlList,
         "getUrlList": getUrlList,

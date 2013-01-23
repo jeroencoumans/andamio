@@ -1,6 +1,48 @@
 var APP = APP || {};
 
-APP.globals = {};
+/**
+ * Module for accessing all Andamio DOM elements
+ * @author Jeroen Coumans
+ * @class dom
+ * @namespace APP
+ */
+APP.dom = (function () {
+
+    var doc = $(document),
+        html = $("html"),
+        viewport = $(".viewport"),
+        pageView = $("#page-view"),
+        parentView = $("#parent-view"),
+        childView = $("#child-view"),
+        modalView = $("#modal-view"),
+        pageNav = $("#page-navigation"),
+        pageNavItems = pageNav.find(".action-nav-item"),
+        pageNavActive = pageNavItems.filter(".active"),
+        pageLoader = $("#loader"),
+        pageTabs = $("#page-tabs"),
+        pageTabItems = pageTabs.find(".action-tab-item"),
+        pageTabActive = pageTabs.find(".active"),
+        pageAlert = $("#page-alert");
+
+    return {
+        doc: doc,
+        html: html,
+        viewport: viewport,
+        pageView: pageView,
+        parentView: parentView,
+        childView: childView,
+        modalView: modalView,
+        pageNav: pageNav,
+        pageNavItems: pageNavItems,
+        pageNavActive: pageNavActive,
+        pageLoader: pageLoader,
+        pageTabs: pageTabs,
+        pageTabItems: pageTabItems,
+        pageTabActive: pageTabActive,
+        pageAlert: pageAlert
+    };
+
+})();
 
 /**
  * Various utility functions
@@ -294,7 +336,7 @@ APP.phone = (function () {
      */
     function interceptAnchorClicks() {
 
-        $(document.body).on("click", "a", function() {
+        APP.dom.viewport.on("click", "a", function() {
             if (APP.util.isExternalLink(this)) {
 
                 // open external URL's in in-app Cordova browser
@@ -326,7 +368,7 @@ APP.phone = (function () {
 
             if (APP.nav.status()) {
 
-                pageScroller = $("#page-navigation.overthrow");
+                pageScroller = APP.dom.pageNav;
             } else {
 
                 pageScroller = $(".active-view").find(".overthrow");
@@ -385,6 +427,7 @@ APP.phone = (function () {
         "init": init
     };
 })();
+
 /**
  * Module that deals with internet connectivity
  * @author Jeroen Coumans
@@ -467,11 +510,9 @@ APP.connection = (function () {
 APP.loader = (function () {
 
     // Variables
-    var pageLoader,
-        spinnerType,
+    var spinnerType,
         loaderText,
-        hasLoader,
-        html;
+        hasLoader;
 
     /**
      * Shows the loader on top of the page. When no message is given, it will use the text inside #loader .loader-text
@@ -482,7 +523,7 @@ APP.loader = (function () {
 
         var message = msg || loaderText.text();
 
-        html.addClass("has-loader");
+        APP.dom.html.addClass("has-loader");
         hasLoader = true;
 
         if (spinnerType === "native") {
@@ -490,13 +531,7 @@ APP.loader = (function () {
             navigator.spinner.show({"message": message});
         } else {
 
-            var img = $("#loader").find("img");
-
-            if (!img.attr("src")) {
-                img.attr("src", img.data("img-src"));
-            }
-
-            pageLoader.show();
+            APP.dom.pageLoader.show();
             loaderText.text(message);
         }
 
@@ -508,7 +543,7 @@ APP.loader = (function () {
      */
     function hide() {
 
-        html.removeClass("has-loader");
+        APP.dom.html.removeClass("has-loader");
         hasLoader = false;
 
         if (spinnerType === "native") {
@@ -516,7 +551,7 @@ APP.loader = (function () {
             navigator.spinner.hide();
         } else {
 
-            pageLoader.hide();
+            APP.dom.pageLoader.hide();
         }
     }
 
@@ -535,9 +570,8 @@ APP.loader = (function () {
      */
     function init() {
 
-        html = $("html");
-        hasLoader = html.hasClass("has-loader") ? true : false;
-        loaderText = $("#loader .loader-text");
+        hasLoader = APP.dom.html.hasClass("has-loader") ? true : false;
+        loaderText = APP.dom.pageLoader.find(".loader-text");
 
         if ($.supports.cordova) {
 
@@ -547,9 +581,12 @@ APP.loader = (function () {
             });
         } else {
 
-            spinnerType = "html",
-            pageLoader = $("#loader"),
-            html = $("html");
+            spinnerType = "html";
+            var img = APP.dom.pageLoader.find("img");
+
+            if (!img.attr("src")) {
+                img.attr("src", img.data("img-src"));
+            }
         }
 
     }
@@ -562,6 +599,7 @@ APP.loader = (function () {
     };
 
 })();
+
 /**
  * Wrapper for doing an AJAX request
  * @author Jeroen Coumans
@@ -621,7 +659,7 @@ APP.open = (function () {
         if (! url || ! view) return;
 
         // make sure to open the parent
-        if (APP.views.hasChildPage() && view === APP.views.parentView()) {
+        if (APP.views.hasChildPage() && view === APP.dom.parentView) {
 
             APP.views.openParentPage();
         }
@@ -634,15 +672,15 @@ APP.open = (function () {
 
         // Set the URL of the view
         switch (view) {
-            case APP.views.parentView():
+            case APP.dom.parentView:
                 parent = url;
                 break;
 
-            case APP.views.childView():
+            case APP.dom.childView:
                 child = url;
                 break;
 
-            case APP.modal.modalView():
+            case APP.dom.modalView:
                 modal = url;
                 break;
         }
@@ -711,15 +749,15 @@ APP.open = (function () {
         // check wether to refresh child or parent page
         if (APP.views.hasChildPage()) {
 
-            page(child, APP.views.childView(), true);
+            page(child, APP.dom.childView, true);
 
         } else if (APP.modal.status()) {
 
-            page(modal, APP.modal.modalView(), true);
+            page(modal, APP.dom.modalView, true);
 
         } else {
 
-            page(parent, APP.views.parentView(), true);
+            page(parent, APP.dom.parentView, true);
         }
     }
 
@@ -767,17 +805,7 @@ APP.open = (function () {
 APP.modal = (function () {
 
     // Variables
-    var html,
-        modal,
-        toggle,
-        hasModalview;
-
-    /**
-     * @method modalView
-     * @static
-     * @return {HTMLElement} the modal element
-     */
-    function modalView() { return modal; }
+    var hasModalview;
 
     /**
      * Opens the modal view
@@ -787,10 +815,10 @@ APP.modal = (function () {
 
         if (APP.alert.status) APP.alert.hide();
 
-        html.addClass("has-modalview");
-        toggle.addClass("active");
-        APP.views.pageView().addClass("view-hidden");
-        modal.removeClass("view-hidden").addClass("active-view");
+        APP.dom.html.addClass("has-modalview");
+        APP.dom.pageView.addClass("view-hidden");
+        APP.dom.modalView.removeClass("view-hidden");
+        APP.dom.modalView.addClass("active-view");
         hasModalview = true;
     }
 
@@ -800,10 +828,10 @@ APP.modal = (function () {
      */
     function hide() {
 
-        html.removeClass("has-modalview");
-        toggle.removeClass("active");
-        APP.views.pageView().removeClass("view-hidden");
-        modal.addClass("view-hidden").removeClass("active-view");
+        APP.dom.html.removeClass("has-modalview");
+        APP.dom.pageView.removeClass("view-hidden");
+        APP.dom.modalView.addClass("view-hidden");
+        APP.dom.modalView.removeClass("active-view");
         hasModalview = false;
     }
 
@@ -839,11 +867,11 @@ APP.modal = (function () {
             show();
 
             if (url) {
-                APP.open.page(url, modal);
+                APP.open.page(url, APP.dom.modalView);
             }
 
             if (title) {
-                modal.find(".js-title").text(title);
+                APP.dom.modalView.find(".js-title").text(title);
             }
         });
 
@@ -862,17 +890,13 @@ APP.modal = (function () {
      */
     function init() {
 
-        html = $("html");
-        modal = $("#modal-view");
-        toggle = $(".action-show-modal");
-        hasModalview = html.hasClass("has-modalview") ? true : false;
+        hasModalview = APP.dom.html.hasClass("has-modalview") ? true : false;
 
         attachListeners();
     }
 
     return {
         "init": init,
-        "modalView": modalView,
         "show": show,
         "hide": hide,
         "status": status
@@ -889,17 +913,9 @@ APP.modal = (function () {
 APP.nav = (function () {
 
     // Variables
-    var html,
-        viewport,
-        nav,
-        toggle,
-        navItems,
-        activeItem,
-        navheight,
+    var navheight,
         bodyheight,
-        pageView,
         hasNavigation;
-
 
     /**
      * Sets height of content based on height of navigation
@@ -910,8 +926,8 @@ APP.nav = (function () {
     function setPageHeight(height) {
 
         // if navigation is enabled, set the page height to navigation height
-        viewport.height(height);
-        pageView.height(height);
+        APP.dom.viewport.height(height);
+        APP.dom.pageView.height(height);
     }
 
     /**
@@ -920,8 +936,7 @@ APP.nav = (function () {
      */
     function show() {
 
-        html.addClass("has-navigation");
-        toggle.addClass("active");
+        APP.dom.html.addClass("has-navigation");
 
         if (!$.supports.webapp) {
             setPageHeight(navheight);
@@ -936,8 +951,7 @@ APP.nav = (function () {
      */
     function hide() {
 
-        html.removeClass("has-navigation");
-        toggle.removeClass("active");
+        APP.dom.html.removeClass("has-navigation");
 
         if (!$.supports.webapp) {
             setPageHeight("");
@@ -957,17 +971,6 @@ APP.nav = (function () {
     }
 
     /**
-     * Returns the nav items, useful for activating a new tab
-     * @method items
-     * @static
-     * @return {HTMLElement} the navigation items
-     */
-    function items() {
-
-        return navItems;
-    }
-
-    /**
      * Returns the active item
      * @method active
      * @param {HTMLElement} [elem] sets the HTMLElement to the active navigation element
@@ -977,11 +980,11 @@ APP.nav = (function () {
 
         if (elem) {
 
-            activeItem.removeClass("active");
-            activeItem = elem.addClass("active");
+            APP.dom.pageNavActive.removeClass("active");
+            APP.dom.pageNavActive = elem.addClass("active");
         } else {
 
-            return activeItem;
+            return APP.dom.pageNavActive;
         }
     }
 
@@ -1025,10 +1028,10 @@ APP.nav = (function () {
             // set page title
             if (title) {
 
-                APP.views.parentView().find(".js-title").text(title);
+                APP.dom.parentView.find(".js-title").text(title);
             }
 
-            APP.open.page(url, APP.views.parentView());
+            APP.open.page(url, APP.dom.parentView);
 
         });
     }
@@ -1041,24 +1044,15 @@ APP.nav = (function () {
      */
     function init() {
 
-        viewport = $(".viewport");
-        pageView = $("#page-view");
-        html = $("html");
-
-        nav = $("#page-navigation");
-        toggle = $(".action-show-nav");
-        navItems = nav.find(".action-nav-item");
-        activeItem = navItems.filter(".active");
-
-        hasNavigation = html.hasClass("has-navigation") ? true : false;
+        hasNavigation = APP.dom.html.hasClass("has-navigation") ? true : false;
 
         bodyheight = $(window).height();
-        navheight = nav.height();
+        navheight = APP.dom.pageNav.height();
 
         // make sure the navigation is as high as the page
         if (bodyheight > navheight) {
             navheight = bodyheight;
-            nav.height(navheight);
+            APP.dom.pageNav.height(navheight);
         }
 
         attachListeners();
@@ -1069,11 +1063,11 @@ APP.nav = (function () {
         "show": show,
         "hide": hide,
         "status": status,
-        "items": items,
         "active": active
     };
 
 })();
+
 /**
  * Module for revealing contet
  * @author Jeroen Coumans
@@ -1281,15 +1275,6 @@ APP.store = (function() {
         isLoading;
 
     /**
-     * @method loading
-     * @return {Boolean} wether we're currently loading
-     */
-    function loading() {
-
-        return isLoading;
-    }
-
-    /**
      * Loads an URL from localStorage.
      * @method showUrl
      * @param {String} url the URL that will be loaded. The URL is used as the key. The value will be parsed as JSON.
@@ -1431,7 +1416,7 @@ APP.store = (function() {
 
     return {
         "init": init,
-        "loading": loading,
+        "loading": isLoading,
         "storeUrl": storeUrl,
         "storeUrlList": storeUrlList,
         "getUrlList": getUrlList,
@@ -1449,11 +1434,7 @@ APP.store = (function() {
 APP.tabs = (function () {
 
     // Variables
-    var html,
-        tabs,
-        tabItems,
-        activeItem,
-        hasTabs;
+    var hasTabs;
 
     /**
      * Shows the tabs
@@ -1461,8 +1442,8 @@ APP.tabs = (function () {
      */
     function show() {
 
-        html.addClass("has-tabs");
-        tabs.show();
+        APP.dom.html.addClass("has-tabs");
+        APP.dom.pageTabs.show();
         hasTabs = true;
     }
 
@@ -1472,8 +1453,8 @@ APP.tabs = (function () {
      */
     function hide() {
 
-        html.removeClass("has-tabs");
-        tabs.hide();
+        APP.dom.html.removeClass("has-tabs");
+        APP.dom.pageTabs.hide();
         hasTabs = false;
     }
 
@@ -1488,16 +1469,6 @@ APP.tabs = (function () {
     }
 
     /**
-     * Returns the tab items, useful for activating a new tab
-     * @method items
-     * @return {Object} returns an object that contains all .action-tab-item elements
-     */
-    function items() {
-
-        return tabItems;
-    }
-
-    /**
      * Sets or returns the active tab item. NOTE: this only sets the `active` class on the tab item!
      *
      * @method active
@@ -1505,15 +1476,12 @@ APP.tabs = (function () {
      * @return {HTMLElement} the active tab item
      */
 
-    function active(elem) {
+    function setActive(elem) {
 
         if (elem) {
 
-            activeItem.removeClass("active");
-            activeItem = elem.addClass("active");
-        } else {
-
-            return activeItem;
+            APP.dom.pageTabActive.removeClass("active");
+            APP.dom.pageTabActive = elem.addClass("active");
         }
     }
 
@@ -1527,18 +1495,17 @@ APP.tabs = (function () {
         APP.events.attachClickHandler(".action-tab-item", function (event) {
 
             var target = $(event.target).closest(".action-tab-item"),
-                title = APP.util.getTitle(target),
                 url = APP.util.getUrl(target);
 
-            if (target === active()) {
+            if (target === APP.dom.pageTabActive) {
 
                 return true;
             }
 
             if (url) {
 
-                active(target);
-                APP.open.page(url, APP.views.parentView());
+                setActive(target);
+                APP.open.page(url, APP.dom.parentView);
             }
         });
     }
@@ -1549,11 +1516,7 @@ APP.tabs = (function () {
      */
     function init() {
 
-        html = $("html");
-        tabs = $("#page-tabs");
-        tabItems = tabs.find(".action-tab-item");
-        activeItem = tabs.find(".active");
-        hasTabs = html.hasClass("has-tabs") ? true : false;
+        hasTabs = APP.dom.html.hasClass("has-tabs") ? true : false;
 
         attachListeners();
     }
@@ -1563,8 +1526,7 @@ APP.tabs = (function () {
         "show": show,
         "hide": hide,
         "status": status,
-        "items": items,
-        "active": active
+        "setActive": setActive
     };
 
 })();
@@ -1578,29 +1540,7 @@ APP.tabs = (function () {
 APP.views = (function () {
 
     // Variables
-    var html,
-        page,
-        parent,
-        child,
-        hasChild;
-
-    /**
-     * @method parentView
-     * @return {HTMLElement} returns the parent element
-     */
-    function parentView() { return parent; }
-
-    /**
-     * @method childView
-     * @return {HTMLElement} returns the child element
-     */
-    function childView() { return child; }
-
-    /**
-     * @method pageView
-     * @return {HTMLElement} returns the page element
-     */
-    function pageView() { return page; }
+    var hasChild;
 
     /**
      * Returns wether the childview is active or not
@@ -1624,27 +1564,27 @@ APP.views = (function () {
 
         // go forward when called from parent page
         if (! hasChild) {
-            html.addClass("childview-in");
-            child.removeClass("view-hidden").addClass("active-view");
-            parent.addClass("view-hidden").removeClass("active-view");
+            APP.dom.html.addClass("childview-in");
+            APP.dom.childView.removeClass("view-hidden").addClass("active-view");
+            APP.dom.parentView.addClass("view-hidden").removeClass("active-view");
 
             // execute after animation timeout
             APP.delay(function() {
-                html.addClass("has-childview");
-                html.removeClass("childview-in");
+                APP.dom.html.addClass("has-childview");
+                APP.dom.html.removeClass("childview-in");
             }, 300);
         }
 
         // load URL
         if (url) {
 
-            child.find(".js-content").html("");
-            APP.open.page(url, child);
+            APP.dom.childView.find(".js-content").html("");
+            APP.open.page(url, APP.dom.childView);
         }
 
         // set title
         if (title) {
-            child.find(".js-title").text(title);
+            APP.dom.childView.find(".js-title").text(title);
         }
 
         hasChild = true;
@@ -1662,24 +1602,24 @@ APP.views = (function () {
 
         // go back when called from child page
         if (hasChild) {
-            html.addClass("childview-out");
-            child.addClass("view-hidden").removeClass("active-view");
-            parent.removeClass("view-hidden").addClass("active-view");
+            APP.dom.html.addClass("childview-out");
+            APP.dom.childView.addClass("view-hidden").removeClass("active-view");
+            APP.dom.parentView.removeClass("view-hidden").addClass("active-view");
 
             // execute after animation timeout
             APP.delay(function() {
-                html.removeClass("has-childview childview-out");
+                APP.dom.html.removeClass("has-childview childview-out");
             }, 300);
         }
 
         // load URL
         if (url) {
-            APP.open.page(url, parent);
+            APP.open.page(url, APP.dom.parentView);
         }
 
         // set title
         if (title) {
-            parent.find(".js-title").text(title);
+            APP.dom.parentView.find(".js-title").text(title);
         }
 
         hasChild = false;
@@ -1742,26 +1682,20 @@ APP.views = (function () {
      */
     function init() {
 
-        html = $("html");
-        page = $("#page-view");
-        parent = $("#parent-view");
-        child = $("#child-view");
-        hasChild = html.hasClass("has-childview") ? true : false;
+        hasChild = APP.dom.html.hasClass("has-childview") ? true : false;
 
         attachListeners();
     }
 
     return {
         "init": init,
-        "pageView": pageView,
-        "parentView": parentView,
-        "childView": childView,
         "openChildPage": openChildPage,
         "openParentPage": openParentPage,
         "hasChildPage": hasChildPage
     };
 
 })();
+
 /**
  * Controls global alerts
  * @author Jeroen Coumans
@@ -1770,8 +1704,7 @@ APP.views = (function () {
  */
 APP.alert = (function () {
 
-    var pageAlert,
-        hasAlert;
+    var hasAlert;
 
     /**
      * Show alert
@@ -1781,8 +1714,8 @@ APP.alert = (function () {
     function show(msg) {
 
         if (msg) {
-            pageAlert.html(msg);
-            pageAlert.show();
+            APP.dom.pageAlert.html(msg);
+            APP.dom.pageAlert.show();
             hasAlert = true;
         }
     }
@@ -1793,7 +1726,7 @@ APP.alert = (function () {
      */
     function hide() {
 
-        pageAlert.hide();
+        APP.dom.pageAlert.hide();
         hasAlert = false;
     }
 
@@ -1828,7 +1761,6 @@ APP.alert = (function () {
     function init() {
 
         // assign variables
-        pageAlert = $("#page-alert");
         hasAlert = false;
 
         attachListeners();
@@ -1842,6 +1774,7 @@ APP.alert = (function () {
     };
 
 })();
+
 /**
  * Core module for initializing capabilities and modules
  * @author Jeroen Coumans

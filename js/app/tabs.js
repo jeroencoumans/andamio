@@ -7,11 +7,7 @@
 APP.tabs = (function () {
 
     // Variables
-    var html,
-        tabs,
-        tabItems,
-        activeItem,
-        hasTabs;
+    var hasTabs;
 
     /**
      * Shows the tabs
@@ -19,8 +15,8 @@ APP.tabs = (function () {
      */
     function show() {
 
-        html.addClass("has-tabs");
-        tabs.show();
+        APP.dom.html.addClass("has-tabs");
+        APP.dom.pageTabs.show();
         hasTabs = true;
     }
 
@@ -30,8 +26,8 @@ APP.tabs = (function () {
      */
     function hide() {
 
-        html.removeClass("has-tabs");
-        tabs.hide();
+        APP.dom.html.removeClass("has-tabs");
+        APP.dom.pageTabs.hide();
         hasTabs = false;
     }
 
@@ -46,16 +42,6 @@ APP.tabs = (function () {
     }
 
     /**
-     * Returns the tab items, useful for activating a new tab
-     * @method items
-     * @return {Object} returns an object that contains all .action-tab-item elements
-     */
-    function items() {
-
-        return tabItems;
-    }
-
-    /**
      * Sets or returns the active tab item. NOTE: this only sets the `active` class on the tab item!
      *
      * @method active
@@ -63,15 +49,12 @@ APP.tabs = (function () {
      * @return {HTMLElement} the active tab item
      */
 
-    function active(elem) {
+    function setActive(elem) {
 
         if (elem) {
 
-            activeItem.removeClass("active");
-            activeItem = elem.addClass("active");
-        } else {
-
-            return activeItem;
+            APP.dom.pageTabActive.removeClass("active");
+            APP.dom.pageTabActive = elem.addClass("active");
         }
     }
 
@@ -85,18 +68,17 @@ APP.tabs = (function () {
         APP.events.attachClickHandler(".action-tab-item", function (event) {
 
             var target = $(event.target).closest(".action-tab-item"),
-                title = APP.util.getTitle(target),
                 url = APP.util.getUrl(target);
 
-            if (target === active()) {
+            if (target === APP.dom.pageTabActive) {
 
                 return true;
             }
 
             if (url) {
 
-                active(target);
-                APP.open.page(url, APP.views.parentView());
+                setActive(target);
+                APP.open.page(url, APP.dom.parentView);
             }
         });
     }
@@ -107,11 +89,7 @@ APP.tabs = (function () {
      */
     function init() {
 
-        html = $("html");
-        tabs = $("#page-tabs");
-        tabItems = tabs.find(".action-tab-item");
-        activeItem = tabs.find(".active");
-        hasTabs = html.hasClass("has-tabs") ? true : false;
+        hasTabs = APP.dom.html.hasClass("has-tabs") ? true : false;
 
         attachListeners();
     }
@@ -121,8 +99,7 @@ APP.tabs = (function () {
         "show": show,
         "hide": hide,
         "status": status,
-        "items": items,
-        "active": active
+        "setActive": setActive
     };
 
 })();

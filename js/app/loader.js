@@ -7,11 +7,9 @@
 APP.loader = (function () {
 
     // Variables
-    var pageLoader,
-        spinnerType,
+    var spinnerType,
         loaderText,
-        hasLoader,
-        html;
+        hasLoader;
 
     /**
      * Shows the loader on top of the page. When no message is given, it will use the text inside #loader .loader-text
@@ -22,7 +20,7 @@ APP.loader = (function () {
 
         var message = msg || loaderText.text();
 
-        html.addClass("has-loader");
+        APP.dom.html.addClass("has-loader");
         hasLoader = true;
 
         if (spinnerType === "native") {
@@ -30,13 +28,7 @@ APP.loader = (function () {
             navigator.spinner.show({"message": message});
         } else {
 
-            var img = $("#loader").find("img");
-
-            if (!img.attr("src")) {
-                img.attr("src", img.data("img-src"));
-            }
-
-            pageLoader.show();
+            APP.dom.pageLoader.show();
             loaderText.text(message);
         }
 
@@ -48,7 +40,7 @@ APP.loader = (function () {
      */
     function hide() {
 
-        html.removeClass("has-loader");
+        APP.dom.html.removeClass("has-loader");
         hasLoader = false;
 
         if (spinnerType === "native") {
@@ -56,7 +48,7 @@ APP.loader = (function () {
             navigator.spinner.hide();
         } else {
 
-            pageLoader.hide();
+            APP.dom.pageLoader.hide();
         }
     }
 
@@ -75,9 +67,8 @@ APP.loader = (function () {
      */
     function init() {
 
-        html = $("html");
-        hasLoader = html.hasClass("has-loader") ? true : false;
-        loaderText = $("#loader .loader-text");
+        hasLoader = APP.dom.html.hasClass("has-loader") ? true : false;
+        loaderText = APP.dom.pageLoader.find(".loader-text");
 
         if ($.supports.cordova) {
 
@@ -87,9 +78,12 @@ APP.loader = (function () {
             });
         } else {
 
-            spinnerType = "html",
-            pageLoader = $("#loader"),
-            html = $("html");
+            spinnerType = "html";
+            var img = APP.dom.pageLoader.find("img");
+
+            if (!img.attr("src")) {
+                img.attr("src", img.data("img-src"));
+            }
         }
 
     }

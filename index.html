@@ -153,7 +153,7 @@
         $(document).ready(function() {
             APP.core.init();
 
-            APP.open.page("doc/getting-started.html", APP.views.parentView(), false, function() {
+            APP.open.page("doc/getting-started.html", APP.dom.parentView, false, function() {
                 APP.doc.init();
                 Prism.highlightAll();
             });

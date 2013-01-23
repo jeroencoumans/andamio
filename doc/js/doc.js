@@ -130,7 +130,7 @@ APP.doc = (function () {
      */
     function init() {
 
-        content = APP.views.parentView().find(".js-content");
+        content = APP.dom.parentView.find(".js-content");
         iphone  = $("#iphone");
         nav     = $("#nav");
         loadTabs();

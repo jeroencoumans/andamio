@@ -13,17 +13,7 @@
 APP.modal = (function () {
 
     // Variables
-    var html,
-        modal,
-        toggle,
-        hasModalview;
-
-    /**
-     * @method modalView
-     * @static
-     * @return {HTMLElement} the modal element
-     */
-    function modalView() { return modal; }
+    var hasModalview;
 
     /**
      * Opens the modal view
@@ -33,10 +23,10 @@ APP.modal = (function () {
 
         if (APP.alert.status) APP.alert.hide();
 
-        html.addClass("has-modalview");
-        toggle.addClass("active");
-        APP.views.pageView().addClass("view-hidden");
-        modal.removeClass("view-hidden").addClass("active-view");
+        APP.dom.html.addClass("has-modalview");
+        APP.dom.pageView.addClass("view-hidden");
+        APP.dom.modalView.removeClass("view-hidden");
+        APP.dom.modalView.addClass("active-view");
         hasModalview = true;
     }
 
@@ -46,10 +36,10 @@ APP.modal = (function () {
      */
     function hide() {
 
-        html.removeClass("has-modalview");
-        toggle.removeClass("active");
-        APP.views.pageView().removeClass("view-hidden");
-        modal.addClass("view-hidden").removeClass("active-view");
+        APP.dom.html.removeClass("has-modalview");
+        APP.dom.pageView.removeClass("view-hidden");
+        APP.dom.modalView.addClass("view-hidden");
+        APP.dom.modalView.removeClass("active-view");
         hasModalview = false;
     }
 
@@ -85,11 +75,11 @@ APP.modal = (function () {
             show();
 
             if (url) {
-                APP.open.page(url, modal);
+                APP.open.page(url, APP.dom.modalView);
             }
 
             if (title) {
-                modal.find(".js-title").text(title);
+                APP.dom.modalView.find(".js-title").text(title);
             }
         });
 
@@ -108,17 +98,13 @@ APP.modal = (function () {
      */
     function init() {
 
-        html = $("html");
-        modal = $("#modal-view");
-        toggle = $(".action-show-modal");
-        hasModalview = html.hasClass("has-modalview") ? true : false;
+        hasModalview = APP.dom.html.hasClass("has-modalview") ? true : false;
 
         attachListeners();
     }
 
     return {
         "init": init,
-        "modalView": modalView,
         "show": show,
         "hide": hide,
         "status": status

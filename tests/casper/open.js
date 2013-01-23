@@ -33,7 +33,7 @@ function loadParent(context, url, refresh) {
         casper.test.info("*** Refreshing parent page");
 
         casper.evaluate(function(url) {
-            APP.open.page(url, APP.views.parentView(), "refresh");
+            APP.open.page(url, APP.dom.parentView, "refresh");
         }, {
             url: url
         });
@@ -42,7 +42,7 @@ function loadParent(context, url, refresh) {
         casper.test.info("*** Loading parent page");
 
         casper.evaluate(function(url) {
-            APP.open.page(url, APP.views.parentView());
+            APP.open.page(url, APP.dom.parentView);
         }, {
             url: url
         });
@@ -57,7 +57,7 @@ function loadChild(context, url, refresh) {
         casper.test.info("*** Refreshing child page");
 
         casper.evaluate(function(url) {
-            APP.open.page(url, APP.views.childView(), "refresh");
+            APP.open.page(url, APP.dom.childView, "refresh");
         }, {
             url: url
         });
@@ -66,7 +66,7 @@ function loadChild(context, url, refresh) {
         casper.test.info("*** Loading child page");
 
         casper.evaluate(function(url) {
-            APP.open.page(url, APP.views.childView());
+            APP.open.page(url, APP.dom.childView);
         }, {
             url: url
         });
@@ -81,7 +81,7 @@ function loadModal(context, url, refresh) {
         casper.test.info("*** Refreshing modal page");
 
         casper.evaluate(function(url) {
-            APP.open.page(url, APP.modal.modalView(), "refresh");
+            APP.open.page(url, APP.dom.modalView, "refresh");
         }, {
             url: url
         });
@@ -90,7 +90,7 @@ function loadModal(context, url, refresh) {
         casper.test.info("*** Loading modal page");
 
         casper.evaluate(function(url) {
-            APP.open.page(url, APP.modal.modalView());
+            APP.open.page(url, APP.dom.modalView);
         }, {
             url: url
         });

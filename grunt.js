@@ -28,7 +28,7 @@ module.exports = function(grunt) {
             },
             andamio: {
                 src: [
-                    'js/app/globals.js',
+                    'js/app/dom.js',
                     'js/app/util.js',
                     'js/app/capabilities.js',
                     'js/app/events.js',
@@ -114,7 +114,7 @@ module.exports = function(grunt) {
             },
             js: {
                 files: ['js/*/*.js', 'doc/js/*.js'],
-                tasks: ['concat:mobile', 'concat:desktop']
+                tasks: ['concat:andamio', 'concat:mobile', 'concat:desktop']
             }
         }
     });

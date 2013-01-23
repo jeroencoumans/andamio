@@ -7,17 +7,9 @@
 APP.nav = (function () {
 
     // Variables
-    var html,
-        viewport,
-        nav,
-        toggle,
-        navItems,
-        activeItem,
-        navheight,
+    var navheight,
         bodyheight,
-        pageView,
         hasNavigation;
-
 
     /**
      * Sets height of content based on height of navigation
@@ -28,8 +20,8 @@ APP.nav = (function () {
     function setPageHeight(height) {
 
         // if navigation is enabled, set the page height to navigation height
-        viewport.height(height);
-        pageView.height(height);
+        APP.dom.viewport.height(height);
+        APP.dom.pageView.height(height);
     }
 
     /**
@@ -38,8 +30,7 @@ APP.nav = (function () {
      */
     function show() {
 
-        html.addClass("has-navigation");
-        toggle.addClass("active");
+        APP.dom.html.addClass("has-navigation");
 
         if (!$.supports.webapp) {
             setPageHeight(navheight);
@@ -54,8 +45,7 @@ APP.nav = (function () {
      */
     function hide() {
 
-        html.removeClass("has-navigation");
-        toggle.removeClass("active");
+        APP.dom.html.removeClass("has-navigation");
 
         if (!$.supports.webapp) {
             setPageHeight("");
@@ -75,17 +65,6 @@ APP.nav = (function () {
     }
 
     /**
-     * Returns the nav items, useful for activating a new tab
-     * @method items
-     * @static
-     * @return {HTMLElement} the navigation items
-     */
-    function items() {
-
-        return navItems;
-    }
-
-    /**
      * Returns the active item
      * @method active
      * @param {HTMLElement} [elem] sets the HTMLElement to the active navigation element
@@ -95,11 +74,11 @@ APP.nav = (function () {
 
         if (elem) {
 
-            activeItem.removeClass("active");
-            activeItem = elem.addClass("active");
+            APP.dom.pageNavActive.removeClass("active");
+            APP.dom.pageNavActive = elem.addClass("active");
         } else {
 
-            return activeItem;
+            return APP.dom.pageNavActive;
         }
     }
 
@@ -143,10 +122,10 @@ APP.nav = (function () {
             // set page title
             if (title) {
 
-                APP.views.parentView().find(".js-title").text(title);
+                APP.dom.parentView.find(".js-title").text(title);
             }
 
-            APP.open.page(url, APP.views.parentView());
+            APP.open.page(url, APP.dom.parentView);
 
         });
     }
@@ -159,24 +138,15 @@ APP.nav = (function () {
      */
     function init() {
 
-        viewport = $(".viewport");
-        pageView = $("#page-view");
-        html = $("html");
-
-        nav = $("#page-navigation");
-        toggle = $(".action-show-nav");
-        navItems = nav.find(".action-nav-item");
-        activeItem = navItems.filter(".active");
-
-        hasNavigation = html.hasClass("has-navigation") ? true : false;
+        hasNavigation = APP.dom.html.hasClass("has-navigation") ? true : false;
 
         bodyheight = $(window).height();
-        navheight = nav.height();
+        navheight = APP.dom.pageNav.height();
 
         // make sure the navigation is as high as the page
         if (bodyheight > navheight) {
             navheight = bodyheight;
-            nav.height(navheight);
+            APP.dom.pageNav.height(navheight);
         }
 
         attachListeners();
@@ -187,7 +157,6 @@ APP.nav = (function () {
         "show": show,
         "hide": hide,
         "status": status,
-        "items": items,
         "active": active
     };
 

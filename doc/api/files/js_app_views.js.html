@@ -13,29 +13,7 @@
 APP.views = (function () {
 
     // Variables
-    var html,
-        page,
-        parent,
-        child,
-        hasChild;
-
-    /**
-     * @method parentView
-     * @return {HTMLElement} returns the parent element
-     */
-    function parentView() { return parent; }
-
-    /**
-     * @method childView
-     * @return {HTMLElement} returns the child element
-     */
-    function childView() { return child; }
-
-    /**
-     * @method pageView
-     * @return {HTMLElement} returns the page element
-     */
-    function pageView() { return page; }
+    var hasChild;
 
     /**
      * Returns wether the childview is active or not
@@ -59,27 +37,27 @@ APP.views = (function () {
 
         // go forward when called from parent page
         if (! hasChild) {
-            html.addClass("childview-in");
-            child.removeClass("view-hidden").addClass("active-view");
-            parent.addClass("view-hidden").removeClass("active-view");
+            APP.dom.html.addClass("childview-in");
+            APP.dom.childView.removeClass("view-hidden").addClass("active-view");
+            APP.dom.parentView.addClass("view-hidden").removeClass("active-view");
 
             // execute after animation timeout
             APP.delay(function() {
-                html.addClass("has-childview");
-                html.removeClass("childview-in");
+                APP.dom.html.addClass("has-childview");
+                APP.dom.html.removeClass("childview-in");
             }, 300);
         }
 
         // load URL
         if (url) {
 
-            child.find(".js-content").html("");
-            APP.open.page(url, child);
+            APP.dom.childView.find(".js-content").html("");
+            APP.open.page(url, APP.dom.childView);
         }
 
         // set title
         if (title) {
-            child.find(".js-title").text(title);
+            APP.dom.childView.find(".js-title").text(title);
         }
 
         hasChild = true;
@@ -97,24 +75,24 @@ APP.views = (function () {
 
         // go back when called from child page
         if (hasChild) {
-            html.addClass("childview-out");
-            child.addClass("view-hidden").removeClass("active-view");
-            parent.removeClass("view-hidden").addClass("active-view");
+            APP.dom.html.addClass("childview-out");
+            APP.dom.childView.addClass("view-hidden").removeClass("active-view");
+            APP.dom.parentView.removeClass("view-hidden").addClass("active-view");
 
             // execute after animation timeout
             APP.delay(function() {
-                html.removeClass("has-childview childview-out");
+                APP.dom.html.removeClass("has-childview childview-out");
             }, 300);
         }
 
         // load URL
         if (url) {
-            APP.open.page(url, parent);
+            APP.open.page(url, APP.dom.parentView);
         }
 
         // set title
         if (title) {
-            parent.find(".js-title").text(title);
+            APP.dom.parentView.find(".js-title").text(title);
         }
 
         hasChild = false;
@@ -177,26 +155,20 @@ APP.views = (function () {
      */
     function init() {
 
-        html = $("html");
-        page = $("#page-view");
-        parent = $("#parent-view");
-        child = $("#child-view");
-        hasChild = html.hasClass("has-childview") ? true : false;
+        hasChild = APP.dom.html.hasClass("has-childview") ? true : false;
 
         attachListeners();
     }
 
     return {
         "init": init,
-        "pageView": pageView,
-        "parentView": parentView,
-        "childView": childView,
         "openChildPage": openChildPage,
         "openParentPage": openParentPage,
         "hasChildPage": hasChildPage
     };
 
 })();
+
     </code></pre>
 </div>
 

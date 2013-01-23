@@ -35,18 +35,6 @@ function initialState(context) {
     casper.test.assertExists(".viewport > .page-navigation-toggle");
     casper.test.assertExists(".page-navigation-toggle.action-hide-nav");
 
-    // check wether items returns the correct amount of items
-    // TODO - find a better way to test wether this actually returns the navigation item DOM elements...
-    var navItemsLength = casper.evaluate(function() {
-        return APP.nav.items().length;
-    });
-
-    var foundNavItems = casper.evaluate(function() {
-        return __utils__.findAll(".action-nav-item").length;
-    });
-
-    casper.test.assert(navItemsLength === foundNavItems, "Length of APP.nav.items() is " + foundNavItems);
-
     // check navigation height
     var navPos = casper.getElementBounds("#page-navigation");
     var docHeight = casper.evaluate(function() {

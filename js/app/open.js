@@ -57,7 +57,7 @@ APP.open = (function () {
         if (! url || ! view) return;
 
         // make sure to open the parent
-        if (APP.views.hasChildPage() && view === APP.views.parentView()) {
+        if (APP.views.hasChildPage() && view === APP.dom.parentView) {
 
             APP.views.openParentPage();
         }
@@ -70,15 +70,15 @@ APP.open = (function () {
 
         // Set the URL of the view
         switch (view) {
-            case APP.views.parentView():
+            case APP.dom.parentView:
                 parent = url;
                 break;
 
-            case APP.views.childView():
+            case APP.dom.childView:
                 child = url;
                 break;
 
-            case APP.modal.modalView():
+            case APP.dom.modalView:
                 modal = url;
                 break;
         }
@@ -147,15 +147,15 @@ APP.open = (function () {
         // check wether to refresh child or parent page
         if (APP.views.hasChildPage()) {
 
-            page(child, APP.views.childView(), true);
+            page(child, APP.dom.childView, true);
 
         } else if (APP.modal.status()) {
 
-            page(modal, APP.modal.modalView(), true);
+            page(modal, APP.dom.modalView, true);
 
         } else {
 
-            page(parent, APP.views.parentView(), true);
+            page(parent, APP.dom.parentView, true);
         }
     }
 

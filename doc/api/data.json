@@ -12,11 +12,31 @@
                 "APP": 1
             }
         },
+        "js/app/capabilities.js": {
+            "name": "js/app/capabilities.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {
+                "APP": 1
+            }
+        },
         "js/app/connection.js": {
             "name": "js/app/connection.js",
             "modules": {},
             "classes": {
                 "APP.connection": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "APP": 1
+            }
+        },
+        "js/app/dom.js": {
+            "name": "js/app/dom.js",
+            "modules": {},
+            "classes": {
+                "APP.dom": 1
             },
             "fors": {},
             "namespaces": {
@@ -184,6 +204,20 @@
             "description": "Controls global alerts",
             "author": "Jeroen Coumans"
         },
+        "APP.core": {
+            "name": "APP.core",
+            "shortname": "APP.core",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "APP",
+            "file": "js/app/init.js",
+            "line": 1,
+            "description": "Core module for initializing capabilities and modules",
+            "author": "Jeroen Coumans"
+        },
         "APP.connection": {
             "name": "APP.connection",
             "shortname": "APP.connection",
@@ -198,6 +232,20 @@
             "description": "Module that deals with internet connectivity",
             "author": "Jeroen Coumans"
         },
+        "APP.dom": {
+            "name": "APP.dom",
+            "shortname": "APP.dom",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "APP",
+            "file": "js/app/dom.js",
+            "line": 3,
+            "description": "Module for accessing all Andamio DOM elements",
+            "author": "Jeroen Coumans"
+        },
         "APP.events": {
             "name": "APP.events",
             "shortname": "APP.events",
@@ -210,20 +258,6 @@
             "file": "js/app/events.js",
             "line": 1,
             "description": "Module for dealing with events, esp. preventing click events to happen multiple times during animation or while content is loading.",
-            "author": "Jeroen Coumans"
-        },
-        "APP.core": {
-            "name": "APP.core",
-            "shortname": "APP.core",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "namespace": "APP",
-            "file": "js/app/init.js",
-            "line": 1,
-            "description": "Core module for initializing capabilities and modules",
             "author": "Jeroen Coumans"
         },
         "APP.loader": {
@@ -405,7 +439,7 @@
     "classitems": [
         {
             "file": "js/app/alert.js",
-            "line": 12,
+            "line": 11,
             "description": "Show alert",
             "itemtype": "method",
             "name": "show",
@@ -421,7 +455,7 @@
         },
         {
             "file": "js/app/alert.js",
-            "line": 26,
+            "line": 25,
             "description": "Hide alert",
             "itemtype": "method",
             "name": "hide",
@@ -430,7 +464,7 @@
         },
         {
             "file": "js/app/alert.js",
-            "line": 36,
+            "line": 35,
             "description": "Status of alert",
             "itemtype": "method",
             "name": "status",
@@ -443,7 +477,7 @@
         },
         {
             "file": "js/app/alert.js",
-            "line": 46,
+            "line": 45,
             "description": "Attach event listeners",
             "itemtype": "method",
             "name": "attachListeners",
@@ -454,11 +488,20 @@
         },
         {
             "file": "js/app/alert.js",
-            "line": 60,
+            "line": 59,
             "description": "Initialize variables and attach listeners",
             "itemtype": "method",
             "name": "init",
             "class": "APP.alert",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/capabilities.js",
+            "line": 9,
+            "description": "Initialize capabilities based on UA detection",
+            "itemtype": "method",
+            "name": "initCapabilities",
+            "class": "APP.core",
             "namespace": "APP"
         },
         {
@@ -610,15 +653,6 @@
         {
             "file": "js/app/init.js",
             "line": 9,
-            "description": "Initialize capabilities based on UA detection",
-            "itemtype": "method",
-            "name": "initCapabilities",
-            "class": "APP.core",
-            "namespace": "APP"
-        },
-        {
-            "file": "js/app/init.js",
-            "line": 34,
             "description": "Initialize variables and attach listeners",
             "itemtype": "method",
             "name": "init",
@@ -627,7 +661,7 @@
         },
         {
             "file": "js/app/loader.js",
-            "line": 16,
+            "line": 14,
             "description": "Shows the loader on top of the page. When no message is given, it will use the text inside #loader .loader-text",
             "itemtype": "method",
             "name": "show",
@@ -644,7 +678,7 @@
         },
         {
             "file": "js/app/loader.js",
-            "line": 45,
+            "line": 37,
             "description": "Hides the loader",
             "itemtype": "method",
             "name": "hide",
@@ -653,7 +687,7 @@
         },
         {
             "file": "js/app/loader.js",
-            "line": 63,
+            "line": 55,
             "description": "Returns wether the loader is active or not",
             "itemtype": "method",
             "name": "status",
@@ -662,7 +696,7 @@
         },
         {
             "file": "js/app/loader.js",
-            "line": 72,
+            "line": 64,
             "description": "Check wether we use native or HTML spinner based on $.supports.cordova",
             "itemtype": "method",
             "name": "init",
@@ -671,20 +705,7 @@
         },
         {
             "file": "js/app/modal.js",
-            "line": 15,
-            "itemtype": "method",
-            "name": "modalView",
-            "static": 1,
-            "return": {
-                "description": "the modal element",
-                "type": "HTMLElement"
-            },
-            "class": "APP.modal",
-            "namespace": "APP"
-        },
-        {
-            "file": "js/app/modal.js",
-            "line": 22,
+            "line": 12,
             "description": "Opens the modal view",
             "itemtype": "method",
             "name": "show",
@@ -693,7 +714,7 @@
         },
         {
             "file": "js/app/modal.js",
-            "line": 37,
+            "line": 27,
             "description": "Hides the modal view",
             "itemtype": "method",
             "name": "hide",
@@ -702,7 +723,7 @@
         },
         {
             "file": "js/app/modal.js",
-            "line": 50,
+            "line": 40,
             "description": "Returns the status of the modal view",
             "itemtype": "method",
             "name": "status",
@@ -715,7 +736,7 @@
         },
         {
             "file": "js/app/modal.js",
-            "line": 60,
+            "line": 50,
             "description": "Attach event listeners",
             "itemtype": "method",
             "name": "attachListeners",
@@ -726,7 +747,7 @@
         },
         {
             "file": "js/app/modal.js",
-            "line": 99,
+            "line": 89,
             "description": "Initialize variables and attach listeners",
             "itemtype": "method",
             "name": "init",
@@ -735,7 +756,7 @@
         },
         {
             "file": "js/app/nav.js",
-            "line": 22,
+            "line": 14,
             "description": "Sets height of content based on height of navigation",
             "itemtype": "method",
             "name": "setPageHeight",
@@ -753,7 +774,7 @@
         },
         {
             "file": "js/app/nav.js",
-            "line": 35,
+            "line": 27,
             "description": "Shows the navigation",
             "itemtype": "method",
             "name": "show",
@@ -762,7 +783,7 @@
         },
         {
             "file": "js/app/nav.js",
-            "line": 51,
+            "line": 42,
             "description": "Hides the navigation",
             "itemtype": "method",
             "name": "hide",
@@ -771,7 +792,7 @@
         },
         {
             "file": "js/app/nav.js",
-            "line": 67,
+            "line": 57,
             "description": "Returns the status of the navigation",
             "itemtype": "method",
             "name": "status",
@@ -784,21 +805,7 @@
         },
         {
             "file": "js/app/nav.js",
-            "line": 77,
-            "description": "Returns the nav items, useful for activating a new tab",
-            "itemtype": "method",
-            "name": "items",
-            "static": 1,
-            "return": {
-                "description": "the navigation items",
-                "type": "HTMLElement"
-            },
-            "class": "APP.nav",
-            "namespace": "APP"
-        },
-        {
-            "file": "js/app/nav.js",
-            "line": 88,
+            "line": 67,
             "description": "Returns the active item",
             "itemtype": "method",
             "name": "active",
@@ -819,7 +826,7 @@
         },
         {
             "file": "js/app/nav.js",
-            "line": 107,
+            "line": 86,
             "description": "Attach event listeners",
             "itemtype": "method",
             "name": "attachListeners",
@@ -830,7 +837,7 @@
         },
         {
             "file": "js/app/nav.js",
-            "line": 154,
+            "line": 133,
             "description": "Initialize capabilities and attach listeners\n- Sets the active navigation element\n- Sets the navigation status based on the `has-navigation` class on the HTML element",
             "itemtype": "method",
             "name": "init",
@@ -1093,18 +1100,6 @@
         {
             "file": "js/app/store.js",
             "line": 12,
-            "itemtype": "method",
-            "name": "loading",
-            "return": {
-                "description": "wether we're currently loading",
-                "type": "Boolean"
-            },
-            "class": "APP.store",
-            "namespace": "APP"
-        },
-        {
-            "file": "js/app/store.js",
-            "line": 21,
             "description": "Loads an URL from localStorage.",
             "itemtype": "method",
             "name": "showUrl",
@@ -1129,7 +1124,7 @@
         },
         {
             "file": "js/app/store.js",
-            "line": 61,
+            "line": 52,
             "description": "Does an AJAX call to URL and stores it with the URL as the key",
             "itemtype": "method",
             "name": "storeUrl",
@@ -1164,7 +1159,7 @@
         },
         {
             "file": "js/app/store.js",
-            "line": 98,
+            "line": 89,
             "description": "Wrapper around storeUrl to store an array of URLs",
             "itemtype": "method",
             "name": "storeUrlList",
@@ -1199,7 +1194,7 @@
         },
         {
             "file": "js/app/store.js",
-            "line": 129,
+            "line": 120,
             "description": "Returns an array of URL's",
             "itemtype": "method",
             "name": "getUrlList",
@@ -1219,7 +1214,7 @@
         },
         {
             "file": "js/app/store.js",
-            "line": 150,
+            "line": 141,
             "description": "Initialize variables and settings",
             "itemtype": "method",
             "name": "init",
@@ -1236,7 +1231,7 @@
         },
         {
             "file": "js/app/tabs.js",
-            "line": 16,
+            "line": 12,
             "description": "Shows the tabs",
             "itemtype": "method",
             "name": "show",
@@ -1245,7 +1240,7 @@
         },
         {
             "file": "js/app/tabs.js",
-            "line": 27,
+            "line": 23,
             "description": "Hides the tabs",
             "itemtype": "method",
             "name": "hide",
@@ -1254,7 +1249,7 @@
         },
         {
             "file": "js/app/tabs.js",
-            "line": 38,
+            "line": 34,
             "description": "Wether the tabs are shown or not",
             "itemtype": "method",
             "name": "status",
@@ -1267,20 +1262,7 @@
         },
         {
             "file": "js/app/tabs.js",
-            "line": 48,
-            "description": "Returns the tab items, useful for activating a new tab",
-            "itemtype": "method",
-            "name": "items",
-            "return": {
-                "description": "returns an object that contains all .action-tab-item elements",
-                "type": "Object"
-            },
-            "class": "APP.tabs",
-            "namespace": "APP"
-        },
-        {
-            "file": "js/app/tabs.js",
-            "line": 58,
+            "line": 44,
             "description": "Sets or returns the active tab item. NOTE: this only sets the `active` class on the tab item!",
             "itemtype": "method",
             "name": "active",
@@ -1301,7 +1283,7 @@
         },
         {
             "file": "js/app/tabs.js",
-            "line": 78,
+            "line": 61,
             "description": "Attach event listeners",
             "itemtype": "method",
             "name": "attachListeners",
@@ -1312,7 +1294,7 @@
         },
         {
             "file": "js/app/tabs.js",
-            "line": 104,
+            "line": 86,
             "description": "Initialize variables and attach listeners",
             "itemtype": "method",
             "name": "init",
@@ -1413,43 +1395,7 @@
         },
         {
             "file": "js/app/views.js",
-            "line": 16,
-            "itemtype": "method",
-            "name": "parentView",
-            "return": {
-                "description": "returns the parent element",
-                "type": "HTMLElement"
-            },
-            "class": "APP.views",
-            "namespace": "APP"
-        },
-        {
-            "file": "js/app/views.js",
-            "line": 22,
-            "itemtype": "method",
-            "name": "childView",
-            "return": {
-                "description": "returns the child element",
-                "type": "HTMLElement"
-            },
-            "class": "APP.views",
-            "namespace": "APP"
-        },
-        {
-            "file": "js/app/views.js",
-            "line": 28,
-            "itemtype": "method",
-            "name": "pageView",
-            "return": {
-                "description": "returns the page element",
-                "type": "HTMLElement"
-            },
-            "class": "APP.views",
-            "namespace": "APP"
-        },
-        {
-            "file": "js/app/views.js",
-            "line": 34,
+            "line": 12,
             "description": "Returns wether the childview is active or not",
             "itemtype": "method",
             "name": "hasChildPage",
@@ -1462,7 +1408,7 @@
         },
         {
             "file": "js/app/views.js",
-            "line": 44,
+            "line": 22,
             "description": "Opens child page",
             "itemtype": "method",
             "name": "openChildPage",
@@ -1485,7 +1431,7 @@
         },
         {
             "file": "js/app/views.js",
-            "line": 82,
+            "line": 60,
             "description": "Opens parent page. If a childView is active, first go back to the parentView.",
             "itemtype": "method",
             "name": "openParentPage",
@@ -1508,7 +1454,7 @@
         },
         {
             "file": "js/app/views.js",
-            "line": 117,
+            "line": 95,
             "description": "Attach event listeners",
             "itemtype": "method",
             "name": "attachListeners",
@@ -1519,7 +1465,7 @@
         },
         {
             "file": "js/app/views.js",
-            "line": 168,
+            "line": 146,
             "description": "Initialize variables and attach listeners. Sets the status of hasChildPage to true if the `html` element has the `.has-childview` class",
             "itemtype": "method",
             "name": "init",
