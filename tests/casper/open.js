@@ -101,7 +101,7 @@ function checkBox2(view) {
 
     // test wether the activeUrl returns the expected URL
     var activeUrl = casper.evaluate(function () {
-        if (APP.open.activeUrl() === "box2.html") {
+        if (APP.open.activeUrl() === "blocks/box2.html") {
             return true;
         } else {
             return false;
@@ -109,7 +109,7 @@ function checkBox2(view) {
     });
 
     // test the result
-    casper.test.assert(activeUrl, "APP.open.activeUrl() is box2.html");
+    casper.test.assert(activeUrl, "APP.open.activeUrl() is blocks/box2.html");
 
     // Call the correct view
     switch (view) {
@@ -118,14 +118,14 @@ function checkBox2(view) {
 
             // test wether the parentUrl returns the expected URL
             var currentUrl = casper.evaluate(function () {
-                if (APP.open.parentUrl() === "box2.html") {
+                if (APP.open.parentUrl() === "blocks/box2.html") {
                     return true;
                 } else {
                     return false;
                 }
             });
 
-            casper.test.assert(currentUrl, "APP.open.parentUrl() is box2.html");
+            casper.test.assert(currentUrl, "APP.open.parentUrl() is blocks/box2.html");
             break;
 
         case "child":
@@ -133,14 +133,14 @@ function checkBox2(view) {
 
             // test wether the parentUrl returns the expected URL
             var currentUrl = casper.evaluate(function () {
-                if (APP.open.childUrl() === "box2.html") {
+                if (APP.open.childUrl() === "blocks/box2.html") {
                     return true;
                 } else {
                     return false;
                 }
             });
 
-            casper.test.assert(currentUrl, "APP.open.childUrl() is box2.html");
+            casper.test.assert(currentUrl, "APP.open.childUrl() is blocks/box2.html");
             break;
 
         case "modal":
@@ -148,14 +148,14 @@ function checkBox2(view) {
 
             // test wether the parentUrl returns the expected URL
             var currentUrl = casper.evaluate(function () {
-                if (APP.open.modalUrl() === "box2.html") {
+                if (APP.open.modalUrl() === "blocks/box2.html") {
                     return true;
                 } else {
                     return false;
                 }
             });
 
-            casper.test.assert(currentUrl, "APP.open.modalUrl() is box2.html");
+            casper.test.assert(currentUrl, "APP.open.modalUrl() is blocks/box2.html");
             break;
     }
 }
@@ -176,7 +176,7 @@ casper.start(localSite, function () {
 
 casper.then(function() {
 
-    loadParent("website", "box2.html");
+    loadParent("website", "blocks/box2.html");
 });
 
 casper.then(function() {
@@ -186,7 +186,7 @@ casper.then(function() {
 });
 
 casper.then(function() {
-    loadParent("website", "box2.html", "refresh");
+    loadParent("website", "blocks/box2.html", "refresh");
 });
 
 casper.then(function() {
@@ -197,7 +197,7 @@ casper.then(function() {
 
 casper.thenOpen(localSite, function() {
 
-    loadChild("website", "box2.html");
+    loadChild("website", "blocks/box2.html");
 });
 
 casper.then(function() {
@@ -207,7 +207,7 @@ casper.then(function() {
 });
 
 casper.then(function() {
-    loadChild("website", "box2.html", "refresh");
+    loadChild("website", "blocks/box2.html", "refresh");
 });
 
 casper.then(function() {
@@ -217,7 +217,7 @@ casper.then(function() {
 });
 
 casper.thenOpen(localSite, function() {
-    loadModal("website", "box2.html");
+    loadModal("website", "blocks/box2.html");
 });
 
 casper.then(function() {
@@ -227,7 +227,7 @@ casper.then(function() {
 });
 
 casper.then(function() {
-    loadModal("website", "box2.html", "refresh");
+    loadModal("website", "blocks/box2.html", "refresh");
 });
 
 casper.then(function() {
@@ -251,7 +251,7 @@ casper.thenOpen(localApp, function() {
 
 casper.then(function() {
 
-    loadParent("webapp", "box2.html");
+    loadParent("webapp", "blocks/box2.html");
 });
 
 casper.then(function() {
@@ -261,7 +261,7 @@ casper.then(function() {
 });
 
 casper.then(function() {
-    loadParent("webapp", "box2.html", "refresh");
+    loadParent("webapp", "blocks/box2.html", "refresh");
 });
 
 casper.then(function() {
@@ -272,7 +272,7 @@ casper.then(function() {
 
 casper.thenOpen(localSite, function() {
 
-    loadChild("webapp", "box2.html");
+    loadChild("webapp", "blocks/box2.html");
 });
 
 casper.then(function() {
@@ -282,7 +282,7 @@ casper.then(function() {
 });
 
 casper.then(function() {
-    loadChild("webapp", "box2.html", "refresh");
+    loadChild("webapp", "blocks/box2.html", "refresh");
 });
 
 casper.then(function() {
@@ -292,7 +292,7 @@ casper.then(function() {
 });
 
 casper.thenOpen(localSite, function() {
-    loadModal("webapp", "box2.html");
+    loadModal("webapp", "blocks/box2.html");
 });
 
 casper.then(function() {
@@ -302,7 +302,7 @@ casper.then(function() {
 });
 
 casper.then(function() {
-    loadModal("webapp", "box2.html", "refresh");
+    loadModal("webapp", "blocks/box2.html", "refresh");
 });
 
 casper.then(function() {
