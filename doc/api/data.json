@@ -506,7 +506,7 @@
         },
         {
             "file": "js/app/connection.js",
-            "line": 12,
+            "line": 13,
             "description": "Called when the connection goes online, will hide the offline alert",
             "itemtype": "method",
             "name": "goOnline",
@@ -517,7 +517,7 @@
         },
         {
             "file": "js/app/connection.js",
-            "line": 26,
+            "line": 27,
             "description": "Called when the connection goes offline, will show an offline alert",
             "itemtype": "method",
             "name": "goOffline",
@@ -528,8 +528,21 @@
         },
         {
             "file": "js/app/connection.js",
-            "line": 39,
+            "line": 38,
             "description": "Returns the status of the connection, typically called from APP.open.page() when a timeout occurs",
+            "itemtype": "method",
+            "name": "status",
+            "return": {
+                "description": "the connection, either `offline` or `online`",
+                "type": "String"
+            },
+            "class": "APP.connection",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/connection.js",
+            "line": 49,
+            "description": "Sets the status of the connection, typically called from APP.open.page() when a timeout occurs",
             "itemtype": "method",
             "name": "status",
             "params": [
@@ -549,7 +562,7 @@
         },
         {
             "file": "js/app/connection.js",
-            "line": 58,
+            "line": 68,
             "description": "Sets the default connection to online",
             "itemtype": "method",
             "name": "init",
