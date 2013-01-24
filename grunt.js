@@ -61,7 +61,7 @@ module.exports = function(grunt) {
             },
             desktop: {
                 src: [
-                    'js/lib/jquery/jquery-1.8.3.min.js',
+                    'js/lib/jquery/jquery-2.0.0b1.js',
                     'js/lib/swipeview.js',
                     'js/lib/lscache.js',
                     'dist/andamio-lib.js'
