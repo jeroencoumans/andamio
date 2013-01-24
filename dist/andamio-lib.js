@@ -445,7 +445,8 @@ APP.phone = (function () {
 APP.connection = (function () {
 
     // variables
-    var connection;
+    var connection,
+        offlineMessage;
 
     /**
      * Called when the connection goes online, will hide the offline alert
@@ -469,19 +470,28 @@ APP.connection = (function () {
     function goOffline() {
 
         connection = "offline";
-
-        var offlineText = $('<a href="javascript:void(0)" class="action-refresh">Pagina kon niet geladen worden. Opnieuw laden</a>');
-        APP.alert.show(offlineText);
+        APP.alert.show(offlineMessage);
     }
 
     /**
      * Returns the status of the connection, typically called from APP.open.page() when a timeout occurs
      * @method status
+     * @return {String} the connection, either `offline` or `online`
+     *
+     **/
+    function getStatus() {
+
+        return connection;
+    }
+
+    /**
+     * Sets the status of the connection, typically called from APP.open.page() when a timeout occurs
+     * @method status
      * @param [msg] {String} accepts `offline` or `online` to set the connection status
      * @return {String} the connection, either `offline` or `online`
      *
      **/
-    function status(msg) {
+    function setStatus(msg) {
 
         // useful for testing offline / online
         if (msg === "offline") {
@@ -497,7 +507,9 @@ APP.connection = (function () {
      * Sets the default connection to online
      * @method init
      */
-    function init() {
+    function init(params) {
+
+        offlineMessage = (params && params.offlineMessage) ? params.offlineMessage : '<a href="javascript:void(0)" class="action-refresh">De verbinding is verbroken. Probeer opnieuw.</a>';
 
         // set default connection to online
         goOnline();
@@ -505,7 +517,8 @@ APP.connection = (function () {
 
     return {
         "init": init,
-        "status": status
+        "getStatus": getStatus,
+        "setStatus": setStatus
     };
 
 })();
@@ -726,7 +739,7 @@ APP.open = (function () {
             success: function(response) {
 
                 // if we were offline, reset the connection to online
-                APP.connection.status("online");
+                APP.connection.setStatus("online");
 
                 $(content).html(response);
 
@@ -736,7 +749,7 @@ APP.open = (function () {
             },
             error: function(xhr, errorType, error) {
 
-                APP.connection.status("offline");
+                APP.connection.setStatus("offline");
                 $(document.body).trigger("APP:open:page:error");
             },
             complete: function() {
@@ -1194,13 +1207,13 @@ APP.search = (function () {
             },
             success: function(response) {
                 // if we were offline, reset the connection to online
-                APP.connection.status("online");
+                APP.connection.setStatus("online");
 
                 searchResult.html(response).show();
             },
             error: function(xhr, errorType, error){
 
-                APP.connection.status("offline");
+                APP.connection.setStatus("offline");
             },
             complete: function() {
 

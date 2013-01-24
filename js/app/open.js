@@ -116,7 +116,7 @@ APP.open = (function () {
             success: function(response) {
 
                 // if we were offline, reset the connection to online
-                APP.connection.status("online");
+                APP.connection.setStatus("online");
 
                 $(content).html(response);
 
@@ -126,7 +126,7 @@ APP.open = (function () {
             },
             error: function(xhr, errorType, error) {
 
-                APP.connection.status("offline");
+                APP.connection.setStatus("offline");
                 $(document.body).trigger("APP:open:page:error");
             },
             complete: function() {

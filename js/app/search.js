@@ -46,13 +46,13 @@ APP.search = (function () {
             },
             success: function(response) {
                 // if we were offline, reset the connection to online
-                APP.connection.status("online");
+                APP.connection.setStatus("online");
 
                 searchResult.html(response).show();
             },
             error: function(xhr, errorType, error){
 
-                APP.connection.status("offline");
+                APP.connection.setStatus("offline");
             },
             complete: function() {
 

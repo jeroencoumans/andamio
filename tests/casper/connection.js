@@ -16,40 +16,40 @@ function runTest(context) {
 
     // check reported status
     casper.test.assertEvalEquals(function() {
-        return APP.connection.status();
+        return APP.connection.getStatus();
     }, "online", "The connection is online");
 
     capture(context + "-connection-initial");
 
     // set connection to offline
     casper.evaluate(function() {
-        APP.connection.status("offline");
+        APP.connection.setStatus("offline");
     });
 
     // check reported status
     casper.test.assertEvalEquals(function() {
-        return APP.connection.status();
+        return APP.connection.getStatus();
     }, "offline", "The connection is offline");
-
-    // test the alert is visible
-    casper.test.assertVisible(".viewport #page-alert");
 
     // check reported status
     casper.test.assertEvalEquals(function() {
         return APP.alert.status();
     }, true, "The connection alert is shown");
 
+    // test the alert is visible
+    casper.test.assertVisible(".viewport #page-alert");
+
     // screenshot of the page with connection alert
     capture(context + "-connection-offline");
 
     // set connection to online again
     casper.evaluate(function() {
-        APP.connection.status("online");
+        APP.connection.setStatus("online");
     });
 
     // check reported status
     casper.test.assertEvalEquals(function() {
-        return APP.connection.status();
+        return APP.connection.getStatus();
     }, "online", "The connection is online");
 
     // test the alert is hidden
