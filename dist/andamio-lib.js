@@ -207,7 +207,7 @@ APP.capabilities = (function () {
 
         // TODO - Lazy media query
         if (document.width >= 980) {
-            html.removeClass("website").addClass("webapp desktop no-touch");
+            APP.dom.html.removeClass("website").addClass("webapp desktop no-touch");
         }
     }
 
