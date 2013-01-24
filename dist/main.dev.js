@@ -2687,23 +2687,19 @@ APP.capabilities = (function () {
         $.supports = $.supports || {};
         $.supports.cordova = navigator.userAgent.indexOf("TMGContainer") > -1;
 
-        $.supports.webapp = false;
         $.supports.webapp =  APP.util.getQueryParam("webapp", false) === "1" || navigator.standalone || $.supports.cordova;
 
         // Only enable for iPhone/iPad for now
         $.supports.ftfastclick = $.os.ios;
 
-        // Setup HTML classes
-        var html = $("html");
-
         // When used as standalone app or springboard app
-        if ($.supports.webapp) html.removeClass("website").addClass("webapp");
-        if ($.os.ios) html.addClass("ios");
-        if ($.os.ios5) html.addClass("ios5");
-        if ($.os.ios6) html.addClass("ios6");
-        if ($.os.android) html.addClass("android");
-        if ($.os.android2) html.addClass("android2");
-        if ($.os.android4) html.addClass("android4");
+        if ($.supports.webapp)  APP.dom.html.removeClass("website").addClass("webapp");
+        if ($.os.ios)           APP.dom.html.addClass("ios");
+        if ($.os.ios5)          APP.dom.html.addClass("ios5");
+        if ($.os.ios6)          APP.dom.html.addClass("ios6");
+        if ($.os.android)       APP.dom.html.addClass("android");
+        if ($.os.android2)      APP.dom.html.addClass("android2");
+        if ($.os.android4)      APP.dom.html.addClass("android4");
 
         // TODO - Lazy media query
         if (document.width >= 980) {
