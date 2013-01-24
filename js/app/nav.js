@@ -70,7 +70,7 @@ APP.nav = (function () {
      * @param {HTMLElement} [elem] sets the HTMLElement to the active navigation element
      * @return {HTMLElement} the active navigation element
      */
-    function active(elem) {
+    function setActive(elem) {
 
         if (elem) {
 
@@ -110,13 +110,13 @@ APP.nav = (function () {
                 title   = APP.util.getTitle(target);
 
             // If user selects the active element, or no URL is found, just close the menu
-            if (target === active() || ! url) {
+            if (target === APP.nav.pageNavActive || ! url) {
 
                 hide();
                 return;
             }
 
-            active(target);
+            setActive(target);
             hide();
 
             // set page title
@@ -157,7 +157,7 @@ APP.nav = (function () {
         "show": show,
         "hide": hide,
         "status": status,
-        "active": active
+        "setActive": setActive
     };
 
 })();
