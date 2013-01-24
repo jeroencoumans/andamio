@@ -2509,15 +2509,21 @@ APP.dom = (function () {
         viewport = $(".viewport"),
         pageView = $("#page-view"),
         parentView = $("#parent-view"),
+        parentViewTitle = parentView.find(".js-title"),
+        parentViewContent = parentView.find(".js-content"),
         childView = $("#child-view"),
+        childViewTitle = childView.find(".js-title"),
+        childViewContent = childView.find(".js-content"),
         modalView = $("#modal-view"),
+        modalViewTitle = modalView.find(".js-title"),
+        modalViewContent = modalView.find(".js-content"),
         pageNav = $("#page-navigation"),
         pageNavItems = pageNav.find(".action-nav-item"),
         pageNavActive = pageNavItems.filter(".active"),
         pageLoader = $("#loader"),
         pageTabs = $("#page-tabs"),
         pageTabItems = pageTabs.find(".action-tab-item"),
-        pageTabActive = pageTabs.find(".active"),
+        pageTabActive = pageTabItems.filter(".active"),
         pageAlert = $("#page-alert");
 
     return {
@@ -2526,8 +2532,14 @@ APP.dom = (function () {
         viewport: viewport,
         pageView: pageView,
         parentView: parentView,
+        parentViewTitle: parentViewTitle,
+        parentViewContent: parentViewContent,
         childView: childView,
+        childViewTitle: childViewTitle,
+        childViewContent: childViewContent,
         modalView: modalView,
+        modalViewTitle: modalViewTitle,
+        modalViewContent: modalViewContent,
         pageNav: pageNav,
         pageNavItems: pageNavItems,
         pageNavActive: pageNavActive,
@@ -3367,7 +3379,7 @@ APP.modal = (function () {
             }
 
             if (title) {
-                APP.dom.modalView.find(".js-title").text(title);
+                APP.dom.modalViewTitle.text(title);
             }
         });
 
@@ -3524,7 +3536,7 @@ APP.nav = (function () {
             // set page title
             if (title) {
 
-                APP.dom.parentView.find(".js-title").text(title);
+                APP.dom.parentViewTitle.text(title);
             }
 
             APP.open.page(url, APP.dom.parentView);
@@ -4074,13 +4086,13 @@ APP.views = (function () {
         // load URL
         if (url) {
 
-            APP.dom.childView.find(".js-content").html("");
+            APP.dom.childViewTitle.html("");
             APP.open.page(url, APP.dom.childView);
         }
 
         // set title
         if (title) {
-            APP.dom.childView.find(".js-title").text(title);
+            APP.dom.childViewTitle.text(title);
         }
 
         hasChild = true;
@@ -4115,7 +4127,7 @@ APP.views = (function () {
 
         // set title
         if (title) {
-            APP.dom.parentView.find(".js-title").text(title);
+            APP.dom.parentViewTitle.text(title);
         }
 
         hasChild = false;

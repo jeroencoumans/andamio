@@ -73,7 +73,7 @@ APP.modal = (function () {
             }
 
             if (title) {
-                APP.dom.modalView.find(".js-title").text(title);
+                APP.dom.modalViewTitle.text(title);
             }
         });
 

@@ -45,13 +45,13 @@ APP.views = (function () {
         // load URL
         if (url) {
 
-            APP.dom.childView.find(".js-content").html("");
+            APP.dom.childViewTitle.html("");
             APP.open.page(url, APP.dom.childView);
         }
 
         // set title
         if (title) {
-            APP.dom.childView.find(".js-title").text(title);
+            APP.dom.childViewTitle.text(title);
         }
 
         hasChild = true;
@@ -86,7 +86,7 @@ APP.views = (function () {
 
         // set title
         if (title) {
-            APP.dom.parentView.find(".js-title").text(title);
+            APP.dom.parentViewTitle.text(title);
         }
 
         hasChild = false;

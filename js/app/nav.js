@@ -122,7 +122,7 @@ APP.nav = (function () {
             // set page title
             if (title) {
 
-                APP.dom.parentView.find(".js-title").text(title);
+                APP.dom.parentViewTitle.text(title);
             }
 
             APP.open.page(url, APP.dom.parentView);
