@@ -65,6 +65,23 @@ APP.connection = (function () {
         return connection;
     }
 
+    /**
+     * Attach event listeners
+     * @method attachListeners
+     */
+    function attachListeners() {
+
+        APP.dom.doc.on("ajaxSuccess", function() {
+
+            APP.connection.setStatus("online");
+        });
+
+        APP.dom.doc.on("ajaxError", function() {
+
+            APP.connection.setStatus("offline");
+        });
+    }
+
     /***
      * Sets the default connection to online
      * @method init
@@ -75,6 +92,7 @@ APP.connection = (function () {
 
         // set default connection to online
         goOnline();
+        attachListeners();
     }
 
     return {

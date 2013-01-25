@@ -104,36 +104,13 @@ APP.open = (function () {
             url: url,
             timeout: 7500,
             headers: { "X-PJAX": true },
-            beforeSend: function() {
-
-                // show loader if nothing is shown within 0,5 seconds
-                timeoutToken = setTimeout(function() {
-                    APP.loader.show();
-
-                }, 250);
-
-            },
             success: function(response) {
-
-                // if we were offline, reset the connection to online
-                APP.connection.setStatus("online");
 
                 $(content).html(response);
 
                 if (scrollPosition > 10) {
                     $.scrollElement($(content).get(0), 0);
                 }
-            },
-            error: function(xhr, errorType, error) {
-
-                APP.connection.setStatus("offline");
-                $(document.body).trigger("APP:open:page:error");
-            },
-            complete: function() {
-
-                clearTimeout(timeoutToken);
-                APP.loader.hide();
-                if ($.isFunction(callback)) callback();
             }
         });
     }

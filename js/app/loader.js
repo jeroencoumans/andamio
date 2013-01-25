@@ -9,7 +9,8 @@ APP.loader = (function () {
     // Variables
     var spinnerType,
         loaderText,
-        hasLoader;
+        hasLoader,
+        timeoutToken;
 
     /**
      * Shows the loader on top of the page. When no message is given, it will use the text inside #loader .loader-text
@@ -27,6 +28,10 @@ APP.loader = (function () {
 
             navigator.spinner.show({"message": message});
         } else {
+
+            if (!APP.dom.pageLoaderImg.attr("src")) {
+                APP.dom.pageLoaderImg.attr("src", APP.dom.pageLoaderImg.data("img-src"));
+            }
 
             APP.dom.pageLoader.show();
             loaderText.text(message);
@@ -62,6 +67,28 @@ APP.loader = (function () {
     }
 
     /**
+     * Attach event listeners
+     * @method attachListeners
+     */
+    function attachListeners() {
+
+        APP.dom.doc.on("ajaxBeforeSend", function() {
+
+            // show loader if nothing is shown within 0,250 seconds
+            timeoutToken = setTimeout(function() {
+                APP.loader.show();
+
+            }, 250);
+        });
+
+        APP.dom.doc.on("ajaxComplete", function() {
+
+            clearTimeout(timeoutToken);
+            APP.loader.hide();
+        });
+    }
+
+    /**
      * Check wether we use native or HTML spinner based on $.supports.cordova
      * @method init
      */
@@ -79,13 +106,9 @@ APP.loader = (function () {
         } else {
 
             spinnerType = "html";
-            var img = APP.dom.pageLoader.find("img");
-
-            if (!img.attr("src")) {
-                img.attr("src", img.data("img-src"));
-            }
         }
 
+        attachListeners();
     }
 
     return {

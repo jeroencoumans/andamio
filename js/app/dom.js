@@ -48,6 +48,7 @@ APP.dom = (function () {
         pageNavItems: pageNavItems,
         pageNavActive: pageNavActive,
         pageLoader: pageLoader,
+        pageLoaderImg: pageLoaderImg,
         pageTabs: pageTabs,
         pageTabItems: pageTabItems,
         pageTabActive: pageTabActive,
