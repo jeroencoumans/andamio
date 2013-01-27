@@ -1,5 +1,9 @@
 var APP = APP || {};
 
+APP.config = {
+    server: "http://localhost"
+}
+
 /**
  * Module for accessing all Andamio DOM elements
  * @author Jeroen Coumans

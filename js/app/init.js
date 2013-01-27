@@ -10,7 +10,7 @@ APP.core = (function () {
      * Initialize variables and attach listeners
      * @method init
      */
-    function init(params) {
+    function init() {
 
         APP.events.init();
 

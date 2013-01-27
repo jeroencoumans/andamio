@@ -6,8 +6,7 @@
  */
 APP.store = (function() {
 
-    var server,
-        isLoading;
+    var isLoading;
 
     /**
      * Loads an URL from localStorage.
@@ -62,7 +61,7 @@ APP.store = (function() {
         if (! url || lscache.get(url)) return;
 
         var expire = expiration ? expiration : 365*24*60,
-            request = absolute ? url : server + url;
+            request = absolute ? url : APP.config.server + url;
 
         $.ajax({
             url: request,
@@ -141,12 +140,10 @@ APP.store = (function() {
     /**
      * Initialize variables and settings
      * @method init
-     * @param {Object} [params.server] optional server that will be used as the default host
      */
-    function init(params) {
+    function init() {
 
         isLoading = false;
-        server = (params && params.server) ? params.server : "http://localhost";
     }
 
     return {
