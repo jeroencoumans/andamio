@@ -11,23 +11,45 @@ APP.dom = (function () {
     var doc = $(document),
         html = $("html"),
         viewport = $(".viewport"),
+
+        // page wrapper
         pageView = $("#page-view"),
+
+        // parent view
         parentView = $("#parent-view"),
         parentViewTitle = parentView.find(".js-title"),
         parentViewContent = parentView.find(".js-content"),
+
+        // child view
         childView = $("#child-view"),
         childViewTitle = childView.find(".js-title"),
         childViewContent = childView.find(".js-content"),
+
+        // alternate child view
+        childViewAlt = $("#child-view-alternate"),
+        childViewAltTitle = childViewAlt.find(".js-title"),
+        childViewAltContent = childViewAlt.find(".js-content"),
+
+        // modal view
         modalView = $("#modal-view"),
         modalViewTitle = modalView.find(".js-title"),
         modalViewContent = modalView.find(".js-content"),
+
+        // navigation
         pageNav = $("#page-navigation"),
         pageNavItems = pageNav.find(".action-nav-item"),
         pageNavActive = pageNavItems.filter(".active"),
+
+        // loader
         pageLoader = $("#loader"),
+        pageLoaderImg = pageLoader.find("img"),
+
+        // tabs
         pageTabs = $("#page-tabs"),
         pageTabItems = pageTabs.find(".action-tab-item"),
         pageTabActive = pageTabItems.filter(".active"),
+
+        // alert
         pageAlert = $("#page-alert");
 
     return {
@@ -41,6 +63,9 @@ APP.dom = (function () {
         childView: childView,
         childViewTitle: childViewTitle,
         childViewContent: childViewContent,
+        childViewAlt: childViewAlt,
+        childViewAltTitle: childViewAltTitle,
+        childViewAltContent: childViewAltContent,
         modalView: modalView,
         modalViewTitle: modalViewTitle,
         modalViewContent: modalViewContent,
