@@ -26,10 +26,16 @@
 /*** Navigation toggle ***/
 .page-navigation-toggle {
     .overlay-total;
-    pointer-events: none; /*** TODO: IE9 ***/
+    pointer-events: none;
+    z-index: -1;
 
     .has-navigation & {
         pointer-events: auto;
+        z-index: 1;
+    }
+
+    .ios6 & {
+        z-index: 1;
     }
 }
 
@@ -89,22 +95,29 @@
 }
 
 .desktop {
-    .page-navigation {
-        left: 0;
-        bottom: 0;
-    }
 
-    .page-view {
-        width: auto;
-        .overlay-right;
-        left: @nav-width;
-    }
+    &.has-navigation {
+        .page-navigation {
+            .translate3d(0);
+            left: 0;
+            bottom: 0;
+        }
 
-    .page-navigation-toggle {
-        left: @nav-width;
-    }
+        .page-view {
+            .translate3d(0);
+            width: auto;
+            .overlay-right;
+            left: @nav-width;
+        }
 
-    .action-show-nav {
-        display: none;
+        .page-navigation-toggle {
+            .translate3d(0);
+            left: @nav-width;
+            z-index: -1;
+        }
+
+        .action-show-nav {
+            display: none;
+        }
     }
 }

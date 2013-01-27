@@ -21,7 +21,7 @@ module.exports = function(grunt) {
                 src: [
                     'js/lib/zepto/zepto.js',
                     'js/lib/zepto/ajax.js',
-                    'js/lib/zepto/detect.js',
+                    // 'js/lib/zepto/detect.js',
                     'js/lib/zepto/event.js'
                     ],
                 dest: 'js/lib/zepto.js'
