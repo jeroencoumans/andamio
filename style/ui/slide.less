@@ -6,6 +6,111 @@
     .translate3d(-100%);
 }
 
+.slide-bottom {
+    .translate3d(0, 100%, 0);
+}
+
+.slide-top {
+    .translate3d(0, -100%, 0);
+}
+
 .slide-default {
     .translate3d(0);
+}
+
+.slide-in-from-left {
+    .translate3d(0);
+    -webkit-animation-name: slideinfromleft;
+}
+
+.slide-in-from-right {
+    .translate3d(0);
+    -webkit-animation-name: slideinfromright;
+}
+
+.slide-in-from-bottom {
+    .translate3d(0);
+    -webkit-animation-name: slideinfrombottom;
+}
+
+.slide-out-to-left {
+    .translate3d(-100%, 0, 0);
+    -webkit-animation-name: slideouttoleft;
+}
+
+.slide-out-to-right {
+    .translate3d(100%, 0, 0);
+    -webkit-animation-name: slideouttoright;
+}
+
+.slide-out-to-bottom {
+    .translate3d(0, 100%, 0);
+    -webkit-animation-name: slideouttobottom;
+}
+
+.slide-in-from-left,
+.slide-in-from-right,
+.slide-in-from-bottom,
+.slide-out-to-left,
+.slide-out-to-right,
+.slide-out-to-bottom {
+     -webkit-transition-delay: 0;
+     -webkit-backface-visibility: hidden;
+     -webkit-transform-style: flat;
+     -webkit-transition-duration: 300ms;
+     -webkit-transition-timing-function: cubic-bezier(0.770, 0.000, 0.175, 1.000);
+}
+
+@-webkit-keyframes slideinfromright {
+    from {
+        -webkit-transform: translatex(100%);
+    }
+    to {
+        -webkit-transform: translatex(0);
+    }
+}
+
+@-webkit-keyframes slideinfromleft {
+    from {
+        -webkit-transform: translatex(-100%);
+    }
+    to {
+        -webkit-transform: translatex(0);
+    }
+}
+
+@-webkit-keyframes slideinfrombottom {
+    from {
+        -webkit-transform: translatey(100%);
+    }
+    to {
+        -webkit-transform: translatey(0);
+    }
+}
+
+@-webkit-keyframes slideouttoleft {
+    from {
+        -webkit-transform: translatex(0);
+    }
+    to {
+        -webkit-transform: translatex(-100%);
+    }
+}
+
+@-webkit-keyframes slideouttoright {
+    from {
+        -webkit-transform: translatex(0);
+    }
+    to {
+        -webkit-transform: translatex(100%);
+    }
+}
+
+@-webkit-keyframes slideouttobottom {
+    from {
+        -webkit-transform: translatey(0);
+    }
+    to {
+        -webkit-transform: translatey(100%);
+    }
 }
