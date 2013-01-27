@@ -7,7 +7,7 @@
  * @class core
  * @namespace APP
  */
-APP.capabilities = (function () {
+;(function($){
 
     /*** Zepto detect.js ***/
     function detect(ua) {
@@ -51,7 +51,7 @@ APP.capabilities = (function () {
 
     /**
      * Initialize capabilities based on UA detection
-     * @method initCapabilities
+     * @method init
      */
     function init() {
 
@@ -92,9 +92,8 @@ APP.capabilities = (function () {
         if ($.os.android)       APP.dom.html.addClass("android");
         if ($.os.android2)      APP.dom.html.addClass("android2");
         if ($.os.android4)      APP.dom.html.addClass("android4");
-
     }
 
     init();
 
-})();
+})(Zepto || jQuery)

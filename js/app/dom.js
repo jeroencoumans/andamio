@@ -1,6 +1,6 @@
 var APP = APP || {};
 
-APP.config = {
+APP.config = APP.config || {
     server: "http://localhost"
 }
 
