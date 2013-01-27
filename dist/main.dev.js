@@ -1041,49 +1041,6 @@ window.Zepto = Zepto
 //     Zepto.js may be freely distributed under the MIT license.
 
 ;(function($){
-  function detect(ua){
-    var os = this.os = {}, browser = this.browser = {},
-      webkit = ua.match(/WebKit\/([\d.]+)/),
-      android = ua.match(/(Android)\s+([\d.]+)/),
-      ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
-      iphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
-      webos = ua.match(/(webOS|hpwOS)[\s\/]([\d.]+)/),
-      touchpad = webos && ua.match(/TouchPad/),
-      kindle = ua.match(/Kindle\/([\d.]+)/),
-      silk = ua.match(/Silk\/([\d._]+)/),
-      blackberry = ua.match(/(BlackBerry).*Version\/([\d.]+)/),
-      chrome  = ua.match(/Chrome\/([\d.]+)/) || ua.match(/CriOS\/([\d.]+)/)
-
-    // todo clean this up with a better OS/browser
-    // separation. we need to discern between multiple
-    // browsers on android, and decide if kindle fire in
-    // silk mode is android or not
-
-    if (browser.webkit = !!webkit) browser.version = webkit[1]
-
-    if (android) os.android = true, os.version = android[2]
-    if (iphone) os.ios = os.iphone = true, os.version = iphone[2].replace(/_/g, '.')
-    if (ipad) os.ios = os.ipad = true, os.version = ipad[2].replace(/_/g, '.')
-    if (webos) os.webos = true, os.version = webos[2]
-    if (touchpad) os.touchpad = true
-    if (blackberry) os.blackberry = true, os.version = blackberry[2]
-    if (kindle) os.kindle = true, os.version = kindle[1]
-    if (silk) browser.silk = true, browser.version = silk[1]
-    if (!silk && os.android && ua.match(/Kindle Fire/)) browser.silk = true
-    if (chrome) browser.chrome = true, browser.version = chrome[1]
-  }
-
-  detect.call($, navigator.userAgent)
-  // make available to unit tests
-  $.__detect = detect
-
-})(Zepto)
-
-//     Zepto.js
-//     (c) 2010-2012 Thomas Fuchs
-//     Zepto.js may be freely distributed under the MIT license.
-
-;(function($){
   var $$ = $.zepto.qsa, handlers = {}, _zid = 1, specialEvents={},
       hover = { mouseenter: 'mouseover', mouseleave: 'mouseout' }
 
@@ -2786,23 +2743,45 @@ APP.dom = (function () {
     var doc = $(document),
         html = $("html"),
         viewport = $(".viewport"),
+
+        // page wrapper
         pageView = $("#page-view"),
+
+        // parent view
         parentView = $("#parent-view"),
         parentViewTitle = parentView.find(".js-title"),
         parentViewContent = parentView.find(".js-content"),
+
+        // child view
         childView = $("#child-view"),
         childViewTitle = childView.find(".js-title"),
         childViewContent = childView.find(".js-content"),
+
+        // alternate child view
+        childViewAlt = $("#child-view-alternate"),
+        childViewAltTitle = childViewAlt.find(".js-title"),
+        childViewAltContent = childViewAlt.find(".js-content"),
+
+        // modal view
         modalView = $("#modal-view"),
         modalViewTitle = modalView.find(".js-title"),
         modalViewContent = modalView.find(".js-content"),
+
+        // navigation
         pageNav = $("#page-navigation"),
         pageNavItems = pageNav.find(".action-nav-item"),
         pageNavActive = pageNavItems.filter(".active"),
+
+        // loader
         pageLoader = $("#loader"),
+        pageLoaderImg = pageLoader.find("img"),
+
+        // tabs
         pageTabs = $("#page-tabs"),
         pageTabItems = pageTabs.find(".action-tab-item"),
         pageTabActive = pageTabItems.filter(".active"),
+
+        // alert
         pageAlert = $("#page-alert");
 
     return {
@@ -2816,6 +2795,9 @@ APP.dom = (function () {
         childView: childView,
         childViewTitle: childViewTitle,
         childViewContent: childViewContent,
+        childViewAlt: childViewAlt,
+        childViewAltTitle: childViewAltTitle,
+        childViewAltContent: childViewAltContent,
         modalView: modalView,
         modalViewTitle: modalViewTitle,
         modalViewContent: modalViewContent,
@@ -2823,6 +2805,7 @@ APP.dom = (function () {
         pageNavItems: pageNavItems,
         pageNavActive: pageNavActive,
         pageLoader: pageLoader,
+        pageLoaderImg: pageLoaderImg,
         pageTabs: pageTabs,
         pageTabItems: pageTabItems,
         pageTabActive: pageTabActive,
@@ -2936,6 +2919,9 @@ APP.delay = (function(){
         timer = setTimeout(callback, ms);
     };
 })();
+/*jshint latedef:true, undef:true, unused:true boss:true */
+/*global $:false, APP:false, navigator, document */
+
 /**
  * Core module for initializing capabilities and modules
  * @author Jeroen Coumans
@@ -2944,11 +2930,53 @@ APP.delay = (function(){
  */
 APP.capabilities = (function () {
 
+    /*** Zepto detect.js ***/
+    function detect(ua) {
+
+        var os = this.os = {}, browser = this.browser = {},
+            webkit = ua.match(/WebKit\/([\d.]+)/),
+            android = ua.match(/(Android)\s+([\d.]+)/),
+            ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+            iphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+            webos = ua.match(/(webOS|hpwOS)[\s\/]([\d.]+)/),
+            touchpad = webos && ua.match(/TouchPad/),
+            kindle = ua.match(/Kindle\/([\d.]+)/),
+            silk = ua.match(/Silk\/([\d._]+)/),
+            blackberry = ua.match(/(BlackBerry).*Version\/([\d.]+)/),
+            bb10 = ua.match(/(BB10).*Version\/([\d.]+)/),
+            rimtabletos = ua.match(/(RIM\sTablet\sOS)\s([\d.]+)/),
+            playbook = ua.match(/PlayBook/),
+            chrome = ua.match(/Chrome\/([\d.]+)/) || ua.match(/CriOS\/([\d.]+)/),
+            firefox = ua.match(/Firefox\/([\d.]+)/);
+
+        if (browser.webkit = !!webkit) browser.version = webkit[1];
+
+        if (android) os.android = true, os.version = android[2];
+        if (iphone) os.ios = os.iphone = true, os.version = iphone[2].replace(/_/g, '.');
+        if (ipad) os.ios = os.ipad = true, os.version = ipad[2].replace(/_/g, '.');
+        if (webos) os.webos = true, os.version = webos[2];
+        if (touchpad) os.touchpad = true;
+        if (blackberry) os.blackberry = true, os.version = blackberry[2];
+        if (bb10) os.bb10 = true, os.version = bb10[2];
+        if (rimtabletos) os.rimtabletos = true, os.version = rimtabletos[2];
+        if (playbook) browser.playbook = true;
+        if (kindle) os.kindle = true, os.version = kindle[1];
+        if (silk) browser.silk = true, browser.version = silk[1];
+        if (!silk && os.android && ua.match(/Kindle Fire/)) browser.silk = true;
+        if (chrome) browser.chrome = true, browser.version = chrome[1];
+        if (firefox) browser.firefox = true, browser.version = firefox[1];
+
+        os.tablet = !!(ipad || playbook || (android && !ua.match(/Mobile/)) || (firefox && ua.match(/Tablet/)));
+        os.phone  = !!(!os.tablet && (android || iphone || webos || blackberry || bb10 || chrome || firefox));
+    }
+
     /**
      * Initialize capabilities based on UA detection
      * @method initCapabilities
      */
     function init() {
+
+        detect.call($, navigator.userAgent);
 
         $.os = $.os || {};
 
@@ -2971,6 +2999,12 @@ APP.capabilities = (function () {
         // Only enable for iPhone/iPad for now
         $.supports.ftfastclick = $.os.ios;
 
+        // TODO - Lazy media query
+        if (document.width >= 980) {
+            APP.dom.html.removeClass("website").addClass("desktop no-touch has-navigation");
+            $.supports.webapp = true;
+        }
+
         // When used as standalone app or springboard app
         if ($.supports.webapp)  APP.dom.html.removeClass("website").addClass("webapp");
         if ($.os.ios)           APP.dom.html.addClass("ios");
@@ -2980,10 +3014,6 @@ APP.capabilities = (function () {
         if ($.os.android2)      APP.dom.html.addClass("android2");
         if ($.os.android4)      APP.dom.html.addClass("android4");
 
-        // TODO - Lazy media query
-        if (document.width >= 980) {
-            APP.dom.html.removeClass("website").addClass("webapp desktop no-touch");
-        }
     }
 
     init();
@@ -3249,7 +3279,7 @@ APP.connection = (function () {
     }
 
     /**
-     * Returns the status of the connection, typically called from APP.open.page() when a timeout occurs
+     * Returns the status of the connection
      * @method status
      * @return {String} the connection, either `offline` or `online`
      *
@@ -3260,7 +3290,7 @@ APP.connection = (function () {
     }
 
     /**
-     * Sets the status of the connection, typically called from APP.open.page() when a timeout occurs
+     * Sets the status of the connection
      * @method status
      * @param [msg] {String} accepts `offline` or `online` to set the connection status
      * @return {String} the connection, either `offline` or `online`
@@ -3278,6 +3308,23 @@ APP.connection = (function () {
         return connection;
     }
 
+    /**
+     * Attach event listeners
+     * @method attachListeners
+     */
+    function attachListeners() {
+
+        APP.dom.doc.on("ajaxSuccess", function() {
+
+            APP.connection.setStatus("online");
+        });
+
+        APP.dom.doc.on("ajaxError", function() {
+
+            APP.connection.setStatus("offline");
+        });
+    }
+
     /***
      * Sets the default connection to online
      * @method init
@@ -3288,6 +3335,7 @@ APP.connection = (function () {
 
         // set default connection to online
         goOnline();
+        attachListeners();
     }
 
     return {
@@ -3308,7 +3356,8 @@ APP.loader = (function () {
     // Variables
     var spinnerType,
         loaderText,
-        hasLoader;
+        hasLoader,
+        timeoutToken;
 
     /**
      * Shows the loader on top of the page. When no message is given, it will use the text inside #loader .loader-text
@@ -3326,6 +3375,10 @@ APP.loader = (function () {
 
             navigator.spinner.show({"message": message});
         } else {
+
+            if (!APP.dom.pageLoaderImg.attr("src")) {
+                APP.dom.pageLoaderImg.attr("src", APP.dom.pageLoaderImg.data("img-src"));
+            }
 
             APP.dom.pageLoader.show();
             loaderText.text(message);
@@ -3361,6 +3414,28 @@ APP.loader = (function () {
     }
 
     /**
+     * Attach event listeners
+     * @method attachListeners
+     */
+    function attachListeners() {
+
+        APP.dom.doc.on("ajaxBeforeSend", function() {
+
+            // show loader if nothing is shown within 0,250 seconds
+            timeoutToken = setTimeout(function() {
+                APP.loader.show();
+
+            }, 250);
+        });
+
+        APP.dom.doc.on("ajaxComplete", function() {
+
+            clearTimeout(timeoutToken);
+            APP.loader.hide();
+        });
+    }
+
+    /**
      * Check wether we use native or HTML spinner based on $.supports.cordova
      * @method init
      */
@@ -3378,13 +3453,9 @@ APP.loader = (function () {
         } else {
 
             spinnerType = "html";
-            var img = APP.dom.pageLoader.find("img");
-
-            if (!img.attr("src")) {
-                img.attr("src", img.data("img-src"));
-            }
         }
 
+        attachListeners();
     }
 
     return {
@@ -3502,36 +3573,13 @@ APP.open = (function () {
             url: url,
             timeout: 7500,
             headers: { "X-PJAX": true },
-            beforeSend: function() {
-
-                // show loader if nothing is shown within 0,5 seconds
-                timeoutToken = setTimeout(function() {
-                    APP.loader.show();
-
-                }, 250);
-
-            },
             success: function(response) {
-
-                // if we were offline, reset the connection to online
-                APP.connection.setStatus("online");
 
                 $(content).html(response);
 
                 if (scrollPosition > 10) {
                     $.scrollElement($(content).get(0), 0);
                 }
-            },
-            error: function(xhr, errorType, error) {
-
-                APP.connection.setStatus("offline");
-                $(document.body).trigger("APP:open:page:error");
-            },
-            complete: function() {
-
-                clearTimeout(timeoutToken);
-                APP.loader.hide();
-                if ($.isFunction(callback)) callback();
             }
         });
     }
