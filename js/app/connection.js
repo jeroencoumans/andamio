@@ -36,7 +36,7 @@ APP.connection = (function () {
     }
 
     /**
-     * Returns the status of the connection, typically called from APP.open.page() when a timeout occurs
+     * Returns the status of the connection
      * @method status
      * @return {String} the connection, either `offline` or `online`
      *
@@ -47,7 +47,7 @@ APP.connection = (function () {
     }
 
     /**
-     * Sets the status of the connection, typically called from APP.open.page() when a timeout occurs
+     * Sets the status of the connection
      * @method status
      * @param [msg] {String} accepts `offline` or `online` to set the connection status
      * @return {String} the connection, either `offline` or `online`
