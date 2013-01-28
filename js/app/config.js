@@ -74,7 +74,7 @@ APP.config = (function () {
         // Configurable settings
         APP.config.cordova  = params.cordova || navigator.userAgent.indexOf("TMGContainer") > -1;
         APP.config.offline  = params.offline || lscache.supported();
-        APP.config.server   = params.server || APP.dom.win.location.origin + APP.dom.win.location.pathname,
+        APP.config.server   = params.server || APP.dom.win.location.origin + APP.dom.win.location.pathname;
         APP.config.webapp   = params.webapp || APP.config.cordova || APP.util.getQueryParam("webapp", false) === "1" || navigator.standalone;
 
         // TODO - Lazy media query
