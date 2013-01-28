@@ -57,6 +57,8 @@ APP.config = (function () {
 
         detect.call(APP.config, navigator.userAgent);
 
+        if (typeof params !== "object" || typeof params === "undefined") params = false;
+
         // basic ios detection
         APP.config.os.ios5 = APP.config.os.ios && APP.config.os.version.indexOf("5.") !== -1;
         APP.config.os.ios6 = APP.config.os.ios && APP.config.os.version.indexOf("6.") !== -1;
