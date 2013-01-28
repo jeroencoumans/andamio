@@ -1,8 +1,8 @@
+/*jshint latedef:true, undef:true, unused:false boss:true */
+/*global $, document, window */
+
 var APP = APP || {};
 
-APP.config = APP.config || {
-    server: "http://localhost"
-}
 
 /**
  * Module for accessing all Andamio DOM elements
@@ -13,6 +13,7 @@ APP.config = APP.config || {
 APP.dom = (function () {
 
     var doc = $(document),
+        win = window,
         html = $("html"),
         viewport = $(".viewport"),
 
@@ -57,6 +58,7 @@ APP.dom = (function () {
         pageAlert = $("#page-alert");
 
     return {
+        win: win,
         doc: doc,
         html: html,
         viewport: viewport,

@@ -1,5 +1,5 @@
 /*jshint latedef:true, undef:true, unused:true boss:true */
-/*global $:false, APP:false, navigator, document */
+/*global APP:false, navigator, document, lscache */
 
 /**
  * Core module for initializing capabilities and modules
@@ -7,7 +7,7 @@
  * @class core
  * @namespace APP
  */
-;(function($){
+APP.config = (function () {
 
     /*** Zepto detect.js ***/
     function detect(ua) {
@@ -53,47 +53,47 @@
      * Initialize capabilities based on UA detection
      * @method init
      */
-    function init() {
+    function init(params) {
 
-        detect.call($, navigator.userAgent);
+        detect.call(APP.config, navigator.userAgent);
 
-        $.os = $.os || {};
-
-        // basic ios5 detection
-        $.os.ios5 = $.os.ios && $.os.version.indexOf("5.") !== -1;
-        $.os.ios6 = $.os.ios && $.os.version.indexOf("6.") !== -1;
+        // basic ios detection
+        APP.config.os.ios5 = APP.config.os.ios && APP.config.os.version.indexOf("5.") !== -1;
+        APP.config.os.ios6 = APP.config.os.ios && APP.config.os.version.indexOf("6.") !== -1;
 
         // basic android detection
-        $.os.android2 = $.os.android && $.os.version >= "2" && $.os.version < "4"; // yes we also count android 3 as 2 ;-)
-        $.os.android4 = $.os.android && $.os.version >= "4" && $.os.version < "5";
+        APP.config.os.android2 = APP.config.os.android && APP.config.os.version >= "2" && APP.config.os.version < "4"; // yes we also count android 3 as 2 ;-)
+        APP.config.os.android4 = APP.config.os.android && APP.config.os.version >= "4" && APP.config.os.version < "5";
 
         // basic blackberry detection
-        $.os.bb10 = navigator.userAgent.indexOf("BB10") > -1;
-
-        $.supports = $.supports || {};
-        $.supports.cordova = navigator.userAgent.indexOf("TMGContainer") > -1;
-
-        $.supports.webapp =  APP.util.getQueryParam("webapp", false) === "1" || navigator.standalone || $.supports.cordova;
+        APP.config.os.bb10 = navigator.userAgent.indexOf("BB10") > -1;
 
         // Only enable for iPhone/iPad for now
-        $.supports.ftfastclick = $.os.ios;
+        APP.config.ftfastclick = APP.config.os.ios;
+
+        // Configurable settings
+        APP.config.cordova  = params.cordova || navigator.userAgent.indexOf("TMGContainer") > -1;
+        APP.config.offline  = params.offline || lscache.supported();
+        APP.config.server   = params.server || APP.dom.win.location.origin + APP.dom.win.location.pathname,
+        APP.config.webapp   = params.webapp || APP.config.cordova || APP.util.getQueryParam("webapp", false) === "1" || navigator.standalone;
 
         // TODO - Lazy media query
-        if (document.width >= 980) {
+        if (document.width >= 980 || APP.config.desktop || APP.config.tablet) {
             APP.dom.html.removeClass("website").addClass("desktop no-touch has-navigation");
-            $.supports.webapp = true;
+            APP.config.webapp = true;
         }
 
         // When used as standalone app or springboard app
-        if ($.supports.webapp)  APP.dom.html.removeClass("website").addClass("webapp");
-        if ($.os.ios)           APP.dom.html.addClass("ios");
-        if ($.os.ios5)          APP.dom.html.addClass("ios5");
-        if ($.os.ios6)          APP.dom.html.addClass("ios6");
-        if ($.os.android)       APP.dom.html.addClass("android");
-        if ($.os.android2)      APP.dom.html.addClass("android2");
-        if ($.os.android4)      APP.dom.html.addClass("android4");
+        if (APP.config.webapp)          APP.dom.html.removeClass("website").addClass("webapp");
+        if (APP.config.os.ios)          APP.dom.html.addClass("ios");
+        if (APP.config.os.ios5)         APP.dom.html.addClass("ios5");
+        if (APP.config.os.ios6)         APP.dom.html.addClass("ios6");
+        if (APP.config.os.android)      APP.dom.html.addClass("android");
+        if (APP.config.os.android2)     APP.dom.html.addClass("android2");
+        if (APP.config.os.android4)     APP.dom.html.addClass("android4");
     }
 
-    init();
-
-})(Zepto || jQuery)
+    return {
+        "init": init
+    };
+})();

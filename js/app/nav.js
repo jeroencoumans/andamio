@@ -32,7 +32,7 @@ APP.nav = (function () {
 
         APP.dom.html.addClass("has-navigation");
 
-        if (!$.supports.webapp) {
+        if (!APP.config.webapp) {
             setPageHeight(navheight);
         }
 
@@ -47,7 +47,7 @@ APP.nav = (function () {
 
         APP.dom.html.removeClass("has-navigation");
 
-        if (!$.supports.webapp) {
+        if (!APP.config.webapp) {
             setPageHeight("");
         }
 

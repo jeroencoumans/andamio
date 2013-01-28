@@ -89,7 +89,7 @@ APP.loader = (function () {
     }
 
     /**
-     * Check wether we use native or HTML spinner based on $.supports.cordova
+     * Check wether we use native or HTML spinner based on APP.config.cordova
      * @method init
      */
     function init() {
@@ -97,7 +97,7 @@ APP.loader = (function () {
         hasLoader = APP.dom.html.hasClass("has-loader") ? true : false;
         loaderText = APP.dom.pageLoader.find(".loader-text");
 
-        if ($.supports.cordova) {
+        if (APP.config.cordova) {
 
             // only set the spinner to native when Cordova is injected
             navigator.bootstrap.addConstructor(function() {

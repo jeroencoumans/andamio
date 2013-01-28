@@ -1,3 +1,6 @@
+/*jshint latedef:true, undef:true, unused:true boss:true */
+/*global APP */
+
 /**
  * Core module for initializing capabilities and modules
  * @author Jeroen Coumans
@@ -10,8 +13,9 @@ APP.core = (function () {
      * Initialize variables and attach listeners
      * @method init
      */
-    function init() {
+    function init(params) {
 
+        APP.config.init(params);
         APP.events.init();
 
         // needs to come first so we're "online"
@@ -26,9 +30,8 @@ APP.core = (function () {
         APP.views.init();
         APP.alert.init();
 
-        if ($.supports.cordova) {
-            APP.phone.init();
-        }
+        if (APP.config.offline) APP.store.init();
+        if (APP.config.cordova) APP.phone.init();
     }
 
     return {
