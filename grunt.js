@@ -30,7 +30,7 @@ module.exports = function(grunt) {
                 src: [
                     'js/app/dom.js',
                     'js/app/util.js',
-                    'js/app/capabilities.js',
+                    'js/app/config.js',
                     'js/app/events.js',
                     'js/app/phone.js',
                     'js/app/connection.js',
