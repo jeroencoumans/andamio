@@ -55,29 +55,34 @@ APP.config = (function () {
      */
     function init(params) {
 
-        detect.call(APP.config, navigator.userAgent);
+        detect.call($, navigator.userAgent);
 
         if (typeof params !== "object" || typeof params === "undefined") params = false;
 
         // basic ios detection
-        APP.config.os.ios5 = APP.config.os.ios && APP.config.os.version.indexOf("5.") !== -1;
-        APP.config.os.ios6 = APP.config.os.ios && APP.config.os.version.indexOf("6.") !== -1;
+        $.os.ios5 = $.os.ios && $.os.version.indexOf("5.") !== -1;
+        $.os.ios6 = $.os.ios && $.os.version.indexOf("6.") !== -1;
 
         // basic android detection
-        APP.config.os.android2 = APP.config.os.android && APP.config.os.version >= "2" && APP.config.os.version < "4"; // yes we also count android 3 as 2 ;-)
-        APP.config.os.android4 = APP.config.os.android && APP.config.os.version >= "4" && APP.config.os.version < "5";
+        $.os.android2 = $.os.android && $.os.version >= "2" && $.os.version < "4"; // yes we also count android 3 as 2 ;-)
+        $.os.android4 = $.os.android && $.os.version >= "4" && $.os.version < "5";
 
         // basic blackberry detection
-        APP.config.os.bb10 = navigator.userAgent.indexOf("BB10") > -1;
+        $.os.bb10 = navigator.userAgent.indexOf("BB10") > -1;
 
         // Only enable for iPhone/iPad for now
-        APP.config.ftfastclick = APP.config.os.ios;
+        APP.config.ftfastclick = $.os.ios;
 
         // Configurable settings
-        APP.config.cordova  = params.cordova || navigator.userAgent.indexOf("TMGContainer") > -1;
-        APP.config.offline  = params.offline || lscache.supported();
-        APP.config.server   = params.server || APP.dom.win.location.origin + APP.dom.win.location.pathname;
-        APP.config.webapp   = params.webapp || APP.config.cordova || APP.util.getQueryParam("webapp", false) === "1" || navigator.standalone;
+        APP.config.cordova  = (typeof params.cordova !== "undefined") ? params.cordova : navigator.userAgent.indexOf("TMGContainer") > -1;
+        APP.config.offline  = (typeof params.offline !== "undefined") ? params.offline : lscache.supported();
+        APP.config.server   = (typeof params.server !== "undefined") ? params.server : APP.dom.win.location.origin + APP.dom.win.location.pathname;
+
+        if (typeof params.webapp !== "undefined") {
+            APP.config.webapp   = params.webapp;
+        } else {
+            APP.config.webapp = APP.config.cordova || APP.util.getQueryParam("webapp", false) === "1" || navigator.standalone;
+        }
 
         // TODO - Lazy media query
         if (document.width >= 980 || APP.config.desktop || APP.config.tablet) {
@@ -87,12 +92,12 @@ APP.config = (function () {
 
         // When used as standalone app or springboard app
         if (APP.config.webapp)          APP.dom.html.removeClass("website").addClass("webapp");
-        if (APP.config.os.ios)          APP.dom.html.addClass("ios");
-        if (APP.config.os.ios5)         APP.dom.html.addClass("ios5");
-        if (APP.config.os.ios6)         APP.dom.html.addClass("ios6");
-        if (APP.config.os.android)      APP.dom.html.addClass("android");
-        if (APP.config.os.android2)     APP.dom.html.addClass("android2");
-        if (APP.config.os.android4)     APP.dom.html.addClass("android4");
+        if ($.os.ios)          APP.dom.html.addClass("ios");
+        if ($.os.ios5)         APP.dom.html.addClass("ios5");
+        if ($.os.ios6)         APP.dom.html.addClass("ios6");
+        if ($.os.android)      APP.dom.html.addClass("android");
+        if ($.os.android2)     APP.dom.html.addClass("android2");
+        if ($.os.android4)     APP.dom.html.addClass("android4");
     }
 
     return {
