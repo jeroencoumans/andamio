@@ -15,7 +15,8 @@ APP.loader = (function () {
     // Variables
     var spinnerType,
         loaderText,
-        hasLoader;
+        hasLoader,
+        timeoutToken;
 
     /**
      * Shows the loader on top of the page. When no message is given, it will use the text inside #loader .loader-text
@@ -29,10 +30,14 @@ APP.loader = (function () {
         APP.dom.html.addClass("has-loader");
         hasLoader = true;
 
-        if (spinnerType === "native") {
+        if (navigator.spinner) {
 
             navigator.spinner.show({"message": message});
         } else {
+
+            if (!APP.dom.pageLoaderImg.attr("src")) {
+                APP.dom.pageLoaderImg.attr("src", APP.dom.pageLoaderImg.data("img-src"));
+            }
 
             APP.dom.pageLoader.show();
             loaderText.text(message);
@@ -49,11 +54,10 @@ APP.loader = (function () {
         APP.dom.html.removeClass("has-loader");
         hasLoader = false;
 
-        if (spinnerType === "native") {
-
+        if (navigator.spinner) {
             navigator.spinner.hide();
-        } else {
-
+        }
+        else {
             APP.dom.pageLoader.hide();
         }
     }
@@ -68,7 +72,29 @@ APP.loader = (function () {
     }
 
     /**
-     * Check wether we use native or HTML spinner based on $.supports.cordova
+     * Attach event listeners
+     * @method attachListeners
+     */
+    function attachListeners() {
+
+        APP.dom.doc.on("APP:views:loadPage:start", function() {
+
+            // show loader if nothing is shown within 0,250 seconds
+            timeoutToken = setTimeout(function() {
+                APP.loader.show();
+
+            }, 250);
+        });
+
+        APP.dom.doc.on("APP:views:loadPage:finish", function() {
+
+            clearTimeout(timeoutToken);
+            APP.loader.hide();
+        });
+    }
+
+    /**
+     * Check wether we use native or HTML spinner based on APP.config.cordova
      * @method init
      */
     function init() {
@@ -76,22 +102,7 @@ APP.loader = (function () {
         hasLoader = APP.dom.html.hasClass("has-loader") ? true : false;
         loaderText = APP.dom.pageLoader.find(".loader-text");
 
-        if ($.supports.cordova) {
-
-            // only set the spinner to native when Cordova is injected
-            navigator.bootstrap.addConstructor(function() {
-                spinnerType = "native";
-            });
-        } else {
-
-            spinnerType = "html";
-            var img = APP.dom.pageLoader.find("img");
-
-            if (!img.attr("src")) {
-                img.attr("src", img.data("img-src"));
-            }
-        }
-
+        attachListeners();
     }
 
     return {

@@ -12,8 +12,7 @@
  */
 APP.store = (function() {
 
-    var server,
-        isLoading;
+    var isLoading;
 
     /**
      * Loads an URL from localStorage.
@@ -68,7 +67,7 @@ APP.store = (function() {
         if (! url || lscache.get(url)) return;
 
         var expire = expiration ? expiration : 365*24*60,
-            request = absolute ? url : server + url;
+            request = absolute ? url : APP.config.server + url;
 
         $.ajax({
             url: request,
@@ -124,35 +123,12 @@ APP.store = (function() {
     }
 
     /**
-     * Returns an array of URL's
-     * @method getUrlList
-     * @param {HTMLElement} selector the selector used to get the DOM elements, e.g. ".article-list .action-pjax"
-     * @return {Array} an array of URL's
-     */
-    function getUrlList(selector) {
-
-        if (! selector) return;
-
-        var urlList = [];
-
-        $(selector).each(function(index, item) {
-
-            var url = APP.util.getUrl(item);
-            urlList.push(url);
-        });
-
-        return urlList;
-    }
-
-    /**
      * Initialize variables and settings
      * @method init
-     * @param {Object} [params.server] optional server that will be used as the default host
      */
-    function init(params) {
+    function init() {
 
         isLoading = false;
-        server = (params && params.server) ? params.server : "http://localhost";
     }
 
     return {
@@ -160,7 +136,6 @@ APP.store = (function() {
         "loading": isLoading,
         "storeUrl": storeUrl,
         "storeUrlList": storeUrlList,
-        "getUrlList": getUrlList,
         "showUrl": showUrl
     };
 

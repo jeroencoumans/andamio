@@ -1,4 +1,8 @@
+/*jshint latedef:true, undef:true, unused:false boss:true */
+/*global $, document, window */
+
 var APP = APP || {};
+
 
 /**
  * Module for accessing all Andamio DOM elements
@@ -9,6 +13,7 @@ var APP = APP || {};
 APP.dom = (function () {
 
     var doc = $(document),
+        win = window,
         html = $("html"),
         viewport = $(".viewport"),
 
@@ -53,6 +58,7 @@ APP.dom = (function () {
         pageAlert = $("#page-alert");
 
     return {
+        win: win,
         doc: doc,
         html: html,
         viewport: viewport,
@@ -147,6 +153,27 @@ APP.util = (function () {
     }
 
     /**
+     * Returns an array of URL's
+     * @method getUrlList
+     * @param {HTMLElement} selector the selector used to get the DOM elements, e.g. ".article-list .action-pjax"
+     * @return {Array} an array of URL's
+     */
+    function getUrlList(selector) {
+
+        if (! selector) return;
+
+        var urlList = [];
+
+        $(selector).each(function(index, item) {
+
+            var url = APP.util.getUrl(item);
+            urlList.push(url);
+        });
+
+        return urlList;
+    }
+
+    /**
      * Get title from the data attribute, falling back to the text
      * @method getTitle
      * @param {HTMLElement} elem the element to get the title from
@@ -169,6 +196,7 @@ APP.util = (function () {
         "getQueryParam": getQueryParam,
         "isExternalLink": isExternalLink,
         "getUrl": getUrl,
+        "getUrlList": getUrlList,
         "getTitle": getTitle
     };
 })();
@@ -188,7 +216,7 @@ APP.delay = (function(){
     };
 })();
 /*jshint latedef:true, undef:true, unused:true boss:true */
-/*global $:false, APP:false, navigator, document */
+/*global APP, $, navigator, lscache */
 
 /**
  * Core module for initializing capabilities and modules
@@ -196,7 +224,7 @@ APP.delay = (function(){
  * @class core
  * @namespace APP
  */
-APP.capabilities = (function () {
+APP.config = (function () {
 
     /*** Zepto detect.js ***/
     function detect(ua) {
@@ -240,15 +268,15 @@ APP.capabilities = (function () {
 
     /**
      * Initialize capabilities based on UA detection
-     * @method initCapabilities
+     * @method init
      */
-    function init() {
+    function init(params) {
 
         detect.call($, navigator.userAgent);
 
-        $.os = $.os || {};
+        if (typeof params !== "object" || typeof params === "undefined") params = false;
 
-        // basic ios5 detection
+        // basic ios detection
         $.os.ios5 = $.os.ios && $.os.version.indexOf("5.") !== -1;
         $.os.ios6 = $.os.ios && $.os.version.indexOf("6.") !== -1;
 
@@ -259,33 +287,45 @@ APP.capabilities = (function () {
         // basic blackberry detection
         $.os.bb10 = navigator.userAgent.indexOf("BB10") > -1;
 
-        $.supports = $.supports || {};
-        $.supports.cordova = navigator.userAgent.indexOf("TMGContainer") > -1;
+        // Enable for phone & tablet
+        APP.config.ftfastclick = $.os.phone || $.os.tablet;
 
-        $.supports.webapp =  APP.util.getQueryParam("webapp", false) === "1" || navigator.standalone || $.supports.cordova;
+        // Configurable settings
+        APP.config.cordova  = (typeof params.cordova !== "undefined") ? params.cordova : navigator.userAgent.indexOf("TMGContainer") > -1;
+        APP.config.offline  = (typeof params.offline !== "undefined") ? params.offline : lscache.supported();
+        APP.config.server   = (typeof params.server  !== "undefined") ? params.server  : APP.dom.win.location.origin + APP.dom.win.location.pathname;
 
-        // Only enable for iPhone/iPad for now
-        $.supports.ftfastclick = $.os.ios;
-
-        // TODO - Lazy media query
-        if (document.width >= 980) {
-            APP.dom.html.removeClass("website").addClass("desktop no-touch has-navigation");
-            $.supports.webapp = true;
+        if (typeof params.webapp !== "undefined") {
+            APP.config.webapp   = params.webapp;
+        } else {
+            APP.config.webapp = APP.config.cordova || APP.util.getQueryParam("webapp", false) === "1" || navigator.standalone;
         }
 
-        // When used as standalone app or springboard app
-        if ($.supports.webapp)  APP.dom.html.removeClass("website").addClass("webapp");
-        if ($.os.ios)           APP.dom.html.addClass("ios");
-        if ($.os.ios5)          APP.dom.html.addClass("ios5");
-        if ($.os.ios6)          APP.dom.html.addClass("ios6");
-        if ($.os.android)       APP.dom.html.addClass("android");
-        if ($.os.android2)      APP.dom.html.addClass("android2");
-        if ($.os.android4)      APP.dom.html.addClass("android4");
+        APP.config.touch = 'ontouchstart' in APP.dom.win;
 
+        // Yes, everything above 980 is considered desktop
+        APP.config.tablet = $.os.tablet || APP.dom.doc.width() >= 980;
+
+        if (APP.config.tablet) {
+            APP.dom.html.removeClass("website").addClass("desktop has-navigation");
+            APP.config.webapp = true;
+        }
+
+        if (! APP.config.touch) APP.dom.html.addClass("no-touch");
+
+        // When used as standalone app or springboard app
+        if (APP.config.webapp) APP.dom.html.removeClass("website").addClass("webapp");
+        if ($.os.ios)          APP.dom.html.addClass("ios");
+        if ($.os.ios5)         APP.dom.html.addClass("ios5");
+        if ($.os.ios6)         APP.dom.html.addClass("ios6");
+        if ($.os.android)      APP.dom.html.addClass("android");
+        if ($.os.android2)     APP.dom.html.addClass("android2");
+        if ($.os.android4)     APP.dom.html.addClass("android4");
     }
 
-    init();
-
+    return {
+        "init": init
+    };
 })();
 
 /**
@@ -385,7 +425,7 @@ APP.events = (function () {
 
         body = $(document.body);
 
-        if ($.supports.ftfastclick) {
+        if (APP.config.ftfastclick) {
             var fastclick = new FastClick(document.body);
         }
     }
@@ -399,6 +439,9 @@ APP.events = (function () {
     };
 })();
 
+/*jshint latedef:true, undef:true, unused:true, boss:true */
+/*global APP, $, navigator, cordova */
+
 /**
  * Module that enhances the webapp with Cordova functionality
  * @author Jeroen Coumans
@@ -411,12 +454,13 @@ APP.phone = (function () {
         lastUpdated = new Date();
 
     /**
-     * Listens to all clicks on anchor tags and opens them in Cordova popover if it's an external URL
-     * @method interceptAnchorClicks
+     * Attach Cordova listeners
+     * @method attachListeners
      * @private
      */
-    function interceptAnchorClicks() {
+    function attachListeners() {
 
+        // Listens to all clicks on anchor tags and opens them in Cordova popover if it's an external URL
         APP.dom.viewport.on("click", "a", function() {
             if (APP.util.isExternalLink(this)) {
 
@@ -428,14 +472,6 @@ APP.phone = (function () {
                 return true;
             }
         });
-    }
-
-    /**
-     * Attach Cordova listeners
-     * @method attachListeners
-     * @private
-     */
-    function attachListeners() {
 
         // hide splashscreen
         navigator.bootstrap.addConstructor(function() {
@@ -443,7 +479,7 @@ APP.phone = (function () {
         });
 
         // scroll to top on tapbar tap
-        document.addEventListener("statusbartap", function() {
+        APP.dom.doc.on("statusbartap", function() {
 
             var pageScroller;
 
@@ -464,32 +500,21 @@ APP.phone = (function () {
                     $.scrollElement(that.get(0), 0);
                 }
             });
-        }, false);
+        });
 
         // refresh when application is activated from background
-        document.addEventListener("resign", function() {
+        APP.dom.doc.on("resign", function() {
             lastUpdated = new Date();
         });
 
-        document.addEventListener("active", function() {
+        APP.dom.doc.on("active", function() {
             var now = new Date();
             if (now - lastUpdated > APP_FROM_BACKGROUND_REFRESH_TIMEOUT) {
 
                 if (APP.alert.status) APP.alert.hide();
                 APP.open.refresh();
             }
-        }, false);
-    }
-
-    /**
-     * Init Cordova stuff. Only called when Cordova is actually loaded
-     * @method initCordova
-     * @private
-     */
-    function initCordova() {
-
-        interceptAnchorClicks();
-        attachListeners();
+        });
     }
 
     /**
@@ -500,7 +525,7 @@ APP.phone = (function () {
 
         // When Cordovia is loaded and talking to the device, initialize it
         navigator.bootstrap.addConstructor(function() {
-            initCordova();
+            attachListeners();
         });
     }
 
@@ -639,7 +664,7 @@ APP.loader = (function () {
         APP.dom.html.addClass("has-loader");
         hasLoader = true;
 
-        if (spinnerType === "native") {
+        if (navigator.spinner) {
 
             navigator.spinner.show({"message": message});
         } else {
@@ -663,11 +688,10 @@ APP.loader = (function () {
         APP.dom.html.removeClass("has-loader");
         hasLoader = false;
 
-        if (spinnerType === "native") {
-
+        if (navigator.spinner) {
             navigator.spinner.hide();
-        } else {
-
+        }
+        else {
             APP.dom.pageLoader.hide();
         }
     }
@@ -687,7 +711,7 @@ APP.loader = (function () {
      */
     function attachListeners() {
 
-        APP.dom.doc.on("ajaxBeforeSend", function() {
+        APP.dom.doc.on("APP:views:loadPage:start", function() {
 
             // show loader if nothing is shown within 0,250 seconds
             timeoutToken = setTimeout(function() {
@@ -696,7 +720,7 @@ APP.loader = (function () {
             }, 250);
         });
 
-        APP.dom.doc.on("ajaxComplete", function() {
+        APP.dom.doc.on("APP:views:loadPage:finish", function() {
 
             clearTimeout(timeoutToken);
             APP.loader.hide();
@@ -704,24 +728,13 @@ APP.loader = (function () {
     }
 
     /**
-     * Check wether we use native or HTML spinner based on $.supports.cordova
+     * Check wether we use native or HTML spinner based on APP.config.cordova
      * @method init
      */
     function init() {
 
         hasLoader = APP.dom.html.hasClass("has-loader") ? true : false;
         loaderText = APP.dom.pageLoader.find(".loader-text");
-
-        if ($.supports.cordova) {
-
-            // only set the spinner to native when Cordova is injected
-            navigator.bootstrap.addConstructor(function() {
-                spinnerType = "native";
-            });
-        } else {
-
-            spinnerType = "html";
-        }
 
         attachListeners();
     }
@@ -841,6 +854,9 @@ APP.open = (function () {
             url: url,
             timeout: 7500,
             headers: { "X-PJAX": true },
+            beforeSend: function() {
+                APP.dom.doc.trigger("APP:views:loadPage:start");
+            },
             success: function(response) {
 
                 $(content).html(response);
@@ -848,6 +864,9 @@ APP.open = (function () {
                 if (scrollPosition > 10) {
                     $.scrollElement($(content).get(0), 0);
                 }
+            },
+            complete: function() {
+                APP.dom.doc.trigger("APP:views:loadPage:finish");
             }
         });
     }
@@ -1050,7 +1069,7 @@ APP.nav = (function () {
 
         APP.dom.html.addClass("has-navigation");
 
-        if (!$.supports.webapp) {
+        if (!APP.config.webapp) {
             setPageHeight(navheight);
         }
 
@@ -1063,9 +1082,12 @@ APP.nav = (function () {
      */
     function hide() {
 
+        // never hide on tablet
+        if (APP.config.tablet) return;
+
         APP.dom.html.removeClass("has-navigation");
 
-        if (!$.supports.webapp) {
+        if (!APP.config.webapp) {
             setPageHeight("");
         }
 
@@ -1094,9 +1116,6 @@ APP.nav = (function () {
 
             APP.dom.pageNavActive.removeClass("active");
             APP.dom.pageNavActive = elem.addClass("active");
-        } else {
-
-            return APP.dom.pageNavActive;
         }
     }
 
@@ -1127,24 +1146,15 @@ APP.nav = (function () {
                 url     = APP.util.getUrl(target),
                 title   = APP.util.getTitle(target);
 
-            // If user selects the active element, or no URL is found, just close the menu
-            if (target === APP.nav.pageNavActive || ! url) {
-
-                hide();
-                return;
-            }
-
             setActive(target);
             hide();
 
+            // If user selects the active element, or no URL is found, just close the menu
+            if (target === APP.nav.pageNavActive || ! url) return;
+
             // set page title
-            if (title) {
-
-                APP.dom.parentViewTitle.text(title);
-            }
-
-            APP.open.page(url, APP.dom.parentView);
-
+            if (title) APP.dom.parentViewTitle.text(title);
+            if (url) APP.open.page(url, APP.dom.parentView);
         });
     }
 
@@ -1383,8 +1393,7 @@ APP.search = (function () {
  */
 APP.store = (function() {
 
-    var server,
-        isLoading;
+    var isLoading;
 
     /**
      * Loads an URL from localStorage.
@@ -1439,7 +1448,7 @@ APP.store = (function() {
         if (! url || lscache.get(url)) return;
 
         var expire = expiration ? expiration : 365*24*60,
-            request = absolute ? url : server + url;
+            request = absolute ? url : APP.config.server + url;
 
         $.ajax({
             url: request,
@@ -1495,35 +1504,12 @@ APP.store = (function() {
     }
 
     /**
-     * Returns an array of URL's
-     * @method getUrlList
-     * @param {HTMLElement} selector the selector used to get the DOM elements, e.g. ".article-list .action-pjax"
-     * @return {Array} an array of URL's
-     */
-    function getUrlList(selector) {
-
-        if (! selector) return;
-
-        var urlList = [];
-
-        $(selector).each(function(index, item) {
-
-            var url = APP.util.getUrl(item);
-            urlList.push(url);
-        });
-
-        return urlList;
-    }
-
-    /**
      * Initialize variables and settings
      * @method init
-     * @param {Object} [params.server] optional server that will be used as the default host
      */
-    function init(params) {
+    function init() {
 
         isLoading = false;
-        server = (params && params.server) ? params.server : "http://localhost";
     }
 
     return {
@@ -1531,10 +1517,94 @@ APP.store = (function() {
         "loading": isLoading,
         "storeUrl": storeUrl,
         "storeUrlList": storeUrlList,
-        "getUrlList": getUrlList,
         "showUrl": showUrl
     };
 
+})();
+
+/*jshint latedef:true, undef:true, unused:true boss:true */
+/*global APP, $, Swipe, document */
+
+/**
+ * Module for setting up swipe.js
+ */
+APP.slideshow = (function () {
+
+    var slideShow,
+        slideShowDotsWrapper,
+        slideShowDotsItems;
+
+    function prev() {
+
+        if (slideShow) {
+            slideShow.prev();
+        }
+    }
+
+    function next() {
+
+        if (slideShow) {
+            slideShow.next();
+        }
+    }
+
+    function slide(index) {
+
+        if (slideShow) {
+            slideShow.slide(index, 300);
+        }
+    }
+
+    /**
+     * Attach event listeners
+     */
+    function attachListeners() {
+
+        APP.events.attachClickHandler(".action-slideshow-next", function () {
+            slideShow.next();
+        });
+
+    }
+
+    function init(id) {
+
+        slideShowDotsWrapper = $('<div class="slideshow-dots"></div>');
+
+        slideShow = new Swipe(document.getElementById(id), {
+            startSlide: 0,
+            speed: 300,
+            continuous: true,
+            disableScroll: false,
+            callback: function (index, item) {
+                slideShowDotsWrapper.find(".active").removeClass("active");
+                $(slideShowDotsItems[index]).addClass("active");
+                var img = $(item).find(".js-slideshow-media");
+                if (img) img.attr("src", img.data("src"));
+            }
+        });
+
+        // generate dots
+        for (var i=0;i<slideShow.length;i++) {
+            slideShowDotsWrapper.append($('<div class="slideshow-dot"></div>'));
+        }
+
+        slideShowDotsItems = slideShowDotsWrapper.find(".slideshow-dot");
+
+        // set first to active
+        slideShowDotsItems.first().addClass("active");
+
+        // insert after the swipe container
+        slideShowDotsWrapper.insertAfter(slideShow.container);
+
+        attachListeners();
+    }
+
+    return {
+        "init": init,
+        "prev": prev,
+        "next": next,
+        "slide": slide
+    };
 })();
 
 /**
@@ -1887,6 +1957,9 @@ APP.alert = (function () {
 
 })();
 
+/*jshint latedef:true, undef:true, unused:true boss:true */
+/*global APP */
+
 /**
  * Core module for initializing capabilities and modules
  * @author Jeroen Coumans
@@ -1901,6 +1974,7 @@ APP.core = (function () {
      */
     function init(params) {
 
+        APP.config.init(params);
         APP.events.init();
 
         // needs to come first so we're "online"
@@ -1915,9 +1989,8 @@ APP.core = (function () {
         APP.views.init();
         APP.alert.init();
 
-        if ($.supports.cordova) {
-            APP.phone.init();
-        }
+        if (APP.config.offline) APP.store.init();
+        if (APP.config.cordova) APP.phone.init();
     }
 
     return {

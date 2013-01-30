@@ -111,18 +111,9 @@ APP.open = (function () {
             timeout: 7500,
             headers: { "X-PJAX": true },
             beforeSend: function() {
-
-                // show loader if nothing is shown within 0,5 seconds
-                timeoutToken = setTimeout(function() {
-                    APP.loader.show();
-
-                }, 250);
-
+                APP.dom.doc.trigger("APP:views:loadPage:start");
             },
             success: function(response) {
-
-                // if we were offline, reset the connection to online
-                APP.connection.setStatus("online");
 
                 $(content).html(response);
 
@@ -130,16 +121,8 @@ APP.open = (function () {
                     $.scrollElement($(content).get(0), 0);
                 }
             },
-            error: function(xhr, errorType, error) {
-
-                APP.connection.setStatus("offline");
-                $(document.body).trigger("APP:open:page:error");
-            },
             complete: function() {
-
-                clearTimeout(timeoutToken);
-                APP.loader.hide();
-                if ($.isFunction(callback)) callback();
+                APP.dom.doc.trigger("APP:views:loadPage:finish");
             }
         });
     }

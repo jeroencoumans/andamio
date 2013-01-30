@@ -1321,481 +1321,513 @@ window.Zepto = Zepto
         animate();
     };
 }(Zepto));
-/*!
- * SwipeView v1.0 ~ Copyright (c) 2012 Matteo Spinelli, http://cubiq.org
- * Released under MIT license, http://cubiq.org/license
- */
-var SwipeView = (function (window, document) {
-	var dummyStyle = document.createElement('div').style,
-		vendor = (function () {
-			var vendors = 't,webkitT,MozT,msT,OT'.split(','),
-				t,
-				i = 0,
-				l = vendors.length;
-
-			for ( ; i < l; i++ ) {
-				t = vendors[i] + 'ransform';
-				if ( t in dummyStyle ) {
-					return vendors[i].substr(0, vendors[i].length - 1);
-				}
-			}
-
-			return false;
-		})(),
-		cssVendor = vendor ? '-' + vendor.toLowerCase() + '-' : '',
-
-		// Style properties
-		transform = prefixStyle('transform'),
-		transitionDuration = prefixStyle('transitionDuration'),
-
-		// Browser capabilities
-		has3d = prefixStyle('perspective') in dummyStyle,
-		hasTouch = 'ontouchstart' in window,
-		hasTransform = !!vendor,
-		hasTransitionEnd = prefixStyle('transition') in dummyStyle,
-
-		// Helpers
-		translateZ = has3d ? ' translateZ(0)' : '',
-
-		// Events
-		resizeEvent = 'onorientationchange' in window ? 'orientationchange' : 'resize',
-		startEvent = hasTouch ? 'touchstart' : 'mousedown',
-		moveEvent = hasTouch ? 'touchmove' : 'mousemove',
-		endEvent = hasTouch ? 'touchend' : 'mouseup',
-		cancelEvent = hasTouch ? 'touchcancel' : 'mouseup',
-		transitionEndEvent = (function () {
-			if ( vendor === false ) return false;
-
-			var transitionEnd = {
-					''			: 'transitionend',
-					'webkit'	: 'webkitTransitionEnd',
-					'Moz'		: 'transitionend',
-					'O'			: 'oTransitionEnd',
-					'ms'		: 'MSTransitionEnd'
-				};
-
-			return transitionEnd[vendor];
-		})(),
-
-		SwipeView = function (el, options) {
-			var i,
-				div,
-				className,
-				pageIndex;
-
-			this.wrapper = typeof el == 'string' ? document.querySelector(el) : el;
-			this.options = {
-				text: null,
-				numberOfPages: 3,
-				snapThreshold: null,
-				hastyPageFlip: false,
-				loop: true
-			};
-
-			// User defined options
-			for (i in options) this.options[i] = options[i];
-
-			this.wrapper.style.overflow = 'hidden';
-			// this.wrapper.style.position = 'relative';
-
-			this.masterPages = [];
-
-			div = document.createElement('div');
-			div.id = 'swipeview-slider';
-			div.style.cssText = 'position:relative;top:0;height:100%;width:100%;' + cssVendor + 'transition-duration:0;' + cssVendor + 'transform:translateZ(0);';
-			this.wrapper.appendChild(div);
-			this.slider = div;
-
-			this.refreshSize();
-
-			for (i=-1; i<2; i++) {
-				div = document.createElement('div');
-				div.id = 'swipeview-masterpage-' + (i+1);
-				div.style.cssText = cssVendor + 'transform:translateZ(0);position:absolute;top:0;height:100%;width:100%;left:' + i*100 + '%';
-				if (!div.dataset) div.dataset = {};
-				pageIndex = i == -1 ? this.options.numberOfPages - 1 : i;
-				div.dataset.pageIndex = pageIndex;
-				div.dataset.upcomingPageIndex = pageIndex;
-
-				if (!this.options.loop && i == -1) div.style.visibility = 'hidden';
-
-				this.slider.appendChild(div);
-				this.masterPages.push(div);
-			}
-
-			className = this.masterPages[1].className;
-			this.masterPages[1].className = !className ? 'swipeview-active' : className + ' swipeview-active';
-
-			window.addEventListener(resizeEvent, this, false);
-			this.wrapper.addEventListener(startEvent, this, false);
-			this.wrapper.addEventListener(moveEvent, this, false);
-			this.wrapper.addEventListener(endEvent, this, false);
-			this.slider.addEventListener(transitionEndEvent, this, false);
-			// in Opera >= 12 the transitionend event is lowercase so we register both events
-			if ( vendor == 'O' ) this.slider.addEventListener(transitionEndEvent.toLowerCase(), this, false);
-
-/*			if (!hasTouch) {
-				this.wrapper.addEventListener('mouseout', this, false);
-			}*/
-		};
-
-	SwipeView.prototype = {
-		currentMasterPage: 1,
-		x: 0,
-		page: 0,
-		pageIndex: 0,
-		customEvents: [],
-
-		onFlip: function (fn) {
-			this.wrapper.addEventListener('swipeview-flip', fn, false);
-			this.customEvents.push(['flip', fn]);
-		},
-
-		onMoveOut: function (fn) {
-			this.wrapper.addEventListener('swipeview-moveout', fn, false);
-			this.customEvents.push(['moveout', fn]);
-		},
-
-		onMoveIn: function (fn) {
-			this.wrapper.addEventListener('swipeview-movein', fn, false);
-			this.customEvents.push(['movein', fn]);
-		},
-
-		onTouchStart: function (fn) {
-			this.wrapper.addEventListener('swipeview-touchstart', fn, false);
-			this.customEvents.push(['touchstart', fn]);
-		},
-
-		destroy: function () {
-			while ( this.customEvents.length ) {
-				this.wrapper.removeEventListener('swipeview-' + this.customEvents[0][0], this.customEvents[0][1], false);
-				this.customEvents.shift();
-			}
-
-			// Remove the event listeners
-			window.removeEventListener(resizeEvent, this, false);
-			this.wrapper.removeEventListener(startEvent, this, false);
-			this.wrapper.removeEventListener(moveEvent, this, false);
-			this.wrapper.removeEventListener(endEvent, this, false);
-			this.slider.removeEventListener(transitionEndEvent, this, false);
-
-/*			if (!hasTouch) {
-				this.wrapper.removeEventListener('mouseout', this, false);
-			}*/
-		},
-
-		refreshSize: function () {
-			this.wrapperWidth = this.wrapper.clientWidth;
-			this.wrapperHeight = this.wrapper.clientHeight;
-			this.pageWidth = this.wrapperWidth;
-			this.maxX = -this.options.numberOfPages * this.pageWidth + this.wrapperWidth;
-			this.snapThreshold = this.options.snapThreshold === null ?
-				Math.round(this.pageWidth * 0.15) :
-				/%/.test(this.options.snapThreshold) ?
-					Math.round(this.pageWidth * this.options.snapThreshold.replace('%', '') / 100) :
-					this.options.snapThreshold;
-		},
-
-		updatePageCount: function (n) {
-			this.options.numberOfPages = n;
-			this.maxX = -this.options.numberOfPages * this.pageWidth + this.wrapperWidth;
-		},
-
-		goToPage: function (p) {
-			var i;
-
-			this.masterPages[this.currentMasterPage].className = this.masterPages[this.currentMasterPage].className.replace(/(^|\s)swipeview-active(\s|$)/, '');
-			for (i=0; i<3; i++) {
-				className = this.masterPages[i].className;
-				/(^|\s)swipeview-loading(\s|$)/.test(className) || (this.masterPages[i].className = !className ? 'swipeview-loading' : className + ' swipeview-loading');
-			}
-
-			p = p < 0 ? 0 : p > this.options.numberOfPages-1 ? this.options.numberOfPages-1 : p;
-			this.page = p;
-			this.pageIndex = p;
-			this.slider.style[transitionDuration] = '0s';
-			this.__pos(-p * this.pageWidth);
-
-			this.currentMasterPage = (this.page + 1) - Math.floor((this.page + 1) / 3) * 3;
-
-			this.masterPages[this.currentMasterPage].className = this.masterPages[this.currentMasterPage].className + ' swipeview-active';
-
-			if (this.currentMasterPage === 0) {
-				this.masterPages[2].style.left = this.page * 100 - 100 + '%';
-				this.masterPages[0].style.left = this.page * 100 + '%';
-				this.masterPages[1].style.left = this.page * 100 + 100 + '%';
-
-				this.masterPages[2].dataset.upcomingPageIndex = this.page === 0 ? this.options.numberOfPages-1 : this.page - 1;
-				this.masterPages[0].dataset.upcomingPageIndex = this.page;
-				this.masterPages[1].dataset.upcomingPageIndex = this.page == this.options.numberOfPages-1 ? 0 : this.page + 1;
-			} else if (this.currentMasterPage == 1) {
-				this.masterPages[0].style.left = this.page * 100 - 100 + '%';
-				this.masterPages[1].style.left = this.page * 100 + '%';
-				this.masterPages[2].style.left = this.page * 100 + 100 + '%';
-
-				this.masterPages[0].dataset.upcomingPageIndex = this.page === 0 ? this.options.numberOfPages-1 : this.page - 1;
-				this.masterPages[1].dataset.upcomingPageIndex = this.page;
-				this.masterPages[2].dataset.upcomingPageIndex = this.page == this.options.numberOfPages-1 ? 0 : this.page + 1;
-			} else {
-				this.masterPages[1].style.left = this.page * 100 - 100 + '%';
-				this.masterPages[2].style.left = this.page * 100 + '%';
-				this.masterPages[0].style.left = this.page * 100 + 100 + '%';
-
-				this.masterPages[1].dataset.upcomingPageIndex = this.page === 0 ? this.options.numberOfPages-1 : this.page - 1;
-				this.masterPages[2].dataset.upcomingPageIndex = this.page;
-				this.masterPages[0].dataset.upcomingPageIndex = this.page == this.options.numberOfPages-1 ? 0 : this.page + 1;
-			}
-
-			this.__flip();
-		},
-
-		next: function () {
-			if (!this.options.loop && this.x == this.maxX) return;
-
-			this.directionX = -1;
-			this.x -= 1;
-			this.__checkPosition();
-		},
-
-		prev: function () {
-			if (!this.options.loop && this.x === 0) return;
-
-			this.directionX = 1;
-			this.x += 1;
-			this.__checkPosition();
-		},
-
-		handleEvent: function (e) {
-			switch (e.type) {
-				case startEvent:
-					this.__start(e);
-					break;
-				case moveEvent:
-					this.__move(e);
-					break;
-				case cancelEvent:
-				case endEvent:
-					this.__end(e);
-					break;
-				case resizeEvent:
-					this.__resize();
-					break;
-				case transitionEndEvent:
-				case 'otransitionend':
-					if (e.target == this.slider && !this.options.hastyPageFlip) this.__flip();
-					break;
-			}
-		},
-
-
-		/**
-		*
-		* Pseudo private methods
-		*
-		*/
-		__pos: function (x) {
-			this.x = x;
-			this.slider.style[transform] = 'translate(' + x + 'px,0)' + translateZ;
-		},
-
-		__resize: function () {
-			this.refreshSize();
-			this.slider.style[transitionDuration] = '0s';
-			this.__pos(-this.page * this.pageWidth);
-		},
-
-		__start: function (e) {
-			//e.preventDefault();
-
-			if (this.initiated) return;
-
-			var point = hasTouch ? e.touches[0] : e;
-
-			this.initiated = true;
-			this.moved = false;
-			this.thresholdExceeded = false;
-			this.startX = point.pageX;
-			this.startY = point.pageY;
-			this.pointX = point.pageX;
-			this.pointY = point.pageY;
-			this.stepsX = 0;
-			this.stepsY = 0;
-			this.directionX = 0;
-			this.directionLocked = false;
-
-/*			var matrix = getComputedStyle(this.slider, null).webkitTransform.replace(/[^0-9-.,]/g, '').split(',');
-			this.x = matrix[4] * 1;*/
-
-			this.slider.style[transitionDuration] = '0s';
-
-			this.__event('touchstart');
-		},
-
-		__move: function (e) {
-			if (!this.initiated) return;
-
-			var point = hasTouch ? e.touches[0] : e,
-				deltaX = point.pageX - this.pointX,
-				deltaY = point.pageY - this.pointY,
-				newX = this.x + deltaX,
-				dist = Math.abs(point.pageX - this.startX);
-
-			this.moved = true;
-			this.pointX = point.pageX;
-			this.pointY = point.pageY;
-			this.directionX = deltaX > 0 ? 1 : deltaX < 0 ? -1 : 0;
-			this.stepsX += Math.abs(deltaX);
-			this.stepsY += Math.abs(deltaY);
-
-			// We take a 10px buffer to figure out the direction of the swipe
-			if (this.stepsX < 10 && this.stepsY < 10) {
-//				e.preventDefault();
-				return;
-			}
-
-			// We are scrolling vertically, so skip SwipeView and give the control back to the browser
-			if (!this.directionLocked && this.stepsY > this.stepsX) {
-				this.initiated = false;
-				return;
-			}
-
-			e.preventDefault();
-
-			this.directionLocked = true;
-
-			if (!this.options.loop && (newX > 0 || newX < this.maxX)) {
-				newX = this.x + (deltaX / 2);
-			}
-
-			if (!this.thresholdExceeded && dist >= this.snapThreshold) {
-				this.thresholdExceeded = true;
-				this.__event('moveout');
-			} else if (this.thresholdExceeded && dist < this.snapThreshold) {
-				this.thresholdExceeded = false;
-				this.__event('movein');
-			}
-
-/*			if (newX > 0 || newX < this.maxX) {
-				newX = this.x + (deltaX / 2);
-			}*/
-
-			this.__pos(newX);
-		},
-
-		__end: function (e) {
-			if (!this.initiated) return;
-
-			var point = hasTouch ? e.changedTouches[0] : e,
-				dist = Math.abs(point.pageX - this.startX);
-
-			this.initiated = false;
-
-			if (!this.moved) return;
-
-			if (!this.options.loop && (this.x > 0 || this.x < this.maxX)) {
-				dist = 0;
-				this.__event('movein');
-			}
-
-			// Check if we exceeded the snap threshold
-			if (dist < this.snapThreshold) {
-				this.slider.style[transitionDuration] = Math.floor(300 * dist / this.snapThreshold) + 'ms';
-				this.__pos(-this.page * this.pageWidth);
-				return;
-			}
-
-			this.__checkPosition();
-		},
-
-		__checkPosition: function () {
-			var pageFlip,
-				pageFlipIndex,
-				className;
-
-			this.masterPages[this.currentMasterPage].className = this.masterPages[this.currentMasterPage].className.replace(/(^|\s)swipeview-active(\s|$)/, '');
-
-			// Flip the page
-			if (this.directionX > 0) {
-				this.page = -Math.ceil(this.x / this.pageWidth);
-				this.currentMasterPage = (this.page + 1) - Math.floor((this.page + 1) / 3) * 3;
-				this.pageIndex = this.pageIndex === 0 ? this.options.numberOfPages - 1 : this.pageIndex - 1;
-
-				pageFlip = this.currentMasterPage - 1;
-				pageFlip = pageFlip < 0 ? 2 : pageFlip;
-				this.masterPages[pageFlip].style.left = this.page * 100 - 100 + '%';
-
-				pageFlipIndex = this.page - 1;
-			} else {
-				this.page = -Math.floor(this.x / this.pageWidth);
-				this.currentMasterPage = (this.page + 1) - Math.floor((this.page + 1) / 3) * 3;
-				this.pageIndex = this.pageIndex == this.options.numberOfPages - 1 ? 0 : this.pageIndex + 1;
-
-				pageFlip = this.currentMasterPage + 1;
-				pageFlip = pageFlip > 2 ? 0 : pageFlip;
-				this.masterPages[pageFlip].style.left = this.page * 100 + 100 + '%';
-
-				pageFlipIndex = this.page + 1;
-			}
-
-			// Add active class to current page
-			className = this.masterPages[this.currentMasterPage].className;
-			/(^|\s)swipeview-active(\s|$)/.test(className) || (this.masterPages[this.currentMasterPage].className = !className ? 'swipeview-active' : className + ' swipeview-active');
-
-			// Add loading class to flipped page
-			className = this.masterPages[pageFlip].className;
-			/(^|\s)swipeview-loading(\s|$)/.test(className) || (this.masterPages[pageFlip].className = !className ? 'swipeview-loading' : className + ' swipeview-loading');
-
-			pageFlipIndex = pageFlipIndex - Math.floor(pageFlipIndex / this.options.numberOfPages) * this.options.numberOfPages;
-			this.masterPages[pageFlip].dataset.upcomingPageIndex = pageFlipIndex;		// Index to be loaded in the newly flipped page
-
-			newX = -this.page * this.pageWidth;
-
-			this.slider.style[transitionDuration] = Math.floor(500 * Math.abs(this.x - newX) / this.pageWidth) + 'ms';
-
-			// Hide the next page if we decided to disable looping
-			if (!this.options.loop) {
-				this.masterPages[pageFlip].style.visibility = newX === 0 || newX == this.maxX ? 'hidden' : '';
-			}
-
-			if (this.x == newX) {
-				this.__flip();		// If we swiped all the way long to the next page (extremely rare but still)
-			} else {
-				this.__pos(newX);
-				if (this.options.hastyPageFlip) this.__flip();
-			}
-		},
-
-		__flip: function () {
-			this.__event('flip');
-
-			for (var i=0; i<3; i++) {
-				this.masterPages[i].className = this.masterPages[i].className.replace(/(^|\s)swipeview-loading(\s|$)/, '');		// Remove the loading class
-				this.masterPages[i].dataset.pageIndex = this.masterPages[i].dataset.upcomingPageIndex;
-			}
-		},
-
-		__event: function (type) {
-			var ev = document.createEvent("Event");
-
-			ev.initEvent('swipeview-' + type, true, true);
-
-			this.wrapper.dispatchEvent(ev);
-		}
-	};
-
-	function prefixStyle (style) {
-		if ( vendor === '' ) return style;
-
-		style = style.charAt(0).toUpperCase() + style.substr(1);
-		return vendor + style;
-	}
-
-	return SwipeView;
-})(window, document);
+/*
+ * Swipe 2.0
+ *
+ * Brad Birdsall
+ * Copyright 2012, Licensed GPL & MIT
+ *
+*/
+
+window.Swipe = function(element, options) {
+
+  var _this = this;
+
+  // return immediately if element doesn't exist
+  if (!element) return;
+
+  // reference dom elements
+  this.container = element;
+  this.element = this.container.children[0];
+
+  // simple feature detection
+  this.browser = {
+    touch: (function() {
+      return ('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch;
+    })(),
+    transitions: (function() {
+      var temp = document.createElement('swipe'),
+          props = ['perspectiveProperty', 'WebkitPerspective', 'MozPerspective', 'OPerspective', 'msPerspective'];
+      for ( var i in props ) {
+        if (temp.style[ props[i] ] !== undefined) return true;
+      }
+      return false;
+    })()
+  };
+
+  // retreive options
+  options = options || {};
+  this.index = options.startSlide || 0;
+  this.speed = options.speed || 300;
+  this.callback = options.callback || function() {};
+  this.transitionEnd = options.transitionEnd || function() {};
+  this.delay = options.auto || 0;
+  this.cont = (options.continuous != undefined) ? !!options.continuous : true;
+  this.disableScroll = !!options.disableScroll;
+
+  // verify index is a number not string
+  this.index = parseInt(this.index,10);
+
+  // trigger slider initialization
+  this.setup();
+
+  // begin auto slideshow
+  this.begin();
+
+  // add event listeners
+  if (this.element.addEventListener) {
+    if (!!this.browser.touch) {
+      this.element.addEventListener('touchstart', this, false);
+      this.element.addEventListener('touchmove', this, false);
+      this.element.addEventListener('touchend', this, false);
+    }
+    if (!!this.browser.transitions) {
+      this.element.addEventListener('webkitTransitionEnd', this, false);
+      this.element.addEventListener('msTransitionEnd', this, false);
+      this.element.addEventListener('oTransitionEnd', this, false);
+      this.element.addEventListener('transitionend', this, false);
+    }
+    window.addEventListener('resize', this, false);
+  }
+
+  // to play nice with old IE
+  else {
+    window.onresize = function () {
+      _this.setup();
+    };
+  }
+
+};
+
+Swipe.prototype = {
+
+  setup: function() {
+
+    // get and measure amt of slides
+    this.slides = this.element.children;
+    this.length = this.slides.length;
+    this.cache = new Array(this.length);
+
+    // return immediately if their are less than two slides
+    if (this.length < 2) return;
+
+    // determine width of each slide
+    this.width = this.container.getBoundingClientRect().width || this.container.offsetWidth;
+
+    // return immediately if measurement fails
+    if (!this.width) return;
+
+    // store array of slides before, current, and after
+    var refArray = [[],[],[]];
+
+    this.element.style.width = (this.slides.length * this.width) + 'px';
+
+    // stack elements
+    for (var index = this.length - 1; index > -1; index--) {
+
+      var elem = this.slides[index];
+
+      elem.style.width = this.width + 'px';
+      elem.setAttribute('data-index', index);
+
+      if (this.browser.transitions) {
+        elem.style.left = (index * -this.width) + 'px';
+      }
+
+      // add this index to the reference array    0:before 1:equal 2:after
+      refArray[this.index > index ? 0 : (this.index < index ? 2 : 1)].push(index);
+
+    }
+
+    if (this.browser.transitions) {
+
+      // stack left, current, and right slides
+      this._stack(refArray[0],-1);
+      this._stack(refArray[1],0);
+      this._stack(refArray[2],1);
+
+    } else {
+      // move "viewport" to put current slide into view
+      this.element.style.left = (this.index * -this.width)+"px";
+    }
+
+    this.container.style.visibility = 'visible';
+
+  },
+
+  kill: function() {
+
+    // cancel slideshow
+    this.delay = 0;
+    clearTimeout(this.interval);
+
+    // clear all translations
+    var slideArray = [];
+    for (var i = this.slides.length - 1; i >= 0; i--) {
+      this.slides[i].style.width = '';
+      slideArray.push(i);
+    }
+    this._stack(slideArray,0);
+
+    var elem = this.element;
+    elem.className = elem.className.replace('swipe-active','');
+
+    // remove event listeners
+    if (this.element.removeEventListener) {
+      if (!!this.browser.touch) {
+        this.element.removeEventListener('touchstart', this, false);
+        this.element.removeEventListener('touchmove', this, false);
+        this.element.removeEventListener('touchend', this, false);
+      }
+      if (!!this.browser.transitions) {
+        this.element.removeEventListener('webkitTransitionEnd', this, false);
+        this.element.removeEventListener('msTransitionEnd', this, false);
+        this.element.removeEventListener('oTransitionEnd', this, false);
+        this.element.removeEventListener('transitionend', this, false);
+      }
+      window.removeEventListener('resize', this, false);
+    }
+
+    // kill old IE! you can quote me on that ;)
+    else {
+      window.onresize = null;
+    }
+
+  },
+
+  getPos: function() {
+
+    // return current index position
+    return this.index;
+
+  },
+
+  prev: function(delay) {
+
+    // cancel slideshow
+    this.delay = delay || 0;
+    clearTimeout(this.interval);
+
+    // if not at first slide
+    if (this.index) this.slide(this.index-1, this.speed);
+    else if (this.cont) this.slide(this.length-1, this.speed);
+
+  },
+
+  next: function(delay) {
+
+    // cancel slideshow
+    this.delay = delay || 0;
+    clearTimeout(this.interval);
+
+    if (this.index < this.length - 1) this.slide(this.index+1, this.speed); // if not last slide
+    else if (this.cont) this.slide(0, this.speed); //if last slide return to start
+
+  },
+
+  begin: function() {
+
+    var _this = this;
+
+    this.interval = (this.delay)
+      ? setTimeout(function() {
+        _this.next(_this.delay);
+      }, this.delay)
+      : 0;
+
+  },
+
+  handleEvent: function(e) {
+    switch (e.type) {
+      case 'touchstart': this.onTouchStart(e); break;
+      case 'touchmove': this.onTouchMove(e); break;
+      case 'touchend': this.onTouchEnd(e); break;
+      case 'webkitTransitionEnd':
+      case 'msTransitionEnd':
+      case 'oTransitionEnd': // opera 11 and below
+      case 'otransitionend': // opera 12 (and above?)
+      case 'transitionend': this.onTransitionEnd(e); break;
+      case 'resize': this.setup(); break;
+    }
+
+    e.stopPropagation();
+  },
+
+  onTouchStart: function(e) {
+
+    var _this = this;
+
+    _this.start = {
+
+      // get touch coordinates for delta calculations in onTouchMove
+      pageX: e.touches[0].pageX,
+      pageY: e.touches[0].pageY,
+
+      // set initial timestamp of touch sequence
+      time: Number( new Date() )
+
+    };
+
+    // used for testing first onTouchMove event
+    _this.isScrolling = undefined;
+
+    // reset deltaX
+    _this.deltaX = 0;
+
+  },
+
+  onTouchMove: function(e) {
+
+    var _this = this;
+
+    // ensure swiping with one touch and not pinching
+    if(e.touches.length > 1 || e.scale && e.scale !== 1) return;
+
+    _this.deltaX = e.touches[0].pageX - _this.start.pageX;
+
+    // determine if scrolling test has run - one time test
+    if ( typeof _this.isScrolling == 'undefined') {
+      _this.isScrolling = !!( _this.isScrolling || Math.abs(_this.deltaX) < Math.abs(e.touches[0].pageY - _this.start.pageY) );
+    }
+
+    // if user is not trying to scroll vertically
+    if (!_this.isScrolling) {
+
+      // prevent native scrolling
+      e.preventDefault();
+
+      // cancel slideshow
+      _this.delay = 0;
+      clearTimeout(_this.interval);
+
+      // increase resistance if first or last slide
+      _this.deltaX =
+        _this.deltaX /
+          ( (!_this.index && _this.deltaX > 0               // if first slide and sliding left
+            || _this.index == _this.length - 1              // or if last slide and sliding right
+            && _this.deltaX < 0                            // and if sliding at all
+          ) ?
+          ( Math.abs(_this.deltaX) / _this.width + 1 )      // determine resistance level
+          : 1 );                                          // no resistance if false
+
+      // translate immediately 1:1
+      _this._move([_this.index-1,_this.index,_this.index+1],_this.deltaX);
+
+    } else if (_this.disableScroll) {
+
+      // prevent native scrolling
+      e.preventDefault();
+
+    }
+
+  },
+
+  onTouchEnd: function(e) {
+
+    var _this = this;
+
+    // determine if slide attempt triggers next/prev slide
+    var isValidSlide =
+          Number(new Date()) - _this.start.time < 250      // if slide duration is less than 250ms
+          && Math.abs(_this.deltaX) > 20                   // and if slide amt is greater than 20px
+          || Math.abs(_this.deltaX) > _this.width/2,        // or if slide amt is greater than half the width
+
+    // determine if slide attempt is past start and end
+        isPastBounds =
+          !_this.index && _this.deltaX > 0                          // if first slide and slide amt is greater than 0
+          || _this.index == _this.length - 1 && _this.deltaX < 0,    // or if last slide and slide amt is less than 0
+
+        direction = _this.deltaX < 0; // true:right false:left
+
+    // if not scrolling vertically
+    if (!_this.isScrolling) {
+
+      if (isValidSlide && !isPastBounds) {
+        if (direction) {
+          _this._stack([_this.index-1],-1);
+          _this._slide([_this.index,_this.index+1],-_this.width,_this.speed);
+          _this.index += 1;
+        } else {
+          _this._stack([_this.index+1],1);
+          _this._slide([_this.index-1,_this.index],_this.width,_this.speed);
+          _this.index += -1;
+        }
+        _this.callback(_this.index, _this.slides[_this.index]);
+      } else {
+        _this._slide([_this.index-1,_this.index,_this.index+1],0,_this.speed);
+      }
+
+    }
+
+  },
+
+  onTransitionEnd: function(e) {
+
+    if (this._getElemIndex(e.target) == this.index) { // only call transition end on the main slide item
+
+      if (this.delay) this.begin();
+
+      this.transitionEnd(this.index, this.slides[this.index]);
+
+    }
+
+  },
+
+  slide: function(to, speed) {
+
+    var from = this.index;
+
+    if (from == to) return; // do nothing if already on requested slide
+
+    var speed = (typeof speed === "Undefined") ? this.speed : speed;
+
+    if (this.browser.transitions) {
+      var toStack = Math.abs(from-to) - 1,
+          direction = Math.abs(from-to) / (from-to), // 1:right -1:left
+          inBetween = [];
+
+      while (toStack--) inBetween.push( (to > from ? to : from) - toStack - 1 );
+
+      // stack em
+      this._stack(inBetween,direction);
+
+      // now slide from and to in the proper direction
+      this._slide([from,to],this.width * direction,speed);
+    }
+    else {
+      this._animate(from*-this.width, to * -this.width, speed)
+    }
+
+    this.index = to;
+
+    this.callback(this.index, this.slides[this.index]);
+
+  },
+
+  _slide: function(nums, dist, speed) {
+
+    var _slides = this.slides,
+        l = nums.length;
+
+    while(l--) {
+
+      this._translate(_slides[nums[l]], dist + this.cache[nums[l]], speed ? speed : 0);
+
+      this.cache[nums[l]] += dist;
+
+    }
+
+  },
+
+  _stack: function(nums, pos) {  // pos: -1:left 0:center 1:right
+
+    var _slides = this.slides,
+        l = nums.length,
+        dist = this.width * pos;
+
+    while(l--) {
+
+      this._translate(_slides[nums[l]], dist, 0);
+
+      this.cache[nums[l]] = dist;
+
+    }
+
+  },
+
+  _move: function(nums, dist) { // 1:1 scrolling
+
+    var _slides = this.slides,
+        l = nums.length;
+
+    while(l--) this._translate(_slides[nums[l]], dist + this.cache[nums[l]], 0);
+
+  },
+
+  _translate: function(elem, xval, speed) {
+
+    if (!elem) return;
+
+    var style = elem.style;
+
+    // set duration speed to 0
+    style.webkitTransitionDuration =
+    style.MozTransitionDuration =
+    style.msTransitionDuration =
+    style.OTransitionDuration =
+    style.transitionDuration = speed + 'ms';
+
+    // translate to given position
+    style.webkitTransform = 'translate(' + xval + 'px,0)' + 'translateZ(0)';
+    style.msTransform =
+    style.MozTransform =
+    style.OTransform = 'translateX(' + xval + 'px)';
+
+  },
+
+  _animate: function(from, to, speed) {
+
+    var elem = this.element;
+
+    if (!speed) { // if not an animation, just reposition
+
+      elem.style.left = to + 'px';
+
+      return;
+
+    }
+
+    var _this = this,
+        start = new Date(),
+        timer = setInterval(function() {
+
+          var timeElap = new Date() - start;
+
+          if (timeElap > speed) {
+
+            elem.style.left = to + 'px';  // callback after this line
+
+            if (_this.delay) _this.begin();
+
+            _this.transitionEnd(_this.index, _this.slides[_this.index]);
+
+
+            clearInterval(timer);
+
+            return;
+
+          }
+
+          elem.style.left = (( (to - from) * (Math.floor((timeElap / speed) * 100) / 100) ) + from) + 'px';
+
+        }, 4);
+
+  },
+
+  _getElemIndex: function(elem) {
+
+    return parseInt(elem.getAttribute('data-index'),10);
+
+  }
+
+};
+
+
+if ( window.jQuery || window.Zepto ) {
+  (function($) {
+    $.fn.Swipe = function(params) {
+      return this.each(function() {
+        var _this = $(this);
+        _this.data('Swipe', new Swipe(_this[0], params));
+      });
+    }
+  })( window.jQuery || window.Zepto )
+}
+
 /**
  * @preserve FastClick: polyfill to remove click delays on browsers with touch UIs.
  *
- * @version 0.5.3
+ * @version 0.5.4
  * @codingstandard ftlabs-jsv2
  * @copyright The Financial Times Limited [All Rights Reserved]
  * @license MIT License (see LICENSE.txt)
@@ -2023,7 +2055,7 @@ FastClick.prototype.needsFocus = function(target) {
         }
 
         // No point in attempting to focus disabled inputs
-        return target.disabled;
+        return !target.disabled;
     default:
         return (/\bneedsfocus\b/).test(target.className);
     }
@@ -2128,7 +2160,7 @@ FastClick.prototype.getTargetElementFromEventTarget = function(eventTarget) {
  */
 FastClick.prototype.onTouchStart = function(event) {
     'use strict';
-    var targetElement, touch;
+    var targetElement, touch, selection;
 
     targetElement = this.getTargetElementFromEventTarget(event.target);
     touch = event.targetTouches[0];
@@ -2136,7 +2168,8 @@ FastClick.prototype.onTouchStart = function(event) {
     if (this.deviceIsIOS) {
 
         // Only trusted events will deselect text on iOS (issue #49)
-        if (window.getSelection().rangeCount) {
+        selection = window.getSelection();
+        if (selection.rangeCount && !selection.isCollapsed) {
             return true;
         }
 
@@ -2446,6 +2479,7 @@ if (typeof module !== 'undefined' && module.exports) {
 
     module.exports.FastClick = FastClick;
 }
+
 /**
  * lscache library
  * Copyright (c) 2011, Pamela Fox
@@ -2730,7 +2764,11 @@ var lscache = function() {
   };
 }();
 
+/*jshint latedef:true, undef:true, unused:false boss:true */
+/*global $, document, window */
+
 var APP = APP || {};
+
 
 /**
  * Module for accessing all Andamio DOM elements
@@ -2741,6 +2779,7 @@ var APP = APP || {};
 APP.dom = (function () {
 
     var doc = $(document),
+        win = window,
         html = $("html"),
         viewport = $(".viewport"),
 
@@ -2785,6 +2824,7 @@ APP.dom = (function () {
         pageAlert = $("#page-alert");
 
     return {
+        win: win,
         doc: doc,
         html: html,
         viewport: viewport,
@@ -2879,6 +2919,27 @@ APP.util = (function () {
     }
 
     /**
+     * Returns an array of URL's
+     * @method getUrlList
+     * @param {HTMLElement} selector the selector used to get the DOM elements, e.g. ".article-list .action-pjax"
+     * @return {Array} an array of URL's
+     */
+    function getUrlList(selector) {
+
+        if (! selector) return;
+
+        var urlList = [];
+
+        $(selector).each(function(index, item) {
+
+            var url = APP.util.getUrl(item);
+            urlList.push(url);
+        });
+
+        return urlList;
+    }
+
+    /**
      * Get title from the data attribute, falling back to the text
      * @method getTitle
      * @param {HTMLElement} elem the element to get the title from
@@ -2901,6 +2962,7 @@ APP.util = (function () {
         "getQueryParam": getQueryParam,
         "isExternalLink": isExternalLink,
         "getUrl": getUrl,
+        "getUrlList": getUrlList,
         "getTitle": getTitle
     };
 })();
@@ -2920,7 +2982,7 @@ APP.delay = (function(){
     };
 })();
 /*jshint latedef:true, undef:true, unused:true boss:true */
-/*global $:false, APP:false, navigator, document */
+/*global APP, $, navigator, lscache */
 
 /**
  * Core module for initializing capabilities and modules
@@ -2928,7 +2990,7 @@ APP.delay = (function(){
  * @class core
  * @namespace APP
  */
-APP.capabilities = (function () {
+APP.config = (function () {
 
     /*** Zepto detect.js ***/
     function detect(ua) {
@@ -2972,15 +3034,15 @@ APP.capabilities = (function () {
 
     /**
      * Initialize capabilities based on UA detection
-     * @method initCapabilities
+     * @method init
      */
-    function init() {
+    function init(params) {
 
         detect.call($, navigator.userAgent);
 
-        $.os = $.os || {};
+        if (typeof params !== "object" || typeof params === "undefined") params = false;
 
-        // basic ios5 detection
+        // basic ios detection
         $.os.ios5 = $.os.ios && $.os.version.indexOf("5.") !== -1;
         $.os.ios6 = $.os.ios && $.os.version.indexOf("6.") !== -1;
 
@@ -2991,33 +3053,45 @@ APP.capabilities = (function () {
         // basic blackberry detection
         $.os.bb10 = navigator.userAgent.indexOf("BB10") > -1;
 
-        $.supports = $.supports || {};
-        $.supports.cordova = navigator.userAgent.indexOf("TMGContainer") > -1;
+        // Enable for phone & tablet
+        APP.config.ftfastclick = $.os.phone || $.os.tablet;
 
-        $.supports.webapp =  APP.util.getQueryParam("webapp", false) === "1" || navigator.standalone || $.supports.cordova;
+        // Configurable settings
+        APP.config.cordova  = (typeof params.cordova !== "undefined") ? params.cordova : navigator.userAgent.indexOf("TMGContainer") > -1;
+        APP.config.offline  = (typeof params.offline !== "undefined") ? params.offline : lscache.supported();
+        APP.config.server   = (typeof params.server  !== "undefined") ? params.server  : APP.dom.win.location.origin + APP.dom.win.location.pathname;
 
-        // Only enable for iPhone/iPad for now
-        $.supports.ftfastclick = $.os.ios;
-
-        // TODO - Lazy media query
-        if (document.width >= 980) {
-            APP.dom.html.removeClass("website").addClass("desktop no-touch has-navigation");
-            $.supports.webapp = true;
+        if (typeof params.webapp !== "undefined") {
+            APP.config.webapp   = params.webapp;
+        } else {
+            APP.config.webapp = APP.config.cordova || APP.util.getQueryParam("webapp", false) === "1" || navigator.standalone;
         }
 
-        // When used as standalone app or springboard app
-        if ($.supports.webapp)  APP.dom.html.removeClass("website").addClass("webapp");
-        if ($.os.ios)           APP.dom.html.addClass("ios");
-        if ($.os.ios5)          APP.dom.html.addClass("ios5");
-        if ($.os.ios6)          APP.dom.html.addClass("ios6");
-        if ($.os.android)       APP.dom.html.addClass("android");
-        if ($.os.android2)      APP.dom.html.addClass("android2");
-        if ($.os.android4)      APP.dom.html.addClass("android4");
+        APP.config.touch = 'ontouchstart' in APP.dom.win;
 
+        // Yes, everything above 980 is considered desktop
+        APP.config.tablet = $.os.tablet || APP.dom.doc.width() >= 980;
+
+        if (APP.config.tablet) {
+            APP.dom.html.removeClass("website").addClass("desktop has-navigation");
+            APP.config.webapp = true;
+        }
+
+        if (! APP.config.touch) APP.dom.html.addClass("no-touch");
+
+        // When used as standalone app or springboard app
+        if (APP.config.webapp) APP.dom.html.removeClass("website").addClass("webapp");
+        if ($.os.ios)          APP.dom.html.addClass("ios");
+        if ($.os.ios5)         APP.dom.html.addClass("ios5");
+        if ($.os.ios6)         APP.dom.html.addClass("ios6");
+        if ($.os.android)      APP.dom.html.addClass("android");
+        if ($.os.android2)     APP.dom.html.addClass("android2");
+        if ($.os.android4)     APP.dom.html.addClass("android4");
     }
 
-    init();
-
+    return {
+        "init": init
+    };
 })();
 
 /**
@@ -3117,7 +3191,7 @@ APP.events = (function () {
 
         body = $(document.body);
 
-        if ($.supports.ftfastclick) {
+        if (APP.config.ftfastclick) {
             var fastclick = new FastClick(document.body);
         }
     }
@@ -3131,6 +3205,9 @@ APP.events = (function () {
     };
 })();
 
+/*jshint latedef:true, undef:true, unused:true, boss:true */
+/*global APP, $, navigator, cordova */
+
 /**
  * Module that enhances the webapp with Cordova functionality
  * @author Jeroen Coumans
@@ -3143,12 +3220,13 @@ APP.phone = (function () {
         lastUpdated = new Date();
 
     /**
-     * Listens to all clicks on anchor tags and opens them in Cordova popover if it's an external URL
-     * @method interceptAnchorClicks
+     * Attach Cordova listeners
+     * @method attachListeners
      * @private
      */
-    function interceptAnchorClicks() {
+    function attachListeners() {
 
+        // Listens to all clicks on anchor tags and opens them in Cordova popover if it's an external URL
         APP.dom.viewport.on("click", "a", function() {
             if (APP.util.isExternalLink(this)) {
 
@@ -3160,14 +3238,6 @@ APP.phone = (function () {
                 return true;
             }
         });
-    }
-
-    /**
-     * Attach Cordova listeners
-     * @method attachListeners
-     * @private
-     */
-    function attachListeners() {
 
         // hide splashscreen
         navigator.bootstrap.addConstructor(function() {
@@ -3175,7 +3245,7 @@ APP.phone = (function () {
         });
 
         // scroll to top on tapbar tap
-        document.addEventListener("statusbartap", function() {
+        APP.dom.doc.on("statusbartap", function() {
 
             var pageScroller;
 
@@ -3196,32 +3266,21 @@ APP.phone = (function () {
                     $.scrollElement(that.get(0), 0);
                 }
             });
-        }, false);
+        });
 
         // refresh when application is activated from background
-        document.addEventListener("resign", function() {
+        APP.dom.doc.on("resign", function() {
             lastUpdated = new Date();
         });
 
-        document.addEventListener("active", function() {
+        APP.dom.doc.on("active", function() {
             var now = new Date();
             if (now - lastUpdated > APP_FROM_BACKGROUND_REFRESH_TIMEOUT) {
 
                 if (APP.alert.status) APP.alert.hide();
                 APP.open.refresh();
             }
-        }, false);
-    }
-
-    /**
-     * Init Cordova stuff. Only called when Cordova is actually loaded
-     * @method initCordova
-     * @private
-     */
-    function initCordova() {
-
-        interceptAnchorClicks();
-        attachListeners();
+        });
     }
 
     /**
@@ -3232,7 +3291,7 @@ APP.phone = (function () {
 
         // When Cordovia is loaded and talking to the device, initialize it
         navigator.bootstrap.addConstructor(function() {
-            initCordova();
+            attachListeners();
         });
     }
 
@@ -3371,7 +3430,7 @@ APP.loader = (function () {
         APP.dom.html.addClass("has-loader");
         hasLoader = true;
 
-        if (spinnerType === "native") {
+        if (navigator.spinner) {
 
             navigator.spinner.show({"message": message});
         } else {
@@ -3395,11 +3454,10 @@ APP.loader = (function () {
         APP.dom.html.removeClass("has-loader");
         hasLoader = false;
 
-        if (spinnerType === "native") {
-
+        if (navigator.spinner) {
             navigator.spinner.hide();
-        } else {
-
+        }
+        else {
             APP.dom.pageLoader.hide();
         }
     }
@@ -3419,7 +3477,7 @@ APP.loader = (function () {
      */
     function attachListeners() {
 
-        APP.dom.doc.on("ajaxBeforeSend", function() {
+        APP.dom.doc.on("APP:views:loadPage:start", function() {
 
             // show loader if nothing is shown within 0,250 seconds
             timeoutToken = setTimeout(function() {
@@ -3428,7 +3486,7 @@ APP.loader = (function () {
             }, 250);
         });
 
-        APP.dom.doc.on("ajaxComplete", function() {
+        APP.dom.doc.on("APP:views:loadPage:finish", function() {
 
             clearTimeout(timeoutToken);
             APP.loader.hide();
@@ -3436,24 +3494,13 @@ APP.loader = (function () {
     }
 
     /**
-     * Check wether we use native or HTML spinner based on $.supports.cordova
+     * Check wether we use native or HTML spinner based on APP.config.cordova
      * @method init
      */
     function init() {
 
         hasLoader = APP.dom.html.hasClass("has-loader") ? true : false;
         loaderText = APP.dom.pageLoader.find(".loader-text");
-
-        if ($.supports.cordova) {
-
-            // only set the spinner to native when Cordova is injected
-            navigator.bootstrap.addConstructor(function() {
-                spinnerType = "native";
-            });
-        } else {
-
-            spinnerType = "html";
-        }
 
         attachListeners();
     }
@@ -3573,6 +3620,9 @@ APP.open = (function () {
             url: url,
             timeout: 7500,
             headers: { "X-PJAX": true },
+            beforeSend: function() {
+                APP.dom.doc.trigger("APP:views:loadPage:start");
+            },
             success: function(response) {
 
                 $(content).html(response);
@@ -3580,6 +3630,9 @@ APP.open = (function () {
                 if (scrollPosition > 10) {
                     $.scrollElement($(content).get(0), 0);
                 }
+            },
+            complete: function() {
+                APP.dom.doc.trigger("APP:views:loadPage:finish");
             }
         });
     }
@@ -3782,7 +3835,7 @@ APP.nav = (function () {
 
         APP.dom.html.addClass("has-navigation");
 
-        if (!$.supports.webapp) {
+        if (!APP.config.webapp) {
             setPageHeight(navheight);
         }
 
@@ -3795,9 +3848,12 @@ APP.nav = (function () {
      */
     function hide() {
 
+        // never hide on tablet
+        if (APP.config.tablet) return;
+
         APP.dom.html.removeClass("has-navigation");
 
-        if (!$.supports.webapp) {
+        if (!APP.config.webapp) {
             setPageHeight("");
         }
 
@@ -3826,9 +3882,6 @@ APP.nav = (function () {
 
             APP.dom.pageNavActive.removeClass("active");
             APP.dom.pageNavActive = elem.addClass("active");
-        } else {
-
-            return APP.dom.pageNavActive;
         }
     }
 
@@ -3859,24 +3912,15 @@ APP.nav = (function () {
                 url     = APP.util.getUrl(target),
                 title   = APP.util.getTitle(target);
 
-            // If user selects the active element, or no URL is found, just close the menu
-            if (target === APP.nav.pageNavActive || ! url) {
-
-                hide();
-                return;
-            }
-
             setActive(target);
             hide();
 
+            // If user selects the active element, or no URL is found, just close the menu
+            if (target === APP.nav.pageNavActive || ! url) return;
+
             // set page title
-            if (title) {
-
-                APP.dom.parentViewTitle.text(title);
-            }
-
-            APP.open.page(url, APP.dom.parentView);
-
+            if (title) APP.dom.parentViewTitle.text(title);
+            if (url) APP.open.page(url, APP.dom.parentView);
         });
     }
 
@@ -4115,8 +4159,7 @@ APP.search = (function () {
  */
 APP.store = (function() {
 
-    var server,
-        isLoading;
+    var isLoading;
 
     /**
      * Loads an URL from localStorage.
@@ -4171,7 +4214,7 @@ APP.store = (function() {
         if (! url || lscache.get(url)) return;
 
         var expire = expiration ? expiration : 365*24*60,
-            request = absolute ? url : server + url;
+            request = absolute ? url : APP.config.server + url;
 
         $.ajax({
             url: request,
@@ -4227,35 +4270,12 @@ APP.store = (function() {
     }
 
     /**
-     * Returns an array of URL's
-     * @method getUrlList
-     * @param {HTMLElement} selector the selector used to get the DOM elements, e.g. ".article-list .action-pjax"
-     * @return {Array} an array of URL's
-     */
-    function getUrlList(selector) {
-
-        if (! selector) return;
-
-        var urlList = [];
-
-        $(selector).each(function(index, item) {
-
-            var url = APP.util.getUrl(item);
-            urlList.push(url);
-        });
-
-        return urlList;
-    }
-
-    /**
      * Initialize variables and settings
      * @method init
-     * @param {Object} [params.server] optional server that will be used as the default host
      */
-    function init(params) {
+    function init() {
 
         isLoading = false;
-        server = (params && params.server) ? params.server : "http://localhost";
     }
 
     return {
@@ -4263,10 +4283,94 @@ APP.store = (function() {
         "loading": isLoading,
         "storeUrl": storeUrl,
         "storeUrlList": storeUrlList,
-        "getUrlList": getUrlList,
         "showUrl": showUrl
     };
 
+})();
+
+/*jshint latedef:true, undef:true, unused:true boss:true */
+/*global APP, $, Swipe, document */
+
+/**
+ * Module for setting up swipe.js
+ */
+APP.slideshow = (function () {
+
+    var slideShow,
+        slideShowDotsWrapper,
+        slideShowDotsItems;
+
+    function prev() {
+
+        if (slideShow) {
+            slideShow.prev();
+        }
+    }
+
+    function next() {
+
+        if (slideShow) {
+            slideShow.next();
+        }
+    }
+
+    function slide(index) {
+
+        if (slideShow) {
+            slideShow.slide(index, 300);
+        }
+    }
+
+    /**
+     * Attach event listeners
+     */
+    function attachListeners() {
+
+        APP.events.attachClickHandler(".action-slideshow-next", function () {
+            slideShow.next();
+        });
+
+    }
+
+    function init(id) {
+
+        slideShowDotsWrapper = $('<div class="slideshow-dots"></div>');
+
+        slideShow = new Swipe(document.getElementById(id), {
+            startSlide: 0,
+            speed: 300,
+            continuous: true,
+            disableScroll: false,
+            callback: function (index, item) {
+                slideShowDotsWrapper.find(".active").removeClass("active");
+                $(slideShowDotsItems[index]).addClass("active");
+                var img = $(item).find(".js-slideshow-media");
+                if (img) img.attr("src", img.data("src"));
+            }
+        });
+
+        // generate dots
+        for (var i=0;i<slideShow.length;i++) {
+            slideShowDotsWrapper.append($('<div class="slideshow-dot"></div>'));
+        }
+
+        slideShowDotsItems = slideShowDotsWrapper.find(".slideshow-dot");
+
+        // set first to active
+        slideShowDotsItems.first().addClass("active");
+
+        // insert after the swipe container
+        slideShowDotsWrapper.insertAfter(slideShow.container);
+
+        attachListeners();
+    }
+
+    return {
+        "init": init,
+        "prev": prev,
+        "next": next,
+        "slide": slide
+    };
 })();
 
 /**
@@ -4619,6 +4723,9 @@ APP.alert = (function () {
 
 })();
 
+/*jshint latedef:true, undef:true, unused:true boss:true */
+/*global APP */
+
 /**
  * Core module for initializing capabilities and modules
  * @author Jeroen Coumans
@@ -4633,6 +4740,7 @@ APP.core = (function () {
      */
     function init(params) {
 
+        APP.config.init(params);
         APP.events.init();
 
         // needs to come first so we're "online"
@@ -4647,9 +4755,8 @@ APP.core = (function () {
         APP.views.init();
         APP.alert.init();
 
-        if ($.supports.cordova) {
-            APP.phone.init();
-        }
+        if (APP.config.offline) APP.store.init();
+        if (APP.config.cordova) APP.phone.init();
     }
 
     return {

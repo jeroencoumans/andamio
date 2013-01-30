@@ -101,7 +101,7 @@ APP.events = (function () {
 
         body = $(document.body);
 
-        if ($.supports.ftfastclick) {
+        if (APP.config.ftfastclick) {
             var fastclick = new FastClick(document.body);
         }
     }

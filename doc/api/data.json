@@ -12,8 +12,8 @@
                 "APP": 1
             }
         },
-        "js/app/capabilities.js": {
-            "name": "js/app/capabilities.js",
+        "js/app/config.js": {
+            "name": "js/app/config.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -142,6 +142,13 @@
                 "APP": 1
             }
         },
+        "js/app/slideshow.js": {
+            "name": "js/app/slideshow.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "js/app/store.js": {
             "name": "js/app/store.js",
             "modules": {},
@@ -214,7 +221,7 @@
             "extension_for": [],
             "namespace": "APP",
             "file": "js/app/init.js",
-            "line": 1,
+            "line": 4,
             "description": "Core module for initializing capabilities and modules",
             "author": "Jeroen Coumans"
         },
@@ -242,7 +249,7 @@
             "extension_for": [],
             "namespace": "APP",
             "file": "js/app/dom.js",
-            "line": 3,
+            "line": 7,
             "description": "Module for accessing all Andamio DOM elements",
             "author": "Jeroen Coumans"
         },
@@ -326,7 +333,7 @@
             "extension_for": [],
             "namespace": "APP",
             "file": "js/app/phone.js",
-            "line": 1,
+            "line": 4,
             "description": "Module that enhances the webapp with Cordova functionality",
             "author": "Jeroen Coumans"
         },
@@ -410,7 +417,7 @@
             "extension_for": [],
             "namespace": "APP",
             "file": "js/app/util.js",
-            "line": 92,
+            "line": 114,
             "description": "Executes the callback function after a specified delay",
             "author": "Jeroen Coumans",
             "params": [
@@ -496,11 +503,17 @@
             "namespace": "APP"
         },
         {
-            "file": "js/app/capabilities.js",
-            "line": 9,
+            "file": "js/app/config.js",
+            "line": 12,
+            "class": "APP.core",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/config.js",
+            "line": 52,
             "description": "Initialize capabilities based on UA detection",
             "itemtype": "method",
-            "name": "initCapabilities",
+            "name": "init",
             "class": "APP.core",
             "namespace": "APP"
         },
@@ -529,7 +542,7 @@
         {
             "file": "js/app/connection.js",
             "line": 38,
-            "description": "Returns the status of the connection, typically called from APP.open.page() when a timeout occurs",
+            "description": "Returns the status of the connection",
             "itemtype": "method",
             "name": "status",
             "return": {
@@ -542,7 +555,7 @@
         {
             "file": "js/app/connection.js",
             "line": 49,
-            "description": "Sets the status of the connection, typically called from APP.open.page() when a timeout occurs",
+            "description": "Sets the status of the connection",
             "itemtype": "method",
             "name": "status",
             "params": [
@@ -563,6 +576,15 @@
         {
             "file": "js/app/connection.js",
             "line": 68,
+            "description": "Attach event listeners",
+            "itemtype": "method",
+            "name": "attachListeners",
+            "class": "APP.connection",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/connection.js",
+            "line": 85,
             "description": "Sets the default connection to online",
             "itemtype": "method",
             "name": "init",
@@ -665,7 +687,7 @@
         },
         {
             "file": "js/app/init.js",
-            "line": 9,
+            "line": 12,
             "description": "Initialize variables and attach listeners",
             "itemtype": "method",
             "name": "init",
@@ -674,7 +696,7 @@
         },
         {
             "file": "js/app/loader.js",
-            "line": 14,
+            "line": 15,
             "description": "Shows the loader on top of the page. When no message is given, it will use the text inside #loader .loader-text",
             "itemtype": "method",
             "name": "show",
@@ -691,7 +713,7 @@
         },
         {
             "file": "js/app/loader.js",
-            "line": 37,
+            "line": 42,
             "description": "Hides the loader",
             "itemtype": "method",
             "name": "hide",
@@ -700,7 +722,7 @@
         },
         {
             "file": "js/app/loader.js",
-            "line": 55,
+            "line": 59,
             "description": "Returns wether the loader is active or not",
             "itemtype": "method",
             "name": "status",
@@ -709,8 +731,17 @@
         },
         {
             "file": "js/app/loader.js",
-            "line": 64,
-            "description": "Check wether we use native or HTML spinner based on $.supports.cordova",
+            "line": 68,
+            "description": "Attach event listeners",
+            "itemtype": "method",
+            "name": "attachListeners",
+            "class": "APP.loader",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/loader.js",
+            "line": 90,
+            "description": "Check wether we use native or HTML spinner based on APP.config.cordova",
             "itemtype": "method",
             "name": "init",
             "class": "APP.loader",
@@ -805,7 +836,7 @@
         },
         {
             "file": "js/app/nav.js",
-            "line": 57,
+            "line": 60,
             "description": "Returns the status of the navigation",
             "itemtype": "method",
             "name": "status",
@@ -818,7 +849,7 @@
         },
         {
             "file": "js/app/nav.js",
-            "line": 67,
+            "line": 70,
             "description": "Returns the active item",
             "itemtype": "method",
             "name": "active",
@@ -850,7 +881,7 @@
         },
         {
             "file": "js/app/nav.js",
-            "line": 133,
+            "line": 124,
             "description": "Initialize capabilities and attach listeners\n- Sets the active navigation element\n- Sets the navigation status based on the `has-navigation` class on the HTML element",
             "itemtype": "method",
             "name": "init",
@@ -949,7 +980,7 @@
         },
         {
             "file": "js/app/open.js",
-            "line": 141,
+            "line": 124,
             "description": "Checks what the active view is and then calls APP.open.page with its respective URL, view and refresh",
             "itemtype": "method",
             "name": "refresh",
@@ -958,7 +989,7 @@
         },
         {
             "file": "js/app/open.js",
-            "line": 162,
+            "line": 145,
             "description": "Attach event listeners",
             "itemtype": "method",
             "name": "attachListeners",
@@ -967,7 +998,7 @@
         },
         {
             "file": "js/app/open.js",
-            "line": 176,
+            "line": 159,
             "description": "Attach listeners",
             "itemtype": "method",
             "name": "init",
@@ -976,18 +1007,7 @@
         },
         {
             "file": "js/app/phone.js",
-            "line": 12,
-            "description": "Listens to all clicks on anchor tags and opens them in Cordova popover if it's an external URL",
-            "itemtype": "method",
-            "name": "interceptAnchorClicks",
-            "access": "private",
-            "tagname": "",
-            "class": "APP.phone",
-            "namespace": "APP"
-        },
-        {
-            "file": "js/app/phone.js",
-            "line": 32,
+            "line": 15,
             "description": "Attach Cordova listeners",
             "itemtype": "method",
             "name": "attachListeners",
@@ -998,18 +1018,7 @@
         },
         {
             "file": "js/app/phone.js",
-            "line": 83,
-            "description": "Init Cordova stuff. Only called when Cordova is actually loaded",
-            "itemtype": "method",
-            "name": "initCordova",
-            "access": "private",
-            "tagname": "",
-            "class": "APP.phone",
-            "namespace": "APP"
-        },
-        {
-            "file": "js/app/phone.js",
-            "line": 94,
+            "line": 79,
             "description": "Checks wether Cordova is available, and then calls initCordova",
             "itemtype": "method",
             "name": "init",
@@ -1111,8 +1120,22 @@
             "namespace": "APP"
         },
         {
+            "file": "js/app/slideshow.js",
+            "line": 4,
+            "description": "Module for setting up swipe.js",
+            "class": "APP.store",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/slideshow.js",
+            "line": 34,
+            "description": "Attach event listeners",
+            "class": "APP.store",
+            "namespace": "APP"
+        },
+        {
             "file": "js/app/store.js",
-            "line": 12,
+            "line": 11,
             "description": "Loads an URL from localStorage.",
             "itemtype": "method",
             "name": "showUrl",
@@ -1137,7 +1160,7 @@
         },
         {
             "file": "js/app/store.js",
-            "line": 52,
+            "line": 51,
             "description": "Does an AJAX call to URL and stores it with the URL as the key",
             "itemtype": "method",
             "name": "storeUrl",
@@ -1172,7 +1195,7 @@
         },
         {
             "file": "js/app/store.js",
-            "line": 89,
+            "line": 88,
             "description": "Wrapper around storeUrl to store an array of URLs",
             "itemtype": "method",
             "name": "storeUrlList",
@@ -1207,38 +1230,10 @@
         },
         {
             "file": "js/app/store.js",
-            "line": 120,
-            "description": "Returns an array of URL's",
-            "itemtype": "method",
-            "name": "getUrlList",
-            "params": [
-                {
-                    "name": "selector",
-                    "description": "the selector used to get the DOM elements, e.g. \".article-list .action-pjax\"",
-                    "type": "HTMLElement"
-                }
-            ],
-            "return": {
-                "description": "an array of URL's",
-                "type": "Array"
-            },
-            "class": "APP.store",
-            "namespace": "APP"
-        },
-        {
-            "file": "js/app/store.js",
-            "line": 141,
+            "line": 119,
             "description": "Initialize variables and settings",
             "itemtype": "method",
             "name": "init",
-            "params": [
-                {
-                    "name": "params.server",
-                    "description": "optional server that will be used as the default host",
-                    "type": "Object",
-                    "optional": true
-                }
-            ],
             "class": "APP.store",
             "namespace": "APP"
         },
@@ -1389,6 +1384,26 @@
         {
             "file": "js/app/util.js",
             "line": 65,
+            "description": "Returns an array of URL's",
+            "itemtype": "method",
+            "name": "getUrlList",
+            "params": [
+                {
+                    "name": "selector",
+                    "description": "the selector used to get the DOM elements, e.g. \".article-list .action-pjax\"",
+                    "type": "HTMLElement"
+                }
+            ],
+            "return": {
+                "description": "an array of URL's",
+                "type": "Array"
+            },
+            "class": "APP.util",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/util.js",
+            "line": 86,
             "description": "Get title from the data attribute, falling back to the text",
             "itemtype": "method",
             "name": "getTitle",
@@ -1486,5 +1501,18 @@
             "namespace": "APP"
         }
     ],
-    "warnings": []
+    "warnings": [
+        {
+            "message": "Missing item type",
+            "line": " js/app/config.js:12"
+        },
+        {
+            "message": "Missing item type\nModule for setting up swipe.js",
+            "line": " js/app/slideshow.js:4"
+        },
+        {
+            "message": "Missing item type\nAttach event listeners",
+            "line": " js/app/slideshow.js:34"
+        }
+    ]
 }
