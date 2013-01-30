@@ -24,7 +24,7 @@ APP.loader = (function () {
         APP.dom.html.addClass("has-loader");
         hasLoader = true;
 
-        if (spinnerType === "native") {
+        if (navigator.spinner) {
 
             navigator.spinner.show({"message": message});
         } else {
@@ -48,11 +48,10 @@ APP.loader = (function () {
         APP.dom.html.removeClass("has-loader");
         hasLoader = false;
 
-        if (spinnerType === "native") {
-
+        if (navigator.spinner) {
             navigator.spinner.hide();
-        } else {
-
+        }
+        else {
             APP.dom.pageLoader.hide();
         }
     }
@@ -72,7 +71,7 @@ APP.loader = (function () {
      */
     function attachListeners() {
 
-        APP.dom.doc.on("ajaxBeforeSend", function() {
+        APP.dom.doc.on("APP:views:loadPage:start", function() {
 
             // show loader if nothing is shown within 0,250 seconds
             timeoutToken = setTimeout(function() {
@@ -81,7 +80,7 @@ APP.loader = (function () {
             }, 250);
         });
 
-        APP.dom.doc.on("ajaxComplete", function() {
+        APP.dom.doc.on("APP:views:loadPage:finish", function() {
 
             clearTimeout(timeoutToken);
             APP.loader.hide();
@@ -96,17 +95,6 @@ APP.loader = (function () {
 
         hasLoader = APP.dom.html.hasClass("has-loader") ? true : false;
         loaderText = APP.dom.pageLoader.find(".loader-text");
-
-        if (APP.config.cordova) {
-
-            // only set the spinner to native when Cordova is injected
-            navigator.bootstrap.addConstructor(function() {
-                spinnerType = "native";
-            });
-        } else {
-
-            spinnerType = "html";
-        }
 
         attachListeners();
     }

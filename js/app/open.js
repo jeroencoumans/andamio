@@ -104,6 +104,9 @@ APP.open = (function () {
             url: url,
             timeout: 7500,
             headers: { "X-PJAX": true },
+            beforeSend: function() {
+                APP.dom.doc.trigger("APP:views:loadPage:start");
+            },
             success: function(response) {
 
                 $(content).html(response);
@@ -111,6 +114,9 @@ APP.open = (function () {
                 if (scrollPosition > 10) {
                     $.scrollElement($(content).get(0), 0);
                 }
+            },
+            complete: function() {
+                APP.dom.doc.trigger("APP:views:loadPage:finish");
             }
         });
     }
