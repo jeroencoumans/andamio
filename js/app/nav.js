@@ -79,9 +79,6 @@ APP.nav = (function () {
 
             APP.dom.pageNavActive.removeClass("active");
             APP.dom.pageNavActive = elem.addClass("active");
-        } else {
-
-            return APP.dom.pageNavActive;
         }
     }
 
@@ -112,24 +109,15 @@ APP.nav = (function () {
                 url     = APP.util.getUrl(target),
                 title   = APP.util.getTitle(target);
 
-            // If user selects the active element, or no URL is found, just close the menu
-            if (target === APP.nav.pageNavActive || ! url) {
-
-                hide();
-                return;
-            }
-
             setActive(target);
             hide();
 
+            // If user selects the active element, or no URL is found, just close the menu
+            if (target === APP.nav.pageNavActive || ! url) return;
+
             // set page title
-            if (title) {
-
-                APP.dom.parentViewTitle.text(title);
-            }
-
-            APP.open.page(url, APP.dom.parentView);
-
+            if (title) APP.dom.parentViewTitle.text(title);
+            if (url) APP.open.page(url, APP.dom.parentView);
         });
     }
 
