@@ -63,6 +63,27 @@ APP.util = (function () {
     }
 
     /**
+     * Returns an array of URL's
+     * @method getUrlList
+     * @param {HTMLElement} selector the selector used to get the DOM elements, e.g. ".article-list .action-pjax"
+     * @return {Array} an array of URL's
+     */
+    function getUrlList(selector) {
+
+        if (! selector) return;
+
+        var urlList = [];
+
+        $(selector).each(function(index, item) {
+
+            var url = APP.util.getUrl(item);
+            urlList.push(url);
+        });
+
+        return urlList;
+    }
+
+    /**
      * Get title from the data attribute, falling back to the text
      * @method getTitle
      * @param {HTMLElement} elem the element to get the title from
@@ -85,6 +106,7 @@ APP.util = (function () {
         "getQueryParam": getQueryParam,
         "isExternalLink": isExternalLink,
         "getUrl": getUrl,
+        "getUrlList": getUrlList,
         "getTitle": getTitle
     };
 })();

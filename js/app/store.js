@@ -117,27 +117,6 @@ APP.store = (function() {
     }
 
     /**
-     * Returns an array of URL's
-     * @method getUrlList
-     * @param {HTMLElement} selector the selector used to get the DOM elements, e.g. ".article-list .action-pjax"
-     * @return {Array} an array of URL's
-     */
-    function getUrlList(selector) {
-
-        if (! selector) return;
-
-        var urlList = [];
-
-        $(selector).each(function(index, item) {
-
-            var url = APP.util.getUrl(item);
-            urlList.push(url);
-        });
-
-        return urlList;
-    }
-
-    /**
      * Initialize variables and settings
      * @method init
      */
@@ -151,7 +130,6 @@ APP.store = (function() {
         "loading": isLoading,
         "storeUrl": storeUrl,
         "storeUrlList": storeUrlList,
-        "getUrlList": getUrlList,
         "showUrl": showUrl
     };
 
