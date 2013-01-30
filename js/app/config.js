@@ -70,8 +70,8 @@ APP.config = (function () {
         // basic blackberry detection
         $.os.bb10 = navigator.userAgent.indexOf("BB10") > -1;
 
-        // Only enable for iPhone/iPad for now
-        APP.config.ftfastclick = $.os.ios;
+        // Enable for phone & tablet
+        APP.config.ftfastclick = $.os.phone || $.os.tablet;
 
         // Configurable settings
         APP.config.cordova  = (typeof params.cordova !== "undefined") ? params.cordova : navigator.userAgent.indexOf("TMGContainer") > -1;
