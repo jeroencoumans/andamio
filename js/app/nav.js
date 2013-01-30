@@ -45,6 +45,9 @@ APP.nav = (function () {
      */
     function hide() {
 
+        // never hide on tablet
+        if (APP.config.tablet) return;
+
         APP.dom.html.removeClass("has-navigation");
 
         if (!APP.config.webapp) {
