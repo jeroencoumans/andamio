@@ -1,5 +1,5 @@
 /*jshint latedef:true, undef:true, unused:true boss:true */
-/*global APP:false, navigator, document, lscache */
+/*global APP, $, navigator, document, lscache */
 
 /**
  * Core module for initializing capabilities and modules
@@ -76,7 +76,7 @@ APP.config = (function () {
         // Configurable settings
         APP.config.cordova  = (typeof params.cordova !== "undefined") ? params.cordova : navigator.userAgent.indexOf("TMGContainer") > -1;
         APP.config.offline  = (typeof params.offline !== "undefined") ? params.offline : lscache.supported();
-        APP.config.server   = (typeof params.server !== "undefined") ? params.server : APP.dom.win.location.origin + APP.dom.win.location.pathname;
+        APP.config.server   = (typeof params.server  !== "undefined") ? params.server  : APP.dom.win.location.origin + APP.dom.win.location.pathname;
 
         if (typeof params.webapp !== "undefined") {
             APP.config.webapp   = params.webapp;
@@ -91,7 +91,7 @@ APP.config = (function () {
         }
 
         // When used as standalone app or springboard app
-        if (APP.config.webapp)          APP.dom.html.removeClass("website").addClass("webapp");
+        if (APP.config.webapp) APP.dom.html.removeClass("website").addClass("webapp");
         if ($.os.ios)          APP.dom.html.addClass("ios");
         if ($.os.ios5)         APP.dom.html.addClass("ios5");
         if ($.os.ios6)         APP.dom.html.addClass("ios6");
