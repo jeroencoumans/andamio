@@ -6,15 +6,9 @@
 
 .page-alert {
     position: fixed;
-    top: 25%;
-    left: 25%;
-    right: 25%;
-    border-radius: @grid-m;
+    top: @page-header-height;
+    left: 2 * @grid-l;
+    right: 2 * @grid-l;
     z-index: 1000;
-    padding: @grid-l @grid-m;
-    text-align: center;
-
-    background: rgba(0,0,0, .85);
-    color: #fff;
-    font-weight: bold;
+    margin: @grid-l auto;
 }
