@@ -139,12 +139,11 @@ APP.views = (function () {
 
         if (! url) return;
 
+        APP.dom.doc.trigger("APP:views:loadPage:start", url);
+
         var target = view || _views.current,
             scrollPosition = target.content.get(0).scrollTop,
             cachedUrl = APP.config.offline ? APP.store.getCache(url) : false;
-
-        APP.dom.doc.trigger("APP:views:loadPage:start");
-        APP.dom.doc.trigger("APP:views:loadPage:start:" + url);
 
         target.content.empty();
 
@@ -158,8 +157,7 @@ APP.views = (function () {
                 $.scrollElement(target.content.get(0), 0);
             }
 
-            APP.dom.doc.trigger("APP:views:loadPage:finish");
-            APP.dom.doc.trigger("APP:views:loadPage:finish:" + url);
+            APP.dom.doc.trigger("APP:views:loadPage:finish", url);
         }
 
         if (cachedUrl) {
@@ -190,14 +188,19 @@ APP.views = (function () {
      */
     function reloadPage(view) {
 
+        APP.dom.doc.trigger("APP:views:reloadPage:start");
+
         var targetView = view || _views.current;
 
         if (APP.config.offline) APP.store.deleteCache(targetView.url); // remove current cache entry
 
         loadPage(targetView.url, targetView);
+        APP.dom.doc.trigger("APP:views:reloadPage:finish");
     }
 
     function pushChild(url, title) {
+
+        APP.dom.doc.trigger("APP:views:pushChild:start");
 
         if (url) pushHistory(url);
 
@@ -245,9 +248,13 @@ APP.views = (function () {
             _views.parentView.hide();
             _views.childView.show(url);
         }
+
+        APP.dom.doc.trigger("APP:views:pushChild:finish");
     }
 
     function popChild(url, title) {
+
+        APP.dom.doc.trigger("APP:views:popChild:start");
 
         popHistory(_views.urlHistory[_views.urlHistory.length - 1]);
         url = url || _views.urlHistory[_views.urlHistory.length - 1];
@@ -296,11 +303,15 @@ APP.views = (function () {
             _views.parentView.show(url, title);
             _views.childView.hide();
         }
+
+        APP.dom.doc.trigger("APP:views:popChild:finish");
     }
 
     function pushModal(url, title) {
 
         if (_views.current === _views.modalView) return; // modal is already open
+
+        APP.dom.doc.trigger("APP:views:pushModal:start");
 
         APP.dom.html.addClass("has-modalview");
 
@@ -313,11 +324,15 @@ APP.views = (function () {
             _views.current.hide();
             _views.modalView.show(url, title);
         }
+
+        APP.dom.doc.trigger("APP:views:pushModal:finish");
     }
 
     function popModal(url, title) {
 
         if (_views.current !== _views.modalView) return; // modal is not open
+
+        APP.dom.doc.trigger("APP:views:popModal:start");
 
         APP.dom.html.removeClass("has-modalview");
 
@@ -329,9 +344,13 @@ APP.views = (function () {
             _views.previous.show(url, title);
             _views.modalView.hide();
         }
+
+        APP.dom.doc.trigger("APP:views:popModal:finish");
     }
 
     function openParentPage(url) {
+
+        APP.dom.doc.trigger("APP:views:openParentPage:start");
 
         if (APP.config.webapp) {
             APP.dom.parentView.removeClass("slide-left slide-right").addClass("slide-default");
@@ -341,6 +360,8 @@ APP.views = (function () {
 
         _views.urlHistory = [];
         loadPage(url, _views.parentView);
+
+        APP.dom.doc.trigger("APP:views:openParentPage:finish");
     }
 
     /**

@@ -18,6 +18,8 @@ APP.tabs = (function () {
         APP.dom.html.addClass("has-tabs");
         APP.dom.pageTabs.show();
         hasTabs = true;
+
+        APP.dom.doc.trigger("APP:tabs:show");
     }
 
     /**
@@ -29,6 +31,8 @@ APP.tabs = (function () {
         APP.dom.html.removeClass("has-tabs");
         APP.dom.pageTabs.hide();
         hasTabs = false;
+
+        APP.dom.doc.trigger("APP:tabs:hide");
     }
 
     /**
@@ -67,6 +71,8 @@ APP.tabs = (function () {
 
         APP.events.attachClickHandler(".action-tab-item", function (event) {
 
+            APP.dom.doc.trigger("APP:action:tab:item:start");
+
             var target = $(event.target).closest(".action-tab-item"),
                 url = APP.util.getUrl(target);
 
@@ -79,6 +85,7 @@ APP.tabs = (function () {
 
                 setActive(target);
                 APP.views.openParentPage(url);
+                APP.dom.doc.trigger("APP:action:tab:item:finish");
             }
         });
     }

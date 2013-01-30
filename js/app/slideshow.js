@@ -14,6 +14,7 @@ APP.slideshow = (function () {
 
         if (slideShow) {
             slideShow.prev();
+            APP.dom.doc.trigger("APP:slideshow:prev");
         }
     }
 
@@ -21,6 +22,7 @@ APP.slideshow = (function () {
 
         if (slideShow) {
             slideShow.next();
+            APP.dom.doc.trigger("APP:slideshow:next");
         }
     }
 
@@ -28,6 +30,7 @@ APP.slideshow = (function () {
 
         if (slideShow) {
             slideShow.slide(index, 300);
+            APP.dom.doc.trigger("APP:slideshow:slide");
         }
     }
 

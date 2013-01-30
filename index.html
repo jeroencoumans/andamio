@@ -163,10 +163,18 @@
         $(document).ready(function() {
             APP.core.init();
 
-            APP.views.loadPage("doc/getting-started.html");
+            var startPageUrl = "doc/getting-started.html";
 
-            APP.doc.init();
-            Prism.highlightAll();
+            APP.dom.doc.one("APP:views:loadPage:finish", function (event, url) {
+
+                if (url === startPageUrl) {
+                    APP.doc.init();
+                    Prism.highlightAll();
+                }
+            });
+
+            APP.views.loadPage(startPageUrl);
+
         });
     </script>
 </body>

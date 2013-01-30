@@ -542,9 +542,12 @@ APP.alert = (function () {
     function show(msg) {
 
         if (msg) {
+
             APP.dom.pageAlert.html(msg);
             APP.dom.pageAlert.show();
             hasAlert = true;
+
+            APP.dom.doc.trigger("APP:alert:show");
         }
     }
 
@@ -556,6 +559,8 @@ APP.alert = (function () {
 
         APP.dom.pageAlert.hide();
         hasAlert = false;
+
+        APP.dom.doc.trigger("APP:alert:hide");
     }
 
     /**
@@ -627,6 +632,8 @@ APP.connection = (function () {
         if (APP.alert.status()) {
             APP.alert.hide();
         }
+
+        APP.dom.doc.trigger("APP:connection:online");
     }
 
     /**
@@ -638,6 +645,8 @@ APP.connection = (function () {
 
         connection = "offline";
         APP.alert.show(offlineMessage);
+
+        APP.dom.doc.trigger("APP:connection:offline");
     }
 
     /**
@@ -746,6 +755,7 @@ APP.loader = (function () {
             loaderText.text(message);
         }
 
+        APP.dom.doc.trigger("APP:loader:show");
     }
 
     /**
@@ -763,6 +773,8 @@ APP.loader = (function () {
         else {
             APP.dom.pageLoader.hide();
         }
+
+        APP.dom.doc.trigger("APP:loader:hide");
     }
 
     /**
@@ -856,6 +868,8 @@ APP.nav = (function () {
         }
 
         hasNavigation = true;
+
+        APP.dom.doc.trigger("APP:nav:show");
     }
 
     /**
@@ -874,6 +888,8 @@ APP.nav = (function () {
         }
 
         hasNavigation = false;
+
+        APP.dom.doc.trigger("APP:nav:hide");
     }
 
     /**
@@ -924,6 +940,8 @@ APP.nav = (function () {
         // page navigation
         APP.events.attachClickHandler(".action-nav-item", function (event) {
 
+            APP.dom.doc.trigger("APP:action:nav:item:start");
+
             var target  = $(event.target).closest(".action-nav-item"),
                 url     = APP.util.getUrl(target),
                 title   = APP.util.getTitle(target);
@@ -937,6 +955,8 @@ APP.nav = (function () {
             // set page title
             if (title) APP.dom.parentViewTitle.text(title);
             if (url) APP.views.openParentPage(url);
+
+            APP.dom.doc.trigger("APP:action:nav:item:finish");
         });
     }
 
@@ -989,6 +1009,8 @@ APP.reveal = (function () {
 
         APP.events.attachClickHandler(".action-reveal", function (event) {
 
+            APP.dom.doc.trigger("APP:action:reveal:start");
+
             var activeReveal,
                 activeContent,
                 targetContent,
@@ -1024,6 +1046,8 @@ APP.reveal = (function () {
 
             // don't follow the link
             event.preventDefault();
+
+            APP.dom.doc.trigger("APP:action:reveal:finish");
         });
     }
 
@@ -1183,6 +1207,7 @@ APP.slideshow = (function () {
 
         if (slideShow) {
             slideShow.prev();
+            APP.dom.doc.trigger("APP:slideshow:prev");
         }
     }
 
@@ -1190,6 +1215,7 @@ APP.slideshow = (function () {
 
         if (slideShow) {
             slideShow.next();
+            APP.dom.doc.trigger("APP:slideshow:next");
         }
     }
 
@@ -1197,6 +1223,7 @@ APP.slideshow = (function () {
 
         if (slideShow) {
             slideShow.slide(index, 300);
+            APP.dom.doc.trigger("APP:slideshow:slide");
         }
     }
 
@@ -1271,12 +1298,10 @@ APP.store = (function() {
 
         if (! key || ! data) return;
 
-        APP.dom.doc.trigger("APP:store:setCache:start");
-
         var seconds = (typeof expiration === "number") ? expiration : 24 * 60 * 60;
 
         lscache.set(key, data, seconds);
-        APP.dom.doc.trigger("APP:store:setCache:finish");
+        APP.dom.doc.trigger("APP:store:setCache");
     }
 
     /**
@@ -1286,11 +1311,10 @@ APP.store = (function() {
 
         if (! key) return;
 
-        APP.dom.doc.trigger("APP:store:getCache:start");
-
         var result = lscache.get(key);
         if (result) {
-            APP.dom.doc.trigger("APP:store:getCache:finish");
+
+            APP.dom.doc.trigger("APP:store:getCache");
             return result;
         }
     }
@@ -1331,6 +1355,8 @@ APP.tabs = (function () {
         APP.dom.html.addClass("has-tabs");
         APP.dom.pageTabs.show();
         hasTabs = true;
+
+        APP.dom.doc.trigger("APP:tabs:show");
     }
 
     /**
@@ -1342,6 +1368,8 @@ APP.tabs = (function () {
         APP.dom.html.removeClass("has-tabs");
         APP.dom.pageTabs.hide();
         hasTabs = false;
+
+        APP.dom.doc.trigger("APP:tabs:hide");
     }
 
     /**
@@ -1380,6 +1408,8 @@ APP.tabs = (function () {
 
         APP.events.attachClickHandler(".action-tab-item", function (event) {
 
+            APP.dom.doc.trigger("APP:action:tab:item:start");
+
             var target = $(event.target).closest(".action-tab-item"),
                 url = APP.util.getUrl(target);
 
@@ -1392,6 +1422,7 @@ APP.tabs = (function () {
 
                 setActive(target);
                 APP.views.openParentPage(url);
+                APP.dom.doc.trigger("APP:action:tab:item:finish");
             }
         });
     }
@@ -1558,12 +1589,11 @@ APP.views = (function () {
 
         if (! url) return;
 
+        APP.dom.doc.trigger("APP:views:loadPage:start", url);
+
         var target = view || _views.current,
             scrollPosition = target.content.get(0).scrollTop,
             cachedUrl = APP.config.offline ? APP.store.getCache(url) : false;
-
-        APP.dom.doc.trigger("APP:views:loadPage:start");
-        APP.dom.doc.trigger("APP:views:loadPage:start:" + url);
 
         target.content.empty();
 
@@ -1577,8 +1607,7 @@ APP.views = (function () {
                 $.scrollElement(target.content.get(0), 0);
             }
 
-            APP.dom.doc.trigger("APP:views:loadPage:finish");
-            APP.dom.doc.trigger("APP:views:loadPage:finish:" + url);
+            APP.dom.doc.trigger("APP:views:loadPage:finish", url);
         }
 
         if (cachedUrl) {
@@ -1609,14 +1638,19 @@ APP.views = (function () {
      */
     function reloadPage(view) {
 
+        APP.dom.doc.trigger("APP:views:reloadPage:start");
+
         var targetView = view || _views.current;
 
         if (APP.config.offline) APP.store.deleteCache(targetView.url); // remove current cache entry
 
         loadPage(targetView.url, targetView);
+        APP.dom.doc.trigger("APP:views:reloadPage:finish");
     }
 
     function pushChild(url, title) {
+
+        APP.dom.doc.trigger("APP:views:pushChild:start");
 
         if (url) pushHistory(url);
 
@@ -1664,9 +1698,13 @@ APP.views = (function () {
             _views.parentView.hide();
             _views.childView.show(url);
         }
+
+        APP.dom.doc.trigger("APP:views:pushChild:finish");
     }
 
     function popChild(url, title) {
+
+        APP.dom.doc.trigger("APP:views:popChild:start");
 
         popHistory(_views.urlHistory[_views.urlHistory.length - 1]);
         url = url || _views.urlHistory[_views.urlHistory.length - 1];
@@ -1715,11 +1753,15 @@ APP.views = (function () {
             _views.parentView.show(url, title);
             _views.childView.hide();
         }
+
+        APP.dom.doc.trigger("APP:views:popChild:finish");
     }
 
     function pushModal(url, title) {
 
         if (_views.current === _views.modalView) return; // modal is already open
+
+        APP.dom.doc.trigger("APP:views:pushModal:start");
 
         APP.dom.html.addClass("has-modalview");
 
@@ -1732,11 +1774,15 @@ APP.views = (function () {
             _views.current.hide();
             _views.modalView.show(url, title);
         }
+
+        APP.dom.doc.trigger("APP:views:pushModal:finish");
     }
 
     function popModal(url, title) {
 
         if (_views.current !== _views.modalView) return; // modal is not open
+
+        APP.dom.doc.trigger("APP:views:popModal:start");
 
         APP.dom.html.removeClass("has-modalview");
 
@@ -1748,9 +1794,13 @@ APP.views = (function () {
             _views.previous.show(url, title);
             _views.modalView.hide();
         }
+
+        APP.dom.doc.trigger("APP:views:popModal:finish");
     }
 
     function openParentPage(url) {
+
+        APP.dom.doc.trigger("APP:views:openParentPage:start");
 
         if (APP.config.webapp) {
             APP.dom.parentView.removeClass("slide-left slide-right").addClass("slide-default");
@@ -1760,6 +1810,8 @@ APP.views = (function () {
 
         _views.urlHistory = [];
         loadPage(url, _views.parentView);
+
+        APP.dom.doc.trigger("APP:views:openParentPage:finish");
     }
 
     /**

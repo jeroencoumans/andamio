@@ -22,6 +22,8 @@ APP.connection = (function () {
         if (APP.alert.status()) {
             APP.alert.hide();
         }
+
+        APP.dom.doc.trigger("APP:connection:online");
     }
 
     /**
@@ -33,6 +35,8 @@ APP.connection = (function () {
 
         connection = "offline";
         APP.alert.show(offlineMessage);
+
+        APP.dom.doc.trigger("APP:connection:offline");
     }
 
     /**

@@ -37,6 +37,8 @@ APP.nav = (function () {
         }
 
         hasNavigation = true;
+
+        APP.dom.doc.trigger("APP:nav:show");
     }
 
     /**
@@ -55,6 +57,8 @@ APP.nav = (function () {
         }
 
         hasNavigation = false;
+
+        APP.dom.doc.trigger("APP:nav:hide");
     }
 
     /**
@@ -105,6 +109,8 @@ APP.nav = (function () {
         // page navigation
         APP.events.attachClickHandler(".action-nav-item", function (event) {
 
+            APP.dom.doc.trigger("APP:action:nav:item:start");
+
             var target  = $(event.target).closest(".action-nav-item"),
                 url     = APP.util.getUrl(target),
                 title   = APP.util.getTitle(target);
@@ -118,6 +124,8 @@ APP.nav = (function () {
             // set page title
             if (title) APP.dom.parentViewTitle.text(title);
             if (url) APP.views.openParentPage(url);
+
+            APP.dom.doc.trigger("APP:action:nav:item:finish");
         });
     }
 

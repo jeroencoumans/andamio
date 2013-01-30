@@ -37,6 +37,7 @@ APP.loader = (function () {
             loaderText.text(message);
         }
 
+        APP.dom.doc.trigger("APP:loader:show");
     }
 
     /**
@@ -54,6 +55,8 @@ APP.loader = (function () {
         else {
             APP.dom.pageLoader.hide();
         }
+
+        APP.dom.doc.trigger("APP:loader:hide");
     }
 
     /**

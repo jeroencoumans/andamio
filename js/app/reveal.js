@@ -15,6 +15,8 @@ APP.reveal = (function () {
 
         APP.events.attachClickHandler(".action-reveal", function (event) {
 
+            APP.dom.doc.trigger("APP:action:reveal:start");
+
             var activeReveal,
                 activeContent,
                 targetContent,
@@ -50,6 +52,8 @@ APP.reveal = (function () {
 
             // don't follow the link
             event.preventDefault();
+
+            APP.dom.doc.trigger("APP:action:reveal:finish");
         });
     }
 

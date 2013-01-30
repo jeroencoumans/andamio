@@ -16,9 +16,12 @@ APP.alert = (function () {
     function show(msg) {
 
         if (msg) {
+
             APP.dom.pageAlert.html(msg);
             APP.dom.pageAlert.show();
             hasAlert = true;
+
+            APP.dom.doc.trigger("APP:alert:show");
         }
     }
 
@@ -30,6 +33,8 @@ APP.alert = (function () {
 
         APP.dom.pageAlert.hide();
         hasAlert = false;
+
+        APP.dom.doc.trigger("APP:alert:hide");
     }
 
     /**

@@ -17,12 +17,10 @@ APP.store = (function() {
 
         if (! key || ! data) return;
 
-        APP.dom.doc.trigger("APP:store:setCache:start");
-
         var seconds = (typeof expiration === "number") ? expiration : 24 * 60 * 60;
 
         lscache.set(key, data, seconds);
-        APP.dom.doc.trigger("APP:store:setCache:finish");
+        APP.dom.doc.trigger("APP:store:setCache");
     }
 
     /**
@@ -32,11 +30,10 @@ APP.store = (function() {
 
         if (! key) return;
 
-        APP.dom.doc.trigger("APP:store:getCache:start");
-
         var result = lscache.get(key);
         if (result) {
-            APP.dom.doc.trigger("APP:store:getCache:finish");
+
+            APP.dom.doc.trigger("APP:store:getCache");
             return result;
         }
     }
