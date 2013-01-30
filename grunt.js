@@ -21,7 +21,6 @@ module.exports = function(grunt) {
                 src: [
                     'js/lib/zepto/zepto.js',
                     'js/lib/zepto/ajax.js',
-                    // 'js/lib/zepto/detect.js',
                     'js/lib/zepto/event.js'
                     ],
                 dest: 'js/lib/zepto.js'
@@ -41,6 +40,7 @@ module.exports = function(grunt) {
                     'js/app/reveal.js',
                     'js/app/search.js',
                     'js/app/store.js',
+                    'js/app/slideshow.js',
                     'js/app/tabs.js',
                     'js/app/views.js',
                     'js/app/alert.js',
@@ -52,21 +52,12 @@ module.exports = function(grunt) {
                 src: [
                     'js/lib/zepto.js',
                     'js/lib/zepto.scroll.js',
-                    'js/lib/swipeview.js',
+                    'js/lib/swipe.js',
                     'js/lib/fastclick.js',
                     'js/lib/lscache.js',
                     'dist/andamio-lib.js'
                     ],
                 dest: 'dist/main.dev.js'
-            },
-            desktop: {
-                src: [
-                    'js/lib/jquery/jquery-2.0.0b1.js',
-                    'js/lib/swipeview.js',
-                    'js/lib/lscache.js',
-                    'dist/andamio-lib.js'
-                    ],
-                dest: 'dist/main-desktop.dev.js'
             }
         },
 
@@ -75,10 +66,6 @@ module.exports = function(grunt) {
             mobile: {
                 src: ['dist/main.dev.js'],
                 dest: 'dist/main.js'
-            },
-            desktop: {
-                src: ['dist/main-desktop.dev.js'],
-                dest: 'dist/main-desktop.js'
             }
         },
 
@@ -114,7 +101,7 @@ module.exports = function(grunt) {
             },
             js: {
                 files: ['js/*/*.js', 'doc/js/*.js'],
-                tasks: ['concat:andamio', 'concat:mobile', 'concat:desktop']
+                tasks: ['concat:andamio', 'concat:mobile']
             }
         }
     });
