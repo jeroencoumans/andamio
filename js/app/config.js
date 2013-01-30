@@ -84,11 +84,17 @@ APP.config = (function () {
             APP.config.webapp = APP.config.cordova || APP.util.getQueryParam("webapp", false) === "1" || navigator.standalone;
         }
 
-        // TODO - Lazy media query
-        if (document.width >= 980 || APP.config.desktop || APP.config.tablet) {
-            APP.dom.html.removeClass("website").addClass("desktop no-touch has-navigation");
+        APP.config.touch = 'ontouchstart' in window;
+
+        // Yes, everything above 980 is considered desktop
+        APP.config.tablet = $.os.tablet || document.width >= 980;
+
+        if (APP.config.tablet) {
+            APP.dom.html.removeClass("website").addClass("desktop has-navigation");
             APP.config.webapp = true;
         }
+
+        if (! APP.config.touch) APP.dom.html.addClass("no-touch");
 
         // When used as standalone app or springboard app
         if (APP.config.webapp) APP.dom.html.removeClass("website").addClass("webapp");
