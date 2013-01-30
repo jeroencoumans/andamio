@@ -1,5 +1,5 @@
 /*jshint latedef:true, undef:true, unused:true boss:true */
-/*global APP, $, navigator, document, lscache */
+/*global APP, $, navigator, lscache */
 
 /**
  * Core module for initializing capabilities and modules
@@ -84,10 +84,10 @@ APP.config = (function () {
             APP.config.webapp = APP.config.cordova || APP.util.getQueryParam("webapp", false) === "1" || navigator.standalone;
         }
 
-        APP.config.touch = 'ontouchstart' in window;
+        APP.config.touch = 'ontouchstart' in APP.dom.win;
 
         // Yes, everything above 980 is considered desktop
-        APP.config.tablet = $.os.tablet || document.width >= 980;
+        APP.config.tablet = $.os.tablet || APP.dom.doc.width() >= 980;
 
         if (APP.config.tablet) {
             APP.dom.html.removeClass("website").addClass("desktop has-navigation");
