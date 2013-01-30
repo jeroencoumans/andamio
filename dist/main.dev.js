@@ -3176,15 +3176,10 @@ APP.util = (function () {
      */
     function getTitle(elem) {
 
-        var title;
+        var titleData = $(elem).data("title"),
+            titleText = $(elem).text();
 
-        if (elem.data("title")) {
-            title = elem.data("title");
-        } else if (elem.text()) {
-            title = elem.text();
-        }
-
-        return title;
+        return titleData ? titleData : titleText;
     }
 
     return {
@@ -3210,6 +3205,7 @@ APP.delay = (function(){
         timer = setTimeout(callback, ms);
     };
 })();
+
 /*jshint latedef:true, undef:true, unused:true, boss:true */
 /*global APP, $, navigator, cordova */
 
