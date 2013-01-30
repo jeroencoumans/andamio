@@ -1,3 +1,6 @@
+/*jshint latedef:true, undef:true, unused:true, boss:true */
+/*global APP, $, navigator, cordova */
+
 /**
  * Module that enhances the webapp with Cordova functionality
  * @author Jeroen Coumans
@@ -10,12 +13,13 @@ APP.phone = (function () {
         lastUpdated = new Date();
 
     /**
-     * Listens to all clicks on anchor tags and opens them in Cordova popover if it's an external URL
-     * @method interceptAnchorClicks
+     * Attach Cordova listeners
+     * @method attachListeners
      * @private
      */
-    function interceptAnchorClicks() {
+    function attachListeners() {
 
+        // Listens to all clicks on anchor tags and opens them in Cordova popover if it's an external URL
         APP.dom.viewport.on("click", "a", function() {
             if (APP.util.isExternalLink(this)) {
 
@@ -27,14 +31,6 @@ APP.phone = (function () {
                 return true;
             }
         });
-    }
-
-    /**
-     * Attach Cordova listeners
-     * @method attachListeners
-     * @private
-     */
-    function attachListeners() {
 
         // hide splashscreen
         navigator.bootstrap.addConstructor(function() {
@@ -42,7 +38,7 @@ APP.phone = (function () {
         });
 
         // scroll to top on tapbar tap
-        document.addEventListener("statusbartap", function() {
+        APP.dom.doc.on("statusbartap", function() {
 
             var pageScroller;
 
@@ -63,32 +59,21 @@ APP.phone = (function () {
                     $.scrollElement(that.get(0), 0);
                 }
             });
-        }, false);
+        });
 
         // refresh when application is activated from background
-        document.addEventListener("resign", function() {
+        APP.dom.doc.on("resign", function() {
             lastUpdated = new Date();
         });
 
-        document.addEventListener("active", function() {
+        APP.dom.doc.on("active", function() {
             var now = new Date();
             if (now - lastUpdated > APP_FROM_BACKGROUND_REFRESH_TIMEOUT) {
 
                 if (APP.alert.status) APP.alert.hide();
                 APP.open.refresh();
             }
-        }, false);
-    }
-
-    /**
-     * Init Cordova stuff. Only called when Cordova is actually loaded
-     * @method initCordova
-     * @private
-     */
-    function initCordova() {
-
-        interceptAnchorClicks();
-        attachListeners();
+        });
     }
 
     /**
@@ -99,7 +84,7 @@ APP.phone = (function () {
 
         // When Cordovia is loaded and talking to the device, initialize it
         navigator.bootstrap.addConstructor(function() {
-            initCordova();
+            attachListeners();
         });
     }
 
