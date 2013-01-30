@@ -10,7 +10,7 @@
 
     
         <div class="detail">
-            Defined in: <a class="action-push" href="doc/api/files/..&#x2F;files&#x2F;js_app_views.js.html#l1"><code>js&#x2F;app&#x2F;views.js:1</code></a>
+            Defined in: <a class="action-push" href="doc/api/files/..&#x2F;files&#x2F;js_app_views.js.html#l4"><code>js&#x2F;app&#x2F;views.js:4</code></a>
         </div>
     
 
@@ -34,20 +34,16 @@
                 attachListeners
             </a>
             
-            <a href="#method_hasChildPage" class="method">
-                hasChildPage
-            </a>
-            
             <a href="#method_init" class="method">
                 init
             </a>
             
-            <a href="#method_openChildPage" class="method">
-                openChildPage
+            <a href="#method_page" class="method">
+                page
             </a>
             
-            <a href="#method_openParentPage" class="method">
-                openParentPage
+            <a href="#method_refresh" class="method">
+                refresh
             </a>
             
         </div>
@@ -92,7 +88,7 @@
             
         
         
-        <a class="action-push" href="doc/api/files/..&#x2F;files&#x2F;js_app_views.js.html#l95"><code>js&#x2F;app&#x2F;views.js:95</code></a>
+        <a class="action-push" href="doc/api/files/..&#x2F;files&#x2F;js_app_views.js.html#l346"><code>js&#x2F;app&#x2F;views.js:346</code></a>
         
         </p>
 
@@ -109,78 +105,6 @@
 
 
 
-
-
-
-
-
-    <hr class="divider">
-
-<div class="box">
-    <h3 class="token tag">
-        <code>hasChildPage</code>
-        
-            <small class="token punctuation">()</small>
-        
-
-        
-            <small class="token comment">Boolean</small>
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-    </h3>
-
-    <div class="token comment">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a class="action-push" href="doc/api/files/..&#x2F;files&#x2F;js_app_views.js.html#l12"><code>js&#x2F;app&#x2F;views.js:12</code></a>
-        
-        </p>
-
-        
-
-        
-
-    </div>
-
-    <div class="description">
-        <p>Returns wether the childview is active or not</p>
-    </div>
-</div>
-
-
-
-
-    <div class="box returns">
-        <h4>Returns:</h4>
-
-        <div class="returns-description">
-            
-                
-                    <span class="type">Boolean</span>:
-                
-                true if childPage is active, false if parentView is active
-            
-        </div>
-    </div>
 
 
 
@@ -221,7 +145,7 @@
             
         
         
-        <a class="action-push" href="doc/api/files/..&#x2F;files&#x2F;js_app_views.js.html#l146"><code>js&#x2F;app&#x2F;views.js:146</code></a>
+        <a class="action-push" href="doc/api/files/..&#x2F;files&#x2F;js_app_views.js.html#l393"><code>js&#x2F;app&#x2F;views.js:393</code></a>
         
         </p>
 
@@ -232,7 +156,7 @@
     </div>
 
     <div class="description">
-        <p>Initialize variables and attach listeners. Sets the status of hasChildPage to true if the <code>html</code> element has the <code>.has-childview</code> class</p>
+        <p>Initialize variables and attach listeners</p>
     </div>
 </div>
 
@@ -247,17 +171,17 @@
 
 <div class="box">
     <h3 class="token tag">
-        <code>openChildPage</code>
+        <code>page</code>
         
             <small class="token punctuation">(</small>
             <small>
                 
                     
-                        <code class="token attr-name comma">[url]</code>
+                        <code class="token attr-value comma">url</code>
                     
                 
                     
-                        <code class="token attr-name comma">[title]</code>
+                        <code class="token attr-value comma">view</code>
                     
                 
             </small>
@@ -290,7 +214,7 @@
             
         
         
-        <a class="action-push" href="doc/api/files/..&#x2F;files&#x2F;js_app_views.js.html#l22"><code>js&#x2F;app&#x2F;views.js:22</code></a>
+        <a class="action-push" href="doc/api/files/..&#x2F;files&#x2F;js_app_views.js.html#l132"><code>js&#x2F;app&#x2F;views.js:132</code></a>
         
         </p>
 
@@ -301,7 +225,7 @@
     </div>
 
     <div class="description">
-        <p>Opens child page</p>
+        <p>Do an AJAX request and insert it into a view. This method also maintains the URL's for each view</p>
     </div>
 </div>
 
@@ -313,9 +237,8 @@
         
             <dt class="param">
                 
-                    <code class="token attr-name">[url]</code>
+                    <code class="token attr-name">url</code>
                     <span class="token comment">String</span>
-                    <span class="token comment" title="This parameter is optional.">optional</span>
                 
 
                 
@@ -323,7 +246,7 @@
 
             <dd>
                 <div class="param-description">
-                    <p>will call APP.open.page to do an AJAX request to URL and open it in the <code>.js-content</code> of childView</p>
+                    <p>the URL to call</p>
                 </div>
 
                 
@@ -331,9 +254,8 @@
         
             <dt class="param">
                 
-                    <code class="token attr-name">[title]</code>
-                    <span class="token comment">String</span>
-                    <span class="token comment" title="This parameter is optional.">optional</span>
+                    <code class="token attr-name">view</code>
+                    <span class="token comment">Object</span>
                 
 
                 
@@ -341,7 +263,7 @@
 
             <dd>
                 <div class="param-description">
-                    <p>will set the title of the childView in the <code>.js-title</code> element</p>
+                    <p>what page to insert the content int (child, parent or modal)</p>
                 </div>
 
                 
@@ -360,17 +282,13 @@
 
 <div class="box">
     <h3 class="token tag">
-        <code>openParentPage</code>
+        <code>refresh</code>
         
             <small class="token punctuation">(</small>
             <small>
                 
                     
-                        <code class="token attr-name comma">[url]</code>
-                    
-                
-                    
-                        <code class="token attr-name comma">[title]</code>
+                        <code class="token attr-name comma">[view]</code>
                     
                 
             </small>
@@ -403,7 +321,7 @@
             
         
         
-        <a class="action-push" href="doc/api/files/..&#x2F;files&#x2F;js_app_views.js.html#l60"><code>js&#x2F;app&#x2F;views.js:60</code></a>
+        <a class="action-push" href="doc/api/files/..&#x2F;files&#x2F;js_app_views.js.html#l186"><code>js&#x2F;app&#x2F;views.js:186</code></a>
         
         </p>
 
@@ -414,7 +332,7 @@
     </div>
 
     <div class="description">
-        <p>Opens parent page. If a childView is active, first go back to the parentView.</p>
+        <p>Reloads the current page</p>
     </div>
 </div>
 
@@ -426,8 +344,8 @@
         
             <dt class="param">
                 
-                    <code class="token attr-name">[url]</code>
-                    <span class="token comment">String</span>
+                    <code class="token attr-name">[view]</code>
+                    <span class="token comment">Object</span>
                     <span class="token comment" title="This parameter is optional.">optional</span>
                 
 
@@ -436,25 +354,7 @@
 
             <dd>
                 <div class="param-description">
-                    <p>will call APP.open.page to do an AJAX request to URL and open it in the <code>.js-content</code> of parentView</p>
-                </div>
-
-                
-            </dd>
-        
-            <dt class="param">
-                
-                    <code class="token attr-name">[title]</code>
-                    <span class="token comment">String</span>
-                    <span class="token comment" title="This parameter is optional.">optional</span>
-                
-
-                
-            </dt>
-
-            <dd>
-                <div class="param-description">
-                    <p>will set the title of the parentView in the <code>.js-title</code> element</p>
+                    <p>the view that should be refreshed</p>
                 </div>
 
                 

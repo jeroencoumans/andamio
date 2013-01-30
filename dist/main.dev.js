@@ -2854,133 +2854,6 @@ APP.dom = (function () {
 
 })();
 
-/**
- * Various utility functions
- * @author Jeroen Coumans
- * @class util
- * @namespace APP
- */
-APP.util = (function () {
-
-    /**
-     * Returns the value for a given query string key.
-     * @method getQueryParam
-     * @todo It would be better to parse the query string once and cache the result.
-     *
-     * @param {String} name Query string key
-     * @param {String} defaultValue If the query string is not found it returns this value.
-     * @param {String} queryString Query string to pick the value from, if none is provided
-     *                    window.location.search query string will be used. This
-     *                    parameter makes the function testable.
-     *
-     * @return The value of the query string or defaultValue if the key is
-     *         not found. If the value is empty an empty string is returned.
-     */
-    function getQueryParam(name, defaultValue, queryString) {
-
-        if (!queryString) {
-            queryString = window.location.search;
-        }
-        var match = RegExp("[?&]" + name + "=([^&]*)").exec(queryString);
-
-        return match ?
-            decodeURIComponent(match[1].replace(/\+/g, " "))
-            : defaultValue;
-    }
-
-    /**
-     * Returns whether the given (anchor) element contains an external link
-     * @method isExternalLink
-     * @param {HTMLElement} elem an anchor element
-     * @return {Boolean} true when the anchor contains `target="_blank"`
-     */
-    function isExternalLink(elem) {
-
-        var element = $(elem);
-
-        return element.attr("target") === "_blank";
-    }
-
-    /**
-     * Get URL from the data attribute, falling back to the href
-     * @method getUrl
-     * @param {HTMLElement} elem the element to get the URL from
-     * @return {String} Will return the URL when a `data-url` value is found, else return the href if an href is found that doesn't start with `javascript`, else return the hash if hash is found
-     */
-    function getUrl(elem) {
-
-        var url = $(elem).data("url"),
-            href = $(elem).attr("href"),
-            hash = $(elem).hash;
-
-        if (url) { return url; }
-        else if (href.substring(0,10) !== "javascript") { return href; }
-        else if (hash) { return hash; }
-    }
-
-    /**
-     * Returns an array of URL's
-     * @method getUrlList
-     * @param {HTMLElement} selector the selector used to get the DOM elements, e.g. ".article-list .action-pjax"
-     * @return {Array} an array of URL's
-     */
-    function getUrlList(selector) {
-
-        if (! selector) return;
-
-        var urlList = [];
-
-        $(selector).each(function(index, item) {
-
-            var url = APP.util.getUrl(item);
-            urlList.push(url);
-        });
-
-        return urlList;
-    }
-
-    /**
-     * Get title from the data attribute, falling back to the text
-     * @method getTitle
-     * @param {HTMLElement} elem the element to get the title from
-     * @return {String} the value of `data-title` if it's found, else the text of the element
-     */
-    function getTitle(elem) {
-
-        var title;
-
-        if (elem.data("title")) {
-            title = elem.data("title");
-        } else if (elem.text()) {
-            title = elem.text();
-        }
-
-        return title;
-    }
-
-    return {
-        "getQueryParam": getQueryParam,
-        "isExternalLink": isExternalLink,
-        "getUrl": getUrl,
-        "getUrlList": getUrlList,
-        "getTitle": getTitle
-    };
-})();
-
-/**
- * Executes the callback function after a specified delay
- * @author Jeroen Coumans
- * @class delay
- * @namespace APP
- * @param {Integer} timer the delay in milliseconds after which to execute the callback
- */
-APP.delay = (function(){
-    var timer = 0;
-    return function(callback, ms){
-        clearTimeout (timer);
-        timer = setTimeout(callback, ms);
-    };
-})();
 /*jshint latedef:true, undef:true, unused:true boss:true */
 /*global APP, $, navigator, lscache */
 
@@ -2992,7 +2865,12 @@ APP.delay = (function(){
  */
 APP.config = (function () {
 
-    /*** Zepto detect.js ***/
+    /*
+     * Included from Zepto detect.js
+     * @method detect
+     * @param {Object} navigator
+     * @private
+     */
     function detect(ua) {
 
         var os = this.os = {}, browser = this.browser = {},
@@ -3205,6 +3083,133 @@ APP.events = (function () {
     };
 })();
 
+/**
+ * Various utility functions
+ * @author Jeroen Coumans
+ * @class util
+ * @namespace APP
+ */
+APP.util = (function () {
+
+    /**
+     * Returns the value for a given query string key.
+     * @method getQueryParam
+     * @todo It would be better to parse the query string once and cache the result.
+     *
+     * @param {String} name Query string key
+     * @param {String} defaultValue If the query string is not found it returns this value.
+     * @param {String} queryString Query string to pick the value from, if none is provided
+     *                    window.location.search query string will be used. This
+     *                    parameter makes the function testable.
+     *
+     * @return The value of the query string or defaultValue if the key is
+     *         not found. If the value is empty an empty string is returned.
+     */
+    function getQueryParam(name, defaultValue, queryString) {
+
+        if (!queryString) {
+            queryString = window.location.search;
+        }
+        var match = RegExp("[?&]" + name + "=([^&]*)").exec(queryString);
+
+        return match ?
+            decodeURIComponent(match[1].replace(/\+/g, " "))
+            : defaultValue;
+    }
+
+    /**
+     * Returns whether the given (anchor) element contains an external link
+     * @method isExternalLink
+     * @param {HTMLElement} elem an anchor element
+     * @return {Boolean} true when the anchor contains `target="_blank"`
+     */
+    function isExternalLink(elem) {
+
+        var element = $(elem);
+
+        return element.attr("target") === "_blank";
+    }
+
+    /**
+     * Get URL from the data attribute, falling back to the href
+     * @method getUrl
+     * @param {HTMLElement} elem the element to get the URL from
+     * @return {String} Will return the URL when a `data-url` value is found, else return the href if an href is found that doesn't start with `javascript`, else return the hash if hash is found
+     */
+    function getUrl(elem) {
+
+        var url = $(elem).data("url"),
+            href = $(elem).attr("href"),
+            hash = $(elem).hash;
+
+        if (url) { return url; }
+        else if (href.substring(0,10) !== "javascript") { return href; }
+        else if (hash) { return hash; }
+    }
+
+    /**
+     * Returns an array of URL's
+     * @method getUrlList
+     * @param {HTMLElement} selector the selector used to get the DOM elements, e.g. ".article-list .action-pjax"
+     * @return {Array} an array of URL's
+     */
+    function getUrlList(selector) {
+
+        if (! selector) return;
+
+        var urlList = [];
+
+        $(selector).each(function(index, item) {
+
+            var url = APP.util.getUrl(item);
+            urlList.push(url);
+        });
+
+        return urlList;
+    }
+
+    /**
+     * Get title from the data attribute, falling back to the text
+     * @method getTitle
+     * @param {HTMLElement} elem the element to get the title from
+     * @return {String} the value of `data-title` if it's found, else the text of the element
+     */
+    function getTitle(elem) {
+
+        var title;
+
+        if (elem.data("title")) {
+            title = elem.data("title");
+        } else if (elem.text()) {
+            title = elem.text();
+        }
+
+        return title;
+    }
+
+    return {
+        "getQueryParam": getQueryParam,
+        "isExternalLink": isExternalLink,
+        "getUrl": getUrl,
+        "getUrlList": getUrlList,
+        "getTitle": getTitle
+    };
+})();
+
+/**
+ * Executes the callback function after a specified delay
+ * @author Jeroen Coumans
+ * @class delay
+ * @namespace APP
+ * @param {Integer} timer the delay in milliseconds after which to execute the callback
+ */
+APP.delay = (function(){
+    var timer = 0;
+    return function(callback, ms){
+        clearTimeout (timer);
+        timer = setTimeout(callback, ms);
+    };
+})();
 /*jshint latedef:true, undef:true, unused:true, boss:true */
 /*global APP, $, navigator, cordova */
 
@@ -3247,25 +3252,9 @@ APP.phone = (function () {
         // scroll to top on tapbar tap
         APP.dom.doc.on("statusbartap", function() {
 
-            var pageScroller;
+            var pageScroller = APP.nav.status() ? APP.dom.pageNav : APP.views.current().content;
+            $.scrollElement(pageScroller[0], 0);
 
-            if (APP.nav.status()) {
-
-                pageScroller = APP.dom.pageNav;
-            } else {
-
-                pageScroller = $(".active-view").find(".overthrow");
-            }
-
-            pageScroller.each(function() {
-
-                var that = $(this),
-                    hasOverflow = that.css("overflow");
-
-                if (hasOverflow === "auto") {
-                    $.scrollElement(that.get(0), 0);
-                }
-            });
         });
 
         // refresh when application is activated from background
@@ -3278,7 +3267,7 @@ APP.phone = (function () {
             if (now - lastUpdated > APP_FROM_BACKGROUND_REFRESH_TIMEOUT) {
 
                 if (APP.alert.status) APP.alert.hide();
-                APP.open.refresh();
+                APP.views.reloadPage();
             }
         });
     }
@@ -3291,6 +3280,7 @@ APP.phone = (function () {
 
         // When Cordovia is loaded and talking to the device, initialize it
         navigator.bootstrap.addConstructor(function() {
+
             attachListeners();
         });
     }
@@ -3298,6 +3288,85 @@ APP.phone = (function () {
     return {
         "init": init
     };
+})();
+
+/**
+ * Controls global alerts
+ * @author Jeroen Coumans
+ * @class alert
+ * @namespace APP
+ */
+APP.alert = (function () {
+
+    var hasAlert;
+
+    /**
+     * Show alert
+     * @method show
+     * @param {String} msg the message of the alert
+     */
+    function show(msg) {
+
+        if (msg) {
+            APP.dom.pageAlert.html(msg);
+            APP.dom.pageAlert.show();
+            hasAlert = true;
+        }
+    }
+
+    /**
+     * Hide alert
+     * @method hide
+     */
+    function hide() {
+
+        APP.dom.pageAlert.hide();
+        hasAlert = false;
+    }
+
+    /**
+     * Status of alert
+     * @method status
+     * @return {Boolean} true when alert is displayed, false when alert is hidden
+     */
+    function status() {
+
+        return hasAlert;
+    }
+
+    /**
+     * Attach event listeners
+     * @method attachListeners
+     * @private
+     */
+    function attachListeners() {
+
+        // Calls hide() when .action-hide-alert is clicked
+        APP.events.attachClickHandler(".action-hide-alert", function () {
+
+            hide();
+        });
+    }
+
+    /**
+     * Initialize variables and attach listeners
+     * @method init
+     */
+    function init() {
+
+        // assign variables
+        hasAlert = false;
+
+        attachListeners();
+    }
+
+    return {
+        "init": init,
+        "show": show,
+        "hide": hide,
+        "status": status
+    };
+
 })();
 
 /**
@@ -3515,293 +3584,6 @@ APP.loader = (function () {
 })();
 
 /**
- * Wrapper for doing an AJAX request
- * @author Jeroen Coumans
- * @class open
- * @namespace APP
- */
-APP.open = (function () {
-
-    // function variables
-    var active,
-        parent,
-        child,
-        modal;
-
-    /**
-     * This method is used to set or return the active URL. It's used for e.g. refreshing the current page
-     * @method activeUrl
-     * @param {String} [href] the URL that should be set to active
-     * @return {String} the URL that is currently set to active
-     **/
-    function activeUrl(href) {
-        if (href) {
-            active = href;
-        } else {
-            return active;
-        }
-    }
-
-    /**
-     * @method parentUrl
-     * @return {String} the URL that is loaded in the parent element
-    */
-    function parentUrl() { return parent; }
-
-    /**
-     * @method childUrl
-     * @return {String} the URL that is loaded in the child element
-    */
-    function childUrl()  { return child;  }
-
-    /**
-     * @method modalUrl
-     * @return {String} the URL that is loaded in the modal element
-    */
-    function modalUrl()  { return modal;  }
-
-    /**
-     * Do an AJAX request and insert it into a view. This method also maintains the URL's for each view, and sets the activeUrl to the called URL.
-     * @method page
-     * @param {String} url the URL to call
-     * @param {HTMLElement} view what page to insert the content int (child, parent or modal)
-     * @param {Boolean} [refresh] when set, the activeUrl will be downloaded again. You need to set this parameter if you want to explicitly refresh a page.
-     * @param {Function} [callback] optional callback function that will be called when the AJAX call completes
-     */
-    function page(url, view, refresh, callback) {
-
-        if (! url || ! view) return;
-
-        // make sure to open the parent
-        if (APP.views.hasChildPage() && view === APP.dom.parentView) {
-
-            APP.views.openParentPage();
-        }
-
-        // variables
-        var content = $(view).find(".js-content"),
-            scrollPosition = content.get(0).scrollTop,
-            timeoutToken = null,
-            loaderText;
-
-        // Set the URL of the view
-        switch (view) {
-            case APP.dom.parentView:
-                parent = url;
-                break;
-
-            case APP.dom.childView:
-                child = url;
-                break;
-
-            case APP.dom.modalView:
-                modal = url;
-                break;
-        }
-
-        // Prevent page load when opening the same URL
-        if (active === url && ! refresh) {
-
-            return false;
-        } else {
-
-            // Set the active url to the passed url
-            active = url;
-            content.empty();
-        }
-
-        if (refresh) {
-            loaderText = "Refreshing...";
-        } else {
-            loaderText = "Loading...";
-        }
-
-        $.ajax({
-            url: url,
-            timeout: 7500,
-            headers: { "X-PJAX": true },
-            beforeSend: function() {
-                APP.dom.doc.trigger("APP:views:loadPage:start");
-            },
-            success: function(response) {
-
-                $(content).html(response);
-
-                if (scrollPosition > 10) {
-                    $.scrollElement($(content).get(0), 0);
-                }
-            },
-            complete: function() {
-                APP.dom.doc.trigger("APP:views:loadPage:finish");
-            }
-        });
-    }
-
-    /**
-     * Checks what the active view is and then calls APP.open.page with its respective URL, view and refresh
-     * @method refresh
-     */
-    function refresh() {
-
-        // check wether to refresh child or parent page
-        if (APP.views.hasChildPage()) {
-
-            page(child, APP.dom.childView, true);
-
-        } else if (APP.modal.status()) {
-
-            page(modal, APP.dom.modalView, true);
-
-        } else {
-
-            page(parent, APP.dom.parentView, true);
-        }
-    }
-
-    /**
-     * Attach event listeners
-     * @method attachListeners
-     */
-    function attachListeners() {
-
-        // Open parent page
-        APP.events.attachClickHandler(".action-refresh", function (event) {
-
-            if (APP.alert.status) APP.alert.hide();
-            refresh();
-        });
-    }
-
-    /***
-     * Attach listeners
-     * @method init
-     */
-    function init() {
-
-        attachListeners();
-    }
-
-    return {
-        "init": init,
-        "page": page,
-        "refresh": refresh,
-        "activeUrl": activeUrl,
-        "parentUrl": parentUrl,
-        "childUrl": childUrl,
-        "modalUrl": modalUrl
-    };
-
-})();
-
-/**
- * Module for dealing with modals
- * @author Jeroen Coumans
- * @class modal
- * @namespace APP
- */
-APP.modal = (function () {
-
-    // Variables
-    var hasModalview;
-
-    /**
-     * Opens the modal view
-     * @method show
-     */
-    function show() {
-
-        if (APP.alert.status) APP.alert.hide();
-
-        APP.dom.html.addClass("has-modalview");
-        APP.dom.pageView.addClass("view-hidden");
-        APP.dom.modalView.removeClass("view-hidden");
-        APP.dom.modalView.addClass("active-view");
-        hasModalview = true;
-    }
-
-    /**
-     * Hides the modal view
-     * @method hide
-     */
-    function hide() {
-
-        APP.dom.html.removeClass("has-modalview");
-        APP.dom.pageView.removeClass("view-hidden");
-        APP.dom.modalView.addClass("view-hidden");
-        APP.dom.modalView.removeClass("active-view");
-        hasModalview = false;
-    }
-
-    /**
-     * Returns the status of the modal view
-     * @method status
-     * @return {Boolean} wether modal view is shown or not
-     */
-    function status() {
-
-        return hasModalview;
-    }
-
-    /**
-     * Attach event listeners
-     * @method attachListeners
-     * @private
-     */
-    function attachListeners() {
-
-        /*
-         * Open modal
-         * - if data-url is specified, it will be loaded into the modal content
-         * - otherwise, if href has a URL, it will be loaded into the modal content
-         * - if the action has text, it will be used as the title
-         */
-        APP.events.attachClickHandler(".action-show-modal", function (event) {
-
-            var target = $(event.target).closest(".action-show-modal"),
-                url = APP.util.getUrl(target),
-                title = APP.util.getTitle(target);
-
-            show();
-
-            if (url) {
-                APP.open.page(url, APP.dom.modalView);
-            }
-
-            if (title) {
-                APP.dom.modalViewTitle.text(title);
-            }
-        });
-
-        /*
-         * Close modal
-         */
-        APP.events.attachClickHandler(".action-hide-modal", function () {
-
-            hide();
-        });
-    }
-
-    /**
-     * Initialize variables and attach listeners
-     * @method init
-     */
-    function init() {
-
-        hasModalview = APP.dom.html.hasClass("has-modalview") ? true : false;
-
-        attachListeners();
-    }
-
-    return {
-        "init": init,
-        "show": show,
-        "hide": hide,
-        "status": status
-    };
-
-})();
-
-/**
  * Module for page navigation
  * @author Jeroen Coumans
  * @class nav
@@ -3920,7 +3702,7 @@ APP.nav = (function () {
 
             // set page title
             if (title) APP.dom.parentViewTitle.text(title);
-            if (url) APP.open.page(url, APP.dom.parentView);
+            if (url) APP.views.openParentPage(url);
         });
     }
 
@@ -4151,143 +3933,6 @@ APP.search = (function () {
     };
 
 })();
-/**
- * Provides methods for storing HTML documents offline
- * @author Jeroen Coumans
- * @class store
- * @namespace APP
- */
-APP.store = (function() {
-
-    var isLoading;
-
-    /**
-     * Loads an URL from localStorage.
-     * @method showUrl
-     * @param {String} url the URL that will be loaded. The URL is used as the key. The value will be parsed as JSON.
-     * @param {Boolean} loaded wether or not to load silently (default) or show a loader when fetching the URL
-     * @return {String} the value that was stored. Usually, this is raw HTML.
-     */
-    function showUrl(url, loader, callback) {
-
-        if (! url) return;
-
-        // set result
-        var result = lscache.get(url);
-
-        if (result) {
-
-            callback(result);
-        } else {
-
-            if (loader) APP.loader.show();
-            // console.log("Article wasn't stored, storing it now...");
-
-            storeUrl(url, false, false, function(status) {
-
-                // console.log("Article stored, calling showUrl again...");
-
-                if (status === "success") {
-
-                    if (loader) APP.loader.hide();
-                    var result = lscache.get(url);
-
-                    callback(result);
-                } else {
-
-                    APP.alert.show("Couldn't load article");
-                }
-            });
-        }
-    }
-
-    /**
-     * Does an AJAX call to URL and stores it with the URL as the key
-     * @method storeUrl
-     * @param {String} url the URL to be stored
-     * @param {Boolean} [absolute] if false, the server will be prefixed to URL's
-     * @param {Integer} [expiration=365*24*60] after how long should the stored URL expire. Set in minutes, defaults to 1 year.
-     * @param {Function} [callback] callback function when the AJAX call is complete
-    */
-    function storeUrl(url, absolute, expiration, callback) {
-
-        if (! url || lscache.get(url)) return;
-
-        var expire = expiration ? expiration : 365*24*60,
-            request = absolute ? url : APP.config.server + url;
-
-        $.ajax({
-            url: request,
-            timeout: 20000,
-            global: false, // don't fire off global AJAX events, we want to load in the background
-            headers: { "X-PJAX": true },
-            beforeSend: function() {
-
-                isLoading = true;
-            },
-            success: function(response) {
-
-                lscache.set(url, response, expire);
-            },
-            complete: function(xhr,status) {
-
-                isLoading = false;
-
-                if ($.isFunction(callback)) callback(status);
-            }
-        });
-    }
-
-    /**
-     * Wrapper around storeUrl to store an array of URLs
-     * @method storeUrlList
-     * @param {Array} list an array of URL's
-     * @param {Boolean} [absolute] if false, the server will be prefixed to URL's
-     * @param {Integer} [expiration=365*24*60] after how long should the stored URL expire. Set in minutes, defaults to 1 year.
-     * @param {Function} [callback] callback function when the AJAX call is complete
-     */
-    function storeUrlList(list, absolute, expiration, callback) {
-
-        if (! list) return;
-
-        // TODO: show progress meter
-        // var loaded = 0;
-
-        $(list).each(function(index, item) {
-
-            storeUrl(item, absolute, expiration, function(status) {
-                if (status === "success") {
-                    // loaded++;
-                    // var loadedPercentage = Math.round(loaded / list.length * 100) + "%";
-                    // console.log(loadedPercentage);
-                } else {
-                    // console.log(status);
-                }
-            });
-        });
-
-        if ($.isFunction(callback)) callback();
-    }
-
-    /**
-     * Initialize variables and settings
-     * @method init
-     */
-    function init() {
-
-        isLoading = false;
-    }
-
-    return {
-        "init": init,
-        "loading": isLoading,
-        "storeUrl": storeUrl,
-        "storeUrlList": storeUrlList,
-        "showUrl": showUrl
-    };
-
-})();
-
 /*jshint latedef:true, undef:true, unused:true boss:true */
 /*global APP, $, Swipe, document */
 
@@ -4373,6 +4018,65 @@ APP.slideshow = (function () {
     };
 })();
 
+/*jshint latedef:true, undef:true, unused:true, boss:true */
+/*global APP, lscache */
+
+/**
+ * Provides methods for storing HTML documents offline
+ * @author Jeroen Coumans
+ * @class store
+ * @namespace APP
+ */
+APP.store = (function() {
+
+    /**
+     * Wrapper around lscache.set
+     * Note that this is fire and forget, there are no checks done to verify it's actually set
+     */
+    function setCache(key, data, expiration) {
+
+        if (! key || ! data) return;
+
+        APP.dom.doc.trigger("APP:store:setCache:start");
+
+        var seconds = (typeof expiration === "number") ? expiration : 24 * 60 * 60;
+
+        lscache.set(key, data, seconds);
+        APP.dom.doc.trigger("APP:store:setCache:finish");
+    }
+
+    /**
+     * Wrapper around lscache.get
+     */
+    function getCache(key) {
+
+        if (! key) return;
+
+        APP.dom.doc.trigger("APP:store:getCache:start");
+
+        var result = lscache.get(key);
+        if (result) {
+            APP.dom.doc.trigger("APP:store:getCache:finish");
+            return result;
+        }
+    }
+
+    /**
+     * Wrapper around lscache.remove
+     */
+    function deleteCache(key) {
+
+        if (! key) return;
+        lscache.remove(key);
+    }
+
+    return {
+        "setCache": setCache,
+        "getCache": getCache,
+        "deleteCache": deleteCache
+    };
+
+})();
 /**
  * Module for using tabs
  * @author Jeroen Coumans
@@ -4453,7 +4157,7 @@ APP.tabs = (function () {
             if (url) {
 
                 setActive(target);
-                APP.open.page(url, APP.dom.parentView);
+                APP.views.openParentPage(url);
             }
         });
     }
@@ -4479,6 +4183,9 @@ APP.tabs = (function () {
 
 })();
 
+/*jshint latedef:true, undef:true, unused:true boss:true */
+/*global APP, $ */
+
 /**
  * Module for handling views
  * @author Jeroen Coumans
@@ -4487,90 +4194,338 @@ APP.tabs = (function () {
  */
 APP.views = (function () {
 
-    // Variables
-    var hasChild;
+    var _views;
 
-    /**
-     * Returns wether the childview is active or not
-     * @method hasChildPage
-     * @return {Boolean} true if childPage is active, false if parentView is active
-     */
-    function hasChildPage() {
+    function setupViews() {
 
-        return hasChild;
+        // view constructor
+        function View(container, content, title, position) {
+            this.container = container;
+            this.content = content;
+            this.title = title;
+            if (APP.config.webapp) this.container.addClass(position);
+        }
+
+        View.prototype.slideInFromLeft = function(url, title) {
+            setCurrentView(this);
+
+            if (url) loadPage(url);
+            if (title) this.title.html(title);
+
+            this.container.addClass("slide-in-from-left").one("webkitTransitionEnd", function () {
+                $(this).addClass("slide-default").removeClass("slide-left slide-in-from-left");
+            });
+        };
+
+        View.prototype.slideInFromRight = function(url, title) {
+            setCurrentView(this);
+
+            if (url) loadPage(url);
+            if (title) this.title.html(title);
+
+            this.container.addClass("slide-in-from-right").one("webkitTransitionEnd", function () {
+                $(this).addClass("slide-default").removeClass("slide-right slide-in-from-right");
+            });
+        };
+
+        View.prototype.slideInFromBottom = function(url, title) {
+            setCurrentView(this);
+
+            if (url) loadPage(url);
+            if (title) this.title.html(title);
+
+            this.container.addClass("slide-in-from-bottom").one("webkitTransitionEnd", function () {
+                $(this).addClass("slide-default").removeClass("slide-bottom slide-in-from-bottom");
+            });
+        };
+
+        View.prototype.slideOutToLeft = function() {
+            this.container.addClass("slide-out-to-left").one("webkitTransitionEnd", function () {
+                $(this).addClass("slide-left").removeClass("slide-default slide-out-to-left");
+            });
+        };
+
+        View.prototype.slideOutToRight = function() {
+            this.container.addClass("slide-out-to-right").one("webkitTransitionEnd", function () {
+                $(this).addClass("slide-right").removeClass("slide-default slide-out-to-right");
+            });
+        };
+
+        View.prototype.slideOutToBottom = function() {
+            setCurrentView(_views.previous);
+
+            this.container.addClass("slide-out-to-bottom").one("webkitTransitionEnd", function () {
+                $(this).addClass("slide-bottom").removeClass("slide-default slide-out-to-bottom");
+            });
+        };
+
+        View.prototype.show = function(url) {
+            setCurrentView(this);
+
+            if (url) loadPage(url);
+            this.container.removeClass("view-hidden").addClass("view-active");
+        };
+
+        View.prototype.hide = function() {
+
+            this.container.addClass("view-hidden").removeClass("view-active");
+        };
+
+        // setup our internal views object
+        _views = {
+            parentView: new View(APP.dom.parentView, APP.dom.parentViewContent, APP.dom.parentViewTitle, "slide-default"),
+            childView: new View(APP.dom.childView, APP.dom.childViewContent, APP.dom.childViewTitle, "slide-right"),
+            childViewAlt: new View(APP.dom.childViewAlt, APP.dom.childViewAltContent, APP.dom.childViewAltTitle, "slide-right"),
+            modalView: new View(APP.dom.modalView, APP.dom.modalViewContent, APP.dom.modalViewTitle, "slide-bottom"),
+            current: null,
+            previous: null,
+            childCount: 0,
+            urlHistory: []
+        };
+
+        _views.current = _views.parentView;
     }
 
     /**
-     * Opens child page
-     * @method openChildPage
-     * @param {String} [url] will call APP.open.page to do an AJAX request to URL and open it in the `.js-content` of childView
-     * @param {String} [title] will set the title of the childView in the `.js-title` element
+     * Set the current view and store the previous one
+     * @private
      */
-    function openChildPage(url, title) {
+    function setCurrentView(view) {
 
-        if (APP.alert.status) APP.alert.hide();
-
-        // go forward when called from parent page
-        if (! hasChild) {
-            APP.dom.html.addClass("childview-in");
-            APP.dom.childView.removeClass("view-hidden").addClass("active-view");
-            APP.dom.parentView.addClass("view-hidden").removeClass("active-view");
-
-            // execute after animation timeout
-            APP.delay(function() {
-                APP.dom.html.addClass("has-childview");
-                APP.dom.html.removeClass("childview-in");
-            }, 300);
+        if (view) {
+            _views.previous = _views.current;
+            _views.current = view;
         }
-
-        // load URL
-        if (url) {
-
-            APP.dom.childViewTitle.html("");
-            APP.open.page(url, APP.dom.childView);
-        }
-
-        // set title
-        if (title) {
-            APP.dom.childViewTitle.text(title);
-        }
-
-        hasChild = true;
     }
 
+    function pushHistory(url) {
+
+        _views.urlHistory.push(url);
+    }
+
+    function popHistory(url) {
+
+        _views.urlHistory.pop(url);
+    }
+
+    function replaceHistory(url) {
+
+        if (_views.urlHistory.length > 0) _views.urlHistory[_views.urlHistory.length -1] = url;
+    }
+
+
     /**
-     * Opens parent page. If a childView is active, first go back to the parentView.
-     * @method openParentPage
-     * @param {String} [url] will call APP.open.page to do an AJAX request to URL and open it in the `.js-content` of parentView
-     * @param {String} [title] will set the title of the parentView in the `.js-title` element
+     * Do an AJAX request and insert it into a view. This method also maintains the URL's for each view
+     * @method page
+     * @param {String} url the URL to call
+     * @param {Object} view what page to insert the content int (child, parent or modal)
      */
-    function openParentPage(url, title) {
+    function loadPage(url, view, expiration) {
 
-        if (APP.alert.status) APP.alert.hide();
+        if (! url) return;
 
-        // go back when called from child page
-        if (hasChild) {
-            APP.dom.html.addClass("childview-out");
-            APP.dom.childView.addClass("view-hidden").removeClass("active-view");
-            APP.dom.parentView.removeClass("view-hidden").addClass("active-view");
+        var target = view || _views.current,
+            scrollPosition = target.content.get(0).scrollTop,
+            cachedUrl = APP.config.offline ? APP.store.getCache(url) : false;
 
-            // execute after animation timeout
-            APP.delay(function() {
-                APP.dom.html.removeClass("has-childview childview-out");
-            }, 300);
+        APP.dom.doc.trigger("APP:views:loadPage:start");
+        APP.dom.doc.trigger("APP:views:loadPage:start:" + url);
+
+        target.content.empty();
+
+        function insertIntoView(data) {
+
+            target.content.html(data);
+            target.url = url;
+            replaceHistory(url);
+
+            if (scrollPosition > 10) {
+                $.scrollElement(target.content.get(0), 0);
+            }
+
+            APP.dom.doc.trigger("APP:views:loadPage:finish");
+            APP.dom.doc.trigger("APP:views:loadPage:finish:" + url);
         }
 
-        // load URL
-        if (url) {
-            APP.open.page(url, APP.dom.parentView);
+        if (cachedUrl) {
+
+            insertIntoView(cachedUrl);
+        } else {
+
+            $.ajax({
+                url: url,
+                timeout: 10000,
+                headers: { "X-PJAX": true },
+                success: function(response) {
+
+                    var minutes = expiration || 24 * 60; // lscache sets expiration in minutes, so this is 24 hours
+
+                    if (APP.config.offline) APP.store.setCache(url, response, minutes);
+                    insertIntoView(response);
+                }
+            });
+        }
+    }
+
+
+    /**
+     * Reloads the current page
+     * @method refresh
+     * @param {Object} [view] the view that should be refreshed
+     */
+    function reloadPage(view) {
+
+        var targetView = view || _views.current;
+
+        if (APP.config.offline) APP.store.deleteCache(targetView.url); // remove current cache entry
+
+        loadPage(targetView.url, targetView);
+    }
+
+    function pushChild(url, title) {
+
+        if (url) pushHistory(url);
+
+        if (APP.config.webapp) {
+
+            // disable events while we're transitioning
+            APP.events.lock(300);
+
+            switch(_views.current) {
+                case _views.parentView:
+
+                    _views.parentView.slideOutToLeft();
+                    _views.childView.slideInFromRight(url, title);
+                break;
+
+                case _views.childView:
+
+                    // make sure childViewAlt is positioned on the right
+                    APP.dom.childViewAlt.removeClass("slide-left").addClass("slide-right");
+
+                    APP.delay(function() {
+                        _views.childView.slideOutToLeft();
+                        _views.childViewAlt.slideInFromRight(url, title);
+                    }, 0);
+                break;
+
+                case _views.childViewAlt:
+
+                    // make sure childView is positioned on the right
+                    APP.dom.childView.removeClass("slide-left").addClass("slide-right");
+
+                    APP.delay(function() {
+                        _views.childView.slideInFromRight(url, title);
+                        _views.childViewAlt.slideOutToLeft();
+                    }, 0);
+                break;
+
+                default:
+                break;
+            }
+
+            _views.childCount++;
+
+        } else {
+            _views.parentView.hide();
+            _views.childView.show(url);
+        }
+    }
+
+    function popChild(url, title) {
+
+        popHistory(_views.urlHistory[_views.urlHistory.length - 1]);
+        url = url || _views.urlHistory[_views.urlHistory.length - 1];
+
+        if (APP.config.webapp) {
+
+            // disable events while we're transitioning
+            APP.events.lock(300);
+
+            switch(_views.current) {
+                case _views.childView:
+
+                    if (_views.childCount === 1) {
+                        _views.parentView.slideInFromLeft(url, title);
+                        _views.childView.slideOutToRight();
+                    } else {
+
+                        // make sure childView is positioned on the right
+                        APP.dom.childViewAlt.removeClass("slide-right").addClass("slide-left");
+
+                        APP.delay(function() {
+                            _views.childView.slideOutToRight();
+                            _views.childViewAlt.slideInFromLeft(url, title);
+                        }, 0);
+                    }
+                break;
+
+                case _views.childViewAlt:
+
+                    // make sure childView is positioned on the right
+                    APP.dom.childView.removeClass("slide-right").addClass("slide-left");
+
+                    APP.delay(function() {
+                        _views.childView.slideInFromLeft(url, title);
+                        _views.childViewAlt.slideOutToRight();
+                    }, 0);
+                break;
+
+                default:
+                break;
+            }
+
+            _views.childCount--;
+
+        } else {
+            _views.parentView.show(url, title);
+            _views.childView.hide();
+        }
+    }
+
+    function pushModal(url, title) {
+
+        if (_views.current === _views.modalView) return; // modal is already open
+
+        APP.dom.html.addClass("has-modalview");
+
+        if (APP.config.webapp) {
+
+            _views.modalView.slideInFromBottom(url, title);
+
+        } else {
+
+            _views.current.hide();
+            _views.modalView.show(url, title);
+        }
+    }
+
+    function popModal(url, title) {
+
+        if (_views.current !== _views.modalView) return; // modal is not open
+
+        APP.dom.html.removeClass("has-modalview");
+
+        if (APP.config.webapp) {
+
+            _views.modalView.slideOutToBottom();
+        } else {
+
+            _views.previous.show(url, title);
+            _views.modalView.hide();
+        }
+    }
+
+    function openParentPage(url) {
+
+        if (APP.config.webapp) {
+            APP.dom.parentView.removeClass("slide-left slide-right").addClass("slide-default");
+            APP.dom.childView.removeClass("slide-left slide-default").addClass("slide-right");
+            APP.dom.childViewAlt.removeClass("slide-left slide-default").addClass("slide-right");
         }
 
-        // set title
-        if (title) {
-            APP.dom.parentViewTitle.text(title);
-        }
-
-        hasChild = false;
+        _views.urlHistory = [];
+        loadPage(url, _views.parentView);
     }
 
     /**
@@ -4579,33 +4534,6 @@ APP.views = (function () {
      * @private
      */
     function attachListeners() {
-
-        // Open parent page
-        APP.events.attachClickHandler(".action-pop", function (event) {
-
-            /*
-             *  Stop loader if one was already being displayed,
-             *  e.g. by going navigating while the previous AJAX call wass not finished
-            */
-            if (APP.loader.status()) {
-                APP.loader.hide();
-            }
-
-            var target = $(event.target).closest(".action-pop"),
-                title = APP.util.getTitle(target),
-                url = APP.util.getUrl(target);
-
-            if (url) {
-
-                openParentPage(url, title);
-            } else {
-
-                // update the active url manually since this action often doesn't use a URL
-                APP.open.activeUrl(APP.open.parentUrl());
-
-                openParentPage();
-            }
-        });
 
         // Open child page
         APP.events.attachClickHandler(".action-push", function (event) {
@@ -4614,115 +4542,62 @@ APP.views = (function () {
                 title = APP.util.getTitle(target),
                 url = APP.util.getUrl(target);
 
-            if (url) {
+            pushChild(url, title);
+        });
 
-                openChildPage(url, title);
-            } else {
+        // Open parent page
+        APP.events.attachClickHandler(".action-pop", function () {
 
-                openChildPage();
-            }
+            popChild();
+        });
+
+        // Open modal
+        APP.events.attachClickHandler(".action-show-modal", function (event) {
+
+            var target = $(event.target).closest(".action-show-modal"),
+                title = APP.util.getTitle(target),
+                url = APP.util.getUrl(target);
+
+            pushModal(url, title);
+        });
+
+        // Close modal
+        APP.events.attachClickHandler(".action-hide-modal", function () {
+
+            popModal();
+        });
+
+        // Refresh
+        APP.events.attachClickHandler(".action-refresh", function () {
+
+            if (APP.alert.status) APP.alert.hide();
+            reloadPage();
         });
     }
 
     /***
-     * Initialize variables and attach listeners. Sets the status of hasChildPage to true if the `html` element has the `.has-childview` class
-     * @method init
-     */
-    function init() {
-
-        hasChild = APP.dom.html.hasClass("has-childview") ? true : false;
-
-        attachListeners();
-    }
-
-    return {
-        "init": init,
-        "openChildPage": openChildPage,
-        "openParentPage": openParentPage,
-        "hasChildPage": hasChildPage
-    };
-
-})();
-
-/**
- * Controls global alerts
- * @author Jeroen Coumans
- * @class alert
- * @namespace APP
- */
-APP.alert = (function () {
-
-    var hasAlert;
-
-    /**
-     * Show alert
-     * @method show
-     * @param {String} msg the message of the alert
-     */
-    function show(msg) {
-
-        if (msg) {
-            APP.dom.pageAlert.html(msg);
-            APP.dom.pageAlert.show();
-            hasAlert = true;
-        }
-    }
-
-    /**
-     * Hide alert
-     * @method hide
-     */
-    function hide() {
-
-        APP.dom.pageAlert.hide();
-        hasAlert = false;
-    }
-
-    /**
-     * Status of alert
-     * @method status
-     * @return {Boolean} true when alert is displayed, false when alert is hidden
-     */
-    function status() {
-
-        return hasAlert;
-    }
-
-    /**
-     * Attach event listeners
-     * @method attachListeners
-     * @private
-     */
-    function attachListeners() {
-
-        // Calls hide() when .action-hide-alert is clicked
-        APP.events.attachClickHandler(".action-hide-alert", function () {
-
-            hide();
-        });
-    }
-
-    /**
      * Initialize variables and attach listeners
      * @method init
      */
     function init() {
 
-        // assign variables
-        hasAlert = false;
-
+        setupViews();
         attachListeners();
     }
 
     return {
         "init": init,
-        "show": show,
-        "hide": hide,
-        "status": status
+        "pushChild": pushChild,
+        "popChild": popChild,
+        "pushModal": pushModal,
+        "popModal": popModal,
+        "openParentPage": openParentPage,
+        "loadPage": loadPage,
+        "reloadPage": reloadPage,
+        "list": function() { return _views; },
+        "current": function() { return _views.current; }
     };
-
 })();
-
 /*jshint latedef:true, undef:true, unused:true boss:true */
 /*global APP */
 
@@ -4740,23 +4615,25 @@ APP.core = (function () {
      */
     function init(params) {
 
+        // Apply user parameters
         APP.config.init(params);
+
+        // Initialize events
         APP.events.init();
-
-        // needs to come first so we're "online"
-        APP.connection.init();
-        APP.loader.init();
-        APP.open.init();
-        APP.nav.init();
-        APP.modal.init();
-        APP.reveal.init();
-        APP.store.init(params);
-        APP.tabs.init();
-        APP.views.init();
-        APP.alert.init();
-
-        if (APP.config.offline) APP.store.init();
         if (APP.config.cordova) APP.phone.init();
+
+        // Go online
+        APP.connection.init();
+
+        // Initialize views
+        APP.views.init();
+
+        // Initialize the rest
+        APP.alert.init();
+        APP.loader.init();
+        APP.nav.init();
+        APP.reveal.init();
+        APP.tabs.init();
     }
 
     return {

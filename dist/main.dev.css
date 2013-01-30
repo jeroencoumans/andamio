@@ -446,8 +446,12 @@ sup {
 ***/
 .parent-view,
 .child-view,
+.child-view-alternate,
 .modal-view {
   background: #f3f3f3;
+}
+.website .view-active {
+  display: block;
 }
 .website .view-hidden {
   display: none;
@@ -456,9 +460,7 @@ sup {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  /*** Left/right animation between parent and child view ***/
-
-  /*** Bottom/top animation for modal view ***/
+  /*** Setup default positioning ***/
 
 }
 .webapp .viewport {
@@ -469,58 +471,9 @@ sup {
   bottom: 0;
   overflow: hidden;
 }
-.webapp .parent-view {
-  border-radius: 5px 5px 0 0;
-  -webkit-background-clip: padding;
-  background-clip: padding-box;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  -webkit-transform: translate(0, 0) translateZ(0);
-  transform: translate(0, 0) translateZ(0);
-  -webkit-transition-delay: 0;
-  -webkit-backface-visibility: hidden;
-  -webkit-transform-style: flat;
-  -webkit-transition-property: all;
-  -webkit-transition-duration: 300ms;
-  -webkit-transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
-}
-.webapp .parent-view.view-hidden {
-  -webkit-transform: translate(-100%, 0) translateZ(0);
-  transform: translate(-100%, 0) translateZ(0);
-}
-.webapp .child-view {
-  border-radius: 5px 5px 0 0;
-  -webkit-background-clip: padding;
-  background-clip: padding-box;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  -webkit-transform: translate(0, 0) translateZ(0);
-  transform: translate(0, 0) translateZ(0);
-  -webkit-transition-delay: 0;
-  -webkit-backface-visibility: hidden;
-  -webkit-transform-style: flat;
-  -webkit-transition-property: -webkit-transform;
-  -webkit-transition-duration: 300ms;
-  -webkit-transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
-}
-.webapp .child-view.view-hidden {
-  -webkit-transform: translate(100%, 0) translateZ(0);
-  transform: translate(100%, 0) translateZ(0);
-  z-index: -1;
-}
-.webapp .page-content {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  top: 44px;
-}
+.webapp .parent-view,
+.webapp .child-view,
+.webapp .child-view-alternate,
 .webapp .modal-view {
   border-radius: 5px 5px 0 0;
   -webkit-background-clip: padding;
@@ -530,18 +483,13 @@ sup {
   left: 0;
   right: 0;
   bottom: 0;
-  -webkit-transform: translate(0, 0) translateZ(0);
-  transform: translate(0, 0) translateZ(0);
-  -webkit-transition-delay: 0;
-  -webkit-backface-visibility: hidden;
-  -webkit-transform-style: flat;
-  -webkit-transition-property: -webkit-transform;
-  -webkit-transition-duration: 300ms;
-  -webkit-transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
 }
-.webapp .modal-view.view-hidden {
-  -webkit-transform: translate(0, 100%) translateZ(0);
-  transform: translate(0, 100%) translateZ(0);
+.webapp .page-content {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  top: 44px;
 }
 .webapp.has-modalview.ios5,
 .webapp.has-navigation.ios5 {

@@ -46,25 +46,9 @@ APP.phone = (function () {
         // scroll to top on tapbar tap
         APP.dom.doc.on("statusbartap", function() {
 
-            var pageScroller;
+            var pageScroller = APP.nav.status() ? APP.dom.pageNav : APP.views.current().content;
+            $.scrollElement(pageScroller[0], 0);
 
-            if (APP.nav.status()) {
-
-                pageScroller = APP.dom.pageNav;
-            } else {
-
-                pageScroller = $(".active-view").find(".overthrow");
-            }
-
-            pageScroller.each(function() {
-
-                var that = $(this),
-                    hasOverflow = that.css("overflow");
-
-                if (hasOverflow === "auto") {
-                    $.scrollElement(that.get(0), 0);
-                }
-            });
         });
 
         // refresh when application is activated from background
@@ -77,7 +61,7 @@ APP.phone = (function () {
             if (now - lastUpdated > APP_FROM_BACKGROUND_REFRESH_TIMEOUT) {
 
                 if (APP.alert.status) APP.alert.hide();
-                APP.open.refresh();
+                APP.views.reloadPage();
             }
         });
     }
@@ -90,6 +74,7 @@ APP.phone = (function () {
 
         // When Cordovia is loaded and talking to the device, initialize it
         navigator.bootstrap.addConstructor(function() {
+
             attachListeners();
         });
     }

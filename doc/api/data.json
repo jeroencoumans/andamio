@@ -32,6 +32,17 @@
                 "APP": 1
             }
         },
+        "js/app/core.js": {
+            "name": "js/app/core.js",
+            "modules": {},
+            "classes": {
+                "APP.core": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "APP": 1
+            }
+        },
         "js/app/dom.js": {
             "name": "js/app/dom.js",
             "modules": {},
@@ -54,17 +65,6 @@
                 "APP": 1
             }
         },
-        "js/app/init.js": {
-            "name": "js/app/init.js",
-            "modules": {},
-            "classes": {
-                "APP.core": 1
-            },
-            "fors": {},
-            "namespaces": {
-                "APP": 1
-            }
-        },
         "js/app/loader.js": {
             "name": "js/app/loader.js",
             "modules": {},
@@ -76,33 +76,11 @@
                 "APP": 1
             }
         },
-        "js/app/modal.js": {
-            "name": "js/app/modal.js",
-            "modules": {},
-            "classes": {
-                "APP.modal": 1
-            },
-            "fors": {},
-            "namespaces": {
-                "APP": 1
-            }
-        },
         "js/app/nav.js": {
             "name": "js/app/nav.js",
             "modules": {},
             "classes": {
                 "APP.nav": 1
-            },
-            "fors": {},
-            "namespaces": {
-                "APP": 1
-            }
-        },
-        "js/app/open.js": {
-            "name": "js/app/open.js",
-            "modules": {},
-            "classes": {
-                "APP.open": 1
             },
             "fors": {},
             "namespaces": {
@@ -220,7 +198,7 @@
             "plugin_for": [],
             "extension_for": [],
             "namespace": "APP",
-            "file": "js/app/init.js",
+            "file": "js/app/core.js",
             "line": 4,
             "description": "Core module for initializing capabilities and modules",
             "author": "Jeroen Coumans"
@@ -281,20 +259,6 @@
             "description": "Controls the global loader",
             "author": "Jeroen Coumans"
         },
-        "APP.modal": {
-            "name": "APP.modal",
-            "shortname": "APP.modal",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "namespace": "APP",
-            "file": "js/app/modal.js",
-            "line": 1,
-            "description": "Module for dealing with modals",
-            "author": "Jeroen Coumans"
-        },
         "APP.nav": {
             "name": "APP.nav",
             "shortname": "APP.nav",
@@ -307,20 +271,6 @@
             "file": "js/app/nav.js",
             "line": 1,
             "description": "Module for page navigation",
-            "author": "Jeroen Coumans"
-        },
-        "APP.open": {
-            "name": "APP.open",
-            "shortname": "APP.open",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "namespace": "APP",
-            "file": "js/app/open.js",
-            "line": 1,
-            "description": "Wrapper for doing an AJAX request",
             "author": "Jeroen Coumans"
         },
         "APP.phone": {
@@ -375,7 +325,7 @@
             "extension_for": [],
             "namespace": "APP",
             "file": "js/app/store.js",
-            "line": 1,
+            "line": 4,
             "description": "Provides methods for storing HTML documents offline",
             "author": "Jeroen Coumans"
         },
@@ -438,7 +388,7 @@
             "extension_for": [],
             "namespace": "APP",
             "file": "js/app/views.js",
-            "line": 1,
+            "line": 4,
             "description": "Module for handling views",
             "author": "Jeroen Coumans"
         }
@@ -504,13 +454,7 @@
         },
         {
             "file": "js/app/config.js",
-            "line": 12,
-            "class": "APP.core",
-            "namespace": "APP"
-        },
-        {
-            "file": "js/app/config.js",
-            "line": 52,
+            "line": 57,
             "description": "Initialize capabilities based on UA detection",
             "itemtype": "method",
             "name": "init",
@@ -589,6 +533,15 @@
             "itemtype": "method",
             "name": "init",
             "class": "APP.connection",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/core.js",
+            "line": 12,
+            "description": "Initialize variables and attach listeners",
+            "itemtype": "method",
+            "name": "init",
+            "class": "APP.core",
             "namespace": "APP"
         },
         {
@@ -686,15 +639,6 @@
             "namespace": "APP"
         },
         {
-            "file": "js/app/init.js",
-            "line": 12,
-            "description": "Initialize variables and attach listeners",
-            "itemtype": "method",
-            "name": "init",
-            "class": "APP.core",
-            "namespace": "APP"
-        },
-        {
             "file": "js/app/loader.js",
             "line": 15,
             "description": "Shows the loader on top of the page. When no message is given, it will use the text inside #loader .loader-text",
@@ -745,57 +689,6 @@
             "itemtype": "method",
             "name": "init",
             "class": "APP.loader",
-            "namespace": "APP"
-        },
-        {
-            "file": "js/app/modal.js",
-            "line": 12,
-            "description": "Opens the modal view",
-            "itemtype": "method",
-            "name": "show",
-            "class": "APP.modal",
-            "namespace": "APP"
-        },
-        {
-            "file": "js/app/modal.js",
-            "line": 27,
-            "description": "Hides the modal view",
-            "itemtype": "method",
-            "name": "hide",
-            "class": "APP.modal",
-            "namespace": "APP"
-        },
-        {
-            "file": "js/app/modal.js",
-            "line": 40,
-            "description": "Returns the status of the modal view",
-            "itemtype": "method",
-            "name": "status",
-            "return": {
-                "description": "wether modal view is shown or not",
-                "type": "Boolean"
-            },
-            "class": "APP.modal",
-            "namespace": "APP"
-        },
-        {
-            "file": "js/app/modal.js",
-            "line": 50,
-            "description": "Attach event listeners",
-            "itemtype": "method",
-            "name": "attachListeners",
-            "access": "private",
-            "tagname": "",
-            "class": "APP.modal",
-            "namespace": "APP"
-        },
-        {
-            "file": "js/app/modal.js",
-            "line": 89,
-            "description": "Initialize variables and attach listeners",
-            "itemtype": "method",
-            "name": "init",
-            "class": "APP.modal",
             "namespace": "APP"
         },
         {
@@ -889,123 +782,6 @@
             "namespace": "APP"
         },
         {
-            "file": "js/app/open.js",
-            "line": 15,
-            "description": "This method is used to set or return the active URL. It's used for e.g. refreshing the current page",
-            "itemtype": "method",
-            "name": "activeUrl",
-            "params": [
-                {
-                    "name": "href",
-                    "description": "the URL that should be set to active",
-                    "type": "String",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "the URL that is currently set to active",
-                "type": "String"
-            },
-            "class": "APP.open",
-            "namespace": "APP"
-        },
-        {
-            "file": "js/app/open.js",
-            "line": 29,
-            "itemtype": "method",
-            "name": "parentUrl",
-            "return": {
-                "description": "the URL that is loaded in the parent element",
-                "type": "String"
-            },
-            "class": "APP.open",
-            "namespace": "APP"
-        },
-        {
-            "file": "js/app/open.js",
-            "line": 35,
-            "itemtype": "method",
-            "name": "childUrl",
-            "return": {
-                "description": "the URL that is loaded in the child element",
-                "type": "String"
-            },
-            "class": "APP.open",
-            "namespace": "APP"
-        },
-        {
-            "file": "js/app/open.js",
-            "line": 41,
-            "itemtype": "method",
-            "name": "modalUrl",
-            "return": {
-                "description": "the URL that is loaded in the modal element",
-                "type": "String"
-            },
-            "class": "APP.open",
-            "namespace": "APP"
-        },
-        {
-            "file": "js/app/open.js",
-            "line": 47,
-            "description": "Do an AJAX request and insert it into a view. This method also maintains the URL's for each view, and sets the activeUrl to the called URL.",
-            "itemtype": "method",
-            "name": "page",
-            "params": [
-                {
-                    "name": "url",
-                    "description": "the URL to call",
-                    "type": "String"
-                },
-                {
-                    "name": "view",
-                    "description": "what page to insert the content int (child, parent or modal)",
-                    "type": "HTMLElement"
-                },
-                {
-                    "name": "refresh",
-                    "description": "when set, the activeUrl will be downloaded again. You need to set this parameter if you want to explicitly refresh a page.",
-                    "type": "Boolean",
-                    "optional": true
-                },
-                {
-                    "name": "callback",
-                    "description": "optional callback function that will be called when the AJAX call completes",
-                    "type": "Function",
-                    "optional": true
-                }
-            ],
-            "class": "APP.open",
-            "namespace": "APP"
-        },
-        {
-            "file": "js/app/open.js",
-            "line": 124,
-            "description": "Checks what the active view is and then calls APP.open.page with its respective URL, view and refresh",
-            "itemtype": "method",
-            "name": "refresh",
-            "class": "APP.open",
-            "namespace": "APP"
-        },
-        {
-            "file": "js/app/open.js",
-            "line": 145,
-            "description": "Attach event listeners",
-            "itemtype": "method",
-            "name": "attachListeners",
-            "class": "APP.open",
-            "namespace": "APP"
-        },
-        {
-            "file": "js/app/open.js",
-            "line": 159,
-            "description": "Attach listeners",
-            "itemtype": "method",
-            "name": "init",
-            "class": "APP.open",
-            "namespace": "APP"
-        },
-        {
             "file": "js/app/phone.js",
             "line": 15,
             "description": "Attach Cordova listeners",
@@ -1018,7 +794,7 @@
         },
         {
             "file": "js/app/phone.js",
-            "line": 79,
+            "line": 63,
             "description": "Checks wether Cordova is available, and then calls initCordova",
             "itemtype": "method",
             "name": "init",
@@ -1135,105 +911,22 @@
         },
         {
             "file": "js/app/store.js",
-            "line": 11,
-            "description": "Loads an URL from localStorage.",
-            "itemtype": "method",
-            "name": "showUrl",
-            "params": [
-                {
-                    "name": "url",
-                    "description": "the URL that will be loaded. The URL is used as the key. The value will be parsed as JSON.",
-                    "type": "String"
-                },
-                {
-                    "name": "loaded",
-                    "description": "wether or not to load silently (default) or show a loader when fetching the URL",
-                    "type": "Boolean"
-                }
-            ],
-            "return": {
-                "description": "the value that was stored. Usually, this is raw HTML.",
-                "type": "String"
-            },
+            "line": 12,
+            "description": "Wrapper around lscache.set\nNote that this is fire and forget, there are no checks done to verify it's actually set",
             "class": "APP.store",
             "namespace": "APP"
         },
         {
             "file": "js/app/store.js",
-            "line": 51,
-            "description": "Does an AJAX call to URL and stores it with the URL as the key",
-            "itemtype": "method",
-            "name": "storeUrl",
-            "params": [
-                {
-                    "name": "url",
-                    "description": "the URL to be stored",
-                    "type": "String"
-                },
-                {
-                    "name": "absolute",
-                    "description": "if false, the server will be prefixed to URL's",
-                    "type": "Boolean",
-                    "optional": true
-                },
-                {
-                    "name": "expiration",
-                    "description": "after how long should the stored URL expire. Set in minutes, defaults to 1 year.",
-                    "type": "Integer",
-                    "optional": true,
-                    "optdefault": "365*24*60"
-                },
-                {
-                    "name": "callback",
-                    "description": "callback function when the AJAX call is complete",
-                    "type": "Function",
-                    "optional": true
-                }
-            ],
+            "line": 28,
+            "description": "Wrapper around lscache.get",
             "class": "APP.store",
             "namespace": "APP"
         },
         {
             "file": "js/app/store.js",
-            "line": 88,
-            "description": "Wrapper around storeUrl to store an array of URLs",
-            "itemtype": "method",
-            "name": "storeUrlList",
-            "params": [
-                {
-                    "name": "list",
-                    "description": "an array of URL's",
-                    "type": "Array"
-                },
-                {
-                    "name": "absolute",
-                    "description": "if false, the server will be prefixed to URL's",
-                    "type": "Boolean",
-                    "optional": true
-                },
-                {
-                    "name": "expiration",
-                    "description": "after how long should the stored URL expire. Set in minutes, defaults to 1 year.",
-                    "type": "Integer",
-                    "optional": true,
-                    "optdefault": "365*24*60"
-                },
-                {
-                    "name": "callback",
-                    "description": "callback function when the AJAX call is complete",
-                    "type": "Function",
-                    "optional": true
-                }
-            ],
-            "class": "APP.store",
-            "namespace": "APP"
-        },
-        {
-            "file": "js/app/store.js",
-            "line": 119,
-            "description": "Initialize variables and settings",
-            "itemtype": "method",
-            "name": "init",
+            "line": 44,
+            "description": "Wrapper around lscache.remove",
             "class": "APP.store",
             "namespace": "APP"
         },
@@ -1423,34 +1116,45 @@
         },
         {
             "file": "js/app/views.js",
-            "line": 12,
-            "description": "Returns wether the childview is active or not",
-            "itemtype": "method",
-            "name": "hasChildPage",
-            "return": {
-                "description": "true if childPage is active, false if parentView is active",
-                "type": "Boolean"
-            },
+            "line": 104,
+            "description": "Set the current view and store the previous one",
+            "access": "private",
+            "tagname": "",
             "class": "APP.views",
             "namespace": "APP"
         },
         {
             "file": "js/app/views.js",
-            "line": 22,
-            "description": "Opens child page",
+            "line": 132,
+            "description": "Do an AJAX request and insert it into a view. This method also maintains the URL's for each view",
             "itemtype": "method",
-            "name": "openChildPage",
+            "name": "page",
             "params": [
                 {
                     "name": "url",
-                    "description": "will call APP.open.page to do an AJAX request to URL and open it in the `.js-content` of childView",
-                    "type": "String",
-                    "optional": true
+                    "description": "the URL to call",
+                    "type": "String"
                 },
                 {
-                    "name": "title",
-                    "description": "will set the title of the childView in the `.js-title` element",
-                    "type": "String",
+                    "name": "view",
+                    "description": "what page to insert the content int (child, parent or modal)",
+                    "type": "Object"
+                }
+            ],
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 186,
+            "description": "Reloads the current page",
+            "itemtype": "method",
+            "name": "refresh",
+            "params": [
+                {
+                    "name": "view",
+                    "description": "the view that should be refreshed",
+                    "type": "Object",
                     "optional": true
                 }
             ],
@@ -1459,30 +1163,7 @@
         },
         {
             "file": "js/app/views.js",
-            "line": 60,
-            "description": "Opens parent page. If a childView is active, first go back to the parentView.",
-            "itemtype": "method",
-            "name": "openParentPage",
-            "params": [
-                {
-                    "name": "url",
-                    "description": "will call APP.open.page to do an AJAX request to URL and open it in the `.js-content` of parentView",
-                    "type": "String",
-                    "optional": true
-                },
-                {
-                    "name": "title",
-                    "description": "will set the title of the parentView in the `.js-title` element",
-                    "type": "String",
-                    "optional": true
-                }
-            ],
-            "class": "APP.views",
-            "namespace": "APP"
-        },
-        {
-            "file": "js/app/views.js",
-            "line": 95,
+            "line": 346,
             "description": "Attach event listeners",
             "itemtype": "method",
             "name": "attachListeners",
@@ -1493,8 +1174,8 @@
         },
         {
             "file": "js/app/views.js",
-            "line": 146,
-            "description": "Initialize variables and attach listeners. Sets the status of hasChildPage to true if the `html` element has the `.has-childview` class",
+            "line": 393,
+            "description": "Initialize variables and attach listeners",
             "itemtype": "method",
             "name": "init",
             "class": "APP.views",
@@ -1503,16 +1184,28 @@
     ],
     "warnings": [
         {
-            "message": "Missing item type",
-            "line": " js/app/config.js:12"
-        },
-        {
             "message": "Missing item type\nModule for setting up swipe.js",
             "line": " js/app/slideshow.js:4"
         },
         {
             "message": "Missing item type\nAttach event listeners",
             "line": " js/app/slideshow.js:34"
+        },
+        {
+            "message": "Missing item type\nWrapper around lscache.set\nNote that this is fire and forget, there are no checks done to verify it's actually set",
+            "line": " js/app/store.js:12"
+        },
+        {
+            "message": "Missing item type\nWrapper around lscache.get",
+            "line": " js/app/store.js:28"
+        },
+        {
+            "message": "Missing item type\nWrapper around lscache.remove",
+            "line": " js/app/store.js:44"
+        },
+        {
+            "message": "Missing item type\nSet the current view and store the previous one",
+            "line": " js/app/views.js:104"
         }
     ]
 }

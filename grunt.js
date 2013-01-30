@@ -27,24 +27,29 @@ module.exports = function(grunt) {
             },
             andamio: {
                 src: [
+                    // Setup
                     'js/app/dom.js',
-                    'js/app/util.js',
                     'js/app/config.js',
+
+                    // Reusable functions
                     'js/app/events.js',
+                    'js/app/util.js',
                     'js/app/phone.js',
+
+                    // The actual modules
+                    'js/app/alert.js',
                     'js/app/connection.js',
                     'js/app/loader.js',
-                    'js/app/open.js',
-                    'js/app/modal.js',
                     'js/app/nav.js',
                     'js/app/reveal.js',
                     'js/app/search.js',
-                    'js/app/store.js',
                     'js/app/slideshow.js',
+                    'js/app/store.js',
                     'js/app/tabs.js',
                     'js/app/views.js',
-                    'js/app/alert.js',
-                    'js/app/init.js'
+
+                    // Initialize everything
+                    'js/app/core.js'
                 ],
                 dest: 'dist/andamio-lib.js'
             },

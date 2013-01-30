@@ -15,23 +15,25 @@ APP.core = (function () {
      */
     function init(params) {
 
+        // Apply user parameters
         APP.config.init(params);
+
+        // Initialize events
         APP.events.init();
-
-        // needs to come first so we're "online"
-        APP.connection.init();
-        APP.loader.init();
-        APP.open.init();
-        APP.nav.init();
-        APP.modal.init();
-        APP.reveal.init();
-        APP.store.init(params);
-        APP.tabs.init();
-        APP.views.init();
-        APP.alert.init();
-
-        if (APP.config.offline) APP.store.init();
         if (APP.config.cordova) APP.phone.init();
+
+        // Go online
+        APP.connection.init();
+
+        // Initialize views
+        APP.views.init();
+
+        // Initialize the rest
+        APP.alert.init();
+        APP.loader.init();
+        APP.nav.init();
+        APP.reveal.init();
+        APP.tabs.init();
     }
 
     return {

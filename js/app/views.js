@@ -1,3 +1,6 @@
+/*jshint latedef:true, undef:true, unused:true boss:true */
+/*global APP, $ */
+
 /**
  * Module for handling views
  * @author Jeroen Coumans
@@ -6,90 +9,338 @@
  */
 APP.views = (function () {
 
-    // Variables
-    var hasChild;
+    var _views;
 
-    /**
-     * Returns wether the childview is active or not
-     * @method hasChildPage
-     * @return {Boolean} true if childPage is active, false if parentView is active
-     */
-    function hasChildPage() {
+    function setupViews() {
 
-        return hasChild;
+        // view constructor
+        function View(container, content, title, position) {
+            this.container = container;
+            this.content = content;
+            this.title = title;
+            if (APP.config.webapp) this.container.addClass(position);
+        }
+
+        View.prototype.slideInFromLeft = function(url, title) {
+            setCurrentView(this);
+
+            if (url) loadPage(url);
+            if (title) this.title.html(title);
+
+            this.container.addClass("slide-in-from-left").one("webkitTransitionEnd", function () {
+                $(this).addClass("slide-default").removeClass("slide-left slide-in-from-left");
+            });
+        };
+
+        View.prototype.slideInFromRight = function(url, title) {
+            setCurrentView(this);
+
+            if (url) loadPage(url);
+            if (title) this.title.html(title);
+
+            this.container.addClass("slide-in-from-right").one("webkitTransitionEnd", function () {
+                $(this).addClass("slide-default").removeClass("slide-right slide-in-from-right");
+            });
+        };
+
+        View.prototype.slideInFromBottom = function(url, title) {
+            setCurrentView(this);
+
+            if (url) loadPage(url);
+            if (title) this.title.html(title);
+
+            this.container.addClass("slide-in-from-bottom").one("webkitTransitionEnd", function () {
+                $(this).addClass("slide-default").removeClass("slide-bottom slide-in-from-bottom");
+            });
+        };
+
+        View.prototype.slideOutToLeft = function() {
+            this.container.addClass("slide-out-to-left").one("webkitTransitionEnd", function () {
+                $(this).addClass("slide-left").removeClass("slide-default slide-out-to-left");
+            });
+        };
+
+        View.prototype.slideOutToRight = function() {
+            this.container.addClass("slide-out-to-right").one("webkitTransitionEnd", function () {
+                $(this).addClass("slide-right").removeClass("slide-default slide-out-to-right");
+            });
+        };
+
+        View.prototype.slideOutToBottom = function() {
+            setCurrentView(_views.previous);
+
+            this.container.addClass("slide-out-to-bottom").one("webkitTransitionEnd", function () {
+                $(this).addClass("slide-bottom").removeClass("slide-default slide-out-to-bottom");
+            });
+        };
+
+        View.prototype.show = function(url) {
+            setCurrentView(this);
+
+            if (url) loadPage(url);
+            this.container.removeClass("view-hidden").addClass("view-active");
+        };
+
+        View.prototype.hide = function() {
+
+            this.container.addClass("view-hidden").removeClass("view-active");
+        };
+
+        // setup our internal views object
+        _views = {
+            parentView: new View(APP.dom.parentView, APP.dom.parentViewContent, APP.dom.parentViewTitle, "slide-default"),
+            childView: new View(APP.dom.childView, APP.dom.childViewContent, APP.dom.childViewTitle, "slide-right"),
+            childViewAlt: new View(APP.dom.childViewAlt, APP.dom.childViewAltContent, APP.dom.childViewAltTitle, "slide-right"),
+            modalView: new View(APP.dom.modalView, APP.dom.modalViewContent, APP.dom.modalViewTitle, "slide-bottom"),
+            current: null,
+            previous: null,
+            childCount: 0,
+            urlHistory: []
+        };
+
+        _views.current = _views.parentView;
     }
 
     /**
-     * Opens child page
-     * @method openChildPage
-     * @param {String} [url] will call APP.open.page to do an AJAX request to URL and open it in the `.js-content` of childView
-     * @param {String} [title] will set the title of the childView in the `.js-title` element
+     * Set the current view and store the previous one
+     * @private
      */
-    function openChildPage(url, title) {
+    function setCurrentView(view) {
 
-        if (APP.alert.status) APP.alert.hide();
-
-        // go forward when called from parent page
-        if (! hasChild) {
-            APP.dom.html.addClass("childview-in");
-            APP.dom.childView.removeClass("view-hidden").addClass("active-view");
-            APP.dom.parentView.addClass("view-hidden").removeClass("active-view");
-
-            // execute after animation timeout
-            APP.delay(function() {
-                APP.dom.html.addClass("has-childview");
-                APP.dom.html.removeClass("childview-in");
-            }, 300);
+        if (view) {
+            _views.previous = _views.current;
+            _views.current = view;
         }
-
-        // load URL
-        if (url) {
-
-            APP.dom.childViewTitle.html("");
-            APP.open.page(url, APP.dom.childView);
-        }
-
-        // set title
-        if (title) {
-            APP.dom.childViewTitle.text(title);
-        }
-
-        hasChild = true;
     }
 
+    function pushHistory(url) {
+
+        _views.urlHistory.push(url);
+    }
+
+    function popHistory(url) {
+
+        _views.urlHistory.pop(url);
+    }
+
+    function replaceHistory(url) {
+
+        if (_views.urlHistory.length > 0) _views.urlHistory[_views.urlHistory.length -1] = url;
+    }
+
+
     /**
-     * Opens parent page. If a childView is active, first go back to the parentView.
-     * @method openParentPage
-     * @param {String} [url] will call APP.open.page to do an AJAX request to URL and open it in the `.js-content` of parentView
-     * @param {String} [title] will set the title of the parentView in the `.js-title` element
+     * Do an AJAX request and insert it into a view. This method also maintains the URL's for each view
+     * @method page
+     * @param {String} url the URL to call
+     * @param {Object} view what page to insert the content int (child, parent or modal)
      */
-    function openParentPage(url, title) {
+    function loadPage(url, view, expiration) {
 
-        if (APP.alert.status) APP.alert.hide();
+        if (! url) return;
 
-        // go back when called from child page
-        if (hasChild) {
-            APP.dom.html.addClass("childview-out");
-            APP.dom.childView.addClass("view-hidden").removeClass("active-view");
-            APP.dom.parentView.removeClass("view-hidden").addClass("active-view");
+        var target = view || _views.current,
+            scrollPosition = target.content.get(0).scrollTop,
+            cachedUrl = APP.config.offline ? APP.store.getCache(url) : false;
 
-            // execute after animation timeout
-            APP.delay(function() {
-                APP.dom.html.removeClass("has-childview childview-out");
-            }, 300);
+        APP.dom.doc.trigger("APP:views:loadPage:start");
+        APP.dom.doc.trigger("APP:views:loadPage:start:" + url);
+
+        target.content.empty();
+
+        function insertIntoView(data) {
+
+            target.content.html(data);
+            target.url = url;
+            replaceHistory(url);
+
+            if (scrollPosition > 10) {
+                $.scrollElement(target.content.get(0), 0);
+            }
+
+            APP.dom.doc.trigger("APP:views:loadPage:finish");
+            APP.dom.doc.trigger("APP:views:loadPage:finish:" + url);
         }
 
-        // load URL
-        if (url) {
-            APP.open.page(url, APP.dom.parentView);
+        if (cachedUrl) {
+
+            insertIntoView(cachedUrl);
+        } else {
+
+            $.ajax({
+                url: url,
+                timeout: 10000,
+                headers: { "X-PJAX": true },
+                success: function(response) {
+
+                    var minutes = expiration || 24 * 60; // lscache sets expiration in minutes, so this is 24 hours
+
+                    if (APP.config.offline) APP.store.setCache(url, response, minutes);
+                    insertIntoView(response);
+                }
+            });
+        }
+    }
+
+
+    /**
+     * Reloads the current page
+     * @method refresh
+     * @param {Object} [view] the view that should be refreshed
+     */
+    function reloadPage(view) {
+
+        var targetView = view || _views.current;
+
+        if (APP.config.offline) APP.store.deleteCache(targetView.url); // remove current cache entry
+
+        loadPage(targetView.url, targetView);
+    }
+
+    function pushChild(url, title) {
+
+        if (url) pushHistory(url);
+
+        if (APP.config.webapp) {
+
+            // disable events while we're transitioning
+            APP.events.lock(300);
+
+            switch(_views.current) {
+                case _views.parentView:
+
+                    _views.parentView.slideOutToLeft();
+                    _views.childView.slideInFromRight(url, title);
+                break;
+
+                case _views.childView:
+
+                    // make sure childViewAlt is positioned on the right
+                    APP.dom.childViewAlt.removeClass("slide-left").addClass("slide-right");
+
+                    APP.delay(function() {
+                        _views.childView.slideOutToLeft();
+                        _views.childViewAlt.slideInFromRight(url, title);
+                    }, 0);
+                break;
+
+                case _views.childViewAlt:
+
+                    // make sure childView is positioned on the right
+                    APP.dom.childView.removeClass("slide-left").addClass("slide-right");
+
+                    APP.delay(function() {
+                        _views.childView.slideInFromRight(url, title);
+                        _views.childViewAlt.slideOutToLeft();
+                    }, 0);
+                break;
+
+                default:
+                break;
+            }
+
+            _views.childCount++;
+
+        } else {
+            _views.parentView.hide();
+            _views.childView.show(url);
+        }
+    }
+
+    function popChild(url, title) {
+
+        popHistory(_views.urlHistory[_views.urlHistory.length - 1]);
+        url = url || _views.urlHistory[_views.urlHistory.length - 1];
+
+        if (APP.config.webapp) {
+
+            // disable events while we're transitioning
+            APP.events.lock(300);
+
+            switch(_views.current) {
+                case _views.childView:
+
+                    if (_views.childCount === 1) {
+                        _views.parentView.slideInFromLeft(url, title);
+                        _views.childView.slideOutToRight();
+                    } else {
+
+                        // make sure childView is positioned on the right
+                        APP.dom.childViewAlt.removeClass("slide-right").addClass("slide-left");
+
+                        APP.delay(function() {
+                            _views.childView.slideOutToRight();
+                            _views.childViewAlt.slideInFromLeft(url, title);
+                        }, 0);
+                    }
+                break;
+
+                case _views.childViewAlt:
+
+                    // make sure childView is positioned on the right
+                    APP.dom.childView.removeClass("slide-right").addClass("slide-left");
+
+                    APP.delay(function() {
+                        _views.childView.slideInFromLeft(url, title);
+                        _views.childViewAlt.slideOutToRight();
+                    }, 0);
+                break;
+
+                default:
+                break;
+            }
+
+            _views.childCount--;
+
+        } else {
+            _views.parentView.show(url, title);
+            _views.childView.hide();
+        }
+    }
+
+    function pushModal(url, title) {
+
+        if (_views.current === _views.modalView) return; // modal is already open
+
+        APP.dom.html.addClass("has-modalview");
+
+        if (APP.config.webapp) {
+
+            _views.modalView.slideInFromBottom(url, title);
+
+        } else {
+
+            _views.current.hide();
+            _views.modalView.show(url, title);
+        }
+    }
+
+    function popModal(url, title) {
+
+        if (_views.current !== _views.modalView) return; // modal is not open
+
+        APP.dom.html.removeClass("has-modalview");
+
+        if (APP.config.webapp) {
+
+            _views.modalView.slideOutToBottom();
+        } else {
+
+            _views.previous.show(url, title);
+            _views.modalView.hide();
+        }
+    }
+
+    function openParentPage(url) {
+
+        if (APP.config.webapp) {
+            APP.dom.parentView.removeClass("slide-left slide-right").addClass("slide-default");
+            APP.dom.childView.removeClass("slide-left slide-default").addClass("slide-right");
+            APP.dom.childViewAlt.removeClass("slide-left slide-default").addClass("slide-right");
         }
 
-        // set title
-        if (title) {
-            APP.dom.parentViewTitle.text(title);
-        }
-
-        hasChild = false;
+        _views.urlHistory = [];
+        loadPage(url, _views.parentView);
     }
 
     /**
@@ -99,33 +350,6 @@ APP.views = (function () {
      */
     function attachListeners() {
 
-        // Open parent page
-        APP.events.attachClickHandler(".action-pop", function (event) {
-
-            /*
-             *  Stop loader if one was already being displayed,
-             *  e.g. by going navigating while the previous AJAX call wass not finished
-            */
-            if (APP.loader.status()) {
-                APP.loader.hide();
-            }
-
-            var target = $(event.target).closest(".action-pop"),
-                title = APP.util.getTitle(target),
-                url = APP.util.getUrl(target);
-
-            if (url) {
-
-                openParentPage(url, title);
-            } else {
-
-                // update the active url manually since this action often doesn't use a URL
-                APP.open.activeUrl(APP.open.parentUrl());
-
-                openParentPage();
-            }
-        });
-
         // Open child page
         APP.events.attachClickHandler(".action-push", function (event) {
 
@@ -133,32 +357,59 @@ APP.views = (function () {
                 title = APP.util.getTitle(target),
                 url = APP.util.getUrl(target);
 
-            if (url) {
+            pushChild(url, title);
+        });
 
-                openChildPage(url, title);
-            } else {
+        // Open parent page
+        APP.events.attachClickHandler(".action-pop", function () {
 
-                openChildPage();
-            }
+            popChild();
+        });
+
+        // Open modal
+        APP.events.attachClickHandler(".action-show-modal", function (event) {
+
+            var target = $(event.target).closest(".action-show-modal"),
+                title = APP.util.getTitle(target),
+                url = APP.util.getUrl(target);
+
+            pushModal(url, title);
+        });
+
+        // Close modal
+        APP.events.attachClickHandler(".action-hide-modal", function () {
+
+            popModal();
+        });
+
+        // Refresh
+        APP.events.attachClickHandler(".action-refresh", function () {
+
+            if (APP.alert.status) APP.alert.hide();
+            reloadPage();
         });
     }
 
     /***
-     * Initialize variables and attach listeners. Sets the status of hasChildPage to true if the `html` element has the `.has-childview` class
+     * Initialize variables and attach listeners
      * @method init
      */
     function init() {
 
-        hasChild = APP.dom.html.hasClass("has-childview") ? true : false;
-
+        setupViews();
         attachListeners();
     }
 
     return {
         "init": init,
-        "openChildPage": openChildPage,
+        "pushChild": pushChild,
+        "popChild": popChild,
+        "pushModal": pushModal,
+        "popModal": popModal,
         "openParentPage": openParentPage,
-        "hasChildPage": hasChildPage
+        "loadPage": loadPage,
+        "reloadPage": reloadPage,
+        "list": function() { return _views; },
+        "current": function() { return _views.current; }
     };
-
 })();

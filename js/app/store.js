@@ -1,3 +1,6 @@
+/*jshint latedef:true, undef:true, unused:true, boss:true */
+/*global APP, lscache */
+
 /**
  * Provides methods for storing HTML documents offline
  * @author Jeroen Coumans
@@ -6,131 +9,51 @@
  */
 APP.store = (function() {
 
-    var isLoading;
+    /**
+     * Wrapper around lscache.set
+     * Note that this is fire and forget, there are no checks done to verify it's actually set
+     */
+    function setCache(key, data, expiration) {
+
+        if (! key || ! data) return;
+
+        APP.dom.doc.trigger("APP:store:setCache:start");
+
+        var seconds = (typeof expiration === "number") ? expiration : 24 * 60 * 60;
+
+        lscache.set(key, data, seconds);
+        APP.dom.doc.trigger("APP:store:setCache:finish");
+    }
 
     /**
-     * Loads an URL from localStorage.
-     * @method showUrl
-     * @param {String} url the URL that will be loaded. The URL is used as the key. The value will be parsed as JSON.
-     * @param {Boolean} loaded wether or not to load silently (default) or show a loader when fetching the URL
-     * @return {String} the value that was stored. Usually, this is raw HTML.
+     * Wrapper around lscache.get
      */
-    function showUrl(url, loader, callback) {
+    function getCache(key) {
 
-        if (! url) return;
+        if (! key) return;
 
-        // set result
-        var result = lscache.get(url);
+        APP.dom.doc.trigger("APP:store:getCache:start");
 
+        var result = lscache.get(key);
         if (result) {
-
-            callback(result);
-        } else {
-
-            if (loader) APP.loader.show();
-            // console.log("Article wasn't stored, storing it now...");
-
-            storeUrl(url, false, false, function(status) {
-
-                // console.log("Article stored, calling showUrl again...");
-
-                if (status === "success") {
-
-                    if (loader) APP.loader.hide();
-                    var result = lscache.get(url);
-
-                    callback(result);
-                } else {
-
-                    APP.alert.show("Couldn't load article");
-                }
-            });
+            APP.dom.doc.trigger("APP:store:getCache:finish");
+            return result;
         }
     }
 
     /**
-     * Does an AJAX call to URL and stores it with the URL as the key
-     * @method storeUrl
-     * @param {String} url the URL to be stored
-     * @param {Boolean} [absolute] if false, the server will be prefixed to URL's
-     * @param {Integer} [expiration=365*24*60] after how long should the stored URL expire. Set in minutes, defaults to 1 year.
-     * @param {Function} [callback] callback function when the AJAX call is complete
-    */
-    function storeUrl(url, absolute, expiration, callback) {
-
-        if (! url || lscache.get(url)) return;
-
-        var expire = expiration ? expiration : 365*24*60,
-            request = absolute ? url : APP.config.server + url;
-
-        $.ajax({
-            url: request,
-            timeout: 20000,
-            global: false, // don't fire off global AJAX events, we want to load in the background
-            headers: { "X-PJAX": true },
-            beforeSend: function() {
-
-                isLoading = true;
-            },
-            success: function(response) {
-
-                lscache.set(url, response, expire);
-            },
-            complete: function(xhr,status) {
-
-                isLoading = false;
-
-                if ($.isFunction(callback)) callback(status);
-            }
-        });
-    }
-
-    /**
-     * Wrapper around storeUrl to store an array of URLs
-     * @method storeUrlList
-     * @param {Array} list an array of URL's
-     * @param {Boolean} [absolute] if false, the server will be prefixed to URL's
-     * @param {Integer} [expiration=365*24*60] after how long should the stored URL expire. Set in minutes, defaults to 1 year.
-     * @param {Function} [callback] callback function when the AJAX call is complete
+     * Wrapper around lscache.remove
      */
-    function storeUrlList(list, absolute, expiration, callback) {
+    function deleteCache(key) {
 
-        if (! list) return;
-
-        // TODO: show progress meter
-        // var loaded = 0;
-
-        $(list).each(function(index, item) {
-
-            storeUrl(item, absolute, expiration, function(status) {
-                if (status === "success") {
-                    // loaded++;
-                    // var loadedPercentage = Math.round(loaded / list.length * 100) + "%";
-                    // console.log(loadedPercentage);
-                } else {
-                    // console.log(status);
-                }
-            });
-        });
-
-        if ($.isFunction(callback)) callback();
-    }
-
-    /**
-     * Initialize variables and settings
-     * @method init
-     */
-    function init() {
-
-        isLoading = false;
+        if (! key) return;
+        lscache.remove(key);
     }
 
     return {
-        "init": init,
-        "loading": isLoading,
-        "storeUrl": storeUrl,
-        "storeUrlList": storeUrlList,
-        "showUrl": showUrl
+        "setCache": setCache,
+        "getCache": getCache,
+        "deleteCache": deleteCache
     };
 
 })();

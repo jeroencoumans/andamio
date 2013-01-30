@@ -9,7 +9,12 @@
  */
 APP.config = (function () {
 
-    /*** Zepto detect.js ***/
+    /*
+     * Included from Zepto detect.js
+     * @method detect
+     * @param {Object} navigator
+     * @private
+     */
     function detect(ua) {
 
         var os = this.os = {}, browser = this.browser = {},

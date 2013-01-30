@@ -22,11 +22,16 @@
 
 .parent-view,
 .child-view,
+.child-view-alternate,
 .modal-view {
     background: @global-background-color;
 }
 
 .website {
+    .view-active {
+        display: block;
+    }
+
     .view-hidden {
         display: none;
     }
@@ -42,47 +47,19 @@
         overflow: hidden;
     }
 
-        /*** Left/right animation between parent and child view ***/
-        .parent-view {
+        /*** Setup default positioning ***/
+        .parent-view,
+        .child-view,
+        .child-view-alternate,
+        .modal-view {
             .border-radius(@grid-s @grid-s 0 0);
             .overlay-total;
-            .translate3d(0);
-            .animate();
-
-            &.view-hidden {
-                .translate3d(-100%, 0, 0);
-            }
-
-        }
-
-        .child-view {
-            .border-radius(@grid-s @grid-s 0 0);
-            .overlay-total;
-            .translate3d(0);
-            .animate(-webkit-transform);
-
-            &.view-hidden {
-                .translate3d(100%, 0, 0);
-                z-index: -1;
-            }
         }
 
             .page-content {
                 .overlay-bottom;
                 top: @page-header-height;
             }
-
-        /*** Bottom/top animation for modal view ***/
-        .modal-view {
-            .border-radius(@grid-s @grid-s 0 0);
-            .overlay-total;
-            .translate3d(0);
-            .animate(-webkit-transform);
-
-            &.view-hidden {
-                .translate3d(0, 100%, 0);
-            }
-        }
 
     &.has-modalview.ios5,
     &.has-navigation.ios5 {
@@ -97,7 +74,6 @@
             -webkit-overflow-scrolling: default;
         }
     }
-
 }
 
 .desktop {

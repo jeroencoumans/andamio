@@ -78,7 +78,7 @@ APP.tabs = (function () {
             if (url) {
 
                 setActive(target);
-                APP.open.page(url, APP.dom.parentView);
+                APP.views.openParentPage(url);
             }
         });
     }

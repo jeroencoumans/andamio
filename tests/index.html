@@ -13,7 +13,7 @@
 <body class="viewport">
 
     <div id="page-view" class="page-view">
-        <div id="parent-view" class="parent-view">
+        <div id="parent-view" class="parent-view view-active">
             <div class="page-header">
                 <a href="javascript:void(0)" class="page-logo js-title">Parent</a>
                 <a href="javascript:void(0);" class="button-header-wrapper action-show-nav"><span class="button-header">Menu</span></a>
@@ -26,6 +26,17 @@
         </div>
 
         <div id="child-view" class="child-view view-hidden">
+            <header class="page-header">
+                <a href="/" class="page-logo js-title"></a>
+                <a href="javascript:void(0)" class="button-header-wrapper action-pop"><span class="button-header">Terug</span></a>
+            </header>
+
+            <div class="page-content overthrow js-content">
+
+            </div>
+        </div>
+
+        <div id="child-view-alternate" class="child-view-alternate view-hidden">
             <header class="page-header">
                 <a href="/" class="page-logo js-title"></a>
                 <a href="javascript:void(0)" class="button-header-wrapper action-pop"><span class="button-header">Terug</span></a>
@@ -83,9 +94,9 @@
     <script>
 
         $(document).ready(function() {
-            APP.core.init();
 
-            APP.open.page("blocks/parent.html", APP.dom.parentView);
+            APP.core.init();
+            APP.views.loadPage("blocks/parent.html");
         });
     </script>
 </body>

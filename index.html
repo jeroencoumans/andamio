@@ -13,7 +13,7 @@
 <body class="viewport">
 
     <div id="page-view" class="page-view">
-        <div id="parent-view" class="parent-view">
+        <div id="parent-view" class="parent-view active-view">
             <div class="page-header">
                 <a href="/" class="page-logo js-title">Patterns</a>
                 <a href="javascript:void(0);" class="button-header-wrapper action-show-nav"><span class="button-header">Menu</span></a>
@@ -32,6 +32,16 @@
 
             <div class="page-content overthrow js-content">
 
+            </div>
+        </div>
+
+        <div id="child-view-alternate" class="child-view-alternate view-hidden">
+            <header class="page-header">
+                <a href="/" class="page-logo js-title"></a>
+                <a href="javascript:void(0)" class="button-header-wrapper action-pop"><span class="button-header">Terug</span></a>
+            </header>
+
+            <div class="page-content overthrow js-content">
 
             </div>
         </div>
@@ -153,10 +163,10 @@
         $(document).ready(function() {
             APP.core.init();
 
-            APP.open.page("doc/getting-started.html", APP.dom.parentView, false, function() {
-                APP.doc.init();
-                Prism.highlightAll();
-            });
+            APP.views.loadPage("doc/getting-started.html");
+
+            APP.doc.init();
+            Prism.highlightAll();
         });
     </script>
 </body>

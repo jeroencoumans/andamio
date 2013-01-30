@@ -123,7 +123,7 @@ APP.nav = (function () {
 
             // set page title
             if (title) APP.dom.parentViewTitle.text(title);
-            if (url) APP.open.page(url, APP.dom.parentView);
+            if (url) APP.views.openParentPage(url);
         });
     }
 
