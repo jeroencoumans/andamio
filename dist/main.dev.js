@@ -4240,34 +4240,35 @@ APP.views = (function () {
         View.prototype.slideInFromLeft = function(url, title) {
             setCurrentView(this);
 
-            if (url) loadPage(url);
-            if (title) this.title.html(title);
-
             this.container.addClass("slide-in-from-left").one("webkitTransitionEnd", function () {
                 $(this).addClass("slide-default").removeClass("slide-left slide-in-from-left");
             });
+
+            if (url) loadPage(url);
+            if (title) this.title.html(title);
+
         };
 
         View.prototype.slideInFromRight = function(url, title) {
             setCurrentView(this);
 
-            if (url) loadPage(url);
-            if (title) this.title.html(title);
-
             this.container.addClass("slide-in-from-right").one("webkitTransitionEnd", function () {
                 $(this).addClass("slide-default").removeClass("slide-right slide-in-from-right");
             });
+
+            if (url) loadPage(url);
+            if (title) this.title.html(title);
         };
 
         View.prototype.slideInFromBottom = function(url, title) {
             setCurrentView(this);
 
-            if (url) loadPage(url);
-            if (title) this.title.html(title);
-
             this.container.addClass("slide-in-from-bottom").one("webkitTransitionEnd", function () {
                 $(this).addClass("slide-default").removeClass("slide-bottom slide-in-from-bottom");
             });
+
+            if (url) loadPage(url);
+            if (title) this.title.html(title);
         };
 
         View.prototype.slideOutToLeft = function() {
