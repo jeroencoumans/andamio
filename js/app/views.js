@@ -146,19 +146,18 @@ APP.views = (function () {
             scrollPosition = target.content.get(0).scrollTop,
             cachedUrl = APP.config.offline ? APP.store.getCache(url) : false;
 
-        target.content.empty();
-
         function insertIntoView(data) {
 
-            target.content.html(data);
-            target.url = url;
-            replaceHistory(url);
+            target.content.empty();
 
-            if (scrollPosition > 10) {
-                $.scrollElement(target.content.get(0), 0);
-            }
+            APP.delay(function() {
+                target.content.html(data);
+                target.url = url;
+                replaceHistory(url);
 
-            APP.dom.doc.trigger("APP:views:loadPage:finish", url);
+                APP.dom.doc.trigger("APP:views:loadPage:finish", url);
+
+            }, 0);
         }
 
         if (cachedUrl) {
