@@ -143,7 +143,6 @@ APP.views = (function () {
         APP.dom.doc.trigger("APP:views:loadPage:start", url);
 
         var target = view || _views.current,
-            scrollPosition = target.content.get(0).scrollTop,
             cachedUrl = APP.config.offline ? APP.store.getCache(url) : false;
 
         function insertIntoView(data) {
