@@ -3701,7 +3701,7 @@ APP.nav = (function () {
         // page navigation
         APP.events.attachClickHandler(".action-nav-item", function (event) {
 
-            APP.dom.doc.trigger("APP:action:nav:item:start");
+            APP.dom.doc.trigger("APP:action:nav:item:start", event);
 
             var target  = $(event.target).closest(".action-nav-item"),
                 url     = APP.util.getUrl(target),
@@ -3717,7 +3717,7 @@ APP.nav = (function () {
             if (title) APP.dom.parentViewTitle.text(title);
             if (url) APP.views.openParentPage(url);
 
-            APP.dom.doc.trigger("APP:action:nav:item:finish");
+            APP.dom.doc.trigger("APP:action:nav:item:finish", event);
         });
     }
 
@@ -3770,7 +3770,7 @@ APP.reveal = (function () {
 
         APP.events.attachClickHandler(".action-reveal", function (event) {
 
-            APP.dom.doc.trigger("APP:action:reveal:start");
+            APP.dom.doc.trigger("APP:action:reveal:start", event);
 
             var activeReveal,
                 activeContent,
@@ -3808,7 +3808,7 @@ APP.reveal = (function () {
             // don't follow the link
             event.preventDefault();
 
-            APP.dom.doc.trigger("APP:action:reveal:finish");
+            APP.dom.doc.trigger("APP:action:reveal:finish", event);
         });
     }
 
@@ -4062,7 +4062,7 @@ APP.store = (function() {
         var seconds = (typeof expiration === "number") ? expiration : 24 * 60 * 60;
 
         lscache.set(key, data, seconds);
-        APP.dom.doc.trigger("APP:store:setCache");
+        APP.dom.doc.trigger("APP:store:setCache", key);
     }
 
     /**
@@ -4075,7 +4075,7 @@ APP.store = (function() {
         var result = lscache.get(key);
         if (result) {
 
-            APP.dom.doc.trigger("APP:store:getCache");
+            APP.dom.doc.trigger("APP:store:getCache", key);
             return result;
         }
     }
@@ -4169,7 +4169,7 @@ APP.tabs = (function () {
 
         APP.events.attachClickHandler(".action-tab-item", function (event) {
 
-            APP.dom.doc.trigger("APP:action:tab:item:start");
+            APP.dom.doc.trigger("APP:action:tab:item:start", event);
 
             var target = $(event.target).closest(".action-tab-item"),
                 url = APP.util.getUrl(target);
@@ -4183,7 +4183,7 @@ APP.tabs = (function () {
 
                 setActive(target);
                 APP.views.openParentPage(url);
-                APP.dom.doc.trigger("APP:action:tab:item:finish");
+                APP.dom.doc.trigger("APP:action:tab:item:finish", event);
             }
         });
     }
@@ -4412,7 +4412,7 @@ APP.views = (function () {
 
     function pushChild(url, title) {
 
-        APP.dom.doc.trigger("APP:views:pushChild:start");
+        APP.dom.doc.trigger("APP:views:pushChild:start", url);
 
         if (url) pushHistory(url);
 
@@ -4461,15 +4461,15 @@ APP.views = (function () {
             _views.childView.show(url);
         }
 
-        APP.dom.doc.trigger("APP:views:pushChild:finish");
+        APP.dom.doc.trigger("APP:views:pushChild:finish", url);
     }
 
     function popChild(url, title) {
 
-        APP.dom.doc.trigger("APP:views:popChild:start");
-
         popHistory(_views.urlHistory[_views.urlHistory.length - 1]);
         url = url || _views.urlHistory[_views.urlHistory.length - 1];
+
+        APP.dom.doc.trigger("APP:views:popChild:start", url);
 
         if (APP.config.webapp) {
 
@@ -4523,7 +4523,7 @@ APP.views = (function () {
 
         if (_views.current === _views.modalView) return; // modal is already open
 
-        APP.dom.doc.trigger("APP:views:pushModal:start");
+        APP.dom.doc.trigger("APP:views:pushModal:start", url);
 
         APP.dom.html.addClass("has-modalview");
 
@@ -4537,7 +4537,7 @@ APP.views = (function () {
             _views.modalView.show(url, title);
         }
 
-        APP.dom.doc.trigger("APP:views:pushModal:finish");
+        APP.dom.doc.trigger("APP:views:pushModal:finish", url);
     }
 
     function popModal(url, title) {
@@ -4562,7 +4562,7 @@ APP.views = (function () {
 
     function openParentPage(url) {
 
-        APP.dom.doc.trigger("APP:views:openParentPage:start");
+        APP.dom.doc.trigger("APP:views:openParentPage:start", url);
 
         if (APP.config.webapp) {
             APP.dom.parentView.removeClass("slide-left slide-right").addClass("slide-default");
@@ -4573,7 +4573,7 @@ APP.views = (function () {
         _views.urlHistory = [];
         loadPage(url, _views.parentView);
 
-        APP.dom.doc.trigger("APP:views:openParentPage:finish");
+        APP.dom.doc.trigger("APP:views:openParentPage:finish", url);
     }
 
     /**

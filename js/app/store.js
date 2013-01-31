@@ -20,7 +20,7 @@ APP.store = (function() {
         var seconds = (typeof expiration === "number") ? expiration : 24 * 60 * 60;
 
         lscache.set(key, data, seconds);
-        APP.dom.doc.trigger("APP:store:setCache");
+        APP.dom.doc.trigger("APP:store:setCache", key);
     }
 
     /**
@@ -33,7 +33,7 @@ APP.store = (function() {
         var result = lscache.get(key);
         if (result) {
 
-            APP.dom.doc.trigger("APP:store:getCache");
+            APP.dom.doc.trigger("APP:store:getCache", key);
             return result;
         }
     }

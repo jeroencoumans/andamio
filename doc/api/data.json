@@ -367,7 +367,7 @@
             "extension_for": [],
             "namespace": "APP",
             "file": "js/app/util.js",
-            "line": 114,
+            "line": 109,
             "description": "Executes the callback function after a specified delay",
             "author": "Jeroen Coumans",
             "params": [
@@ -412,7 +412,7 @@
         },
         {
             "file": "js/app/alert.js",
-            "line": 25,
+            "line": 28,
             "description": "Hide alert",
             "itemtype": "method",
             "name": "hide",
@@ -421,7 +421,7 @@
         },
         {
             "file": "js/app/alert.js",
-            "line": 35,
+            "line": 40,
             "description": "Status of alert",
             "itemtype": "method",
             "name": "status",
@@ -434,7 +434,7 @@
         },
         {
             "file": "js/app/alert.js",
-            "line": 45,
+            "line": 50,
             "description": "Attach event listeners",
             "itemtype": "method",
             "name": "attachListeners",
@@ -445,7 +445,7 @@
         },
         {
             "file": "js/app/alert.js",
-            "line": 59,
+            "line": 64,
             "description": "Initialize variables and attach listeners",
             "itemtype": "method",
             "name": "init",
@@ -474,7 +474,7 @@
         },
         {
             "file": "js/app/connection.js",
-            "line": 27,
+            "line": 29,
             "description": "Called when the connection goes offline, will show an offline alert",
             "itemtype": "method",
             "name": "goOffline",
@@ -485,7 +485,7 @@
         },
         {
             "file": "js/app/connection.js",
-            "line": 38,
+            "line": 42,
             "description": "Returns the status of the connection",
             "itemtype": "method",
             "name": "status",
@@ -498,7 +498,7 @@
         },
         {
             "file": "js/app/connection.js",
-            "line": 49,
+            "line": 53,
             "description": "Sets the status of the connection",
             "itemtype": "method",
             "name": "status",
@@ -519,7 +519,7 @@
         },
         {
             "file": "js/app/connection.js",
-            "line": 68,
+            "line": 72,
             "description": "Attach event listeners",
             "itemtype": "method",
             "name": "attachListeners",
@@ -528,7 +528,7 @@
         },
         {
             "file": "js/app/connection.js",
-            "line": 85,
+            "line": 89,
             "description": "Sets the default connection to online",
             "itemtype": "method",
             "name": "init",
@@ -657,7 +657,7 @@
         },
         {
             "file": "js/app/loader.js",
-            "line": 42,
+            "line": 43,
             "description": "Hides the loader",
             "itemtype": "method",
             "name": "hide",
@@ -666,7 +666,7 @@
         },
         {
             "file": "js/app/loader.js",
-            "line": 59,
+            "line": 62,
             "description": "Returns wether the loader is active or not",
             "itemtype": "method",
             "name": "status",
@@ -675,7 +675,7 @@
         },
         {
             "file": "js/app/loader.js",
-            "line": 68,
+            "line": 71,
             "description": "Attach event listeners",
             "itemtype": "method",
             "name": "attachListeners",
@@ -684,7 +684,7 @@
         },
         {
             "file": "js/app/loader.js",
-            "line": 90,
+            "line": 93,
             "description": "Check wether we use native or HTML spinner based on APP.config.cordova",
             "itemtype": "method",
             "name": "init",
@@ -720,7 +720,7 @@
         },
         {
             "file": "js/app/nav.js",
-            "line": 42,
+            "line": 44,
             "description": "Hides the navigation",
             "itemtype": "method",
             "name": "hide",
@@ -729,7 +729,7 @@
         },
         {
             "file": "js/app/nav.js",
-            "line": 60,
+            "line": 64,
             "description": "Returns the status of the navigation",
             "itemtype": "method",
             "name": "status",
@@ -742,7 +742,7 @@
         },
         {
             "file": "js/app/nav.js",
-            "line": 70,
+            "line": 74,
             "description": "Returns the active item",
             "itemtype": "method",
             "name": "active",
@@ -763,7 +763,7 @@
         },
         {
             "file": "js/app/nav.js",
-            "line": 86,
+            "line": 90,
             "description": "Attach event listeners",
             "itemtype": "method",
             "name": "attachListeners",
@@ -774,7 +774,7 @@
         },
         {
             "file": "js/app/nav.js",
-            "line": 124,
+            "line": 132,
             "description": "Initialize capabilities and attach listeners\n- Sets the active navigation element\n- Sets the navigation status based on the `has-navigation` class on the HTML element",
             "itemtype": "method",
             "name": "init",
@@ -794,7 +794,7 @@
         },
         {
             "file": "js/app/phone.js",
-            "line": 63,
+            "line": 62,
             "description": "Checks wether Cordova is available, and then calls initCordova",
             "itemtype": "method",
             "name": "init",
@@ -814,7 +814,7 @@
         },
         {
             "file": "js/app/reveal.js",
-            "line": 56,
+            "line": 60,
             "description": "Ataches listeners",
             "itemtype": "method",
             "name": "init",
@@ -904,7 +904,7 @@
         },
         {
             "file": "js/app/slideshow.js",
-            "line": 34,
+            "line": 37,
             "description": "Attach event listeners",
             "class": "APP.store",
             "namespace": "APP"
@@ -918,14 +918,14 @@
         },
         {
             "file": "js/app/store.js",
-            "line": 28,
+            "line": 26,
             "description": "Wrapper around lscache.get",
             "class": "APP.store",
             "namespace": "APP"
         },
         {
             "file": "js/app/store.js",
-            "line": 44,
+            "line": 41,
             "description": "Wrapper around lscache.remove",
             "class": "APP.store",
             "namespace": "APP"
@@ -941,7 +941,7 @@
         },
         {
             "file": "js/app/tabs.js",
-            "line": 23,
+            "line": 25,
             "description": "Hides the tabs",
             "itemtype": "method",
             "name": "hide",
@@ -950,7 +950,7 @@
         },
         {
             "file": "js/app/tabs.js",
-            "line": 34,
+            "line": 38,
             "description": "Wether the tabs are shown or not",
             "itemtype": "method",
             "name": "status",
@@ -963,7 +963,7 @@
         },
         {
             "file": "js/app/tabs.js",
-            "line": 44,
+            "line": 48,
             "description": "Sets or returns the active tab item. NOTE: this only sets the `active` class on the tab item!",
             "itemtype": "method",
             "name": "active",
@@ -984,7 +984,7 @@
         },
         {
             "file": "js/app/tabs.js",
-            "line": 61,
+            "line": 65,
             "description": "Attach event listeners",
             "itemtype": "method",
             "name": "attachListeners",
@@ -995,7 +995,7 @@
         },
         {
             "file": "js/app/tabs.js",
-            "line": 86,
+            "line": 93,
             "description": "Initialize variables and attach listeners",
             "itemtype": "method",
             "name": "init",
@@ -1116,7 +1116,7 @@
         },
         {
             "file": "js/app/views.js",
-            "line": 104,
+            "line": 105,
             "description": "Set the current view and store the previous one",
             "access": "private",
             "tagname": "",
@@ -1125,7 +1125,7 @@
         },
         {
             "file": "js/app/views.js",
-            "line": 132,
+            "line": 133,
             "description": "Do an AJAX request and insert it into a view. This method also maintains the URL's for each view",
             "itemtype": "method",
             "name": "page",
@@ -1146,7 +1146,7 @@
         },
         {
             "file": "js/app/views.js",
-            "line": 186,
+            "line": 185,
             "description": "Reloads the current page",
             "itemtype": "method",
             "name": "refresh",
@@ -1163,7 +1163,7 @@
         },
         {
             "file": "js/app/views.js",
-            "line": 346,
+            "line": 368,
             "description": "Attach event listeners",
             "itemtype": "method",
             "name": "attachListeners",
@@ -1174,7 +1174,7 @@
         },
         {
             "file": "js/app/views.js",
-            "line": 393,
+            "line": 415,
             "description": "Initialize variables and attach listeners",
             "itemtype": "method",
             "name": "init",
@@ -1189,7 +1189,7 @@
         },
         {
             "message": "Missing item type\nAttach event listeners",
-            "line": " js/app/slideshow.js:34"
+            "line": " js/app/slideshow.js:37"
         },
         {
             "message": "Missing item type\nWrapper around lscache.set\nNote that this is fire and forget, there are no checks done to verify it's actually set",
@@ -1197,15 +1197,15 @@
         },
         {
             "message": "Missing item type\nWrapper around lscache.get",
-            "line": " js/app/store.js:28"
+            "line": " js/app/store.js:26"
         },
         {
             "message": "Missing item type\nWrapper around lscache.remove",
-            "line": " js/app/store.js:44"
+            "line": " js/app/store.js:41"
         },
         {
             "message": "Missing item type\nSet the current view and store the previous one",
-            "line": " js/app/views.js:104"
+            "line": " js/app/views.js:105"
         }
     ]
 }

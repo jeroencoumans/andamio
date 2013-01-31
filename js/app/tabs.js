@@ -71,7 +71,7 @@ APP.tabs = (function () {
 
         APP.events.attachClickHandler(".action-tab-item", function (event) {
 
-            APP.dom.doc.trigger("APP:action:tab:item:start");
+            APP.dom.doc.trigger("APP:action:tab:item:start", event);
 
             var target = $(event.target).closest(".action-tab-item"),
                 url = APP.util.getUrl(target);
@@ -85,7 +85,7 @@ APP.tabs = (function () {
 
                 setActive(target);
                 APP.views.openParentPage(url);
-                APP.dom.doc.trigger("APP:action:tab:item:finish");
+                APP.dom.doc.trigger("APP:action:tab:item:finish", event);
             }
         });
     }

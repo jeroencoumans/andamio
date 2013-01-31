@@ -15,7 +15,7 @@ APP.reveal = (function () {
 
         APP.events.attachClickHandler(".action-reveal", function (event) {
 
-            APP.dom.doc.trigger("APP:action:reveal:start");
+            APP.dom.doc.trigger("APP:action:reveal:start", event);
 
             var activeReveal,
                 activeContent,
@@ -53,7 +53,7 @@ APP.reveal = (function () {
             // don't follow the link
             event.preventDefault();
 
-            APP.dom.doc.trigger("APP:action:reveal:finish");
+            APP.dom.doc.trigger("APP:action:reveal:finish", event);
         });
     }
 

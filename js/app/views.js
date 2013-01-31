@@ -201,7 +201,7 @@ APP.views = (function () {
 
     function pushChild(url, title) {
 
-        APP.dom.doc.trigger("APP:views:pushChild:start");
+        APP.dom.doc.trigger("APP:views:pushChild:start", url);
 
         if (url) pushHistory(url);
 
@@ -250,15 +250,15 @@ APP.views = (function () {
             _views.childView.show(url);
         }
 
-        APP.dom.doc.trigger("APP:views:pushChild:finish");
+        APP.dom.doc.trigger("APP:views:pushChild:finish", url);
     }
 
     function popChild(url, title) {
 
-        APP.dom.doc.trigger("APP:views:popChild:start");
-
         popHistory(_views.urlHistory[_views.urlHistory.length - 1]);
         url = url || _views.urlHistory[_views.urlHistory.length - 1];
+
+        APP.dom.doc.trigger("APP:views:popChild:start", url);
 
         if (APP.config.webapp) {
 
@@ -312,7 +312,7 @@ APP.views = (function () {
 
         if (_views.current === _views.modalView) return; // modal is already open
 
-        APP.dom.doc.trigger("APP:views:pushModal:start");
+        APP.dom.doc.trigger("APP:views:pushModal:start", url);
 
         APP.dom.html.addClass("has-modalview");
 
@@ -326,7 +326,7 @@ APP.views = (function () {
             _views.modalView.show(url, title);
         }
 
-        APP.dom.doc.trigger("APP:views:pushModal:finish");
+        APP.dom.doc.trigger("APP:views:pushModal:finish", url);
     }
 
     function popModal(url, title) {
@@ -351,7 +351,7 @@ APP.views = (function () {
 
     function openParentPage(url) {
 
-        APP.dom.doc.trigger("APP:views:openParentPage:start");
+        APP.dom.doc.trigger("APP:views:openParentPage:start", url);
 
         if (APP.config.webapp) {
             APP.dom.parentView.removeClass("slide-left slide-right").addClass("slide-default");
@@ -362,7 +362,7 @@ APP.views = (function () {
         _views.urlHistory = [];
         loadPage(url, _views.parentView);
 
-        APP.dom.doc.trigger("APP:views:openParentPage:finish");
+        APP.dom.doc.trigger("APP:views:openParentPage:finish", url);
     }
 
     /**
