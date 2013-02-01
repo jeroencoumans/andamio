@@ -54,6 +54,18 @@ APP.phone = (function () {
             if (now - lastUpdated > APP_FROM_BACKGROUND_REFRESH_TIMEOUT) {
 
                 if (APP.alert.status) APP.alert.hide();
+
+                var views = APP.views.list(),
+                    view;
+
+                // Empty all views
+                for (var view in views) {
+                    if (views[view] !== null && views[view].hasOwnProperty("content")) {
+                        views[view].content.empty();
+                    }
+                }
+
+                // Reload the current page
                 APP.views.reloadPage();
             }
         });
