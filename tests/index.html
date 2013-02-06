@@ -13,36 +13,27 @@
 <body class="viewport">
 
     <div id="page-view" class="page-view">
-        <div id="parent-view" class="parent-view view-active">
+        <div class="page-header hidden-website"></div>
+
+        <div id="parent-view" class="parent-view view-active js-content">
             <div class="page-header">
                 <a href="javascript:void(0)" class="page-logo js-title">Parent</a>
                 <a href="javascript:void(0);" class="button-header-wrapper action-show-nav"><span class="button-header">Menu</span></a>
-                <a href="blocks/modal.html" class="button-header-wrapper-alternate action-show-modal" data-title="Actual modal title"><span class="button-header">Modal</span></a>
+                <a href="javascript:void(0)" class="button-header-wrapper-alternate action-refresh"><span class="button-header">Refresh</span></a>
             </div>
 
-            <div class="page-content js-content overthrow">
+            <div class="page-content overthrow">
 
             </div>
         </div>
 
-        <div id="child-view" class="child-view view-hidden">
+        <div id="child-view" class="child-view view-hidden js-content">
             <header class="page-header">
                 <a href="/" class="page-logo js-title"></a>
                 <a href="javascript:void(0)" class="button-header-wrapper action-pop"><span class="button-header">Terug</span></a>
             </header>
 
-            <div class="page-content overthrow js-content">
-
-            </div>
-        </div>
-
-        <div id="child-view-alternate" class="child-view-alternate view-hidden">
-            <header class="page-header">
-                <a href="/" class="page-logo js-title"></a>
-                <a href="javascript:void(0)" class="button-header-wrapper action-pop"><span class="button-header">Terug</span></a>
-            </header>
-
-            <div class="page-content overthrow js-content">
+            <div class="page-content overthrow">
 
             </div>
         </div>
@@ -69,6 +60,7 @@
         <a href="blocks/reveal.html" class="navigation-item action-nav-item">Reveal</a>
         <a href="blocks/box.html" class="navigation-item action-nav-item" id="casper-click-nav">Box</a>
         <a href="blocks/box2.html" class="navigation-item action-nav-item">Box2</a>
+        <a href="javascript:void(0)" class="navigation-item action-refresh">Refresh</a>
     </div>
 
     <a href="javascript:void(0)" class="page-navigation-toggle action-hide-nav"></a>
@@ -90,14 +82,17 @@
 
     <div id="page-alert" class="page-alert" style="display:none"></div>
 
+
     <script src="../dist/main.dev.js"></script>
     <script>
 
         $(document).ready(function() {
 
             APP.core.init();
-            APP.views.loadPage("blocks/parent.html");
+            APP.views.openParentPage("blocks/parent.html");
+
         });
     </script>
+
 </body>
 </html>

@@ -12,8 +12,8 @@ var APP = APP || {};
  */
 APP.dom = (function () {
 
-    var doc = $(document),
-        win = window,
+    var win = window,
+        doc = $(window.document),
         html = $("html"),
         viewport = $(".viewport"),
 
@@ -23,17 +23,12 @@ APP.dom = (function () {
         // parent view
         parentView = $("#parent-view"),
         parentViewTitle = parentView.find(".js-title"),
-        parentViewContent = parentView.find(".js-content"),
+        parentViewContent = parentView.hasClass("js-content") ? parentView : parentView.find(".js-content"),
 
         // child view
         childView = $("#child-view"),
         childViewTitle = childView.find(".js-title"),
-        childViewContent = childView.find(".js-content"),
-
-        // alternate child view
-        childViewAlt = $("#child-view-alternate"),
-        childViewAltTitle = childViewAlt.find(".js-title"),
-        childViewAltContent = childViewAlt.find(".js-content"),
+        childViewContent = childView.hasClass("js-content") ? childView : childView.find(".js-content"),
 
         // modal view
         modalView = $("#modal-view"),
@@ -69,9 +64,6 @@ APP.dom = (function () {
         childView: childView,
         childViewTitle: childViewTitle,
         childViewContent: childViewContent,
-        childViewAlt: childViewAlt,
-        childViewAltTitle: childViewAltTitle,
-        childViewAltContent: childViewAltContent,
         modalView: modalView,
         modalViewTitle: modalViewTitle,
         modalViewContent: modalViewContent,

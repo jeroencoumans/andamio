@@ -9,358 +9,541 @@
  */
 APP.views = (function () {
 
-    var _views;
-
-    function setupViews() {
-
-        // view constructor
-        function View(container, content, title, position) {
-            this.container = container;
-            this.content = content;
-            this.title = title;
-            if (APP.config.webapp) this.container.addClass(position);
-        }
-
-        View.prototype.slideInFromLeft = function(url, title) {
-            setCurrentView(this);
-
-            this.container.addClass("slide-in-from-left").one("webkitTransitionEnd", function () {
-                $(this).addClass("slide-default").removeClass("slide-left slide-in-from-left");
-            });
-
-            if (url) loadPage(url);
-            if (title) this.title.html(title);
-
-        };
-
-        View.prototype.slideInFromRight = function(url, title) {
-            setCurrentView(this);
-
-            this.container.addClass("slide-in-from-right").one("webkitTransitionEnd", function () {
-                $(this).addClass("slide-default").removeClass("slide-right slide-in-from-right");
-            });
-
-            if (url) loadPage(url);
-            if (title) this.title.html(title);
-        };
-
-        View.prototype.slideInFromBottom = function(url, title) {
-            setCurrentView(this);
-
-            this.container.addClass("slide-in-from-bottom").one("webkitTransitionEnd", function () {
-                $(this).addClass("slide-default").removeClass("slide-bottom slide-in-from-bottom");
-            });
-
-            if (url) loadPage(url);
-            if (title) this.title.html(title);
-        };
-
-        View.prototype.slideOutToLeft = function() {
-            this.container.addClass("slide-out-to-left").one("webkitTransitionEnd", function () {
-                $(this).addClass("slide-left").removeClass("slide-default slide-out-to-left");
-            });
-        };
-
-        View.prototype.slideOutToRight = function() {
-            this.container.addClass("slide-out-to-right").one("webkitTransitionEnd", function () {
-                $(this).addClass("slide-right").removeClass("slide-default slide-out-to-right");
-            });
-        };
-
-        View.prototype.slideOutToBottom = function() {
-            setCurrentView(_views.previous);
-
-            this.container.addClass("slide-out-to-bottom").one("webkitTransitionEnd", function () {
-                $(this).addClass("slide-bottom").removeClass("slide-default slide-out-to-bottom");
-            });
-        };
-
-        View.prototype.show = function(url) {
-            setCurrentView(this);
-
-            if (url) loadPage(url);
-            this.container.removeClass("view-hidden").addClass("view-active");
-        };
-
-        View.prototype.hide = function() {
-
-            this.container.addClass("view-hidden").removeClass("view-active");
-        };
-
-        // setup our internal views object
-        _views = {
-            parentView: new View(APP.dom.parentView, APP.dom.parentViewContent, APP.dom.parentViewTitle, "slide-default"),
-            childView: new View(APP.dom.childView, APP.dom.childViewContent, APP.dom.childViewTitle, "slide-right"),
-            childViewAlt: new View(APP.dom.childViewAlt, APP.dom.childViewAltContent, APP.dom.childViewAltTitle, "slide-right"),
-            modalView: new View(APP.dom.modalView, APP.dom.modalViewContent, APP.dom.modalViewTitle, "slide-bottom"),
-            current: null,
-            previous: null,
-            childCount: 0,
-            urlHistory: []
-        };
-
-        _views.current = _views.parentView;
-    }
-
     /**
-     * Set the current view and store the previous one
-     * @private
+     * Views constructor
+     * @param container {HTMLElement} container element that will be toggled or animated
+     * @param content {HTMLElement} element that holds the content
+     * @param title {HTMLElement} element that holds the title
+     * @param position {String} default position of the element, one of "slide-left", "slide-right", "slide-bottom" or "slide-default"
      */
-    function setCurrentView(view) {
+    function View(container, content, title, position) {
+        this.elems = {
+            container: container,
+            content: content,
+            title: title
+        };
 
-        if (view) {
-            _views.previous = _views.current;
-            _views.current = view;
-        }
-    }
+        // Store the initial position
+        this.initialPosition = position;
+        this.position = position;
 
-    function pushHistory(url) {
+        /**
+         * Slide the view based on the current position and the desired direction. Used only in webapp.
+         * @method slide
+         * @param direction {String} direction to which the view should slide
+         */
+        this.slide = function(direction) {
+            var container = this.elems.container,
+                position = this.position;
 
-        _views.urlHistory.push(url);
-    }
+            // Slide in from the left
+            if (position === "slide-left" && direction === "slide-default") {
+                container.addClass("slide-in-from-left").one("webkitTransitionEnd", function () {
+                    container.addClass("slide-default").removeClass("slide-left slide-in-from-left");
+                });
+            }
 
-    function popHistory(url) {
+            // Slide in from the right
+            if (position === "slide-right" && direction === "slide-default") {
+                container.addClass("slide-in-from-right").one("webkitTransitionEnd", function () {
+                    container.addClass("slide-default").removeClass("slide-right slide-in-from-right");
+                });
+            }
 
-        _views.urlHistory.pop(url);
-    }
+            // Slide in from the bottom
+            if (position === "slide-bottom" && direction === "slide-default") {
+                container.addClass("slide-in-from-bottom").one("webkitTransitionEnd", function () {
+                    container.addClass("slide-default").removeClass("slide-bottom slide-in-from-bottom");
+                });
+            }
 
-    function replaceHistory(url) {
+            // Slide in from the top
+            if (position === "slide-top" && direction === "slide-default") {
+                container.addClass("slide-in-from-top").one("webkitTransitionEnd", function () {
+                    container.addClass("slide-default").removeClass("slide-top slide-in-from-top");
+                });
+            }
 
-        if (_views.urlHistory.length > 0) _views.urlHistory[_views.urlHistory.length -1] = url;
-    }
+            // Slide out to the left
+            if (position === "slide-default" && direction === "slide-left") {
+                container.addClass("slide-out-to-left").one("webkitTransitionEnd", function () {
+                    container.addClass("slide-left").removeClass("slide-default slide-out-to-left");
+                });
+            }
+
+            // Slide out to the right
+            if (position === "slide-default" && direction === "slide-right") {
+                container.addClass("slide-out-to-right").one("webkitTransitionEnd", function () {
+                    container.addClass("slide-right").removeClass("slide-default slide-out-to-right");
+                });
+            }
+
+            // Slide out to the bottom
+            if (position === "slide-default" && direction === "slide-bottom") {
+                container.addClass("slide-out-to-bottom").one("webkitTransitionEnd", function () {
+                    container.addClass("slide-bottom").removeClass("slide-default slide-out-to-bottom");
+                });
+            }
+
+            // Slide out to the top
+            if (position === "slide-default" && direction === "slide-top") {
+                container.addClass("slide-out-to-top").one("webkitTransitionEnd", function () {
+                    container.addClass("slide-top").removeClass("slide-default slide-out-to-top");
+                });
+            }
+
+            // update positions
+            this.position = direction;
+        };
 
 
-    /**
-     * Do an AJAX request and insert it into a view. This method also maintains the URL's for each view
-     * @method page
-     * @param {String} url the URL to call
-     * @param {Object} view what page to insert the content int (child, parent or modal)
-     */
-    function loadPage(url, view, expiration) {
+        /**
+         * Returns the content from url, storing it when it's not stored yet
+         * @method getContent
+         * @param url {String} URL to load
+         * @param expiration {Integer} how long (in minutes) the content can be cached when retrieving
+         * @param callback {Function} callback function that receives the content
+         */
+        this.getContent = function(url, expiration, callback) {
 
-        if (! url) return;
+            if (! url) return;
 
-        APP.dom.doc.trigger("APP:views:loadPage:start", url);
+            // try to get the cached content first
+            var cachedContent = APP.store.getCache(url);
 
-        var target = view || _views.current,
-            cachedUrl = APP.config.offline ? APP.store.getCache(url) : false;
+            if (cachedContent) {
 
-        function insertIntoView(data) {
+                if ($.isFunction(callback)) callback(cachedContent);
+            } else {
 
-            target.content.empty();
+                $.ajax({
+                    "url": url,
+                    "timeout": 10000,
+                    "headers": { "X-PJAX": true },
+                    success: function(response) {
 
-            APP.delay(function() {
-                target.content.html(data);
-                target.url = url;
-                replaceHistory(url);
+                        var minutes = expiration || 24 * 60; // lscache sets expiration in minutes, so this is 24 hours
+                        if (APP.config.offline) APP.store.setCache(url, response, minutes);
+                    },
+                    complete: function(data) {
+                        if ($.isFunction(callback)) callback(data.responseText);
+                    }
+                });
+            }
+        };
+
+        /**
+         * Inserts the content and sets the view to active
+         * @param url {String} the URL to show
+         * @param expiration {Integer} how long (in minutes) the content can be cached when retrieving
+         * @param callback {Function}
+         */
+        this.show = function(url, expiration, callback) {
+
+            if (! url) return false;
+
+            APP.dom.doc.trigger("APP:views:loadPage:start", url);
+
+            var content = this.elems.content;
+
+            // First empty the content
+            content.empty();
+
+            this.elems.container.removeClass("view-hidden").addClass("view-active");
+
+            // Insert the new content
+            this.getContent(url, expiration, function(response) {
+                content.html(response);
 
                 APP.dom.doc.trigger("APP:views:loadPage:finish", url);
+                if ($.isFunction(callback)) callback();
+            });
+        };
 
-            }, 0);
-        }
+        /**
+         * Sets the view to inactive
+         */
+        this.hide = function() {
 
-        if (cachedUrl) {
+            this.elems.container.removeClass("view-active").addClass("view-hidden");
+        };
 
-            insertIntoView(cachedUrl);
-        } else {
+        /**
+         * Resets the view to its original state
+         */
+        this.reset = function() {
 
-            $.ajax({
-                url: url,
-                timeout: 10000,
-                headers: { "X-PJAX": true },
-                success: function(response) {
+            if (APP.config.webapp) {
+                this.position = this.initialPosition;
+                this.scrollPosition = [];
+                this.elems.container
+                    .removeClass("slide-left")
+                    .removeClass("slide-right")
+                    .removeClass("slide-default")
+                    .removeClass("slide-bottom")
+                    .addClass(this.position);
+            }
 
-                    var minutes = expiration || 24 * 60; // lscache sets expiration in minutes, so this is 24 hours
+            this.elems.container.removeClass("view-active").addClass("view-hidden");
+        };
+    }
 
-                    if (APP.config.offline) APP.store.setCache(url, response, minutes);
-                    insertIntoView(response);
+    /**
+     * Constructor for our views collection
+     */
+    function ViewsCollection() {
+        this.views = {
+            parentView:     new View(APP.dom.parentView, APP.dom.parentViewContent, APP.dom.parentViewTitle, "slide-default"),
+            childView:      new View(APP.dom.childView, APP.dom.childViewContent, APP.dom.childViewTitle, "slide-right"),
+            modalView:      new View(APP.dom.modalView, APP.dom.modalViewContent, APP.dom.modalViewTitle, "slide-bottom")
+        };
+
+        this.childCount = 0;
+        this.modalCount = 0;
+
+        // Some convenient arrays for storing the URL, view and scroll position
+        var urlHistory = [];
+        var viewHistory = [];
+        var scrollHistory = [];
+
+        this._urlHistory = function()    { return urlHistory; };
+        this._viewHistory = function()   { return viewHistory; };
+        this._scrollHistory = function() { return scrollHistory; };
+
+        /**
+         * Get the current URL
+         */
+        this.__defineGetter__("currentUrl", function() {
+
+            if (urlHistory.length > 0)
+                return urlHistory[urlHistory.length -1];
+        });
+
+        /**
+         * Set the current URL
+         * @param url {String} the new URL
+         */
+        this.__defineSetter__("currentUrl", function(url) {
+
+            // only store unique URL's
+            if (url !== this.url)
+                urlHistory.push(url);
+        });
+
+        /**
+         * Get the previous URL
+         */
+        this.__defineGetter__("previousUrl", function() {
+
+            if (urlHistory.length > 1)
+                return urlHistory[urlHistory.length -2];
+        });
+
+        /**
+         * Method for the replacing the current URL with a new URL
+         * @method replaceUrl
+         * @param url {String} the new URL
+         */
+        this.replaceUrl = function(url) {
+
+            if (urlHistory.length > 0)
+                urlHistory[urlHistory.length -1] = url;
+        };
+
+        /**
+         * Set current view
+         */
+        this.__defineSetter__("currentView", function(view) {
+
+            viewHistory.push(view);
+        });
+
+        /**
+         * Get current view, if available
+         */
+        this.__defineGetter__("currentView", function() {
+
+            if (viewHistory.length > 0) {
+                return viewHistory[viewHistory.length - 1];
+            }
+        });
+
+        /**
+         * Gets previous view
+         */
+        this.__defineGetter__("previousView", function() {
+
+            if (viewHistory.length > 1)
+                return viewHistory[viewHistory.length - 2];
+        });
+
+        /**
+         * Gets current scroll position
+         */
+        this.__defineGetter__("scrollPosition", function() {
+
+            if (scrollHistory.length > 0)
+                return scrollHistory[scrollHistory.length -1];
+        });
+
+        /**
+         * Sets current scroll position
+         */
+        this.__defineSetter__("scrollPosition", function(scrollPosition) {
+
+            scrollHistory.push(scrollPosition);
+        });
+
+        /**
+         * Set a new view, load the content and show it
+         * @param view {String} view to push, can be parentView, childView, modalView
+         * @param url {String} the URL to load
+         * @param scrollPosition
+         */
+        this.addView = function(view, url) {
+
+            if (! view || ! url) return false;
+            var views = this.views,
+                target;
+
+            // Search the views collection for the name of the passed view and store it
+            for (var v in views) {
+                if (v === view) target = views[v];
+            }
+
+            // The passed view isn't available, bailing
+            if (! target) return;
+
+            // Set the current view to the new view
+            this.currentView = target;
+            this.currentUrl = url;
+
+            // Store the previous scrollPosition
+            if (this.previousView) {
+                this.scrollPosition = this.previousView.elems.container.find(".overthrow").scrollTop();
+            }
+
+            // Show the new view
+            this.currentView.show(url);
+        };
+
+        /**
+         * Hide view
+         * @param view {String} view to hide, can be parentView, childView, modalView
+         */
+        this.hideView = function(view) {
+            var views = this.views,
+                target;
+
+            for (var v in views) {
+                if (v === view) {
+                    target = views[v];
+                }
+            }
+
+            if (! target) return;
+
+            target.hide();
+        };
+
+        /**
+         * Deletes current view and restore the previous view
+         **/
+        this.deleteView = function() {
+
+            var previousView = this.previousView;
+
+            if (! previousView) return false; // we're already at the last visible view
+
+            // hide current
+            this.currentView.hide();
+
+            // Show previous view with the previous URL
+            previousView.show(this.previousUrl, null, function() {
+
+                // Load the previous scrollPosition
+                if (this.scrollPosition) {
+
+                    previousView.elems.container.find(".overthrow")[0].scrollTop = this.scrollPosition;
                 }
             });
+
+            // Delete the last view
+            viewHistory.pop();
+            urlHistory.pop();
+            scrollHistory.pop();
+        };
+
+        /**
+         * Resets all history and views
+         */
+        this.reset = function() {
+
+            for (var view in collection.views) {
+                collection.views[view].reset();
+            }
+
+            viewHistory = [];
+            urlHistory = [];
+            scrollHistory = [];
+        };
+    }
+
+    // Setup our views
+    var collection = new ViewsCollection();
+
+    /**
+     * Main interface for adding a new child view
+     * @param url {String} URL to show in the child view
+     */
+    function pushChild(url) {
+
+        collection.childCount++;
+
+        if (collection.childCount % 2 > 0) {
+
+            if (APP.config.webapp) {
+                APP.dom.childView.removeClass("slide-left").addClass("slide-right");
+
+                APP.delay(function() {
+                    collection.views.parentView.slide("slide-left");
+                    collection.views.childView.slide("slide-default");
+                }, 0);
+            }
+
+            collection.hideView("parentView");
+            collection.addView("childView", url, 0);
+
+        } else {
+
+            if (APP.config.webapp) {
+                APP.dom.parentView.removeClass("slide-left").addClass("slide-right");
+
+                APP.delay(function() {
+                    collection.views.parentView.slide("slide-default");
+                    collection.views.childView.slide("slide-left");
+                }, 0);
+            }
+
+            collection.hideView("childView");
+            collection.addView("parentView", url, 0);
         }
     }
 
+    /**
+     * Main interface for removing a child view
+     */
+    function popChild() {
+
+        if (collection.childCount % 2 > 0) {
+
+            if (APP.config.webapp) {
+
+                APP.dom.parentView.removeClass("slide-right").addClass("slide-left");
+
+                APP.delay(function() {
+                    collection.views.parentView.slide("slide-default");
+                    collection.views.childView.slide("slide-right");
+                }, 0);
+            }
+
+            collection.deleteView("parentView");
+
+        } else {
+
+            if (APP.config.webapp) {
+
+                APP.dom.childView.removeClass("slide-right").addClass("slide-left");
+
+                APP.delay(function() {
+                    collection.views.childView.slide("slide-default");
+                    collection.views.parentView.slide("slide-right");
+                }, 0);
+            }
+
+            collection.deleteView("childView");
+        }
+
+        collection.childCount--;
+    }
+
+    /**
+     * Main interface for adding a modal view
+     * @param url {String} URL to show in the view
+     */
+    function pushModal(url) {
+
+        if (collection.modalCount > 0) {
+            return false;
+        } else {
+
+            if (APP.config.webapp) {
+                collection.views.modalView.slide("slide-default");
+            } else {
+                collection.hideView("parentView");
+            }
+
+            collection.addView("modalView", url);
+            collection.modalCount++;
+        }
+    }
+
+    /**
+     * Main interface for adding a new child view
+     */
+    function popModal() {
+
+        if (collection.modalCount > 0) {
+
+            if (APP.config.webapp) {
+                collection.views.modalView.slide("slide-bottom");
+            }
+
+            collection.deleteView("modalView");
+            collection.modalCount--;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Shortcut for opening a parent page
+     * Resets url & view history
+     */
+    function openParentPage(url) {
+
+        collection.reset();
+
+        collection.addView("parentView", url);
+        collection.currentView.elems.container.find(".overthrow")[0].scrollTop = 0;
+    }
+
+    /**
+     * Loads a page in the current view
+     */
+    function loadPage(url) {
+        if (url) {
+            collection.currentView.elems.container.find(".overthrow")[0].scrollTop = 0;
+            collection.replaceUrl(url);
+            collection.currentView.show(url);
+        }
+    }
 
     /**
      * Reloads the current page
      * @method refresh
-     * @param {Object} [view] the view that should be refreshed
      */
-    function reloadPage(view) {
+    function reloadPage() {
 
         APP.dom.doc.trigger("APP:views:reloadPage:start");
 
-        var targetView = view || _views.current;
+        var view = collection.currentView,
+            url = collection.currentUrl;
 
-        if (APP.config.offline) APP.store.deleteCache(targetView.url); // remove current cache entry
+        if (APP.config.offline) APP.store.deleteCache(url); // remove current cache entry
 
-        loadPage(targetView.url, targetView);
+        view.show(url);
         APP.dom.doc.trigger("APP:views:reloadPage:finish");
-    }
-
-    function pushChild(url, title) {
-
-        APP.dom.doc.trigger("APP:views:pushChild:start", url);
-
-        if (url) pushHistory(url);
-
-        if (APP.config.webapp) {
-
-            // disable events while we're transitioning
-            APP.events.lock(300);
-
-            switch(_views.current) {
-                case _views.parentView:
-
-                    _views.parentView.slideOutToLeft();
-                    _views.childView.slideInFromRight(url, title);
-                break;
-
-                case _views.childView:
-
-                    // make sure childViewAlt is positioned on the right
-                    APP.dom.childViewAlt.removeClass("slide-left").addClass("slide-right");
-
-                    APP.delay(function() {
-                        _views.childView.slideOutToLeft();
-                        _views.childViewAlt.slideInFromRight(url, title);
-                    }, 0);
-                break;
-
-                case _views.childViewAlt:
-
-                    // make sure childView is positioned on the right
-                    APP.dom.childView.removeClass("slide-left").addClass("slide-right");
-
-                    APP.delay(function() {
-                        _views.childView.slideInFromRight(url, title);
-                        _views.childViewAlt.slideOutToLeft();
-                    }, 0);
-                break;
-
-                default:
-                break;
-            }
-
-            _views.childCount++;
-
-        } else {
-            _views.parentView.hide();
-            _views.childView.show(url);
-        }
-
-        APP.dom.doc.trigger("APP:views:pushChild:finish", url);
-    }
-
-    function popChild(url, title) {
-
-        popHistory(_views.urlHistory[_views.urlHistory.length - 1]);
-        url = url || _views.urlHistory[_views.urlHistory.length - 1];
-
-        APP.dom.doc.trigger("APP:views:popChild:start", url);
-
-        if (APP.config.webapp) {
-
-            // disable events while we're transitioning
-            APP.events.lock(300);
-
-            switch(_views.current) {
-                case _views.childView:
-
-                    if (_views.childCount === 1) {
-                        _views.parentView.slideInFromLeft(url, title);
-                        _views.childView.slideOutToRight();
-                    } else {
-
-                        // make sure childView is positioned on the right
-                        APP.dom.childViewAlt.removeClass("slide-right").addClass("slide-left");
-
-                        APP.delay(function() {
-                            _views.childView.slideOutToRight();
-                            _views.childViewAlt.slideInFromLeft(url, title);
-                        }, 0);
-                    }
-                break;
-
-                case _views.childViewAlt:
-
-                    // make sure childView is positioned on the right
-                    APP.dom.childView.removeClass("slide-right").addClass("slide-left");
-
-                    APP.delay(function() {
-                        _views.childView.slideInFromLeft(url, title);
-                        _views.childViewAlt.slideOutToRight();
-                    }, 0);
-                break;
-
-                default:
-                break;
-            }
-
-            _views.childCount--;
-
-        } else {
-            _views.parentView.show(url, title);
-            _views.childView.hide();
-        }
-
-        APP.dom.doc.trigger("APP:views:popChild:finish");
-    }
-
-    function pushModal(url, title) {
-
-        if (_views.current === _views.modalView) return; // modal is already open
-
-        APP.dom.doc.trigger("APP:views:pushModal:start", url);
-
-        APP.dom.html.addClass("has-modalview");
-
-        if (APP.config.webapp) {
-
-            _views.modalView.slideInFromBottom(url, title);
-
-        } else {
-
-            _views.current.hide();
-            _views.modalView.show(url, title);
-        }
-
-        APP.dom.doc.trigger("APP:views:pushModal:finish", url);
-    }
-
-    function popModal(url, title) {
-
-        if (_views.current !== _views.modalView) return; // modal is not open
-
-        APP.dom.doc.trigger("APP:views:popModal:start");
-
-        APP.dom.html.removeClass("has-modalview");
-
-        if (APP.config.webapp) {
-
-            _views.modalView.slideOutToBottom();
-        } else {
-
-            _views.previous.show(url, title);
-            _views.modalView.hide();
-        }
-
-        APP.dom.doc.trigger("APP:views:popModal:finish");
-    }
-
-    function openParentPage(url) {
-
-        APP.dom.doc.trigger("APP:views:openParentPage:start", url);
-
-        if (APP.config.webapp) {
-            APP.dom.parentView.removeClass("slide-left slide-right").addClass("slide-default");
-            APP.dom.childView.removeClass("slide-left slide-default").addClass("slide-right");
-            APP.dom.childViewAlt.removeClass("slide-left slide-default").addClass("slide-right");
-        }
-
-        _views.urlHistory = [];
-        loadPage(url, _views.parentView);
-
-        APP.dom.doc.trigger("APP:views:openParentPage:finish", url);
     }
 
     /**
@@ -373,39 +556,33 @@ APP.views = (function () {
         // Open child page
         APP.events.attachClickHandler(".action-push", function (event) {
 
-            var target = $(event.target).closest(".action-push"),
-                title = APP.util.getTitle(target),
+            var target = $(event.currentTarget),
                 url = APP.util.getUrl(target);
 
-            pushChild(url, title);
+            pushChild(url);
         });
 
         // Open parent page
         APP.events.attachClickHandler(".action-pop", function () {
-
             popChild();
         });
 
         // Open modal
         APP.events.attachClickHandler(".action-show-modal", function (event) {
 
-            var target = $(event.target).closest(".action-show-modal"),
-                title = APP.util.getTitle(target),
+            var target = $(event.currentTarget),
                 url = APP.util.getUrl(target);
 
-            pushModal(url, title);
+            pushModal(url);
         });
 
         // Close modal
         APP.events.attachClickHandler(".action-hide-modal", function () {
-
             popModal();
         });
 
         // Refresh
         APP.events.attachClickHandler(".action-refresh", function () {
-
-            if (APP.alert.status) APP.alert.hide();
             reloadPage();
         });
     }
@@ -416,8 +593,10 @@ APP.views = (function () {
      */
     function init() {
 
-        setupViews();
         attachListeners();
+
+        // Set our views to the initial state
+        collection.reset();
     }
 
     return {
@@ -429,7 +608,6 @@ APP.views = (function () {
         "openParentPage": openParentPage,
         "loadPage": loadPage,
         "reloadPage": reloadPage,
-        "list": function() { return _views; },
-        "current": function() { return _views.current; }
+        "collection": collection
     };
 })();

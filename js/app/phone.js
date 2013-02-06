@@ -40,7 +40,7 @@ APP.phone = (function () {
         // scroll to top on tapbar tap
         APP.dom.doc.on("statusbartap", function() {
 
-            var pageScroller = APP.nav.status() ? APP.dom.pageNav : APP.views.current().content;
+            var pageScroller = APP.nav.status() ? APP.dom.pageNav : APP.views.collection.currentView.elems.container.find(".overthrow");
             $.scrollElement(pageScroller[0], 0);
         });
 
@@ -55,14 +55,12 @@ APP.phone = (function () {
 
                 if (APP.alert.status) APP.alert.hide();
 
-                var views = APP.views.list(),
+                var views = APP.views.collection.views,
                     view;
 
                 // Empty all views
-                for (var view in views) {
-                    if (views[view] !== null && views[view].hasOwnProperty("content")) {
-                        views[view].content.empty();
-                    }
+                for (view in views) {
+                    if (views[view].elems && views[view].elems.content) views[view].elems.content.empty();
                 }
 
                 // Reload the current page
