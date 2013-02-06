@@ -73,7 +73,7 @@ APP.tabs = (function () {
 
             APP.dom.doc.trigger("APP:action:tab:item:start", event);
 
-            var target = $(event.target).closest(".action-tab-item"),
+            var target = $(event.currentTarget),
                 url = APP.util.getUrl(target);
 
             if (target === APP.dom.pageTabActive) {
