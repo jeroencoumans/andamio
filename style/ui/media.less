@@ -32,8 +32,20 @@ video {
     overflow: hidden;
 }
 
-.media-background {
+.media-flex {
     background-repeat: no-repeat;
     background-position: 50% 50%;
     background-size: cover;
+
+    .media-flex-16-9;
+}
+
+.media-flex-16-9 {
+    height: 0;
+    padding-bottom: (100 / 16 * 9) * 1%; /* 16:9 */
+}
+
+.media-flex-4-3 {
+    height: 0;
+    padding-bottom: (100 / 4 * 3) * 1%; /* 4:3; */
 }
