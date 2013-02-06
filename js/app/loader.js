@@ -7,8 +7,7 @@
 APP.loader = (function () {
 
     // Variables
-    var spinnerType,
-        loaderText,
+    var loaderText,
         hasLoader,
         timeoutToken;
 
@@ -24,9 +23,8 @@ APP.loader = (function () {
         APP.dom.html.addClass("has-loader");
         hasLoader = true;
 
-        if (navigator.spinner) {
-
-            navigator.spinner.show({"message": message});
+        if (APP.config.cordova) {
+            if (navigator.spinner) navigator.spinner.show({"message": message});
         } else {
 
             if (!APP.dom.pageLoaderImg.attr("src")) {
@@ -49,12 +47,10 @@ APP.loader = (function () {
         APP.dom.html.removeClass("has-loader");
         hasLoader = false;
 
-        if (navigator.spinner) {
-            navigator.spinner.hide();
+        if (APP.config.cordova) {
+            if (navigator.spinner) navigator.spinner.hide();
         }
-        else {
-            APP.dom.pageLoader.hide();
-        }
+        else APP.dom.pageLoader.hide();
 
         APP.dom.doc.trigger("APP:loader:hide");
     }
@@ -96,7 +92,7 @@ APP.loader = (function () {
      */
     function init() {
 
-        hasLoader = APP.dom.html.hasClass("has-loader") ? true : false;
+        hasLoader = APP.dom.html.hasClass("has-loader");
         loaderText = APP.dom.pageLoader.find(".loader-text");
 
         attachListeners();
