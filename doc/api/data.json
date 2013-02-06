@@ -640,7 +640,7 @@
         },
         {
             "file": "js/app/loader.js",
-            "line": 15,
+            "line": 14,
             "description": "Shows the loader on top of the page. When no message is given, it will use the text inside #loader .loader-text",
             "itemtype": "method",
             "name": "show",
@@ -657,7 +657,7 @@
         },
         {
             "file": "js/app/loader.js",
-            "line": 43,
+            "line": 41,
             "description": "Hides the loader",
             "itemtype": "method",
             "name": "hide",
@@ -666,7 +666,7 @@
         },
         {
             "file": "js/app/loader.js",
-            "line": 62,
+            "line": 58,
             "description": "Returns wether the loader is active or not",
             "itemtype": "method",
             "name": "status",
@@ -675,7 +675,7 @@
         },
         {
             "file": "js/app/loader.js",
-            "line": 71,
+            "line": 67,
             "description": "Attach event listeners",
             "itemtype": "method",
             "name": "attachListeners",
@@ -684,7 +684,7 @@
         },
         {
             "file": "js/app/loader.js",
-            "line": 93,
+            "line": 89,
             "description": "Check wether we use native or HTML spinner based on APP.config.cordova",
             "itemtype": "method",
             "name": "init",
@@ -794,7 +794,7 @@
         },
         {
             "file": "js/app/phone.js",
-            "line": 62,
+            "line": 72,
             "description": "Checks wether Cordova is available, and then calls initCordova",
             "itemtype": "method",
             "name": "init",
@@ -1116,29 +1116,70 @@
         },
         {
             "file": "js/app/views.js",
-            "line": 105,
-            "description": "Set the current view and store the previous one",
-            "access": "private",
-            "tagname": "",
+            "line": 12,
+            "description": "Views constructor",
+            "params": [
+                {
+                    "name": "container",
+                    "description": "container element that will be toggled or animated",
+                    "type": "HTMLElement"
+                },
+                {
+                    "name": "content",
+                    "description": "element that holds the content",
+                    "type": "HTMLElement"
+                },
+                {
+                    "name": "title",
+                    "description": "element that holds the title",
+                    "type": "HTMLElement"
+                },
+                {
+                    "name": "position",
+                    "description": "default position of the element, one of \"slide-left\", \"slide-right\", \"slide-bottom\" or \"slide-default\"",
+                    "type": "String"
+                }
+            ],
             "class": "APP.views",
             "namespace": "APP"
         },
         {
             "file": "js/app/views.js",
-            "line": 133,
-            "description": "Do an AJAX request and insert it into a view. This method also maintains the URL's for each view",
+            "line": 30,
+            "description": "Slide the view based on the current position and the desired direction. Used only in webapp.",
             "itemtype": "method",
-            "name": "page",
+            "name": "slide",
+            "params": [
+                {
+                    "name": "direction",
+                    "description": "direction to which the view should slide",
+                    "type": "String"
+                }
+            ],
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 100,
+            "description": "Returns the content from url, storing it when it's not stored yet",
+            "itemtype": "method",
+            "name": "getContent",
             "params": [
                 {
                     "name": "url",
-                    "description": "the URL to call",
+                    "description": "URL to load",
                     "type": "String"
                 },
                 {
-                    "name": "view",
-                    "description": "what page to insert the content int (child, parent or modal)",
-                    "type": "Object"
+                    "name": "expiration",
+                    "description": "how long (in minutes) the content can be cached when retrieving",
+                    "type": "Integer"
+                },
+                {
+                    "name": "callback",
+                    "description": "callback function that receives the content",
+                    "type": "Function"
                 }
             ],
             "class": "APP.views",
@@ -1146,16 +1187,146 @@
         },
         {
             "file": "js/app/views.js",
-            "line": 185,
-            "description": "Reloads the current page",
+            "line": 135,
+            "description": "Inserts the content and sets the view to active",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "the URL to show",
+                    "type": "String"
+                },
+                {
+                    "name": "expiration",
+                    "description": "how long (in minutes) the content can be cached when retrieving",
+                    "type": "Integer"
+                },
+                {
+                    "name": "callback",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 163,
+            "description": "Sets the view to inactive",
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 171,
+            "description": "Resets the view to its original state",
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 191,
+            "description": "Constructor for our views collection",
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 213,
+            "description": "Get the current URL",
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 222,
+            "description": "Set the current URL",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "the new URL",
+                    "type": "String"
+                }
+            ],
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 233,
+            "description": "Get the previous URL",
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 242,
+            "description": "Method for the replacing the current URL with a new URL",
             "itemtype": "method",
-            "name": "refresh",
+            "name": "replaceUrl",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "the new URL",
+                    "type": "String"
+                }
+            ],
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 253,
+            "description": "Set current view",
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 261,
+            "description": "Get current view, if available",
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 271,
+            "description": "Gets previous view",
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 280,
+            "description": "Gets current scroll position",
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 289,
+            "description": "Sets current scroll position",
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 297,
+            "description": "Set a new view, load the content and show it",
             "params": [
                 {
                     "name": "view",
-                    "description": "the view that should be refreshed",
-                    "type": "Object",
-                    "optional": true
+                    "description": "view to push, can be parentView, childView, modalView",
+                    "type": "String"
+                },
+                {
+                    "name": "url",
+                    "description": "the URL to load",
+                    "type": "String"
+                },
+                {
+                    "name": "scrollPosition",
+                    "description": ""
                 }
             ],
             "class": "APP.views",
@@ -1163,7 +1334,100 @@
         },
         {
             "file": "js/app/views.js",
-            "line": 368,
+            "line": 330,
+            "description": "Hide view",
+            "params": [
+                {
+                    "name": "view",
+                    "description": "view to hide, can be parentView, childView, modalView",
+                    "type": "String"
+                }
+            ],
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 349,
+            "description": "Deletes current view and restore the previous view",
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 377,
+            "description": "Resets all history and views",
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 395,
+            "description": "Main interface for adding a new child view",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "URL to show in the child view",
+                    "type": "String"
+                }
+            ],
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 433,
+            "description": "Main interface for removing a child view",
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 470,
+            "description": "Main interface for adding a modal view",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "URL to show in the view",
+                    "type": "String"
+                }
+            ],
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 491,
+            "description": "Main interface for adding a new child view",
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 509,
+            "description": "Shortcut for opening a parent page\nResets url & view history",
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 521,
+            "description": "Loads a page in the current view",
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 532,
+            "description": "Reloads the current page",
+            "itemtype": "method",
+            "name": "refresh",
+            "class": "APP.views",
+            "namespace": "APP"
+        },
+        {
+            "file": "js/app/views.js",
+            "line": 549,
             "description": "Attach event listeners",
             "itemtype": "method",
             "name": "attachListeners",
@@ -1174,7 +1438,7 @@
         },
         {
             "file": "js/app/views.js",
-            "line": 415,
+            "line": 590,
             "description": "Initialize variables and attach listeners",
             "itemtype": "method",
             "name": "init",
@@ -1204,8 +1468,96 @@
             "line": " js/app/store.js:41"
         },
         {
-            "message": "Missing item type\nSet the current view and store the previous one",
-            "line": " js/app/views.js:105"
+            "message": "Missing item type\nViews constructor",
+            "line": " js/app/views.js:12"
+        },
+        {
+            "message": "Missing item type\nInserts the content and sets the view to active",
+            "line": " js/app/views.js:135"
+        },
+        {
+            "message": "Missing item type\nSets the view to inactive",
+            "line": " js/app/views.js:163"
+        },
+        {
+            "message": "Missing item type\nResets the view to its original state",
+            "line": " js/app/views.js:171"
+        },
+        {
+            "message": "Missing item type\nConstructor for our views collection",
+            "line": " js/app/views.js:191"
+        },
+        {
+            "message": "Missing item type\nGet the current URL",
+            "line": " js/app/views.js:213"
+        },
+        {
+            "message": "Missing item type\nSet the current URL",
+            "line": " js/app/views.js:222"
+        },
+        {
+            "message": "Missing item type\nGet the previous URL",
+            "line": " js/app/views.js:233"
+        },
+        {
+            "message": "Missing item type\nSet current view",
+            "line": " js/app/views.js:253"
+        },
+        {
+            "message": "Missing item type\nGet current view, if available",
+            "line": " js/app/views.js:261"
+        },
+        {
+            "message": "Missing item type\nGets previous view",
+            "line": " js/app/views.js:271"
+        },
+        {
+            "message": "Missing item type\nGets current scroll position",
+            "line": " js/app/views.js:280"
+        },
+        {
+            "message": "Missing item type\nSets current scroll position",
+            "line": " js/app/views.js:289"
+        },
+        {
+            "message": "Missing item type\nSet a new view, load the content and show it",
+            "line": " js/app/views.js:297"
+        },
+        {
+            "message": "Missing item type\nHide view",
+            "line": " js/app/views.js:330"
+        },
+        {
+            "message": "Missing item type\nDeletes current view and restore the previous view",
+            "line": " js/app/views.js:349"
+        },
+        {
+            "message": "Missing item type\nResets all history and views",
+            "line": " js/app/views.js:377"
+        },
+        {
+            "message": "Missing item type\nMain interface for adding a new child view",
+            "line": " js/app/views.js:395"
+        },
+        {
+            "message": "Missing item type\nMain interface for removing a child view",
+            "line": " js/app/views.js:433"
+        },
+        {
+            "message": "Missing item type\nMain interface for adding a modal view",
+            "line": " js/app/views.js:470"
+        },
+        {
+            "message": "Missing item type\nMain interface for adding a new child view",
+            "line": " js/app/views.js:491"
+        },
+        {
+            "message": "Missing item type\nShortcut for opening a parent page\nResets url & view history",
+            "line": " js/app/views.js:509"
+        },
+        {
+            "message": "Missing item type\nLoads a page in the current view",
+            "line": " js/app/views.js:521"
         }
     ]
 }

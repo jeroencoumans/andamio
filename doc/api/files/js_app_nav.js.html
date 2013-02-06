@@ -117,7 +117,7 @@ APP.nav = (function () {
 
             APP.dom.doc.trigger("APP:action:nav:item:start", event);
 
-            var target  = $(event.target).closest(".action-nav-item"),
+            var target  = $(event.currentTarget),
                 url     = APP.util.getUrl(target),
                 title   = APP.util.getTitle(target);
 

@@ -1248,6 +1248,27 @@ video {
   width: 100%;
   height: auto;
 }
+.media-flex {
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: cover;
+  height: 0;
+  padding-bottom: 56.25%;
+  /* 16:9 */
+
+}
+.media-flex-16-9 {
+  height: 0;
+  padding-bottom: 56.25%;
+  /* 16:9 */
+
+}
+.media-flex-4-3 {
+  height: 0;
+  padding-bottom: 75%;
+  /* 4:3; */
+
+}
 /***
 
     For showing a caption on top of an image/video/whatever
@@ -1437,10 +1458,23 @@ video {
 .slideshow-wrapper {
   overflow: hidden;
   position: relative;
+  height: 0;
+  padding-bottom: 56.25%;
+  /* 16:9 */
+
+}
+.slideshow-wrapper.slideshow-wrapper-4by3 {
+  height: 0;
+  padding-bottom: 75%;
+  /* 4:3; */
+
 }
 .slideshow-wrapper .slideshow-container {
   overflow: hidden;
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
 }
 .slideshow-wrapper .slideshow-item {
   float: left;
@@ -1496,11 +1530,17 @@ a {
   -webkit-text-size-adjust: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0.25);
 }
+.website .hidden-website {
+  display: none;
+}
 .webapp {
   -webkit-text-size-adjust: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-user-select: none;
   user-select: none;
+}
+.webapp .hidden-webapp {
+  display: none;
 }
 .page-alert {
   padding: 20px;
