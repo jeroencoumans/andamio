@@ -169,7 +169,7 @@ APP.views = (function () {
             if (typeof scrollPosition === "number") {
                 this.elems.container.find(".overthrow")[0].scrollTop = scrollPosition;
             }
-        }
+        };
 
         /**
          * Sets the view to inactive

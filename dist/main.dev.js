@@ -4345,11 +4345,12 @@ APP.views = (function () {
 
         /**
          * Inserts the content and sets the view to active
+         * @method load
          * @param url {String} the URL to show
          * @param expiration {Integer} how long (in minutes) the content can be cached when retrieving
          * @param callback {Function}
          */
-        this.show = function(url, expiration, callback) {
+        this.load = function(url, expiration, callback) {
 
             if (! url) return false;
 
@@ -4360,8 +4361,6 @@ APP.views = (function () {
             // First empty the content
             content.empty();
 
-            this.elems.container.removeClass("view-hidden").addClass("view-active");
-
             // Insert the new content
             this.getContent(url, expiration, function(response) {
                 content.html(response);
@@ -4369,6 +4368,18 @@ APP.views = (function () {
                 APP.dom.doc.trigger("APP:views:loadPage:finish", url);
                 if ($.isFunction(callback)) callback();
             });
+        };
+
+        /**
+         * Sets the view to active
+         */
+        this.show = function(scrollPosition) {
+
+            this.elems.container.removeClass("view-hidden").addClass("view-active");
+
+            if (typeof scrollPosition === "number") {
+                this.elems.container.find(".overthrow")[0].scrollTop = scrollPosition;
+            }
         };
 
         /**
@@ -4386,7 +4397,6 @@ APP.views = (function () {
 
             if (APP.config.webapp) {
                 this.position = this.initialPosition;
-                this.scrollPosition = [];
                 this.elems.container
                     .removeClass("slide-left")
                     .removeClass("slide-right")
@@ -4509,7 +4519,6 @@ APP.views = (function () {
          * Set a new view, load the content and show it
          * @param view {String} view to push, can be parentView, childView, modalView
          * @param url {String} the URL to load
-         * @param scrollPosition
          */
         this.addView = function(view, url) {
 
@@ -4535,7 +4544,8 @@ APP.views = (function () {
             }
 
             // Show the new view
-            this.currentView.show(url);
+            this.currentView.load(url);
+            this.currentView.show(0);
         };
 
         /**
@@ -4562,22 +4572,27 @@ APP.views = (function () {
          **/
         this.deleteView = function() {
 
-            var previousView = this.previousView;
+            var previousView = this.previousView,
+                scrollPosition = this.scrollPosition,
+                previousUrl = this.previousUrl;
 
             if (! previousView) return false; // we're already at the last visible view
 
             // hide current
             this.currentView.hide();
 
-            // Show previous view with the previous URL
-            previousView.show(this.previousUrl, null, function() {
+            // Fast path: last view is still in the DOM, so just show it
+            if (this.childCount < 2) {
+                previousView.show();
 
-                // Load the previous scrollPosition
-                if (this.scrollPosition) {
+            } else {
 
-                    previousView.elems.container.find(".overthrow")[0].scrollTop = this.scrollPosition;
-                }
-            });
+                // Show previous view with the previous URL
+                previousView.load(previousUrl, null, function() {
+
+                    previousView.show(scrollPosition);
+                });
+            }
 
             // Delete the last view
             viewHistory.pop();
@@ -4726,7 +4741,7 @@ APP.views = (function () {
         collection.reset();
 
         collection.addView("parentView", url);
-        collection.currentView.elems.container.find(".overthrow")[0].scrollTop = 0;
+        collection.views.parentView.elems.container.find(".overthrow")[0].scrollTop = 0;
     }
 
     /**
@@ -4734,9 +4749,9 @@ APP.views = (function () {
      */
     function loadPage(url) {
         if (url) {
-            collection.currentView.elems.container.find(".overthrow")[0].scrollTop = 0;
             collection.replaceUrl(url);
-            collection.currentView.show(url);
+            collection.currentView.load(url);
+            collection.currentView.show(0);
         }
     }
 
@@ -4751,9 +4766,10 @@ APP.views = (function () {
         var view = collection.currentView,
             url = collection.currentUrl;
 
-        if (APP.config.offline) APP.store.deleteCache(url); // remove current cache entry
+        // remove current cache entry
+        if (APP.config.offline) APP.store.deleteCache(url);
 
-        view.show(url);
+        view.load(url);
         APP.dom.doc.trigger("APP:views:reloadPage:finish");
     }
 
