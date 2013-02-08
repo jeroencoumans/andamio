@@ -1827,7 +1827,7 @@ if ( window.jQuery || window.Zepto ) {
 /**
  * @preserve FastClick: polyfill to remove click delays on browsers with touch UIs.
  *
- * @version 0.5.4
+ * @version 0.5.6
  * @codingstandard ftlabs-jsv2
  * @copyright The Financial Times Limited [All Rights Reserved]
  * @license MIT License (see LICENSE.txt)
@@ -2018,7 +2018,13 @@ FastClick.prototype.deviceIsIOSWithBadTarget = FastClick.prototype.deviceIsIOS &
 FastClick.prototype.needsClick = function(target) {
     'use strict';
     switch (target.nodeName.toLowerCase()) {
+    case 'button':
     case 'input':
+
+        // File inputs need real clicks on iOS 6 due to a browser bug (issue #68)
+        if (this.deviceIsIOS && target.type === 'file') {
+            return true;
+        }
 
         // Don't send a synthetic click to disabled inputs (issue #62)
         return target.disabled;
@@ -2310,7 +2316,6 @@ FastClick.prototype.onTouchEnd = function(event) {
     // See issue #57; also filed as rdar://13048589 .
     if (this.deviceIsIOSWithBadTarget) {
         touch = event.changedTouches[0];
-        targetElement = event.target;
         targetElement = document.elementFromPoint(touch.pageX - window.pageXOffset, touch.pageY - window.pageYOffset);
     }
 
@@ -2479,7 +2484,6 @@ if (typeof module !== 'undefined' && module.exports) {
 
     module.exports.FastClick = FastClick;
 }
-
 /**
  * lscache library
  * Copyright (c) 2011, Pamela Fox
@@ -4327,10 +4331,13 @@ APP.views = (function () {
                 if ($.isFunction(callback)) callback(cachedContent);
             } else {
 
+                // Add cachebuster
+                var requestUrl = url + ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime();
+
                 $.ajax({
-                    "url": url,
+                    "url": requestUrl,
                     "timeout": 10000,
-                    "headers": { "X-PJAX": true },
+                    "headers": { "X-PJAX": true, "X-Requested-With": "XMLHttpRequest" },
                     success: function(response) {
 
                         var minutes = expiration || 24 * 60; // lscache sets expiration in minutes, so this is 24 hours
@@ -4375,10 +4382,17 @@ APP.views = (function () {
          */
         this.show = function(scrollPosition) {
 
-            this.elems.container.removeClass("view-hidden").addClass("view-active");
+            var container = this.elems.container;
+            container.removeClass("view-hidden").addClass("view-active");
 
             if (typeof scrollPosition === "number") {
-                this.elems.container.find(".overthrow")[0].scrollTop = scrollPosition;
+
+                var currentScrollPosition = container.find(".overthrow")[0].scrollTop;
+
+                if (currentScrollPosition !== scrollPosition) {
+
+                    container.find(".overthrow")[0].scrollTop = scrollPosition;
+                }
             }
         };
 

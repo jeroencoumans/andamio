@@ -1561,10 +1561,13 @@ APP.views = (function () {
                 if ($.isFunction(callback)) callback(cachedContent);
             } else {
 
+                // Add cachebuster
+                var requestUrl = url + ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime();
+
                 $.ajax({
-                    "url": url,
+                    "url": requestUrl,
                     "timeout": 10000,
-                    "headers": { "X-PJAX": true },
+                    "headers": { "X-PJAX": true, "X-Requested-With": "XMLHttpRequest" },
                     success: function(response) {
 
                         var minutes = expiration || 24 * 60; // lscache sets expiration in minutes, so this is 24 hours
@@ -1609,10 +1612,17 @@ APP.views = (function () {
          */
         this.show = function(scrollPosition) {
 
-            this.elems.container.removeClass("view-hidden").addClass("view-active");
+            var container = this.elems.container;
+            container.removeClass("view-hidden").addClass("view-active");
 
             if (typeof scrollPosition === "number") {
-                this.elems.container.find(".overthrow")[0].scrollTop = scrollPosition;
+
+                var currentScrollPosition = container.find(".overthrow")[0].scrollTop;
+
+                if (currentScrollPosition !== scrollPosition) {
+
+                    container.find(".overthrow")[0].scrollTop = scrollPosition;
+                }
             }
         };
 
