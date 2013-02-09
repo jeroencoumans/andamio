@@ -167,17 +167,15 @@ APP.views = (function () {
          */
         this.show = function(scrollPosition) {
 
-            var container = this.elems.container;
+            var container = this.elems.container,
+                viewScroller = container.find(".overthrow"),
+                currentScrollPosition = viewScroller ? viewScroller[0].scrollTop : 0;
+
             container.removeClass("view-hidden").addClass("view-active");
 
-            if (typeof scrollPosition === "number") {
+            if (typeof scrollPosition === "number" && currentScrollPosition !== scrollPosition) {
 
-                var currentScrollPosition = container.find(".overthrow")[0].scrollTop;
-
-                if (currentScrollPosition !== scrollPosition) {
-
-                    container.find(".overthrow")[0].scrollTop = scrollPosition;
-                }
+                viewScroller[0].scrollTop = scrollPosition;
             }
         };
 
@@ -229,6 +227,9 @@ APP.views = (function () {
         this._urlHistory = function()    { return urlHistory; };
         this._viewHistory = function()   { return viewHistory; };
         this._scrollHistory = function() { return scrollHistory; };
+
+        // For 2-page apps, use the fastPath
+        var fastPath = true;
 
         /**
          * Get the current URL
@@ -345,6 +346,8 @@ APP.views = (function () {
             // Show the new view
             this.currentView.load(url);
             this.currentView.show(0);
+
+            if (this.childCount > 1) fastPath = false;
         };
 
         /**
@@ -381,7 +384,8 @@ APP.views = (function () {
             this.currentView.hide();
 
             // Fast path: last view is still in the DOM, so just show it
-            if (this.childCount < 2) {
+            if (fastPath) {
+
                 previousView.show();
 
             } else {
@@ -397,6 +401,8 @@ APP.views = (function () {
             viewHistory.pop();
             urlHistory.pop();
             scrollHistory.pop();
+
+            if (this.childCount === 0) fastPath = true;
         };
 
         /**
@@ -411,6 +417,7 @@ APP.views = (function () {
             viewHistory = [];
             urlHistory = [];
             scrollHistory = [];
+            fastPath = true;
         };
     }
 
