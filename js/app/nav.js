@@ -109,17 +109,17 @@ APP.nav = (function () {
         // page navigation
         APP.events.attachClickHandler(".action-nav-item", function (event) {
 
-            APP.dom.doc.trigger("APP:action:nav:item:start", event);
-
             var target  = $(event.currentTarget),
                 url     = APP.util.getUrl(target),
                 title   = APP.util.getTitle(target);
 
-            setActive(target);
-            hide();
-
             // If user selects the active element, or no URL is found, just close the menu
             if (target === APP.nav.pageNavActive || ! url) return;
+
+            APP.dom.doc.trigger("APP:action:nav:item:start", event);
+
+            setActive(target);
+            hide();
 
             // set page title
             if (title) APP.dom.parentViewTitle.text(title);
