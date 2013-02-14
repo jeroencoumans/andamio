@@ -9,93 +9,106 @@
  */
 APP.views = (function () {
 
+    function Elems(container) {
+        this.container = container;
+
+        this.__defineGetter__("title", function() {
+            return this.container.find(".js-title");
+        });
+
+        this.__defineGetter__("content", function() {
+            var content = this.container.hasClass("js-content") ? this.container : this.container.find(".js-content");
+            return content;
+        });
+
+        this.__defineGetter__("scroller", function() {
+            var scroller = this.container.hasClass("overthrow") ? this.container : this.container.find(".overthrow");
+            return scroller;
+        });
+    }
+
     /**
      * Views constructor
      * @param container {HTMLElement} container element that will be toggled or animated
-     * @param content {HTMLElement} element that holds the content
-     * @param title {HTMLElement} element that holds the title
      * @param position {String} default position of the element, one of "slide-left", "slide-right", "slide-bottom" or "slide-default"
      */
-    function View(container, content, title, position) {
-        this.elems = {
-            container: container,
-            content: content,
-            title: title
-        };
+    function View(container, position) {
+        this.elems = new Elems(container);
 
-        // Store the initial position
-        this.initialPosition = position;
-        this.position = position;
+        if (position) {
+            // Store the initial position
+            this.initialPosition = position;
+            this.position = position;
 
-        /**
-         * Slide the view based on the current position and the desired direction. Used only in webapp.
-         * @method slide
-         * @param direction {String} direction to which the view should slide
-         */
-        this.slide = function(direction) {
-            var container = this.elems.container,
-                position = this.position;
+            /**
+             * Slide the view based on the current position and the desired direction. Used only in webapp.
+             * @method slide
+             * @param direction {String} direction to which the view should slide
+             */
+            this.slide = function(direction) {
+                var container = this.elems.container,
+                    position = this.position;
 
-            // Slide in from the left
-            if (position === "slide-left" && direction === "slide-default") {
-                container.addClass("slide-in-from-left").one("webkitTransitionEnd", function () {
-                    container.addClass("slide-default").removeClass("slide-left slide-in-from-left");
-                });
-            }
+                // Slide in from the left
+                if (position === "slide-left" && direction === "slide-default") {
+                    container.addClass("slide-in-from-left").one("webkitTransitionEnd", function () {
+                        container.addClass("slide-default").removeClass("slide-left slide-right slide-in-from-left");
+                    });
+                }
 
-            // Slide in from the right
-            if (position === "slide-right" && direction === "slide-default") {
-                container.addClass("slide-in-from-right").one("webkitTransitionEnd", function () {
-                    container.addClass("slide-default").removeClass("slide-right slide-in-from-right");
-                });
-            }
+                // Slide in from the right
+                if (position === "slide-right" && direction === "slide-default") {
+                    container.addClass("slide-in-from-right").one("webkitTransitionEnd", function () {
+                        container.addClass("slide-default").removeClass("slide-right slide-left slide-in-from-right");
+                    });
+                }
 
-            // Slide in from the bottom
-            if (position === "slide-bottom" && direction === "slide-default") {
-                container.addClass("slide-in-from-bottom").one("webkitTransitionEnd", function () {
-                    container.addClass("slide-default").removeClass("slide-bottom slide-in-from-bottom");
-                });
-            }
+                // Slide in from the bottom
+                if (position === "slide-bottom" && direction === "slide-default") {
+                    container.addClass("slide-in-from-bottom").one("webkitTransitionEnd", function () {
+                        container.addClass("slide-default").removeClass("slide-bottom slide-in-from-bottom");
+                    });
+                }
 
-            // Slide in from the top
-            if (position === "slide-top" && direction === "slide-default") {
-                container.addClass("slide-in-from-top").one("webkitTransitionEnd", function () {
-                    container.addClass("slide-default").removeClass("slide-top slide-in-from-top");
-                });
-            }
+                // Slide in from the top
+                if (position === "slide-top" && direction === "slide-default") {
+                    container.addClass("slide-in-from-top").one("webkitTransitionEnd", function () {
+                        container.addClass("slide-default").removeClass("slide-top slide-in-from-top");
+                    });
+                }
 
-            // Slide out to the left
-            if (position === "slide-default" && direction === "slide-left") {
-                container.addClass("slide-out-to-left").one("webkitTransitionEnd", function () {
-                    container.addClass("slide-left").removeClass("slide-default slide-out-to-left");
-                });
-            }
+                // Slide out to the left
+                if (position === "slide-default" && direction === "slide-left") {
+                    container.addClass("slide-out-to-left").one("webkitTransitionEnd", function () {
+                        container.addClass("slide-left").removeClass("slide-default slide-out-to-left");
+                    });
+                }
 
-            // Slide out to the right
-            if (position === "slide-default" && direction === "slide-right") {
-                container.addClass("slide-out-to-right").one("webkitTransitionEnd", function () {
-                    container.addClass("slide-right").removeClass("slide-default slide-out-to-right");
-                });
-            }
+                // Slide out to the right
+                if (position === "slide-default" && direction === "slide-right") {
+                    container.addClass("slide-out-to-right").one("webkitTransitionEnd", function () {
+                        container.addClass("slide-right").removeClass("slide-default slide-out-to-right");
+                    });
+                }
 
-            // Slide out to the bottom
-            if (position === "slide-default" && direction === "slide-bottom") {
-                container.addClass("slide-out-to-bottom").one("webkitTransitionEnd", function () {
-                    container.addClass("slide-bottom").removeClass("slide-default slide-out-to-bottom");
-                });
-            }
+                // Slide out to the bottom
+                if (position === "slide-default" && direction === "slide-bottom") {
+                    container.addClass("slide-out-to-bottom").one("webkitTransitionEnd", function () {
+                        container.addClass("slide-bottom").removeClass("slide-default slide-out-to-bottom");
+                    });
+                }
 
-            // Slide out to the top
-            if (position === "slide-default" && direction === "slide-top") {
-                container.addClass("slide-out-to-top").one("webkitTransitionEnd", function () {
-                    container.addClass("slide-top").removeClass("slide-default slide-out-to-top");
-                });
-            }
+                // Slide out to the top
+                if (position === "slide-default" && direction === "slide-top") {
+                    container.addClass("slide-out-to-top").one("webkitTransitionEnd", function () {
+                        container.addClass("slide-top").removeClass("slide-default slide-out-to-top");
+                    });
+                }
 
-            // update positions
-            this.position = direction;
-        };
-
+                // update positions
+                this.position = direction;
+            };
+        }
 
         /**
          * Returns the content from url, storing it when it's not stored yet
@@ -168,14 +181,17 @@ APP.views = (function () {
         this.show = function(scrollPosition) {
 
             var container = this.elems.container,
-                viewScroller = container.find(".overthrow"),
-                currentScrollPosition = viewScroller ? viewScroller[0].scrollTop : 0;
+                scroller = this.elems.scroller;
 
             container.removeClass("view-hidden").addClass("view-active");
 
-            if (typeof scrollPosition === "number" && currentScrollPosition !== scrollPosition) {
+            if (typeof scrollPosition === "number" && scroller.length > 0) {
 
-                viewScroller[0].scrollTop = scrollPosition;
+                var currentScrollPosition = scroller[0].scrollTop;
+
+                if (currentScrollPosition !== scrollPosition) {
+                    scroller[0].scrollTop = scrollPosition;
+                }
             }
         };
 
@@ -192,7 +208,7 @@ APP.views = (function () {
          */
         this.reset = function() {
 
-            if (APP.config.webapp) {
+            if (this.position && APP.config.webapp) {
                 this.position = this.initialPosition;
                 this.elems.container
                     .removeClass("slide-left")
@@ -211,9 +227,9 @@ APP.views = (function () {
      */
     function ViewsCollection() {
         this.views = {
-            parentView:     new View(APP.dom.parentView, APP.dom.parentViewContent, APP.dom.parentViewTitle, "slide-default"),
-            childView:      new View(APP.dom.childView, APP.dom.childViewContent, APP.dom.childViewTitle, "slide-right"),
-            modalView:      new View(APP.dom.modalView, APP.dom.modalViewContent, APP.dom.modalViewTitle, "slide-bottom")
+            parentView:     new View(APP.dom.parentView, "slide-default"),
+            childView:      new View(APP.dom.childView, "slide-right"),
+            modalView:      new View(APP.dom.modalView, "slide-bottom")
         };
 
         this.childCount = 0;
@@ -322,7 +338,7 @@ APP.views = (function () {
          */
         this.addView = function(view, url) {
 
-            if (! view || ! url) return false;
+            if (! view) return false;
             var views = this.views,
                 target;
 
@@ -336,15 +352,15 @@ APP.views = (function () {
 
             // Set the current view to the new view
             this.currentView = target;
-            this.currentUrl = url;
+            if (url) this.currentUrl = url;
 
             // Store the previous scrollPosition
             if (this.previousView) {
-                this.scrollPosition = this.previousView.elems.container.find(".overthrow").scrollTop();
+                this.scrollPosition = this.previousView.elems.scroller[0].scrollTop;
             }
 
             // Show the new view
-            this.currentView.load(url);
+            if (url) this.currentView.load(url);
             this.currentView.show(0);
 
             if (this.childCount > 1) fastPath = false;
@@ -410,8 +426,8 @@ APP.views = (function () {
          */
         this.reset = function() {
 
-            for (var view in collection.views) {
-                collection.views[view].reset();
+            for (var view in this.views) {
+                this.views[view].reset();
             }
 
             viewHistory = [];
@@ -547,7 +563,12 @@ APP.views = (function () {
         collection.reset();
 
         collection.addView("parentView", url);
-        collection.views.parentView.elems.container.find(".overthrow")[0].scrollTop = 0;
+
+        var scroller = collection.views.parentView.elems.scroller;
+
+        if (scroller.length > 0) {
+            scroller[0].scrollTop = 0;
+        }
     }
 
     /**
@@ -641,6 +662,7 @@ APP.views = (function () {
         "openParentPage": openParentPage,
         "loadPage": loadPage,
         "reloadPage": reloadPage,
-        "collection": collection
+        "collection": collection,
+        "View": View
     };
 })();

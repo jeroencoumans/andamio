@@ -40,8 +40,8 @@ APP.phone = (function () {
         // scroll to top on tapbar tap
         APP.dom.doc.on("statusbartap", function() {
 
-            var pageScroller = APP.nav.status() ? APP.dom.pageNav : APP.views.collection.currentView.elems.container.find(".overthrow");
-            $.scrollElement(pageScroller[0], 0);
+            var scroller = APP.nav.status() ? APP.dom.pageNav : APP.views.collection.currentView.elems.scroller;
+            $.scrollElement(scroller[0], 0);
         });
 
         // refresh when application is activated from background

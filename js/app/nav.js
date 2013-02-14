@@ -37,8 +37,6 @@ APP.nav = (function () {
         }
 
         hasNavigation = true;
-
-        APP.dom.doc.trigger("APP:nav:show");
     }
 
     /**
@@ -57,8 +55,6 @@ APP.nav = (function () {
         }
 
         hasNavigation = false;
-
-        APP.dom.doc.trigger("APP:nav:hide");
     }
 
     /**
@@ -86,6 +82,22 @@ APP.nav = (function () {
         }
     }
 
+    function actionNavItem(event) {
+
+        var target  = $(event.currentTarget),
+            url     = APP.util.getUrl(target),
+            title   = APP.util.getTitle(target);
+
+        // If user selects the active element, or no URL is found, just close the menu
+        if (target === APP.nav.pageNavActive || ! url) return;
+
+        setActive(target);
+        hide();
+
+        // set page title
+        if (title) APP.views.collection.currentView.elems.title.text(title);
+        if (url) APP.views.openParentPage(url);
+    }
 
     /**
      * Attach event listeners
@@ -94,38 +106,30 @@ APP.nav = (function () {
      */
     function attachListeners() {
 
+        // Listen to triggers and map to internal functions
+        APP.dom.doc.on("APP:nav:hide", hide);
+        APP.dom.doc.on("APP:nav:show", show);
+        APP.dom.doc.on("APP:action:nav:item", function (event, originalEvent) {
+
+            actionNavItem(originalEvent);
+        });
+
         // Menu button
         APP.events.attachClickHandler(".action-show-nav", function () {
 
-            show();
+            APP.dom.pageNav.trigger("APP:nav:show");
         });
 
         // Hide menu when it's open
         APP.events.attachClickHandler(".action-hide-nav", function () {
 
-            hide();
+            APP.dom.pageNav.trigger("APP:nav:hide");
         });
 
         // page navigation
         APP.events.attachClickHandler(".action-nav-item", function (event) {
 
-            var target  = $(event.currentTarget),
-                url     = APP.util.getUrl(target),
-                title   = APP.util.getTitle(target);
-
-            // If user selects the active element, or no URL is found, just close the menu
-            if (target === APP.nav.pageNavActive || ! url) return;
-
-            APP.dom.doc.trigger("APP:action:nav:item:start", event);
-
-            setActive(target);
-            hide();
-
-            // set page title
-            if (title) APP.dom.parentViewTitle.text(title);
-            if (url) APP.views.openParentPage(url);
-
-            APP.dom.doc.trigger("APP:action:nav:item:finish", event);
+            APP.dom.pageNav.trigger("APP:action:nav:item", [event]);
         });
     }
 
@@ -139,7 +143,7 @@ APP.nav = (function () {
 
         hasNavigation = APP.dom.html.hasClass("has-navigation") ? true : false;
 
-        bodyheight = $(window).height();
+        bodyheight = window.document.height;
         navheight = APP.dom.pageNav.height();
 
         // make sure the navigation is as high as the page

@@ -1,5 +1,5 @@
 /*jshint latedef:true, undef:true, unused:false boss:true */
-/*global $, document, window */
+/*global $, window */
 
 var APP = APP || {};
 
@@ -12,8 +12,7 @@ var APP = APP || {};
  */
 APP.dom = (function () {
 
-    var win = window,
-        doc = $(window.document),
+    var doc = $(window.document),
         html = $("html"),
         viewport = $(".viewport"),
 
@@ -22,18 +21,12 @@ APP.dom = (function () {
 
         // parent view
         parentView = $("#parent-view"),
-        parentViewTitle = parentView.find(".js-title"),
-        parentViewContent = parentView.hasClass("js-content") ? parentView : parentView.find(".js-content"),
 
         // child view
         childView = $("#child-view"),
-        childViewTitle = childView.find(".js-title"),
-        childViewContent = childView.hasClass("js-content") ? childView : childView.find(".js-content"),
 
         // modal view
         modalView = $("#modal-view"),
-        modalViewTitle = modalView.find(".js-title"),
-        modalViewContent = modalView.find(".js-content"),
 
         // navigation
         pageNav = $("#page-navigation"),
@@ -53,20 +46,14 @@ APP.dom = (function () {
         pageAlert = $("#page-alert");
 
     return {
-        win: win,
+        win: window,
         doc: doc,
         html: html,
         viewport: viewport,
         pageView: pageView,
         parentView: parentView,
-        parentViewTitle: parentViewTitle,
-        parentViewContent: parentViewContent,
         childView: childView,
-        childViewTitle: childViewTitle,
-        childViewContent: childViewContent,
         modalView: modalView,
-        modalViewTitle: modalViewTitle,
-        modalViewContent: modalViewContent,
         pageNav: pageNav,
         pageNavItems: pageNavItems,
         pageNavActive: pageNavActive,
