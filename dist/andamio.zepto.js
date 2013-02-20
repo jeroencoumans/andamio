@@ -3550,7 +3550,7 @@ Andamio.nav = (function () {
 
             self.status = Andamio.dom.html.hasClass("has-navigation");
 
-            docheight = Andamio.dom.doc.height();
+            docheight = $(window).height();
             navheight = Andamio.dom.pageNav.height();
 
             // make sure the navigation is as high as the page
@@ -3672,19 +3672,29 @@ Andamio.slideshow = (function () {
     }
 
     return {
-        init: function(id) {
+        init: function(id, options, callback) {
 
             var slideshowActive = $(id).data("js-slideshow-active");
+
+            this.options = {
+                startSlide: 0,
+                speed: 300,
+                continuous: true,
+                disableScroll: false
+            };
+
+            // Setup user-defined options
+            if (typeof options === "object" && typeof options !== "undefined") {
+
+                for (var key in options) {
+                    this.options[key] = options[key];
+                }
+            }
 
             if (! slideshowActive) {
 
                 // setup Swipe
-                var slideshow = new Swipe(document.getElementById(id), {
-                    startSlide: 0,
-                    speed: 300,
-                    continuous: true,
-                    disableScroll: false
-                });
+                var slideshow = new Swipe(document.getElementById(id), this.options);
 
                 // setup dots
                 var dots = new SwipeDots(slideshow.length);
@@ -3714,6 +3724,8 @@ Andamio.slideshow = (function () {
                     if (img) {
                         img.css('background-image', 'url(' + img.data("src") + ')');
                     }
+
+                    if ($.isFunction(callback)) callback(index, item);
                 };
 
                 $(slideshow.container).on("click", function (event) {
