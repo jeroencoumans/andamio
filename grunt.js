@@ -17,18 +17,10 @@ module.exports = function(grunt) {
 
         // Javascript concatenation
         concat: {
-            zepto: {
-                src: [
-                    'js/lib/zepto/zepto.js',
-                    'js/lib/zepto/ajax.js',
-                    'js/lib/zepto/event.js'
-                    ],
-                dest: 'js/lib/zepto.js'
-            },
             andamio: {
                 src: [
                     // Setup
-                    'js/app/dom.js',
+                    'js/app/core.js',
                     'js/app/config.js',
 
                     // Reusable functions
@@ -36,58 +28,72 @@ module.exports = function(grunt) {
                     'js/app/util.js',
                     'js/app/phone.js',
 
-                    // The actual modules
-                    'js/app/alert.js',
+                    // Data handling
+                    'js/app/cache.js',
                     'js/app/connection.js',
+                    'js/app/page.js',
+
+                    // UI
+                    'js/app/alert.js',
                     'js/app/loader.js',
                     'js/app/nav.js',
                     'js/app/reveal.js',
                     'js/app/search.js',
                     'js/app/slideshow.js',
-                    'js/app/store.js',
                     'js/app/tabs.js',
                     'js/app/views.js',
 
                     // Initialize everything
-                    'js/app/core.js'
+                    'js/app/init.js'
                 ],
-                dest: 'dist/andamio-lib.js'
+                dest: 'dist/andamio.js'
             },
-            mobile: {
+            jquery: {
+                src: [
+                    'js/lib/jquery/jquery-2.0.0b1.js',
+                    'js/lib/jquery/jquery.scrollto.js',
+                    'js/lib/swipe.js',
+                    'js/lib/fastclick.js',
+                    'js/lib/lscache.js',
+                    'dist/andamio.js'
+                    ],
+                dest: 'dist/andamio.jquery.js'
+            },
+            zepto: {
                 src: [
                     'js/lib/zepto.js',
                     'js/lib/zepto.scroll.js',
                     'js/lib/swipe.js',
                     'js/lib/fastclick.js',
                     'js/lib/lscache.js',
-                    'dist/andamio-lib.js'
+                    'dist/andamio.js'
                     ],
-                dest: 'dist/main.dev.js'
+                dest: 'dist/andamio.zepto.js'
             }
         },
 
         // Javascript minification
         min: {
-            mobile: {
-                src: ['dist/main.dev.js'],
-                dest: 'dist/main.js'
+            andamio: {
+                src:  'dist/andamio.js',
+                dest: 'dist/andamio.min.js'
+            },
+            jquery: {
+                src:  'dist/andamio.jquery.js',
+                dest: 'dist/andamio.jquery.min.js'
+            },
+            zepto: {
+                src:  'dist/andamio.zepto.js',
+                dest: 'dist/andamio.zepto.min.js'
             }
         },
 
         // CSS compilation & linting
         less: {
-            doc: {
-                options: {
-                    yuicompress: true
-                },
-                files: {
-                    'doc/main.css': 'doc/main.less'
-                }
-            },
             dev: {
 
                 files: {
-                    'dist/main.dev.css': 'style/main.less'
+                    'dist/andamio.css': 'style/main.less'
                 }
             },
             dist: {
@@ -95,18 +101,18 @@ module.exports = function(grunt) {
                     yuicompress: true
                 },
                 files: {
-                    'dist/main.css': 'style/main.less'
+                    'dist/andamio.min.css': 'style/main.less'
                 }
             }
         },
         watch: {
             css: {
-                files: ['style/main.less', 'style/*/*.less', 'doc/main.less'],
-                tasks: ['less:dev', 'less:doc']
+                files: ['style/andamio.less', 'style/*/*.less'],
+                tasks: ['less:dev']
             },
             js: {
-                files: ['js/*/*.js', 'doc/js/*.js'],
-                tasks: ['concat:andamio', 'concat:mobile']
+                files: ['js/*/*.js'],
+                tasks: ['concat:andamio', 'concat:jquery', 'concat:zepto']
             }
         }
     });

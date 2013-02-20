@@ -1,166 +1,107 @@
-/**
- * Module for page navigation
- * @author Jeroen Coumans
- * @class nav
- * @namespace APP
- */
-APP.nav = (function () {
+/*jshint es5: true, browser: true */
+/*global $, Andamio */
 
-    // Variables
-    var navheight,
-        bodyheight,
-        hasNavigation;
+Andamio.dom.pageNav = $(".js-page-navigation");
+Andamio.dom.pageNavItems = Andamio.dom.pageNav.find(".action-nav-item");
 
-    /**
-     * Sets height of content based on height of navigation
-     * @method setPageHeight
-     * @private
-     * @param {Integer} height the height to which the page must be set
-     */
+Object.defineProperties(Andamio.dom, {
+    pageNavActive: {
+
+        get: function() {
+
+            return this.pageNavItems.filter(".active");
+        },
+
+        set: function(elem) {
+
+            var current = this.pageNavActive;
+
+            // TODO: check wether elem is present in pageNavItems
+            current.removeClass("active");
+            elem.addClass("active");
+        }
+    }
+});
+
+Andamio.nav = (function () {
+
+    "use strict";
+
+    var docheight,
+        navheight;
+
     function setPageHeight(height) {
 
-        // if navigation is enabled, set the page height to navigation height
-        APP.dom.viewport.height(height);
-        APP.dom.pageView.height(height);
-    }
-
-    /**
-     * Shows the navigation
-     * @method show
-     */
-    function show() {
-
-        APP.dom.html.addClass("has-navigation");
-
-        if (!APP.config.webapp) {
-            setPageHeight(navheight);
-        }
-
-        hasNavigation = true;
-    }
-
-    /**
-     * Hides the navigation
-     * @method hide
-     */
-    function hide() {
-
-        // never hide on tablet
-        if (APP.config.tablet) return;
-
-        APP.dom.html.removeClass("has-navigation");
-
-        if (!APP.config.webapp) {
-            setPageHeight("");
-        }
-
-        hasNavigation = false;
-    }
-
-    /**
-     * Returns the status of the navigation
-     * @method status
-     * @return {Boolean} wether the navigation is shown or hidden
-     */
-    function status() {
-
-        return hasNavigation;
-    }
-
-    /**
-     * Returns the active item
-     * @method active
-     * @param {HTMLElement} [elem] sets the HTMLElement to the active navigation element
-     * @return {HTMLElement} the active navigation element
-     */
-    function setActive(elem) {
-
-        if (elem) {
-
-            APP.dom.pageNavActive.removeClass("active");
-            APP.dom.pageNavActive = elem.addClass("active");
-        }
-    }
-
-    function actionNavItem(event) {
-
-        var target  = $(event.currentTarget),
-            url     = APP.util.getUrl(target),
-            title   = APP.util.getTitle(target);
-
-        // If user selects the active element, or no URL is found, just close the menu
-        if (target === APP.nav.pageNavActive || ! url) return;
-
-        setActive(target);
-        hide();
-
-        // set page title
-        if (title) APP.views.collection.currentView.elems.title.text(title);
-        if (url) APP.views.openParentPage(url);
-    }
-
-    /**
-     * Attach event listeners
-     * @method attachListeners
-     * @private
-     */
-    function attachListeners() {
-
-        // Listen to triggers and map to internal functions
-        APP.dom.doc.on("APP:nav:hide", hide);
-        APP.dom.doc.on("APP:nav:show", show);
-        APP.dom.doc.on("APP:action:nav:item", function (event, originalEvent) {
-
-            actionNavItem(originalEvent);
-        });
-
-        // Menu button
-        APP.events.attachClickHandler(".action-show-nav", function () {
-
-            APP.dom.pageNav.trigger("APP:nav:show");
-        });
-
-        // Hide menu when it's open
-        APP.events.attachClickHandler(".action-hide-nav", function () {
-
-            APP.dom.pageNav.trigger("APP:nav:hide");
-        });
-
-        // page navigation
-        APP.events.attachClickHandler(".action-nav-item", function (event) {
-
-            APP.dom.pageNav.trigger("APP:action:nav:item", [event]);
-        });
-    }
-
-    /**
-     * Initialize capabilities and attach listeners
-     * - Sets the active navigation element
-     * - Sets the navigation status based on the `has-navigation` class on the HTML element
-     * @method init
-     */
-    function init() {
-
-        hasNavigation = APP.dom.html.hasClass("has-navigation") ? true : false;
-
-        bodyheight = window.document.height;
-        navheight = APP.dom.pageNav.height();
-
-        // make sure the navigation is as high as the page
-        if (bodyheight > navheight) {
-            navheight = bodyheight;
-            APP.dom.pageNav.height(navheight);
-        }
-
-        attachListeners();
+        Andamio.dom.viewport.height(height);
+        Andamio.dom.pageView.height(height);
     }
 
     return {
-        "init": init,
-        "show": show,
-        "hide": hide,
-        "status": status,
-        "setActive": setActive
-    };
 
+        show: function() {
+            Andamio.dom.html.addClass("has-navigation");
+
+            if (!Andamio.config.webapp) {
+                setPageHeight(navheight);
+            }
+        },
+
+        hide: function() {
+            Andamio.dom.html.removeClass("has-navigation");
+
+            if (!Andamio.config.webapp) {
+                setPageHeight("");
+            }
+        },
+
+        get status() {
+            return Andamio.dom.html.hasClass("has-navigation");
+        },
+
+        set status(Boolean) {
+            if (Boolean) this.show();
+            else this.hide();
+        },
+
+        init: function() {
+            var self = this;
+
+            self.status = Andamio.dom.html.hasClass("has-navigation");
+
+            docheight = Andamio.dom.doc.height();
+            navheight = Andamio.dom.pageNav.height();
+
+            // make sure the navigation is as high as the page
+            if (docheight > navheight) {
+                navheight = docheight;
+                Andamio.dom.pageNav.height(navheight);
+            }
+
+            Andamio.events.attach(".action-show-nav", self.show);
+            Andamio.events.attach(".action-hide-nav", self.hide);
+
+            Andamio.events.attach(".action-nav-item", function (event) {
+
+                var target  = $(event.currentTarget),
+                    url     = Andamio.util.getUrl(target),
+                    title   = Andamio.util.getTitle(target);
+
+                Andamio.dom.pageNavActive = target;
+
+                if (!Andamio.config.tablet) {
+                    self.hide();
+                }
+
+                if (title) {
+                    Andamio.dom.viewport.one("Andamio:views:activateView:finish", function() {
+                        Andamio.views.list.lookup("parentView").title = title;
+                    });
+                }
+
+                if (url) {
+                    Andamio.views.openParentPage(url);
+                }
+            });
+        }
+    };
 })();

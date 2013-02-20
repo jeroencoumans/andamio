@@ -1,89 +1,96 @@
-/*jshint latedef:true, undef:true, unused:true boss:true */
-/*global APP, $, Swipe, document */
+/*jshint es5: true, browser: true */
+/*global Andamio, $, Swipe */
 
-/**
- * Module for setting up swipe.js
- */
-APP.slideshow = (function () {
+Andamio.slideshow = (function () {
 
-    var slideShow,
-        slideShowDotsWrapper,
-        slideShowDotsItems;
+    function SwipeDots(number) {
 
-    function prev() {
+        if (typeof number === "number") {
+            this.wrapper = $('<div class="slideshow-dots">');
 
-        if (slideShow) {
-            slideShow.prev();
-            APP.dom.doc.trigger("APP:slideshow:prev");
-        }
-    }
-
-    function next() {
-
-        if (slideShow) {
-            slideShow.next();
-            APP.dom.doc.trigger("APP:slideshow:next");
-        }
-    }
-
-    function slide(index) {
-
-        if (slideShow) {
-            slideShow.slide(index, 300);
-            APP.dom.doc.trigger("APP:slideshow:slide");
-        }
-    }
-
-    /**
-     * Attach event listeners
-     */
-    function attachListeners() {
-
-        APP.events.attachClickHandler(".action-slideshow-next", function () {
-            slideShow.next();
-        });
-
-    }
-
-    function init(id) {
-
-        slideShowDotsWrapper = $('<div class="slideshow-dots"></div>');
-
-        slideShow = new Swipe(document.getElementById(id), {
-            startSlide: 0,
-            speed: 300,
-            continuous: true,
-            disableScroll: false,
-            callback: function (index, item) {
-                slideShowDotsWrapper.find(".active").removeClass("active");
-                $(slideShowDotsItems[index]).addClass("active");
-
-                // Download images on demand when they have a data-src and .js-slideshow-media
-                var img = $(item).find(".js-slideshow-media");
-                if (img) img.css('background-image', 'url(' + img.data("src") + ')');
+            for (var i=0;i<number;i++) {
+                this.wrapper.append($('<div class="slideshow-dot"></div>'));
             }
-        });
 
-        // generate dots
-        for (var i=0;i<slideShow.length;i++) {
-            slideShowDotsWrapper.append($('<div class="slideshow-dot"></div>'));
+            this.items = this.wrapper.find(".slideshow-dot");
+
+            Object.defineProperties(this, {
+                active: {
+                    get: function() { return this.wrapper.find(".active"); },
+                    set: function(elem) {
+                        this.wrapper.find(".active").removeClass("active");
+                        $(elem).addClass("active");
+                    }
+                }
+            });
+
+            this.active = this.items.first();
         }
-
-        slideShowDotsItems = slideShowDotsWrapper.find(".slideshow-dot");
-
-        // set first to active
-        slideShowDotsItems.first().addClass("active");
-
-        // insert after the swipe container
-        slideShowDotsWrapper.insertAfter(slideShow.container);
-
-        attachListeners();
     }
 
     return {
-        "init": init,
-        "prev": prev,
-        "next": next,
-        "slide": slide
+        init: function(id) {
+
+            var slideshowActive = $(id).data("js-slideshow-active");
+
+            if (! slideshowActive) {
+
+                // setup Swipe
+                var slideshow = new Swipe(document.getElementById(id), {
+                    startSlide: 0,
+                    speed: 300,
+                    continuous: true,
+                    disableScroll: false
+                });
+
+                // setup dots
+                var dots = new SwipeDots(slideshow.length);
+                dots.wrapper.insertAfter(slideshow.container);
+
+                // Taps on individual dots go to their corresponding slide
+                $(slideshow.container).next().on("click", function (event) {
+
+                    var target  = event.target;
+
+                    dots.items.each(function (index, item) {
+
+                        if (item === target) {
+                            slideshow.slide(index, 300);
+                        }
+                    });
+                });
+
+                // setup dots callback
+                slideshow.callback = function(index, item) {
+
+                    dots.active = dots.items[index];
+
+                    // Download images on demand when they have a data-src and .js-slideshow-media
+                    var img = $(item).find(".js-slideshow-media");
+
+                    if (img) {
+                        img.css('background-image', 'url(' + img.data("src") + ')');
+                    }
+                };
+
+                $(slideshow.container).on("click", function (event) {
+
+                    var target = $(event.target),
+                        isNext = target.parents(".action-slideshow-next"),
+                        isPrev = target.parents(".action-slideshow-prev");
+
+                    if (isNext.length > 0) {
+                        slideshow.next();
+                    }
+
+                    if (isPrev.length > 0) {
+                        slideshow.prev();
+                    }
+                });
+
+                return slideshow;
+            }
+        }
     };
+
 })();

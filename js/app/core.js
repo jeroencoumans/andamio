@@ -1,43 +1,21 @@
-/*jshint latedef:true, undef:true, unused:true boss:true */
-/*global APP */
+/*jshint es5: true, browser: true */
+/*global $, Andamio */
 
-/**
- * Core module for initializing capabilities and modules
- * @author Jeroen Coumans
- * @class core
- * @namespace APP
- */
-APP.core = (function () {
+window.Andamio = {};
 
-    /**
-     * Initialize variables and attach listeners
-     * @method init
-     */
-    function init(params) {
+Andamio.dom = (function () {
 
-        // Apply user parameters
-        APP.config.init(params);
-
-        // Initialize events
-        APP.events.init();
-        if (APP.config.cordova) APP.phone.init();
-
-        // Go online
-        APP.connection.init();
-
-        // Initialize views
-        APP.views.init();
-
-        // Initialize the rest
-        APP.alert.init();
-        APP.loader.init();
-        APP.nav.init();
-        APP.reveal.init();
-        APP.tabs.init();
-    }
+    "use strict";
 
     return {
-        "init": init
-    };
+        win:        window,
+        doc:        $(window.document),
+        html:       $("html"),
+        viewport:   $(".viewport"),
 
+        pageView:   $(".js-page-view"),
+        parentView: $(".js-parent-view"),
+        childView:  $(".js-child-view"),
+        modalView:  $(".js-modal-view")
+    };
 })();

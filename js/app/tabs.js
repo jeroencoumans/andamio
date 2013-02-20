@@ -1,112 +1,81 @@
-/**
- * Module for using tabs
- * @author Jeroen Coumans
- * @class tabs
- * @namespace APP
- */
-APP.tabs = (function () {
+/*jshint es5: true, browser: true */
+/*global $, Andamio */
 
-    // Variables
-    var hasTabs;
+Andamio.dom.pageTabs = $(".js-page-tabs");
+Andamio.dom.pageTabsItems = Andamio.dom.pageTabs.find(".action-tab-item");
 
-    /**
-     * Shows the tabs
-     * @method show
-     */
-    function show() {
+Object.defineProperties(Andamio.dom, {
+    pageTabsActive: {
 
-        APP.dom.html.addClass("has-tabs");
-        APP.dom.pageTabs.show();
-        hasTabs = true;
+        get: function() {
 
-        APP.dom.doc.trigger("APP:tabs:show");
-    }
+            return this.pageTabsItems.filter(".active");
+        },
 
-    /**
-     * Hides the tabs
-     * @method hide
-     */
-    function hide() {
+        set: function(elem) {
 
-        APP.dom.html.removeClass("has-tabs");
-        APP.dom.pageTabs.hide();
-        hasTabs = false;
+            var current = this.pageTabsActive;
 
-        APP.dom.doc.trigger("APP:tabs:hide");
-    }
-
-    /**
-     * Wether the tabs are shown or not
-     * @method status
-     * @return {Boolean} true when shown, false when hidden
-     */
-    function status() {
-
-        return hasTabs;
-    }
-
-    /**
-     * Sets or returns the active tab item. NOTE: this only sets the `active` class on the tab item!
-     *
-     * @method active
-     * @param {HTMLElement} [elem] set the active tab item
-     * @return {HTMLElement} the active tab item
-     */
-
-    function setActive(elem) {
-
-        if (elem) {
-
-            APP.dom.pageTabActive.removeClass("active");
-            APP.dom.pageTabActive = elem.addClass("active");
+            // TODO: check wether elem is present in pageTabsItems
+            current.removeClass("active");
+            elem.addClass("active");
         }
     }
+});
 
-    /**
-     * Attach event listeners
-     * @method attachListeners
-     * @private
-     */
-    function attachListeners() {
+Andamio.tabs = (function () {
 
-        APP.events.attachClickHandler(".action-tab-item", function (event) {
-
-            APP.dom.doc.trigger("APP:action:tab:item:start", event);
-
-            var target = $(event.currentTarget),
-                url = APP.util.getUrl(target);
-
-            if (target === APP.dom.pageTabActive) {
-
-                return true;
-            }
-
-            if (url) {
-
-                setActive(target);
-                APP.views.openParentPage(url);
-                APP.dom.doc.trigger("APP:action:tab:item:finish", event);
-            }
-        });
-    }
-
-    /***
-     * Initialize variables and attach listeners
-     * @method init
-     */
-    function init() {
-
-        hasTabs = APP.dom.html.hasClass("has-tabs") ? true : false;
-
-        attachListeners();
-    }
+    "use strict";
 
     return {
-        "init": init,
-        "show": show,
-        "hide": hide,
-        "status": status,
-        "setActive": setActive
-    };
 
+        show: function() {
+            Andamio.dom.html.addClass("has-page-tabs");
+            Andamio.dom.pageTabs.show();
+        },
+
+        hide: function() {
+            Andamio.dom.html.removeClass("has-page-tabs");
+            Andamio.dom.pageTabs.hide();
+        },
+
+        get status() {
+            return Andamio.dom.html.hasClass("has-page-tabs");
+        },
+
+        set status(Boolean) {
+            if (Boolean) this.show();
+            else this.hide();
+        },
+
+        init: function() {
+            var self = this;
+
+            self.status = Andamio.dom.html.hasClass("has-page-tabs");
+
+            Andamio.events.attach(".action-tab-item", function (event) {
+
+                var target  = $(event.currentTarget),
+                    url     = Andamio.util.getUrl(target),
+                    title   = Andamio.util.getTitle(target);
+
+                Andamio.dom.pageTabsActive = target;
+
+                if (title) {
+                    Andamio.dom.viewport.one("Andamio:views:activateView:finish", function() {
+                        var currentView = Andamio.views.list.lookup(Andamio.views.currentView);
+                        currentView.title = title;
+                    });
+                }
+
+                if (url) {
+                    Andamio.views.activateView(Andamio.views.currentView, url, null, 0);
+                    Andamio.views.currentUrl = url;
+                }
+            });
+
+            Andamio.events.attach(".action-show-tabs", Andamio.tabs.show);
+            Andamio.events.attach(".action-hide-tabs", Andamio.tabs.hide);
+        }
+    };
 })();

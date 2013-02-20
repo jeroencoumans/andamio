@@ -7,39 +7,31 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <title>Andamio</title>
-    <link rel="stylesheet" type="text/css" href="../dist/main.dev.css">
+    <link rel="stylesheet" type="text/css" href="../dist/andamio.css">
 </head>
 
 <body class="viewport">
 
-    <div id="page-view" class="page-view">
+    <div class="js-page-view page-view">
         <div class="page-header hidden-website"></div>
 
-        <div id="parent-view" class="parent-view view-active js-content">
+        <div class="js-parent-view parent-view view-active js-content">
             <div class="page-header">
                 <a href="javascript:void(0)" class="page-logo js-title">Parent</a>
                 <a href="javascript:void(0);" class="button-header-wrapper action-show-nav"><span class="button-header">Menu</span></a>
                 <a href="javascript:void(0)" class="button-header-wrapper-alternate action-refresh"><span class="button-header">Refresh</span></a>
             </div>
-
-            <div class="page-content overthrow">
-
-            </div>
         </div>
 
-        <div id="child-view" class="child-view view-hidden js-content">
+        <div class="js-child-view child-view view-hidden js-content">
             <header class="page-header">
                 <a href="/" class="page-logo js-title"></a>
                 <a href="javascript:void(0)" class="button-header-wrapper action-pop"><span class="button-header">Terug</span></a>
             </header>
-
-            <div class="page-content overthrow">
-
-            </div>
         </div>
 
-        <div id="page-tabs" class="tabs" style="display:none">
-            <a href="blocks/tabs.html" class="tab-item action-tab-item p33">
+        <div class="js-page-tabs tabs" style="display:none">
+            <a href="blocks/parent.html" class="tab-item action-tab-item p33">
                 <i class="icon tab-item-icon"></i>
                 <span class="tab-item-label">Tab 1</span>
             </a>
@@ -54,7 +46,7 @@
         </div>
     </div>
 
-    <div id="page-navigation" class="page-navigation overthrow">
+    <div class="js-page-navigation page-navigation overthrow">
         <h2 class="navigation-header">Header</h2>
         <a href="blocks/parent.html" class="navigation-item active action-nav-item">Parent</a>
         <a href="blocks/reveal.html" class="navigation-item action-nav-item">Reveal</a>
@@ -65,31 +57,32 @@
 
     <a href="javascript:void(0)" class="page-navigation-toggle action-hide-nav"></a>
 
-    <div id="modal-view" class="modal-view view-hidden">
+    <div class="js-modal-view modal-view js-content view-hidden">
         <div class="page-header">
             <a href="/" class="page-logo js-title">Default modal title</a>
             <a href="javascript:void(0);" class="button-header-wrapper action-hide-modal"><span class="button-header">Close</span></a>
         </div>
-
-        <div class="page-content js-content overthrow">
-        </div>
     </div>
 
-    <div id="loader" class="loader" style="display:none">
-        <img src="../img/spinner-dark.gif" class="spinner" width="32" height="32">
-        <div class="loader-text"></div>
+    <div class="js-page-loader page-loader" style="display:none">
+        <img src="../img/spinner-dark.gif" class="js-page-loader-spinner page-loader-spinner" width="32" height="32">
+        <div class="js-page-loader-text page-loader-text">Loading...</div>
     </div>
 
-    <div id="page-alert" class="page-alert" style="display:none"></div>
+    <div class="js-page-alert page-alert" style="display:none">
+        <div class="js-page-alert-text page-alert-text"></div>
+    </div>
 
 
-    <script src="../dist/main.dev.js"></script>
+    <!--<script src="../dist/andamio.zepto.js"></script>-->
+    <script src="../dist/andamio.jquery.js"></script>
     <script>
 
         $(document).ready(function() {
 
-            APP.core.init();
-            APP.views.openParentPage("blocks/parent.html");
+            Andamio.init({
+                initialView: "blocks/parent.html"
+            });
 
         });
     </script>

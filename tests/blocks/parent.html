@@ -8,14 +8,15 @@
 
     <div class="box">
         <h1>Default parent content</h1>
-        <div class="button-pills">
+        <div class="button-list">
             <a href="blocks/child.html" class="action-push button">Child</a>
-            <a href="javascript:APP.tabs.show()" class="button">Show tabs</a>
-            <a href="javascript:APP.tabs.hide()" class="button">Hide tabs</a>
+            <a href="#" class="action-show-tabs button">Show tabs</a>
+            <a href="#" class="action-hide-tabs button">Hide tabs</a>
             <a href="blocks/modal.html" class="button action-show-modal" data-title="Actual modal title">Modal</a>
+            <a target="_blank" href="http://google.com" class="button">External link</a>
         </div>
 
-        <div class="slideshow-wrapper" id="slideshow-test">
+        <div class="slideshow-wrapper slideshow-wrapper-16by9" id="slideshow-test">
             <div class="slideshow-container">
                 <div class="slideshow-item action-slideshow-next">
                     <div class="media-flex" style="background-image: url(http://placekitten.com/g/640/480);"></div>
@@ -42,10 +43,10 @@
 
     <div class="button-pills">
         <a href="blocks/child.html" class="action-push button">Child</a>
-        <a href="javascript:APP.tabs.show()" class="button">Show tabs</a>
-        <a href="javascript:APP.tabs.hide()" class="button">Hide tabs</a>
+        <a href="#" class="action-show-tabs button">Show tabs</a>
+        <a href="#" class="action-hide-tabs button">Hide tabs</a>
         <a href="blocks/modal.html" class="button action-show-modal" data-title="Actual modal title">Modal</a>
     </div>
 
-    <script>APP.slideshow.init("slideshow-test");</script>
+    <script>var slideshowTest = Andamio.slideshow.init("slideshow-test");</script>
 </div>

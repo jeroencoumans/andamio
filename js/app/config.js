@@ -1,22 +1,12 @@
-/*jshint latedef:true, undef:true, unused:true boss:true */
-/*global APP, $, navigator, lscache */
+/*jshint es5: true, browser: true, boss:true */
+/*global Andamio, FastClick */
 
-/**
- * Core module for initializing capabilities and modules
- * @author Jeroen Coumans
- * @class core
- * @namespace APP
- */
-APP.config = (function () {
+Andamio.config = (function () {
 
-    /*
-     * Included from Zepto detect.js
-     * @method detect
-     * @param {Object} navigator
-     * @private
-     */
-    function detect(ua) {
+    "use strict";
 
+    /*** Zepto detect.js ***/
+    var detect = function(ua) {
         var os = this.os = {}, browser = this.browser = {},
             webkit = ua.match(/WebKit\/([\d.]+)/),
             android = ua.match(/(Android)\s+([\d.]+)/),
@@ -51,67 +41,74 @@ APP.config = (function () {
         if (firefox) browser.firefox = true, browser.version = firefox[1];
 
         os.tablet = !!(ipad || playbook || (android && !ua.match(/Mobile/)) || (firefox && ua.match(/Tablet/)));
-        os.phone  = !!(!os.tablet && (android || iphone || webos || blackberry || bb10 || chrome || firefox));
-    }
-
-    /**
-     * Initialize capabilities based on UA detection
-     * @method init
-     */
-    function init(params) {
-
-        detect.call($, navigator.userAgent);
-
-        if (typeof params !== "object" || typeof params === "undefined") params = false;
-
-        // basic ios detection
-        $.os.ios5 = $.os.ios && $.os.version.indexOf("5.") !== -1;
-        $.os.ios6 = $.os.ios && $.os.version.indexOf("6.") !== -1;
-
-        // basic android detection
-        $.os.android2 = $.os.android && $.os.version >= "2" && $.os.version < "4"; // yes we also count android 3 as 2 ;-)
-        $.os.android4 = $.os.android && $.os.version >= "4" && $.os.version < "5";
-
-        // basic blackberry detection
-        $.os.bb10 = navigator.userAgent.indexOf("BB10") > -1;
-
-        // Enable for phone & tablet
-        APP.config.ftfastclick = $.os.phone || $.os.tablet;
-
-        // Configurable settings
-        APP.config.cordova  = (typeof params.cordova !== "undefined") ? params.cordova : navigator.userAgent.indexOf("TMGContainer") > -1;
-        APP.config.offline  = (typeof params.offline !== "undefined") ? params.offline : lscache.supported();
-        APP.config.server   = (typeof params.server  !== "undefined") ? params.server  : APP.dom.win.location.origin + APP.dom.win.location.pathname;
-
-        if (typeof params.webapp !== "undefined") {
-            APP.config.webapp   = params.webapp;
-        } else {
-            APP.config.webapp = APP.config.cordova || APP.util.getQueryParam("webapp", false) === "1" || navigator.standalone;
-        }
-
-        APP.config.touch = 'ontouchstart' in APP.dom.win;
-
-        // Yes, everything above 980 is considered desktop
-        APP.config.tablet = $.os.tablet || APP.dom.doc.width() >= 980;
-
-        if (APP.config.tablet) {
-            APP.dom.html.removeClass("website").addClass("desktop has-navigation");
-            APP.config.webapp = true;
-        }
-
-        if (! APP.config.touch) APP.dom.html.addClass("no-touch");
-
-        // When used as standalone app or springboard app
-        if (APP.config.webapp) APP.dom.html.removeClass("website").addClass("webapp");
-        if ($.os.ios)          APP.dom.html.addClass("ios");
-        if ($.os.ios5)         APP.dom.html.addClass("ios5");
-        if ($.os.ios6)         APP.dom.html.addClass("ios6");
-        if ($.os.android)      APP.dom.html.addClass("android");
-        if ($.os.android2)     APP.dom.html.addClass("android2");
-        if ($.os.android4)     APP.dom.html.addClass("android4");
-    }
+        os.phone  = !!(!os.tablet && (android || iphone || webos || blackberry || bb10 ||
+            (chrome && ua.match(/Android/)) || (chrome && ua.match(/CriOS\/([\d.]+)/)) || (firefox && ua.match(/Mobile/))));
+    };
 
     return {
-        "init": init
+
+        get webapp() {
+            return Andamio.dom.html.hasClass("webapp");
+        },
+
+        set webapp(value) {
+
+            if (value) {
+                Andamio.dom.html.removeClass("website").addClass("webapp");
+            } else {
+                Andamio.dom.html.removeClass("webapp").addClass("website");
+            }
+        },
+
+        init: function(options) {
+
+            detect.call(this, navigator.userAgent);
+
+            if (this.os.ios) {
+                this.os.ios5 = this.os.version.indexOf("5.") !== -1;
+                this.os.ios6 = this.os.version.indexOf("6.") !== -1;
+            }
+
+            if (this.os.android) {
+                this.os.android2 = this.os.version >= "2" && this.os.version < "4"; // yes we also count android 3 as 2 ;-)
+                this.os.android4 = this.os.version >= "4" && this.os.version < "5";
+            }
+
+            // Setup defaults that can be overridden
+            this.webapp  = Andamio.dom.win.location.search.search("webapp") > 0 || Andamio.dom.win.navigator.standalone;
+            this.cordova = Andamio.dom.win.navigator.userAgent.indexOf("TMGContainer") > -1;
+            this.server  = Andamio.dom.win.location.origin + Andamio.dom.win.location.pathname;
+            this.touch   = 'ontouchstart' in Andamio.dom.win;
+
+            // Setup user-defined options
+            if (typeof options === "object") {
+
+                for (var key in options) {
+                    if (key === "init") return;
+                    this[key] = options[key];
+                }
+            }
+
+            if (this.touch) {
+                this.fastclick = new FastClick(window.document.body);
+            } else {
+                Andamio.dom.html.addClass("no-touch");
+            }
+
+            if (this.cordova) {
+                this.webapp = true;
+            }
+
+            if (this.os.tablet || Andamio.dom.doc.width() >= 980) {
+                Andamio.dom.html.addClass("desktop has-navigation");
+            }
+
+            if (this.os.ios)        { Andamio.dom.html.addClass("ios"); }
+            if (this.os.ios5)       { Andamio.dom.html.addClass("ios5"); }
+            if (this.os.ios6)       { Andamio.dom.html.addClass("ios6"); }
+            if (this.os.android)    { Andamio.dom.html.addClass("android"); }
+            if (this.os.android2)   { Andamio.dom.html.addClass("android2"); }
+            if (this.os.android4)   { Andamio.dom.html.addClass("android"); }
+        }
     };
 })();

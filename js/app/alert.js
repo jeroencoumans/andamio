@@ -1,83 +1,61 @@
-/**
- * Controls global alerts
- * @author Jeroen Coumans
- * @class alert
- * @namespace APP
- */
-APP.alert = (function () {
+/*jshint es5: true, browser: true */
+/*global $, Andamio */
 
-    var hasAlert;
+Andamio.dom.pageAlert = $(".js-page-alert");
 
-    /**
-     * Show alert
-     * @method show
-     * @param {String} msg the message of the alert
-     */
-    function show(msg) {
+Object.defineProperties(Andamio.dom, {
 
-        if (msg) {
+    pageAlertText: {
 
-            APP.dom.pageAlert.html(msg);
-            APP.dom.pageAlert.show();
-            hasAlert = true;
+        get: function () {
+            return this.pageAlert.find(".js-page-alert-text").text();
+        },
 
-            APP.dom.doc.trigger("APP:alert:show");
+        set: function (str) {
+            this.pageAlert.find(".js-page-alert-text").html(str);
         }
     }
+});
 
-    /**
-     * Hide alert
-     * @method hide
-     */
-    function hide() {
+Andamio.alert = (function () {
 
-        APP.dom.pageAlert.hide();
-        hasAlert = false;
-
-        APP.dom.doc.trigger("APP:alert:hide");
-    }
-
-    /**
-     * Status of alert
-     * @method status
-     * @return {Boolean} true when alert is displayed, false when alert is hidden
-     */
-    function status() {
-
-        return hasAlert;
-    }
-
-    /**
-     * Attach event listeners
-     * @method attachListeners
-     * @private
-     */
-    function attachListeners() {
-
-        // Calls hide() when .action-hide-alert is clicked
-        APP.events.attachClickHandler(".action-hide-alert", function () {
-
-            hide();
-        });
-    }
-
-    /**
-     * Initialize variables and attach listeners
-     * @method init
-     */
-    function init() {
-
-        // assign variables
-        hasAlert = false;
-
-        attachListeners();
-    }
+    "use strict";
 
     return {
-        "init": init,
-        "show": show,
-        "hide": hide,
-        "status": status
-    };
+        show: function (msg) {
 
+            if (msg) {
+                Andamio.dom.pageAlertText = msg;
+            }
+
+            Andamio.dom.html.addClass("has-alert");
+            Andamio.dom.pageAlert.show();
+        },
+
+        hide: function () {
+
+            Andamio.dom.html.removeClass("has-alert");
+            Andamio.dom.pageAlert.hide();
+        },
+
+        get status () {
+
+            return Andamio.dom.html.hasClass("has-alert");
+        },
+
+        set status (value) {
+
+            if (value) {
+                this.show();
+            } else {
+                this.hide();
+            }
+        },
+
+        init: function () {
+
+            this.status = Andamio.dom.html.hasClass("has-alert");
+            Andamio.events.attach(".action-hide-alert", this.hide);
+        }
+    };
 })();

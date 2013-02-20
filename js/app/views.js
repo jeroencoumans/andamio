@@ -1,42 +1,52 @@
-/*jshint latedef:true, undef:true, unused:true boss:true */
-/*global APP, $ */
+/*jshint es5: true, browser: true */
+/*global Andamio, $ */
 
-/**
- * Module for handling views
- * @author Jeroen Coumans
- * @class views
- * @namespace APP
- */
-APP.views = (function () {
+Andamio.views = (function () {
 
-    function Elems(container) {
-        this.container = container;
+    function last(list) {
+        if (list.length > 0) {
+            return list[list.length - 1];
+        }
+    }
 
-        this.__defineGetter__("title", function() {
-            return this.container.find(".js-title");
-        });
+    function prev(list) {
+        if (list && list.length > 1) {
+            return list[list.length -2];
+        }
+    }
 
-        this.__defineGetter__("content", function() {
-            var content = this.container.hasClass("js-content") ? this.container : this.container.find(".js-content");
-            return content;
-        });
-
-        this.__defineGetter__("scroller", function() {
-            var scroller = this.container.hasClass("overthrow") ? this.container : this.container.find(".overthrow");
-            return scroller;
-        });
+    function addUniq(value, list) {
+        if (value !== last(list)) {
+            list.push(value);
+        }
     }
 
     /**
-     * Views constructor
-     * @param container {HTMLElement} container element that will be toggled or animated
-     * @param position {String} default position of the element, one of "slide-left", "slide-right", "slide-bottom" or "slide-default"
+     * A view has a container, optional content and position
      */
-    function View(container, position) {
-        this.elems = new Elems(container);
+    function View(container, content, position) {
+        this.container = container;
+
+        if (content) {
+            Object.defineProperties(this, {
+                title: {
+                    get: function() { return this.container.find(".js-title"); },
+                    set: function(value) {
+                        if (typeof value === "string") {
+                            this.container.find(".js-title").text(value);
+                        }
+                    }
+                },
+                content: {
+                    get: function() { return this.container.hasClass("js-content") ? this.container : this.container.find(".js-content"); }
+                },
+                scroller: {
+                    get: function() { return this.container.hasClass("overthrow") ? this.container : this.container.find(".overthrow"); }
+                }
+            });
+        }
 
         if (position) {
-            // Store the initial position
             this.initialPosition = position;
             this.position = position;
 
@@ -46,7 +56,7 @@ APP.views = (function () {
              * @param direction {String} direction to which the view should slide
              */
             this.slide = function(direction) {
-                var container = this.elems.container,
+                var container = this.container,
                     position = this.position;
 
                 // Slide in from the left
@@ -109,133 +119,50 @@ APP.views = (function () {
                 this.position = direction;
             };
         }
-
-        /**
-         * Returns the content from url, storing it when it's not stored yet
-         * @method getContent
-         * @param url {String} URL to load
-         * @param expiration {Integer} how long (in minutes) the content can be cached when retrieving
-         * @param callback {Function} callback function that receives the content
-         */
-        this.getContent = function(url, expiration, callback) {
-
-            if (! url) return;
-
-            // try to get the cached content first
-            var cachedContent = APP.store.getCache(url);
-
-            if (cachedContent) {
-
-                if ($.isFunction(callback)) callback(cachedContent);
-            } else {
-
-                // Add cachebuster
-                var requestUrl = url + ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime();
-
-                $.ajax({
-                    "url": requestUrl,
-                    "timeout": 10000,
-                    "headers": { "X-PJAX": true, "X-Requested-With": "XMLHttpRequest" },
-                    success: function(response) {
-
-                        var minutes = expiration || 24 * 60; // lscache sets expiration in minutes, so this is 24 hours
-                        if (APP.config.offline) APP.store.setCache(url, response, minutes);
-                    },
-                    complete: function(data) {
-                        if ($.isFunction(callback)) callback(data.responseText);
-                    }
-                });
-            }
-        };
-
-        /**
-         * Inserts the content and sets the view to active
-         * @method load
-         * @param url {String} the URL to show
-         * @param expiration {Integer} how long (in minutes) the content can be cached when retrieving
-         * @param callback {Function}
-         */
-        this.load = function(url, expiration, callback) {
-
-            if (! url) return false;
-
-            APP.dom.doc.trigger("APP:views:loadPage:start", url);
-
-            var content = this.elems.content;
-
-            // First empty the content
-            content.empty();
-
-            // Insert the new content
-            this.getContent(url, expiration, function(response) {
-                content.html(response);
-
-                APP.dom.doc.trigger("APP:views:loadPage:finish", url);
-                if ($.isFunction(callback)) callback();
-            });
-        };
-
-        /**
-         * Sets the view to active
-         */
-        this.show = function(scrollPosition) {
-
-            var container = this.elems.container,
-                scroller = this.elems.scroller;
-
-            container.removeClass("view-hidden").addClass("view-active");
-
-            if (typeof scrollPosition === "number" && scroller.length > 0) {
-
-                var currentScrollPosition = scroller[0].scrollTop;
-
-                if (currentScrollPosition !== scrollPosition) {
-                    scroller[0].scrollTop = scrollPosition;
-                }
-            }
-        };
-
-        /**
-         * Sets the view to inactive
-         */
-        this.hide = function() {
-
-            this.elems.container.removeClass("view-active").addClass("view-hidden");
-        };
-
-        /**
-         * Resets the view to its original state
-         */
-        this.reset = function() {
-
-            if (this.position && APP.config.webapp) {
-                this.position = this.initialPosition;
-                this.elems.container
-                    .removeClass("slide-left")
-                    .removeClass("slide-right")
-                    .removeClass("slide-default")
-                    .removeClass("slide-bottom")
-                    .addClass(this.position);
-            }
-
-            this.elems.container.removeClass("view-active").addClass("view-hidden");
-        };
     }
 
     /**
-     * Constructor for our views collection
+     * Resets the view to its original state
      */
-    function ViewsCollection() {
-        this.views = {
-            parentView:     new View(APP.dom.parentView, "slide-default"),
-            childView:      new View(APP.dom.childView, "slide-right"),
-            modalView:      new View(APP.dom.modalView, "slide-bottom")
-        };
+    View.prototype.reset = function() {
 
-        this.childCount = 0;
-        this.modalCount = 0;
+        if (this.position && Andamio.config.webapp) {
+            this.position = this.initialPosition;
+            this.container
+                .removeClass("slide-left")
+                .removeClass("slide-right")
+                .removeClass("slide-default")
+                .removeClass("slide-bottom")
+                .addClass(this.position);
+        }
 
-        // Some convenient arrays for storing the URL, view and scroll position
+        this.active = false;
+    };
+
+    Object.defineProperties(View, {
+
+        active: {
+            get: function() {
+                return this.container.hasClass("view-active");
+            },
+            set: function(value) {
+                if (value) {
+                    this.container.addClass("view-active").removeClass("view-hidden");
+                } else {
+                    this.container.addClass("view-hidden").removeClass("view-active");
+                }
+            }
+        }
+    });
+
+    function ViewCollection() {
+
+        this.list = new Andamio.util.Dictionary({
+            parentView: new View(Andamio.dom.parentView, true, "slide-default"),
+            childView:  new View(Andamio.dom.childView, true, "slide-right"),
+            modalView:  new View(Andamio.dom.modalView, true, "slide-bottom")
+        });
+
         var urlHistory = [];
         var viewHistory = [];
         var scrollHistory = [];
@@ -244,425 +171,307 @@ APP.views = (function () {
         this._viewHistory = function()   { return viewHistory; };
         this._scrollHistory = function() { return scrollHistory; };
 
+        this.childCount = 0;
+        this.modalCount = 0;
+
         // For 2-page apps, use the fastPath
         var fastPath = true;
 
-        /**
-         * Get the current URL
-         */
-        this.__defineGetter__("currentUrl", function() {
+        Object.defineProperties(this, {
 
-            if (urlHistory.length > 0)
-                return urlHistory[urlHistory.length -1];
+            currentUrl: {
+                get: function()      { return last(urlHistory); },
+                set: function(value) { addUniq(value, urlHistory); }
+            },
+
+            previousUrl: {
+                get: function()      { return prev(urlHistory); }
+            },
+
+            currentView: {
+                get: function()      { return last(viewHistory); },
+                set: function(value) { viewHistory.push(value); }
+            },
+
+            previousView: {
+                get: function()      { return prev(viewHistory); }
+            },
+
+            scrollPosition: {
+                get: function()      { return last(scrollHistory); },
+                set: function(value) { scrollHistory.push(value); }
+            },
+
         });
 
-        /**
-         * Set the current URL
-         * @param url {String} the new URL
-         */
-        this.__defineSetter__("currentUrl", function(url) {
+        this.resetViews = function() {
 
-            // only store unique URL's
-            if (url !== this.url)
-                urlHistory.push(url);
-        });
-
-        /**
-         * Get the previous URL
-         */
-        this.__defineGetter__("previousUrl", function() {
-
-            if (urlHistory.length > 1)
-                return urlHistory[urlHistory.length -2];
-        });
-
-        /**
-         * Method for the replacing the current URL with a new URL
-         * @method replaceUrl
-         * @param url {String} the new URL
-         */
-        this.replaceUrl = function(url) {
-
-            if (urlHistory.length > 0)
-                urlHistory[urlHistory.length -1] = url;
-        };
-
-        /**
-         * Set current view
-         */
-        this.__defineSetter__("currentView", function(view) {
-
-            viewHistory.push(view);
-        });
-
-        /**
-         * Get current view, if available
-         */
-        this.__defineGetter__("currentView", function() {
-
-            if (viewHistory.length > 0) {
-                return viewHistory[viewHistory.length - 1];
-            }
-        });
-
-        /**
-         * Gets previous view
-         */
-        this.__defineGetter__("previousView", function() {
-
-            if (viewHistory.length > 1)
-                return viewHistory[viewHistory.length - 2];
-        });
-
-        /**
-         * Gets current scroll position
-         */
-        this.__defineGetter__("scrollPosition", function() {
-
-            if (scrollHistory.length > 0)
-                return scrollHistory[scrollHistory.length -1];
-        });
-
-        /**
-         * Sets current scroll position
-         */
-        this.__defineSetter__("scrollPosition", function(scrollPosition) {
-
-            scrollHistory.push(scrollPosition);
-        });
-
-        /**
-         * Set a new view, load the content and show it
-         * @param view {String} view to push, can be parentView, childView, modalView
-         * @param url {String} the URL to load
-         */
-        this.addView = function(view, url) {
-
-            if (! view) return false;
-            var views = this.views,
-                target;
-
-            // Search the views collection for the name of the passed view and store it
-            for (var v in views) {
-                if (v === view) target = views[v];
-            }
-
-            // The passed view isn't available, bailing
-            if (! target) return;
-
-            // Set the current view to the new view
-            this.currentView = target;
-            if (url) this.currentUrl = url;
-
-            // Store the previous scrollPosition
-            if (this.previousView) {
-                this.scrollPosition = this.previousView.elems.scroller[0].scrollTop;
-            }
-
-            // Show the new view
-            if (url) this.currentView.load(url);
-            this.currentView.show(0);
-
-            if (this.childCount > 1) fastPath = false;
-        };
-
-        /**
-         * Hide view
-         * @param view {String} view to hide, can be parentView, childView, modalView
-         */
-        this.hideView = function(view) {
-            var views = this.views,
-                target;
-
-            for (var v in views) {
-                if (v === view) {
-                    target = views[v];
-                }
-            }
-
-            if (! target) return;
-
-            target.hide();
-        };
-
-        /**
-         * Deletes current view and restore the previous view
-         **/
-        this.deleteView = function() {
-
-            var previousView = this.previousView,
-                scrollPosition = this.scrollPosition,
-                previousUrl = this.previousUrl;
-
-            if (! previousView) return false; // we're already at the last visible view
-
-            // hide current
-            this.currentView.hide();
-
-            // Fast path: last view is still in the DOM, so just show it
-            if (fastPath) {
-
-                previousView.show();
-
-            } else {
-
-                // Show previous view with the previous URL
-                previousView.load(previousUrl, null, function() {
-
-                    previousView.show(scrollPosition);
-                });
-            }
-
-            // Delete the last view
-            viewHistory.pop();
-            urlHistory.pop();
-            scrollHistory.pop();
-
-            if (this.childCount === 0) fastPath = true;
-        };
-
-        /**
-         * Resets all history and views
-         */
-        this.reset = function() {
-
-            for (var view in this.views) {
-                this.views[view].reset();
-            }
+            this.list.each(function(value) {
+                var view = Andamio.views.list.lookup(value);
+                view.reset();
+            });
 
             viewHistory = [];
             urlHistory = [];
             scrollHistory = [];
             fastPath = true;
         };
-    }
 
-    // Setup our views
-    var collection = new ViewsCollection();
+        this.activateView = function(view, url, expiration, scrollPosition) {
 
-    /**
-     * Main interface for adding a new child view
-     * @param url {String} URL to show in the child view
-     */
-    function pushChild(url) {
+            if (this.list.contains(view)) {
 
-        collection.childCount++;
+                var currentView = this.list.lookup(view);
 
-        if (collection.childCount % 2 > 0) {
+                currentView.active = true;
 
-            if (APP.config.webapp) {
-                APP.dom.childView.removeClass("slide-left").addClass("slide-right");
+                if (url) {
 
-                APP.delay(function() {
-                    collection.views.parentView.slide("slide-left");
-                    collection.views.childView.slide("slide-default");
-                }, 0);
+                    Andamio.dom.doc.trigger("Andamio:views:activateView:start", [url]);
+
+                    currentView.content.empty();
+
+                    Andamio.page.load(url, expiration, function(response) {
+
+                        currentView.content.html(response);
+
+                        if (typeof scrollPosition === "number") {
+                            currentView.scroller[0].scrollTop = scrollPosition;
+                        }
+
+                        Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [url]);
+                    });
+                }
             }
+        };
 
-            collection.hideView("parentView");
-            collection.addView("childView", url, 0);
+        this.deactivateView = function(view) {
 
-        } else {
+            if (this.list.contains(view)) {
 
-            if (APP.config.webapp) {
-                APP.dom.parentView.removeClass("slide-left").addClass("slide-right");
-
-                APP.delay(function() {
-                    collection.views.parentView.slide("slide-default");
-                    collection.views.childView.slide("slide-left");
-                }, 0);
+                var currentView = this.list.lookup(view);
+                currentView.active = false;
             }
+        };
 
-            collection.hideView("childView");
-            collection.addView("parentView", url, 0);
-        }
-    }
+        this.pushView = function(view, url, expiration, scrollPosition) {
 
-    /**
-     * Main interface for removing a child view
-     */
-    function popChild() {
+            if (this.list.contains(view)) {
+                this.currentView = view;
 
-        if (collection.childCount % 2 > 0) {
+                if (url) {
+                    this.currentUrl = url;
+                }
 
-            if (APP.config.webapp) {
+                if (this.previousView) {
+                    this.scrollPosition = this.list.lookup(this.previousView).scroller[0].scrollTop;
+                }
 
-                APP.dom.parentView.removeClass("slide-right").addClass("slide-left");
-
-                APP.delay(function() {
-                    collection.views.parentView.slide("slide-default");
-                    collection.views.childView.slide("slide-right");
-                }, 0);
+                this.activateView(view, url, expiration, scrollPosition);
+                this.deactivateView(this.previousView);
             }
+        };
 
-            collection.deleteView("parentView");
+        this.popView = function() {
 
-        } else {
+            if (this.previousView) {
 
-            if (APP.config.webapp) {
+                // hide current
+                this.deactivateView(this.currentView);
 
-                APP.dom.childView.removeClass("slide-right").addClass("slide-left");
+                // Fast path: last view is still in the DOM, so just show it
+                if (fastPath) {
 
-                APP.delay(function() {
-                    collection.views.childView.slide("slide-default");
-                    collection.views.parentView.slide("slide-right");
-                }, 0);
+                    this.activateView(this.previousView);
+                } else {
+
+                    this.activateView(this.previousView, this.previousUrl, false, this.scrollPosition);
+                }
+
+                // Delete the last view
+                viewHistory.pop();
+                urlHistory.pop();
+                scrollHistory.pop();
+
+                if (this.childCount === 0) fastPath = true;
             }
+        };
 
-            collection.deleteView("childView");
-        }
+        this.refreshView = function(expiration) {
 
-        collection.childCount--;
-    }
+            var url = this.currentUrl,
+                currentView = this.list.lookup(this.currentView);
 
-    /**
-     * Main interface for adding a modal view
-     * @param url {String} URL to show in the view
-     */
-    function pushModal(url) {
+            if (url) {
+                currentView.content.empty();
 
-        if (collection.modalCount > 0) {
-            return false;
-        } else {
+                Andamio.page.refresh(url, expiration, function(response) {
 
-            if (APP.config.webapp) {
-                collection.views.modalView.slide("slide-default");
+                    currentView.content.html(response);
+                });
+            }
+        };
+
+        this.openParentPage = function(url, expiration) {
+
+            this.resetViews();
+
+            var minutes = expiration || 24 * 60; // lscache sets expiration in minutes, so this is 24 hours
+            this.pushView("parentView", url, minutes);
+        };
+
+        this.pushModal = function(url, expiration) {
+
+            if (this.modalCount > 0) {
+                return false;
             } else {
-                collection.hideView("parentView");
+
+                if (Andamio.config.webapp) {
+                    this.list.lookup("modalView").slide("slide-default");
+                }
+
+                this.pushView("modalView", url, expiration);
+                this.modalCount++;
+            }
+        };
+
+        this.popModal = function() {
+
+            if (this.modalCount > 0) {
+
+                if (Andamio.config.webapp) {
+                    this.list.lookup("modalView").slide("slide-bottom");
+                }
+
+                this.popView();
+                this.modalCount--;
+            } else {
+                return false;
+            }
+        };
+
+        this.pushChild = function(url, expiration) {
+
+            this.childCount++;
+
+            if (this.childCount > 1) {
+                fastPath = false;
             }
 
-            collection.addView("modalView", url);
-            collection.modalCount++;
-        }
-    }
+            var parentView  = this.list.lookup("parentView"),
+                childView   = this.list.lookup("childView");
 
-    /**
-     * Main interface for adding a new child view
-     */
-    function popModal() {
+            if (this.childCount % 2 > 0) {
 
-        if (collection.modalCount > 0) {
+                if (Andamio.config.webapp) {
+                    Andamio.dom.childView.removeClass("slide-left").addClass("slide-right");
 
-            if (APP.config.webapp) {
-                collection.views.modalView.slide("slide-bottom");
+                    Andamio.util.delay(function() {
+                        parentView.slide("slide-left");
+                        childView.slide("slide-default");
+                    }, 0);
+                }
+
+                this.pushView("childView", url, expiration, 0);
+
+            } else {
+
+                if (Andamio.config.webapp) {
+                    Andamio.dom.parentView.removeClass("slide-left").addClass("slide-right");
+
+                    Andamio.util.delay(function() {
+                        parentView.slide("slide-default");
+                        childView.slide("slide-left");
+                    }, 0);
+                }
+
+                this.pushView("parentView", url, expiration, 0);
+            }
+        };
+
+        this.popChild = function() {
+
+            var parentView  = this.list.lookup("parentView"),
+                childView   = this.list.lookup("childView");
+
+            if (this.childCount % 2 > 0) {
+
+                if (Andamio.config.webapp) {
+
+                    Andamio.dom.parentView.removeClass("slide-right").addClass("slide-left");
+
+                    Andamio.util.delay(function() {
+                        parentView.slide("slide-default");
+                        childView.slide("slide-right");
+                    }, 0);
+                }
+
+            } else {
+
+                if (Andamio.config.webapp) {
+
+                    Andamio.dom.childView.removeClass("slide-right").addClass("slide-left");
+
+                    Andamio.util.delay(function() {
+                        childView.slide("slide-default");
+                        parentView.slide("slide-right");
+                    }, 0);
+                }
             }
 
-            collection.deleteView("modalView");
-            collection.modalCount--;
-        } else {
-            return false;
-        }
+            this.popView();
+            this.childCount--;
+        };
+
+        this.init = function() {
+
+            if (typeof Andamio.config.initialView === "string") {
+                Andamio.views.openParentPage(Andamio.config.initialView);
+            }
+
+            /**
+             * Setup action listeners
+             */
+            Andamio.events.attach(".action-push", function (event) {
+
+                var target = $(event.currentTarget),
+                    url = Andamio.util.getUrl(target);
+
+                Andamio.views.pushChild(url);
+            });
+
+            Andamio.events.attach(".action-show-modal", function (event) {
+
+                var target = $(event.currentTarget),
+                    url = Andamio.util.getUrl(target);
+
+                Andamio.views.pushModal(url);
+            });
+
+            Andamio.events.attach(".action-pop", function () {
+
+                Andamio.views.popChild();
+            });
+
+            if (Andamio.config.os.android) {
+                navigator.bootstrap.addConstructor(function() {
+                    Andamio.dom.doc.addEventListener("backbutton", function() {
+                        Andamio.views.popChild();
+                    });
+                });
+            }
+
+            Andamio.events.attach(".action-hide-modal", function () {
+
+                Andamio.views.popModal();
+            });
+
+            Andamio.events.attach(".action-refresh", function () {
+
+                Andamio.views.refreshView();
+            });
+        };
     }
 
-    /**
-     * Shortcut for opening a parent page
-     * Resets url & view history
-     */
-    function openParentPage(url) {
-
-        collection.reset();
-
-        collection.addView("parentView", url);
-
-        var scroller = collection.views.parentView.elems.scroller;
-
-        if (scroller.length > 0) {
-            scroller[0].scrollTop = 0;
-        }
-    }
-
-    /**
-     * Loads a page in the current view
-     */
-    function loadPage(url) {
-        if (url) {
-            collection.replaceUrl(url);
-            collection.currentView.load(url);
-            collection.currentView.show(0);
-        }
-    }
-
-    /**
-     * Reloads the current page
-     * @method refresh
-     */
-    function reloadPage() {
-
-        APP.dom.doc.trigger("APP:views:reloadPage:start");
-
-        var view = collection.currentView,
-            url = collection.currentUrl;
-
-        // remove current cache entry
-        if (APP.config.offline) APP.store.deleteCache(url);
-
-        view.load(url);
-        APP.dom.doc.trigger("APP:views:reloadPage:finish");
-    }
-
-    /**
-     * Attach event listeners
-     * @method attachListeners
-     * @private
-     */
-    function attachListeners() {
-
-        // Open child page
-        APP.events.attachClickHandler(".action-push", function (event) {
-
-            var target = $(event.currentTarget),
-                url = APP.util.getUrl(target);
-
-            pushChild(url);
-        });
-
-        // Open parent page
-        APP.events.attachClickHandler(".action-pop", function () {
-            popChild();
-        });
-
-        // Open modal
-        APP.events.attachClickHandler(".action-show-modal", function (event) {
-
-            var target = $(event.currentTarget),
-                url = APP.util.getUrl(target);
-
-            pushModal(url);
-        });
-
-        // Close modal
-        APP.events.attachClickHandler(".action-hide-modal", function () {
-            popModal();
-        });
-
-        // Refresh
-        APP.events.attachClickHandler(".action-refresh", function () {
-            reloadPage();
-        });
-    }
-
-    /***
-     * Initialize variables and attach listeners
-     * @method init
-     */
-    function init() {
-
-        attachListeners();
-
-        // Set our views to the initial state
-        collection.reset();
-    }
-
-    return {
-        "init": init,
-        "pushChild": pushChild,
-        "popChild": popChild,
-        "pushModal": pushModal,
-        "popModal": popModal,
-        "openParentPage": openParentPage,
-        "loadPage": loadPage,
-        "reloadPage": reloadPage,
-        "collection": collection,
-        "View": View
-    };
+    return new ViewCollection();
 })();

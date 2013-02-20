@@ -1,88 +1,59 @@
-/*jshint latedef:true, undef:true, unused:true, boss:true */
-/*global APP, $, navigator, cordova */
+/*jshint es5: true, browser: true */
+/*global Andamio, $, cordova */
 
-/**
- * Module that enhances the webapp with Cordova functionality
- * @author Jeroen Coumans
- * @class phone
- * @namespace APP
- */
-APP.phone = (function () {
+Andamio.phone = (function () {
 
-    var APP_FROM_BACKGROUND_REFRESH_TIMEOUT = 30 * 60 * 1000,
-        lastUpdated = new Date();
-
-    /**
-     * Attach Cordova listeners
-     * @method attachListeners
-     * @private
-     */
-    function attachListeners() {
-
-        // Listens to all clicks on anchor tags and opens them in Cordova popover if it's an external URL
-        APP.dom.viewport.on("click", "a", function() {
-            if (APP.util.isExternalLink(this)) {
-
-                // open external URL's in in-app Cordova browser
-                var href = $(this).attr("href");
-                navigator.utility.openUrl(href, "popover");
-                return false;
-            } else {
-                return true;
-            }
-        });
-
-        // hide splashscreen
-        navigator.bootstrap.addConstructor(function() {
-            cordova.exec(null, null, "SplashScreen", "hide", []);
-        });
-
-        // scroll to top on tapbar tap
-        APP.dom.doc.on("statusbartap", function() {
-
-            var scroller = APP.nav.status() ? APP.dom.pageNav : APP.views.collection.currentView.elems.scroller;
-            $.scrollElement(scroller[0], 0);
-        });
-
-        // refresh when application is activated from background
-        APP.dom.doc.on("resign", function() {
-            lastUpdated = new Date();
-        });
-
-        APP.dom.doc.on("active", function() {
-            var now = new Date();
-            if (now - lastUpdated > APP_FROM_BACKGROUND_REFRESH_TIMEOUT) {
-
-                if (APP.alert.status) APP.alert.hide();
-
-                var views = APP.views.collection.views,
-                    view;
-
-                // Empty all views
-                for (view in views) {
-                    if (views[view].elems && views[view].elems.content) views[view].elems.content.empty();
-                }
-
-                // Reload the current page
-                APP.views.reloadPage();
-            }
-        });
-    }
-
-    /**
-     * Checks wether Cordova is available, and then calls initCordova
-     * @method init
-     */
-    function init() {
-
-        // When Cordovia is loaded and talking to the device, initialize it
-        navigator.bootstrap.addConstructor(function() {
-
-            attachListeners();
-        });
-    }
+    "use strict";
 
     return {
-        "init": init
+        "init": function() {
+
+            Andamio.config.phone = {
+                updateTimestamp: new Date(),
+                updateTimeout: 30 * 60 * 1000
+            };
+
+            navigator.bootstrap.addConstructor(function() {
+
+                // hide splashscreen
+                cordova.exec(null, null, "SplashScreen", "hide", []);
+
+                // Listens to all clicks on anchor tags and opens them in Cordova popover if it's an external URL
+                Andamio.events.attach('a[target="_blank"]', function(event) {
+
+                    var target  = $(event.currentTarget),
+                        href = target.attr("href");
+
+                    navigator.utility.openUrl(href, "popover");
+                    return false;
+                });
+
+                Andamio.dom.doc.on("statusbartap", function() {
+
+                    var currentView = Andamio.views.list.lookup(Andamio.views.currentView),
+                        scroller = Andamio.nav.status ? Andamio.dom.pageNav : currentView.scroller;
+
+                    scroller.scrollTo(0, 400);
+                });
+
+                // refresh when application is activated from background
+                Andamio.dom.doc.on("resign", function() {
+                    Andamio.config.phone.updateTimestamp = new Date();
+                });
+
+                Andamio.dom.doc.on("active", function() {
+                    var now = new Date();
+                    if (now - Andamio.config.updateTimestamp > Andamio.config.updateTimeout) {
+
+                        if (Andamio.alert.status) {
+                            Andamio.alert.hide();
+                        }
+
+                        Andamio.views.refreshView();
+                    }
+                });
+
+            });
+        }
     };
 })();

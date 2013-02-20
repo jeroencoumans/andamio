@@ -1,119 +1,105 @@
-/**
- * Various utility functions
- * @author Jeroen Coumans
- * @class util
- * @namespace APP
- */
-APP.util = (function () {
+/*jshint es5: true, browser: true */
+/*global Andamio, $ */
 
-    /**
-     * Returns the value for a given query string key.
-     * @method getQueryParam
-     * @todo It would be better to parse the query string once and cache the result.
-     *
-     * @param {String} name Query string key
-     * @param {String} defaultValue If the query string is not found it returns this value.
-     * @param {String} queryString Query string to pick the value from, if none is provided
-     *                    window.location.search query string will be used. This
-     *                    parameter makes the function testable.
-     *
-     * @return The value of the query string or defaultValue if the key is
-     *         not found. If the value is empty an empty string is returned.
-     */
-    function getQueryParam(name, defaultValue, queryString) {
+Andamio.util = (function () {
 
-        if (!queryString) {
-            queryString = window.location.search;
+    function forEachIn(object, action) {
+        for (var property in object) {
+            if (Object.prototype.hasOwnProperty.call(object, property))
+                action(property, object[property]);
         }
-        var match = RegExp("[?&]" + name + "=([^&]*)").exec(queryString);
-
-        return match ?
-            decodeURIComponent(match[1].replace(/\+/g, " "))
-            : defaultValue;
     }
 
-    /**
-     * Returns whether the given (anchor) element contains an external link
-     * @method isExternalLink
-     * @param {HTMLElement} elem an anchor element
-     * @return {Boolean} true when the anchor contains `target="_blank"`
-     */
-    function isExternalLink(elem) {
-
-        var element = $(elem);
-
-        return element.attr("target") === "_blank";
+    function Dictionary(startValues) {
+        this.values = startValues || {};
     }
 
-    /**
-     * Get URL from the data attribute, falling back to the href
-     * @method getUrl
-     * @param {HTMLElement} elem the element to get the URL from
-     * @return {String} Will return the URL when a `data-url` value is found, else return the href if an href is found that doesn't start with `javascript`, else return the hash if hash is found
-     */
-    function getUrl(elem) {
+    Dictionary.prototype.store = function(name, value) {
+        this.values[name] = value;
+    };
 
-        var url = $(elem).data("url"),
-            href = $(elem).attr("href"),
-            hash = $(elem).hash;
+    Dictionary.prototype.lookup = function(name) {
+        return this.values[name];
+    };
 
-        if (url) { return url; }
-        else if (href.substring(0,10) !== "javascript") { return href; }
-        else if (hash) { return hash; }
-    }
+    Dictionary.prototype.contains = function(name) {
+        return Object.prototype.hasOwnProperty.call(this.values, name) &&
+        Object.prototype.propertyIsEnumerable.call(this.values, name);
+    };
 
-    /**
-     * Returns an array of URL's
-     * @method getUrlList
-     * @param {HTMLElement} selector the selector used to get the DOM elements, e.g. ".article-list .action-pjax"
-     * @return {Array} an array of URL's
-     */
-    function getUrlList(selector) {
-
-        if (! selector) return;
-
-        var urlList = [];
-
-        $(selector).each(function(index, item) {
-
-            var url = APP.util.getUrl(item);
-            urlList.push(url);
-        });
-
-        return urlList;
-    }
-
-    /**
-     * Get title from the data attribute, falling back to the text
-     * @method getTitle
-     * @param {HTMLElement} elem the element to get the title from
-     * @return {String} the value of `data-title` if it's found, else the text of the element
-     */
-    function getTitle(elem) {
-
-        var titleData = $(elem).data("title"),
-            titleText = $(elem).text();
-
-        return titleData ? titleData : titleText;
-    }
+    Dictionary.prototype.each = function(action) {
+        forEachIn(this.values, action);
+    };
 
     return {
-        "getQueryParam": getQueryParam,
-        "isExternalLink": isExternalLink,
-        "getUrl": getUrl,
-        "getUrlList": getUrlList,
-        "getTitle": getTitle
+
+        Dictionary: Dictionary,
+
+        /*
+         * Get URL from the data attribute, falling back to the href
+         * @method getUrl
+         * @param {HTMLElement} elem the element to get the URL from
+         * @return {String} Will return the URL when a `data-url` value is found, else return the href if an href is found that doesn't start with `javascript`, else return the hash if hash is found
+         */
+        getUrl: function(elem) {
+
+            var url = $(elem).data("url"),
+                href = $(elem).attr("href"),
+                hash = $(elem).hash;
+
+            if (url) {
+                return url;
+            }
+
+            else if (href.substring(0,10) !== "javascript") {
+                return href;
+            }
+
+            else if (hash) {
+                return hash;
+            }
+        },
+
+        /**
+         * Returns an array of URL's
+         * @method getUrlList
+         * @param {Array} array the selector used to get the DOM elements, e.g. ".article-list .action-pjax"
+         * @return {Array} an array of URL's
+         */
+        getUrlList: function(list) {
+
+            if (! list) {
+                return;
+            }
+
+            var urlList = [];
+
+            $(list).each(function(index, item) {
+
+                var url = Andamio.util.getUrl(item);
+                if (url) urlList.push(url);
+            });
+
+            return urlList;
+        },
+
+        /**
+         * Get title from the data attribute, falling back to the text
+         * @method getTitle
+         * @param {HTMLElement} elem the element to get the title from
+         * @return {String} the value of `data-title` if it's found, else the text of the element
+         */
+        getTitle: function(elem) {
+
+            var titleData = $(elem).data("title"),
+                titleText = $(elem).text();
+
+            return titleData ? titleData : titleText;
+        },
     };
 })();
 
-/**
- * Executes the callback function after a specified delay
- * @author Jeroen Coumans
- * @class delay
- * @namespace APP
- * @param {Integer} timer the delay in milliseconds after which to execute the callback
- */
-APP.delay = (function(){
+Andamio.util.delay = (function(){
     var timer = 0;
     return function(callback, ms){
         clearTimeout (timer);
