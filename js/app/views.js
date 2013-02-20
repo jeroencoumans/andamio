@@ -42,6 +42,18 @@ Andamio.views = (function () {
                 },
                 scroller: {
                     get: function() { return this.container.hasClass("overthrow") ? this.container : this.container.find(".overthrow"); }
+                },
+                active: {
+                    get: function() {
+                        return this.container.hasClass("view-active");
+                    },
+                    set: function(value) {
+                        if (value) {
+                            this.container.addClass("view-active").removeClass("view-hidden");
+                        } else {
+                            this.container.addClass("view-hidden").removeClass("view-active");
+                        }
+                    }
                 }
             });
         }
@@ -139,22 +151,6 @@ Andamio.views = (function () {
         this.active = false;
     };
 
-    Object.defineProperties(View, {
-
-        active: {
-            get: function() {
-                return this.container.hasClass("view-active");
-            },
-            set: function(value) {
-                if (value) {
-                    this.container.addClass("view-active").removeClass("view-hidden");
-                } else {
-                    this.container.addClass("view-hidden").removeClass("view-active");
-                }
-            }
-        }
-    });
-
     function ViewCollection() {
 
         this.list = new Andamio.util.Dictionary({
@@ -247,9 +243,8 @@ Andamio.views = (function () {
 
         this.deactivateView = function(view) {
 
-            if (this.list.contains(view)) {
-
-                var currentView = this.list.lookup(view);
+            var currentView = this.list.lookup(view);
+            if (currentView) {
                 currentView.active = false;
             }
         };
@@ -265,10 +260,10 @@ Andamio.views = (function () {
 
                 if (this.previousView) {
                     this.scrollPosition = this.list.lookup(this.previousView).scroller[0].scrollTop;
+                    this.deactivateView(this.previousView);
                 }
 
                 this.activateView(view, url, expiration, scrollPosition);
-                this.deactivateView(this.previousView);
             }
         };
 
@@ -426,7 +421,7 @@ Andamio.views = (function () {
         this.init = function() {
 
             if (typeof Andamio.config.initialView === "string") {
-                Andamio.views.openParentPage(Andamio.config.initialView);
+                Andamio.views.openParentPage(Andamio.config.server + Andamio.config.initialView);
             }
 
             /**
