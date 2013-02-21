@@ -1,12 +1,6 @@
 /*jshint es5: true, browser: true */
 /*global Andamio, $ */
 
-/**
- * Core module for initializing capabilities and modules
- * @author Jeroen Coumans
- * @class init
- * @namespace Andamio
- */
 Andamio.page = (function () {
 
     /**
@@ -14,9 +8,8 @@ Andamio.page = (function () {
      */
     function storeResponse(url, response, expiration) {
 
-        var minutes = expiration || 24 * 60; // lscache sets expiration in minutes, so this is 24 hours
         if (Andamio.config.cache) {
-            Andamio.cache.setCache(url, response, minutes);
+            Andamio.cache.setCache(url, response, expiration);
         }
     }
 
