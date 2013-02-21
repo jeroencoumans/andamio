@@ -75,10 +75,12 @@ Andamio.config = (function () {
             }
 
             // Setup defaults that can be overridden
-            this.webapp  = Andamio.dom.win.location.search.search("webapp") > 0 || Andamio.dom.win.navigator.standalone;
-            this.cordova = Andamio.dom.win.navigator.userAgent.indexOf("TMGContainer") > -1;
-            this.server  = Andamio.dom.win.location.origin + Andamio.dom.win.location.pathname;
-            this.touch   = 'ontouchstart' in Andamio.dom.win;
+            var win = window;
+
+            this.webapp  = win.location.search.search("webapp") > 0 || win.navigator.standalone;
+            this.cordova = win.navigator.userAgent.indexOf("TMGContainer") > -1;
+            this.server  = win.location.origin + win.location.pathname;
+            this.touch   = 'ontouchstart' in win;
 
             // Setup user-defined options
             if (typeof options === "object") {
@@ -89,7 +91,7 @@ Andamio.config = (function () {
             }
 
             if (this.touch) {
-                this.fastclick = new FastClick(window.document.body);
+                this.fastclick = new FastClick(win.document.body);
             } else {
                 Andamio.dom.html.addClass("no-touch");
             }

@@ -8,7 +8,7 @@ Andamio.dom = (function () {
     "use strict";
 
     return {
-        win:        window,
+        win:        $(window),
         doc:        $(window.document),
         html:       $("html"),
         viewport:   $(".viewport"),

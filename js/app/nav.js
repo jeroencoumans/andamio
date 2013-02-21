@@ -68,7 +68,7 @@ Andamio.nav = (function () {
 
             self.status = Andamio.dom.html.hasClass("has-navigation");
 
-            docheight = $(window).height();
+            docheight = Andamio.dom.win.height();
             navheight = Andamio.dom.pageNav.height();
 
             // make sure the navigation is as high as the page
