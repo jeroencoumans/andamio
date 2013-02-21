@@ -69,16 +69,6 @@ Andamio.loader = (function () {
             }
         },
 
-        get spinnerType() {
-
-            return Andamio.config.loader.type;
-        },
-
-        set spinnerType(value) {
-
-            Andamio.config.loader.type = value;
-        },
-
         init: function() {
 
             this.status = Andamio.dom.html.hasClass("has-loader");
