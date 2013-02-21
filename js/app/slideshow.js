@@ -82,7 +82,9 @@ Andamio.slideshow = (function () {
                         img.css('background-image', 'url(' + img.data("src") + ')');
                     }
 
-                    if ($.isFunction(callback)) callback(index, item);
+                    if ($.isFunction(callback)) {
+                        callback(index, item);
+                    }
                 };
 
                 $(slideshow.container).on("click", function (event) {

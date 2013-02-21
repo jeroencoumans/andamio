@@ -1826,7 +1826,7 @@ if ( window.jQuery || window.Zepto ) {
 /**
  * @preserve FastClick: polyfill to remove click delays on browsers with touch UIs.
  *
- * @version 0.5.7
+ * @version 0.5.8
  * @codingstandard ftlabs-jsv2
  * @copyright The Financial Times Limited [All Rights Reserved]
  * @license MIT License (see LICENSE.txt)
@@ -1907,19 +1907,19 @@ function FastClick(layer) {
     }
 
     /** @type function() */
-    this.onClick = function() { FastClick.prototype.onClick.apply(self, arguments); };
+    this.onClick = function() { return FastClick.prototype.onClick.apply(self, arguments); };
 
     /** @type function() */
-    this.onMouse = function() { FastClick.prototype.onMouse.apply(self, arguments); };
+    this.onMouse = function() { return FastClick.prototype.onMouse.apply(self, arguments); };
 
     /** @type function() */
-    this.onTouchStart = function() { FastClick.prototype.onTouchStart.apply(self, arguments); };
+    this.onTouchStart = function() { return FastClick.prototype.onTouchStart.apply(self, arguments); };
 
     /** @type function() */
-    this.onTouchEnd = function() { FastClick.prototype.onTouchEnd.apply(self, arguments); };
+    this.onTouchEnd = function() { return FastClick.prototype.onTouchEnd.apply(self, arguments); };
 
     /** @type function() */
-    this.onTouchCancel = function() { FastClick.prototype.onTouchCancel.apply(self, arguments); };
+    this.onTouchCancel = function() { return FastClick.prototype.onTouchCancel.apply(self, arguments); };
 
     // Devices that don't support touch don't need FastClick
     if (typeof window.ontouchstart === 'undefined') {
@@ -2090,21 +2090,6 @@ FastClick.prototype.sendClick = function(targetElement, event) {
     touch = event.changedTouches[0];
 
     // Synthesise a click event, with an extra attribute so it can be tracked
-    clickEvent = document.createEvent('MouseEvents');
-    clickEvent.initMouseEvent('mouseover', true, true, window, 0, touch.screenX, touch.screenY, touch.clientX, touch.clientY, false, false, false, false, 0, null);
-    clickEvent.forwardedTouchEvent = true;
-    targetElement.dispatchEvent(clickEvent);
-
-    clickEvent = document.createEvent('MouseEvents');
-    clickEvent.initMouseEvent('mousedown', true, true, window, 1, touch.screenX, touch.screenY, touch.clientX, touch.clientY, false, false, false, false, 0, null);
-    clickEvent.forwardedTouchEvent = true;
-    targetElement.dispatchEvent(clickEvent);
-
-    clickEvent = document.createEvent('MouseEvents');
-    clickEvent.initMouseEvent('mouseup', true, true, window, 1, touch.screenX, touch.screenY, touch.clientX, touch.clientY, false, false, false, false, 0, null);
-    clickEvent.forwardedTouchEvent = true;
-    targetElement.dispatchEvent(clickEvent);
-
     clickEvent = document.createEvent('MouseEvents');
     clickEvent.initMouseEvent('click', true, true, window, 1, touch.screenX, touch.screenY, touch.clientX, touch.clientY, false, false, false, false, 0, null);
     clickEvent.forwardedTouchEvent = true;
@@ -2463,7 +2448,11 @@ FastClick.prototype.onClick = function(event) {
     }
 
     permitted = this.onMouse(event);
-    this.targetElement = null;
+
+    // Only unset targetElement if the click is not permitted. This will ensure that the check for !targetElement in onMouse fails and the browser's click doesn't go through.
+    if (!permitted) {
+        this.targetElement = null;
+    }
 
     // If clicks are permitted, return true for the action to go through.
     return permitted;
@@ -2509,7 +2498,6 @@ if (typeof module !== 'undefined' && module.exports) {
 
     module.exports.FastClick = FastClick;
 }
-
 /**
  * lscache library
  * Copyright (c) 2011, Pamela Fox
@@ -3818,7 +3806,9 @@ Andamio.slideshow = (function () {
                         img.css('background-image', 'url(' + img.data("src") + ')');
                     }
 
-                    if ($.isFunction(callback)) callback(index, item);
+                    if ($.isFunction(callback)) {
+                        callback(index, item);
+                    }
                 };
 
                 $(slideshow.container).on("click", function (event) {
