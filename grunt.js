@@ -32,6 +32,7 @@ module.exports = function(grunt) {
                     'js/app/cache.js',
                     'js/app/connection.js',
                     'js/app/page.js',
+                    'js/app/pager.js',
 
                     // UI
                     'js/app/alert.js',

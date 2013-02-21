@@ -2804,7 +2804,7 @@ Andamio.dom = (function () {
     "use strict";
 
     return {
-        win:        window,
+        win:        $(window),
         doc:        $(window.document),
         html:       $("html"),
         viewport:   $(".viewport"),
@@ -2893,14 +2893,15 @@ Andamio.config = (function () {
             }
 
             // Setup defaults that can be overridden
-            this.webapp  = Andamio.dom.win.location.search.search("webapp") > 0 || Andamio.dom.win.navigator.standalone;
-            this.cordova = Andamio.dom.win.navigator.userAgent.indexOf("TMGContainer") > -1;
-            this.server  = Andamio.dom.win.location.origin + Andamio.dom.win.location.pathname;
-            this.touch   = 'ontouchstart' in Andamio.dom.win;
+            var win = window;
+
+            this.webapp  = win.location.search.search("webapp") > 0 || win.navigator.standalone;
+            this.cordova = win.navigator.userAgent.indexOf("TMGContainer") > -1;
+            this.server  = win.location.origin + win.location.pathname;
+            this.touch   = 'ontouchstart' in win;
 
             // Setup user-defined options
             if (typeof options === "object") {
-
                 for (var key in options) {
                     if (key === "init") return;
                     this[key] = options[key];
@@ -2908,7 +2909,7 @@ Andamio.config = (function () {
             }
 
             if (this.touch) {
-                this.fastclick = new FastClick(window.document.body);
+                this.fastclick = new FastClick(win.document.body);
             } else {
                 Andamio.dom.html.addClass("no-touch");
             }
@@ -3154,7 +3155,7 @@ Andamio.cache = (function() {
                 return;
             }
 
-            var seconds = (typeof expiration === "number") ? expiration : 24 * 60 * 60;
+            var seconds = (typeof expiration === "number") ? expiration : 2 * 60 * 60;
 
             cache.set(key, data, seconds);
         },
@@ -3225,12 +3226,6 @@ Andamio.connection = (function () {
 /*jshint es5: true, browser: true */
 /*global Andamio, $ */
 
-/**
- * Core module for initializing capabilities and modules
- * @author Jeroen Coumans
- * @class init
- * @namespace Andamio
- */
 Andamio.page = (function () {
 
     /**
@@ -3238,9 +3233,8 @@ Andamio.page = (function () {
      */
     function storeResponse(url, response, expiration) {
 
-        var minutes = expiration || 24 * 60; // lscache sets expiration in minutes, so this is 24 hours
         if (Andamio.config.cache) {
-            Andamio.cache.setCache(url, response, minutes);
+            Andamio.cache.setCache(url, response, expiration);
         }
     }
 
@@ -3309,6 +3303,112 @@ Andamio.page = (function () {
             Andamio.cache.deleteCache(url);
             this.load(url, expiration, callback);
         }
+    };
+
+})();
+
+/*jshint es5: true, browser: true */
+/*global Andamio, $ */
+
+Andamio.pager = (function () {
+
+    var active,
+        pageNumber,
+        isLoading,
+        currentView,
+        currentScroller,
+        currentScrollerHeight,
+        currentScrollerScrollHeight;
+
+    function enable() {
+
+        active = true;
+
+        if (Andamio.config.pagerAutoFetch) {
+            currentScroller.on("scroll", onScroll);
+        }
+    }
+
+    function disable() {
+
+        active = false;
+
+        if (Andamio.config.pagerAutoFetch) {
+            currentScroller.off("scroll", onScroll);
+        }
+    }
+
+    function reset(elem) {
+
+        pageNumber = 1;
+        isLoading = false;
+        currentView = Andamio.views.list.lookup(Andamio.views.currentView);
+        currentScroller = currentView.scroller;
+        currentScrollerHeight = currentScroller.height();
+        currentScrollerScrollHeight = currentScroller[0].scrollHeight || Andamio.dom.viewport.height();
+
+        // public
+        Andamio.dom.pagerWrapper = elem || currentView.content.find(".js-pager-list");
+    }
+
+    function loadNextPage() {
+
+        if (! isLoading) {
+
+            isLoading = true;
+            ++pageNumber;
+
+            Andamio.page.load(Andamio.config.pagerUrl + pageNumber, null, function(response) {
+
+                if (response) {
+                    Andamio.dom.pagerWrapper.append(response);
+
+                    isLoading = false;
+                    currentScrollerHeight = currentScroller.height();
+                    currentScrollerScrollHeight = currentScroller[0].scrollHeight || Andamio.dom.viewport.height();
+                } else {
+                    disable();
+                }
+            });
+        }
+    }
+
+    function onScroll() {
+
+        if (! isLoading) {
+
+            var scrollTop = currentScroller.scrollTop();
+
+            if (scrollTop + currentScrollerHeight + Andamio.config.pagerAutoFetchThreshold >= currentScrollerScrollHeight) {
+                loadNextPage();
+            }
+        }
+    }
+
+    return {
+
+        get status() {
+            return active;
+        },
+
+        set status(value) {
+            if (value) {
+                enable();
+            } else {
+                disable();
+            }
+        },
+
+        init: function(elem, url, autoFetch) {
+
+            Andamio.config.pagerAutoFetch = autoFetch;
+            Andamio.config.pagerAutoFetchThreshold = 100;
+            Andamio.config.pagerUrl = url;
+
+            reset(elem);
+
+            this.status = Andamio.dom.pagerWrapper.length > 0;
+        },
     };
 
 })();
@@ -3446,16 +3546,6 @@ Andamio.loader = (function () {
             }
         },
 
-        get spinnerType() {
-
-            return Andamio.config.loader.type;
-        },
-
-        set spinnerType(value) {
-
-            Andamio.config.loader.type = value;
-        },
-
         init: function() {
 
             this.status = Andamio.dom.html.hasClass("has-loader");
@@ -3550,7 +3640,7 @@ Andamio.nav = (function () {
 
             self.status = Andamio.dom.html.hasClass("has-navigation");
 
-            docheight = $(window).height();
+            docheight = Andamio.dom.win.height();
             navheight = Andamio.dom.pageNav.height();
 
             // make sure the navigation is as high as the page
@@ -3875,17 +3965,11 @@ Andamio.views = (function () {
                     get: function() { return this.container.hasClass("js-content") ? this.container : this.container.find(".js-content"); }
                 },
                 scroller: {
-                    get: function() { return this.container.hasClass("overthrow") ? this.container : this.container.find(".overthrow"); }
-                },
-                active: {
                     get: function() {
-                        return this.container.hasClass("view-active");
-                    },
-                    set: function(value) {
-                        if (value) {
-                            this.container.addClass("view-active").removeClass("view-hidden");
+                        if (Andamio.config.webapp) {
+                            return this.container.hasClass("overthrow") ? this.container : this.container.find(".overthrow");
                         } else {
-                            this.container.addClass("view-hidden").removeClass("view-active");
+                            return Andamio.dom.win;
                         }
                     }
                 }
@@ -3985,6 +4069,22 @@ Andamio.views = (function () {
         this.active = false;
     };
 
+    Object.defineProperties(View, {
+
+        active: {
+            get: function() {
+                return this.container.hasClass("view-active");
+            },
+            set: function(value) {
+                if (value) {
+                    this.container.addClass("view-active").removeClass("view-hidden");
+                } else {
+                    this.container.addClass("view-hidden").removeClass("view-active");
+                }
+            }
+        }
+    });
+
     function ViewCollection() {
 
         this.list = new Andamio.util.Dictionary({
@@ -4077,8 +4177,9 @@ Andamio.views = (function () {
 
         this.deactivateView = function(view) {
 
-            var currentView = this.list.lookup(view);
-            if (currentView) {
+            if (this.list.contains(view)) {
+
+                var currentView = this.list.lookup(view);
                 currentView.active = false;
             }
         };
@@ -4094,10 +4195,10 @@ Andamio.views = (function () {
 
                 if (this.previousView) {
                     this.scrollPosition = this.list.lookup(this.previousView).scroller[0].scrollTop;
-                    this.deactivateView(this.previousView);
                 }
 
                 this.activateView(view, url, expiration, scrollPosition);
+                this.deactivateView(this.previousView);
             }
         };
 
@@ -4255,7 +4356,10 @@ Andamio.views = (function () {
         this.init = function() {
 
             if (typeof Andamio.config.initialView === "string") {
-                Andamio.views.openParentPage(Andamio.config.server + Andamio.config.initialView);
+                Andamio.views.openParentPage(Andamio.config.initialView);
+            } else {
+                Andamio.views.currentView = "parentView";
+                Andamio.views.currentUrl = Andamio.config.server;
             }
 
             /**
