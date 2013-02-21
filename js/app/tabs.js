@@ -43,9 +43,12 @@ Andamio.tabs = (function () {
             return Andamio.dom.html.hasClass("has-page-tabs");
         },
 
-        set status(Boolean) {
-            if (Boolean) this.show();
-            else this.hide();
+        set status(value) {
+            if (value) {
+                this.show();
+            } else {
+                this.hide();
+            }
         },
 
         init: function() {
