@@ -433,6 +433,9 @@ Andamio.views = (function () {
 
             if (typeof Andamio.config.initialView === "string") {
                 Andamio.views.openParentPage(Andamio.config.initialView);
+            } else {
+                Andamio.views.currentView = "parentView";
+                Andamio.views.currentUrl = Andamio.config.server;
             }
 
             /**
