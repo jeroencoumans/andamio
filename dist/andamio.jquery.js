@@ -11129,7 +11129,7 @@ Andamio.loader = (function () {
 
             var timeoutToken;
 
-            Andamio.dom.viewport.on("Andamio:views:activateView:start", function() {
+            Andamio.dom.doc.on("Andamio:views:activateView:start", function() {
 
                 // show loader if nothing is shown within 0,250 seconds
                 timeoutToken = window.setTimeout(function() {
@@ -11138,7 +11138,7 @@ Andamio.loader = (function () {
                 }, 250);
             });
 
-            Andamio.dom.viewport.on("Andamio:views:activateView:finish", function() {
+            Andamio.dom.doc.on("Andamio:views:activateView:finish", function() {
 
                 window.clearTimeout(timeoutToken);
                 Andamio.loader.hide();
