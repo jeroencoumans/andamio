@@ -10861,13 +10861,14 @@ Andamio.pager = (function () {
 
         // Store options in global config
         Andamio.config.pager = {
-            url                 : this.params.url || Andamio.config.server + "?page=",
             autoFetch           : this.params.autoFetch || false,
             autoFetchMax        : this.params.autoFetchMax || 3,
             autoFetchThreshold  : this.params.autoFetchThreshold || 100,
             callback            : $.isFunction(this.params.callback) ? this.params.callback : function() {},
+            expires             : this.params.expires || 120,
+            loadMoreAction      : this.params.loadMoreAction || $('<div class="pager-action"><a href="javascript:void(0)" class="button button-block action-load-more">Load more</a></div>'),
             spinner             : this.params.spinner || $('<div class="pager-loading">Loading...</div></div>'),
-            loadMoreAction      : this.params.loadMoreAction || $('<div class="pager-action"><a href="javascript:void(0)" class="button button-block action-load-more">Load more</a></div>')
+            url                 : this.params.url || Andamio.config.server + "?page="
         };
 
         this.pageNumber = this.params.pageNumber || 0;
@@ -10927,7 +10928,7 @@ Andamio.pager = (function () {
 
             var self = this;
 
-            Andamio.page.load(Andamio.config.pager.url + self.pageNumber, null, function(response) {
+            Andamio.page.load(Andamio.config.pager.url + self.pageNumber, Andamio.config.pager.expires, function(response) {
 
                 isLoading = false;
 
