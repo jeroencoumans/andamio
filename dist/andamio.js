@@ -359,9 +359,9 @@ Andamio.cache = (function() {
                 return;
             }
 
-            var seconds = (typeof expiration === "number") ? expiration : 2 * 60 * 60;
+            var minutes = (typeof expiration === "number") ? expiration : 2 * 60;
 
-            cache.set(key, data, seconds);
+            cache.set(key, data, minutes);
         },
 
         deleteCache: function(key) {
@@ -583,7 +583,7 @@ Andamio.pager = (function () {
             autoFetchMax        : this.params.autoFetchMax || 3,
             autoFetchThreshold  : this.params.autoFetchThreshold || 100,
             callback            : $.isFunction(this.params.callback) ? this.params.callback : function() {},
-            expires             : this.params.expires || 120,
+            expires             : this.params.expires || null,
             loadMoreAction      : this.params.loadMoreAction || $('<div class="pager-action"><a href="javascript:void(0)" class="button button-block action-load-more">Load more</a></div>'),
             spinner             : this.params.spinner || $('<div class="pager-loading">Loading...</div></div>'),
             url                 : this.params.url || Andamio.config.server + "?page="

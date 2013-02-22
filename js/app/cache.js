@@ -34,9 +34,9 @@ Andamio.cache = (function() {
                 return;
             }
 
-            var seconds = (typeof expiration === "number") ? expiration : 2 * 60 * 60;
+            var minutes = (typeof expiration === "number") ? expiration : 2 * 60;
 
-            cache.set(key, data, seconds);
+            cache.set(key, data, minutes);
         },
 
         deleteCache: function(key) {
