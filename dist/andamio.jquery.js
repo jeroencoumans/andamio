@@ -10867,6 +10867,7 @@ Andamio.pager = (function () {
             autoFetchThreshold  : this.params.autoFetchThreshold || 100,
             callback            : $.isFunction(this.params.callback) ? this.params.callback : function() {},
             expires             : this.params.expires || null,
+            itemsPerPage        : this.params.itemsPerPage || 10,
             loadMoreAction      : this.params.loadMoreAction || $('<div class="pager-action"><a href="javascript:void(0)" class="button button-block action-load-more">Load more</a></div>'),
             spinner             : this.params.spinner || $('<div class="pager-loading">Loading...</div></div>'),
             url                 : this.params.url || Andamio.config.server + "?page="
@@ -10915,7 +10916,9 @@ Andamio.pager = (function () {
 
         // Activate
         if (Andamio.dom.pagerWrapper.length > 0) {
-            this.status = true;
+            if (Andamio.config.pager.itemsPerPage <= Andamio.dom.pagerWrapper[0].children.length) {
+                this.status = true;
+            }
         }
     }
 
