@@ -149,9 +149,7 @@ Andamio.pager = (function () {
                         callback(self.pageNumber);
                     }
 
-                    if ($.isFunction(Andamio.config.pagerCallback)) {
-                        Andamio.config.pagerCallback(self.pageNumber);
-                    }
+                    Andamio.config.pager.callback(self.pageNumber);
 
                 } else {
 
