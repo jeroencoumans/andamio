@@ -125,6 +125,22 @@ Andamio.views = (function () {
                 this.position = direction;
             };
         }
+
+        Object.defineProperties(this, {
+
+            active: {
+                get: function() {
+                    return this.container.hasClass("view-active");
+                },
+                set: function(value) {
+                    if (value) {
+                        this.container.addClass("view-active").removeClass("view-hidden");
+                    } else {
+                        this.container.addClass("view-hidden").removeClass("view-active");
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -144,22 +160,6 @@ Andamio.views = (function () {
 
         this.active = false;
     };
-
-    Object.defineProperties(View, {
-
-        active: {
-            get: function() {
-                return this.container.hasClass("view-active");
-            },
-            set: function(value) {
-                if (value) {
-                    this.container.addClass("view-active").removeClass("view-hidden");
-                } else {
-                    this.container.addClass("view-hidden").removeClass("view-active");
-                }
-            }
-        }
-    });
 
     function ViewCollection() {
 

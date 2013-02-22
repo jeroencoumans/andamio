@@ -96,7 +96,7 @@ Andamio.nav = (function () {
 
                 Andamio.dom.pageNavActive = target;
 
-                if (!Andamio.config.tablet) {
+                if (!Andamio.config.os.tablet) {
                     self.hide();
                 }
 

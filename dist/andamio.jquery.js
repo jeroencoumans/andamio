@@ -10385,6 +10385,7 @@ Andamio.config = (function () {
             this.cordova = win.navigator.userAgent.indexOf("TMGContainer") > -1;
             this.server  = win.location.origin + win.location.pathname;
             this.touch   = 'ontouchstart' in win;
+            this.os.tablet = Andamio.dom.doc.width() >= 980;
 
             // Setup user-defined options
             if (typeof options === "object") {
@@ -10404,7 +10405,7 @@ Andamio.config = (function () {
                 this.webapp = true;
             }
 
-            if (this.os.tablet || Andamio.dom.doc.width() >= 980) {
+            if (this.os.tablet) {
                 Andamio.dom.html.addClass("desktop has-navigation");
             }
 
@@ -11244,7 +11245,7 @@ Andamio.nav = (function () {
 
                 Andamio.dom.pageNavActive = target;
 
-                if (!Andamio.config.tablet) {
+                if (!Andamio.config.os.tablet) {
                     self.hide();
                 }
 
@@ -11638,6 +11639,22 @@ Andamio.views = (function () {
                 this.position = direction;
             };
         }
+
+        Object.defineProperties(this, {
+
+            active: {
+                get: function() {
+                    return this.container.hasClass("view-active");
+                },
+                set: function(value) {
+                    if (value) {
+                        this.container.addClass("view-active").removeClass("view-hidden");
+                    } else {
+                        this.container.addClass("view-hidden").removeClass("view-active");
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -11657,22 +11674,6 @@ Andamio.views = (function () {
 
         this.active = false;
     };
-
-    Object.defineProperties(View, {
-
-        active: {
-            get: function() {
-                return this.container.hasClass("view-active");
-            },
-            set: function(value) {
-                if (value) {
-                    this.container.addClass("view-active").removeClass("view-hidden");
-                } else {
-                    this.container.addClass("view-hidden").removeClass("view-active");
-                }
-            }
-        }
-    });
 
     function ViewCollection() {
 

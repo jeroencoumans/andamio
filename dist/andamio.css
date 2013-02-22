@@ -505,6 +505,10 @@ sup {
   overflow: hidden;
   -webkit-overflow-scrolling: default;
 }
+.desktop,
+.desktop .viewport {
+  height: 100%;
+}
 .desktop .modal-view {
   -webkit-box-shadow: 0 20px 20px rgba(0, 0, 0, 0.5);
   box-shadow: 0 20px 20px rgba(0, 0, 0, 0.5);
@@ -1080,7 +1084,7 @@ tr:first-child {
 .pager-loading {
   margin: 10px;
   line-height: 32px;
-  background: url(../andamio/img/spinner-light.gif) 0 50% no-repeat;
+  background: url(../img/spinner-light.gif) 0 50% no-repeat;
   background-size: 24px 24px;
   padding-left: 34px;
 }

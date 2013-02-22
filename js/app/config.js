@@ -81,6 +81,7 @@ Andamio.config = (function () {
             this.cordova = win.navigator.userAgent.indexOf("TMGContainer") > -1;
             this.server  = win.location.origin + win.location.pathname;
             this.touch   = 'ontouchstart' in win;
+            this.os.tablet = Andamio.dom.doc.width() >= 980;
 
             // Setup user-defined options
             if (typeof options === "object") {
@@ -100,7 +101,7 @@ Andamio.config = (function () {
                 this.webapp = true;
             }
 
-            if (this.os.tablet || Andamio.dom.doc.width() >= 980) {
+            if (this.os.tablet) {
                 Andamio.dom.html.addClass("desktop has-navigation");
             }
 
