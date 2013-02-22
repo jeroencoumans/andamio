@@ -1077,6 +1077,16 @@ tr:first-child {
   line-height: 1;
   color: #a2a2a2;
 }
+.pager-loading {
+  margin: 10px;
+  line-height: 32px;
+  background: url(../andamio/img/spinner-light.gif) 0 50% no-repeat;
+  background-size: 24px 24px;
+  padding-left: 34px;
+}
+.pager-action {
+  margin: 10px;
+}
 /***
 
     Buttons
