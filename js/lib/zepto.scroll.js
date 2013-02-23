@@ -15,7 +15,7 @@
     };
 
     $.scrollElement = function(element, endY, duration, easingF) {
-        endY = endY || ($.os.android ? 1 : 0);
+        endY = endY || (Andamio.config.os.android ? 1 : 0);
         duration = duration || 400;
         (typeof easingF === 'function') && (easing = easingF);
         var startY = element.scrollTop,
