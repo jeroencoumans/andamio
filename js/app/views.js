@@ -235,7 +235,7 @@ Andamio.views = (function () {
 
                     Andamio.dom.doc.trigger("Andamio:views:activateView:start", [url]);
 
-                    currentView.content.empty();
+                    currentView.content.html('<div class="page-header"></div><div class="page-content"></div>');
 
                     Andamio.page.load(url, expiration, function(response) {
 
@@ -309,7 +309,7 @@ Andamio.views = (function () {
                 currentView = this.list.lookup(this.currentView);
 
             if (url) {
-                currentView.content.empty();
+                currentView.content.html('<div class="page-header"></div><div class="page-content"></div>');
 
                 Andamio.page.refresh(url, expiration, function(response) {
 
@@ -369,6 +369,8 @@ Andamio.views = (function () {
 
             if (this.childCount % 2 > 0) {
 
+                this.pushView("childView", url, expiration, 0);
+
                 if (Andamio.config.webapp) {
                     Andamio.dom.childView.removeClass("slide-left").addClass("slide-right");
 
@@ -378,9 +380,9 @@ Andamio.views = (function () {
                     }, 0);
                 }
 
-                this.pushView("childView", url, expiration, 0);
-
             } else {
+
+                this.pushView("parentView", url, expiration, 0);
 
                 if (Andamio.config.webapp) {
                     Andamio.dom.parentView.removeClass("slide-left").addClass("slide-right");
@@ -390,8 +392,6 @@ Andamio.views = (function () {
                         childView.slide("slide-left");
                     }, 0);
                 }
-
-                this.pushView("parentView", url, expiration, 0);
             }
         };
 
