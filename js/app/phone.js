@@ -33,7 +33,11 @@ Andamio.phone = (function () {
                     var currentView = Andamio.views.list.lookup(Andamio.views.currentView),
                         scroller = Andamio.nav.status ? Andamio.dom.pageNav : currentView.scroller;
 
-                    scroller.scrollTo(0, 400);
+                    if ($.scrollTo) {
+                        scroller.scrollTo(0, 400);
+                    } else if ($.scrollElement) {
+                        $.scrollElement(scroller[0], 0);
+                    }
                 });
 
                 // refresh when application is activated from background
