@@ -10385,7 +10385,10 @@ Andamio.config = (function () {
             this.cordova = win.navigator.userAgent.indexOf("TMGContainer") > -1;
             this.server  = win.location.origin + win.location.pathname;
             this.touch   = 'ontouchstart' in win;
-            this.os.tablet = Andamio.dom.doc.width() >= 980;
+
+            if (Andamio.dom.doc.width() >= 980) {
+                this.os.tablet = true;
+            }
 
             // Setup user-defined options
             if (typeof options === "object") {
@@ -10407,14 +10410,14 @@ Andamio.config = (function () {
 
             if (this.os.tablet) {
                 Andamio.dom.html.addClass("desktop has-navigation");
+                this.webapp = true;
             }
 
-            if (this.os.ios)        { Andamio.dom.html.addClass("ios"); }
-            if (this.os.ios5)       { Andamio.dom.html.addClass("ios5"); }
-            if (this.os.ios6)       { Andamio.dom.html.addClass("ios6"); }
-            if (this.os.android)    { Andamio.dom.html.addClass("android"); }
-            if (this.os.android2)   { Andamio.dom.html.addClass("android2"); }
-            if (this.os.android4)   { Andamio.dom.html.addClass("android"); }
+            for (var os in this.os) {
+                if (Andamio.config.os[os] && os !== "version") {
+                    Andamio.dom.html.addClass(os);
+                }
+            }
         }
     };
 })();
@@ -10581,7 +10584,11 @@ Andamio.phone = (function () {
                     var currentView = Andamio.views.list.lookup(Andamio.views.currentView),
                         scroller = Andamio.nav.status ? Andamio.dom.pageNav : currentView.scroller;
 
-                    scroller.scrollTo(0, 400);
+                    if ($.scrollTo) {
+                        scroller.scrollTo(0, 400);
+                    } else if ($.scrollElement) {
+                        $.scrollElement(scroller[0], 0);
+                    }
                 });
 
                 // refresh when application is activated from background
@@ -11752,7 +11759,7 @@ Andamio.views = (function () {
 
                     Andamio.dom.doc.trigger("Andamio:views:activateView:start", [url]);
 
-                    currentView.content.empty();
+                    currentView.content.html('<div class="page-header"></div><div class="page-content"></div>');
 
                     Andamio.page.load(url, expiration, function(response) {
 
@@ -11826,7 +11833,7 @@ Andamio.views = (function () {
                 currentView = this.list.lookup(this.currentView);
 
             if (url) {
-                currentView.content.empty();
+                currentView.content.html('<div class="page-header"></div><div class="page-content"></div>');
 
                 Andamio.page.refresh(url, expiration, function(response) {
 
@@ -11886,6 +11893,8 @@ Andamio.views = (function () {
 
             if (this.childCount % 2 > 0) {
 
+                this.pushView("childView", url, expiration, 0);
+
                 if (Andamio.config.webapp) {
                     Andamio.dom.childView.removeClass("slide-left").addClass("slide-right");
 
@@ -11895,9 +11904,9 @@ Andamio.views = (function () {
                     }, 0);
                 }
 
-                this.pushView("childView", url, expiration, 0);
-
             } else {
+
+                this.pushView("parentView", url, expiration, 0);
 
                 if (Andamio.config.webapp) {
                     Andamio.dom.parentView.removeClass("slide-left").addClass("slide-right");
@@ -11907,8 +11916,6 @@ Andamio.views = (function () {
                         childView.slide("slide-left");
                     }, 0);
                 }
-
-                this.pushView("parentView", url, expiration, 0);
             }
         };
 
