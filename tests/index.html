@@ -13,21 +13,15 @@
 <body class="viewport">
 
     <div class="js-page-view page-view">
-        <div class="page-header hidden-website"></div>
 
         <div class="js-parent-view parent-view view-active js-content">
-            <div class="page-header">
-                <a href="javascript:void(0)" class="page-logo js-title">Parent</a>
-                <a href="javascript:void(0);" class="button-header-wrapper action-show-nav"><span class="button-header">Menu</span></a>
-                <a href="javascript:void(0)" class="button-header-wrapper-alternate action-refresh"><span class="button-header">Refresh</span></a>
-            </div>
+            <div class="page-header"></div>
+            <div class="page-content"></div>
         </div>
 
         <div class="js-child-view child-view view-hidden js-content">
-            <div class="page-header">
-                <a href="/" class="page-logo js-title"></a>
-                <a href="javascript:void(0)" class="button-header-wrapper action-pop"><span class="button-header">Terug</span></a>
-            </div>
+            <div class="page-header"></div>
+            <div class="page-content"></div>
         </div>
 
         <div class="js-page-tabs tabs" style="display:none">
@@ -53,15 +47,14 @@
         <a href="blocks/box.html" class="navigation-item action-nav-item" id="casper-click-nav">Box</a>
         <a href="blocks/box2.html" class="navigation-item action-nav-item">Box2</a>
         <a href="javascript:void(0)" class="navigation-item action-refresh">Refresh</a>
+        <a href="javascript:lscache.flush()" class="navigation-item">Empty cache</a>
     </div>
 
     <a href="javascript:void(0)" class="page-navigation-toggle action-hide-nav"></a>
 
     <div class="js-modal-view modal-view js-content view-hidden">
-        <div class="page-header">
-            <a href="/" class="page-logo js-title">Default modal title</a>
-            <a href="javascript:void(0);" class="button-header-wrapper action-hide-modal"><span class="button-header">Close</span></a>
-        </div>
+        <div class="page-header"></div>
+        <div class="page-content"></div>
     </div>
 
     <div class="js-page-loader page-loader" style="display:none">
