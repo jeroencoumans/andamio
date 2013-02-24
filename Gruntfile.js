@@ -1,18 +1,16 @@
-/*
- * grunt
- * http://gruntjs.com/
- *
- * Copyright (c) 2012 "Cowboy" Ben Alman
- * Licensed under the MIT license.
- * https://github.com/gruntjs/grunt/blob/master/LICENSE-MIT
- */
-
 module.exports = function(grunt) {
-
-    // Project configuration.
     grunt.initConfig({
-        lint: {
-            all: ['grunt.js', 'js/app/*.js']
+        pkg: grunt.file.readJSON('package.json'),
+
+        jshint: {
+            files: ['gruntfile.js', 'js/app/*.js'],
+            options: {
+                globals: {
+                    browser: true,
+                    console: true,
+                    es5: true
+                }
+            }
         },
 
         // Javascript concatenation
@@ -47,7 +45,7 @@ module.exports = function(grunt) {
                     // Initialize everything
                     'js/app/init.js'
                 ],
-                dest: 'dist/andamio.js'
+                dest: 'dist/<%= pkg.name %>.js'
             },
             jquery: {
                 src: [
@@ -56,43 +54,39 @@ module.exports = function(grunt) {
                     'js/lib/swipe.js',
                     'js/lib/fastclick.js',
                     'js/lib/lscache.js',
-                    'dist/andamio.js'
+                    'dist/<%= pkg.name %>.js'
                     ],
-                dest: 'dist/andamio.jquery.js'
+                dest: 'dist/<%= pkg.name %>.jquery.js'
             },
             zepto: {
                 src: [
-                    'js/lib/zepto.js',
+                    'js/lib/zepto/zepto.js',
+                    'js/lib/zepto/ajax.js',
+                    'js/lib/zepto/event.js',
+                    'js/lib/zepto/fx.js',
+                    'js/lib/zepto/stack.js',
                     'js/lib/zepto.scroll.js',
                     'js/lib/swipe.js',
                     'js/lib/fastclick.js',
                     'js/lib/lscache.js',
-                    'dist/andamio.js'
+                    'dist/<%= pkg.name %>.js'
                     ],
-                dest: 'dist/andamio.zepto.js'
+                dest: 'dist/<%= pkg.name %>.zepto.js'
             }
         },
 
-        // Javascript minification
-        min: {
-            andamio: {
-                src:  'dist/andamio.js',
-                dest: 'dist/andamio.min.js'
-            },
-            jquery: {
-                src:  'dist/andamio.jquery.js',
-                dest: 'dist/andamio.jquery.min.js'
-            },
-            zepto: {
-                src:  'dist/andamio.zepto.js',
-                dest: 'dist/andamio.zepto.min.js'
+        uglify: {
+            dist: {
+                files: {
+                    'dist/<%= pkg.name %>.min.js': ['<%= concat.andamio.dest %>'],
+                    'dist/<%= pkg.name %>.jquery.min.js': ['<%= concat.jquery.dest %>'],
+                    'dist/<%= pkg.name %>.zepto.min.js': ['<%= concat.zepto.dest %>']
+                }
             }
         },
 
-        // CSS compilation & linting
         less: {
             dev: {
-
                 files: {
                     'dist/andamio.css': 'style/main.less'
                 }
@@ -106,22 +100,24 @@ module.exports = function(grunt) {
                 }
             }
         },
+
         watch: {
             css: {
-                files: ['style/andamio.less', 'style/*/*.less'],
+                files: ['style/main.less', 'style/*/*.less'],
                 tasks: ['less:dev']
             },
             js: {
-                files: ['js/*/*.js'],
-                tasks: ['concat:andamio', 'concat:jquery', 'concat:zepto']
+                files: ['js/app/*.js'],
+                tasks: ['jshint', 'concat']
             }
         }
     });
 
-    // Load tasks
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-less');
 
-    // Default task.
-    grunt.registerTask('default', 'lint concat min less');
-
+    grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'less']);
 };
