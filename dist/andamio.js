@@ -104,6 +104,7 @@ Andamio.config = (function () {
             this.cordova = win.navigator.userAgent.indexOf("TMGContainer") > -1;
             this.server  = win.location.origin + win.location.pathname;
             this.touch   = 'ontouchstart' in win;
+            this.cache   = window.lscache ? window.lscache.supported() : false;
 
             if (Andamio.dom.doc.width() >= 980) {
                 this.os.tablet = true;
@@ -115,6 +116,10 @@ Andamio.config = (function () {
                     if (key === "init") return;
                     this[key] = options[key];
                 }
+            }
+
+            if (this.cache) {
+                this.cacheExpiration = 120;
             }
 
             if (this.touch) {
@@ -378,11 +383,12 @@ Andamio.cache = (function () {
 
         init: function () {
 
-            cache = window.lscache || false;
-            Andamio.config.cache = cache ? cache.supported() : false;
+            if (Andamio.config.cache) {
 
-            if (cache) {
+                cache = window.lscache;
                 Andamio.config.cacheExpiration = 120;
+            } else {
+                cache = false;
             }
         }
     };

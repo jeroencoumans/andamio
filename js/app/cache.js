@@ -43,11 +43,12 @@ Andamio.cache = (function () {
 
         init: function () {
 
-            cache = window.lscache || false;
-            Andamio.config.cache = cache ? cache.supported() : false;
+            if (Andamio.config.cache) {
 
-            if (cache) {
+                cache = window.lscache;
                 Andamio.config.cacheExpiration = 120;
+            } else {
+                cache = false;
             }
         }
     };
