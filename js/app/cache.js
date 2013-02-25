@@ -1,4 +1,4 @@
-/*jshint es5: true, browser: true */
+/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
 /*global Andamio */
 
 /**
@@ -7,7 +7,7 @@
  * @class store
  * @namespace APP
  */
-Andamio.cache = (function() {
+Andamio.cache = (function () {
 
     "use strict";
 
@@ -15,45 +15,36 @@ Andamio.cache = (function() {
 
     return {
 
-        getCache: function(key) {
+        getCache: function (key) {
 
-            if (! key) {
-                return;
-            }
+            if (key && cache) {
+                var result = cache.get(key);
 
-            var result = cache.get(key);
-
-            if (result) {
-                return result;
+                if (result) {
+                    return result;
+                }
             }
         },
 
-        setCache: function(key, data, expiration) {
+        setCache: function (key, data, expiration) {
 
-            if (! key || ! data) {
-                return;
+            if (key && data && cache) {
+                var minutes = (typeof expiration === "number") ? expiration : 2 * 60;
+                cache.set(key, data, minutes);
             }
-
-            var minutes = (typeof expiration === "number") ? expiration : 2 * 60;
-
-            cache.set(key, data, minutes);
         },
 
-        deleteCache: function(key) {
+        deleteCache: function (key) {
 
-            if (! key) {
-                return;
+            if (key && cache) {
+                cache.remove(key);
             }
-
-            cache.remove(key);
         },
 
-        init: function() {
+        init: function () {
 
-            if (window.lscache) {
-                Andamio.config.cache = window.lscache.supported();
-                cache = window.lscache;
-            }
+            cache = window.lscache || false;
+            Andamio.config.cache = cache ? cache.supported() : false;
         }
     };
 })();
