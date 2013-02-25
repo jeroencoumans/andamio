@@ -6,9 +6,12 @@ module.exports = function(grunt) {
             files: ['gruntfile.js', 'js/app/*.js'],
             options: {
                 globals: {
+                    es5: true,
                     browser: true,
-                    console: true,
-                    es5: true
+                    indent:4,
+                    undef:true,
+                    unused:true,
+                    strict:true
                 }
             }
         },
@@ -108,7 +111,7 @@ module.exports = function(grunt) {
             },
             js: {
                 files: ['js/app/*.js'],
-                tasks: ['jshint', 'concat']
+                tasks: ['concat']
             }
         }
     });

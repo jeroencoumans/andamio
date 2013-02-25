@@ -505,30 +505,30 @@ sup {
   overflow: hidden;
   -webkit-overflow-scrolling: default;
 }
-.desktop,
-.desktop .viewport {
+.tablet,
+.tablet .viewport {
   height: 100%;
 }
-.desktop .modal-view {
+.tablet .modal-view {
   -webkit-box-shadow: 0 20px 20px rgba(0, 0, 0, 0.5);
   box-shadow: 0 20px 20px rgba(0, 0, 0, 0.5);
   top: 100px;
   left: 20%;
   right: 20%;
 }
-.desktop .modal-view.view-hidden {
+.tablet .modal-view.view-hidden {
   top: auto;
   bottom: -100%;
 }
-.desktop.has-modalview .page-view,
-.desktop.has-modalview .page-navigation {
+.tablet.has-modalview .page-view,
+.tablet.has-modalview .page-navigation {
   -webkit-filter: blur(1px) opacity(0.5);
 }
 .webapp .overthrow {
   -webkit-overflow-scrolling: touch;
   overflow: auto;
 }
-.desktop .overthrow {
+.tablet .overthrow {
   overflow: auto;
 }
 /***
@@ -688,13 +688,13 @@ sup {
   -webkit-transform: translate(260px, 0) translateZ(0);
   transform: translate(260px, 0) translateZ(0);
 }
-.desktop.has-navigation .page-navigation {
+.tablet.has-navigation .page-navigation {
   -webkit-transform: translate(0, 0) translateZ(0);
   transform: translate(0, 0) translateZ(0);
   left: 0;
   bottom: 0;
 }
-.desktop.has-navigation .page-view {
+.tablet.has-navigation .page-view {
   -webkit-transform: translate(0, 0) translateZ(0);
   transform: translate(0, 0) translateZ(0);
   width: auto;
@@ -704,13 +704,13 @@ sup {
   bottom: 0;
   left: 260px;
 }
-.desktop.has-navigation .page-navigation-toggle {
+.tablet.has-navigation .page-navigation-toggle {
   -webkit-transform: translate(0, 0) translateZ(0);
   transform: translate(0, 0) translateZ(0);
   left: 260px;
   z-index: -1;
 }
-.desktop.has-navigation .action-show-nav {
+.tablet.has-navigation .action-show-nav {
   display: none;
 }
 /***
@@ -1646,7 +1646,7 @@ a {
 .page-navigation-toggle {
   border-left: 1px solid #121212;
 }
-.desktop .page-navigation-toggle,
+.tablet .page-navigation-toggle,
 .ios6 .page-navigation-toggle {
   border-left: 0;
   -webkit-box-shadow: -10px 0 20px -5px #121212;

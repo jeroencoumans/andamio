@@ -1,4 +1,4 @@
-/*jshint es5: true, browser: true */
+/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
 /*global $, Andamio */
 
 window.Andamio = {};
@@ -20,7 +20,7 @@ Andamio.dom = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true, boss:true */
+/*jshint es5: true, browser: true, undef:true, unused:true, strict:true, boss:true */
 /*global Andamio, FastClick */
 
 Andamio.config = (function () {
@@ -28,7 +28,7 @@ Andamio.config = (function () {
     "use strict";
 
     /*** Zepto detect.js ***/
-    var detect = function(ua) {
+    var detect = function (ua) {
         var os = this.os = {}, browser = this.browser = {},
             webkit = ua.match(/WebKit\/([\d.]+)/),
             android = ua.match(/(Android)\s+([\d.]+)/),
@@ -82,7 +82,7 @@ Andamio.config = (function () {
             }
         },
 
-        init: function(options) {
+        init: function (options) {
 
             detect.call(this, navigator.userAgent);
 
@@ -127,7 +127,8 @@ Andamio.config = (function () {
             }
 
             if (this.os.tablet) {
-                Andamio.dom.html.addClass("desktop has-navigation");
+                Andamio.dom.html.addClass("tablet");
+                Andamio.nav.show();
                 this.webapp = true;
             }
 
@@ -140,16 +141,16 @@ Andamio.config = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true */
+/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
 /*global Andamio */
 Andamio.events = (function () {
 
     "use strict";
 
     return {
-        attach: function(selector, fn, bubbles) {
+        attach: function (selector, fn, bubbles) {
 
-            Andamio.dom.viewport.on("click", selector, function(event) {
+            Andamio.dom.viewport.on("click", selector, function (event) {
                 fn(event);
                 if (bubbles !== true) {
                     return false;
@@ -267,7 +268,7 @@ Andamio.util.delay = (function(){
         timer = setTimeout(callback, ms);
     };
 })();
-/*jshint es5: true, browser: true */
+/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
 /*global Andamio, $, cordova */
 
 Andamio.phone = (function () {
@@ -275,20 +276,20 @@ Andamio.phone = (function () {
     "use strict";
 
     return {
-        "init": function() {
+        init: function () {
 
             Andamio.config.phone = {
                 updateTimestamp: new Date(),
                 updateTimeout: 30 * 60 * 1000
             };
 
-            navigator.bootstrap.addConstructor(function() {
+            navigator.bootstrap.addConstructor(function () {
 
                 // hide splashscreen
                 cordova.exec(null, null, "SplashScreen", "hide", []);
 
                 // Listens to all clicks on anchor tags and opens them in Cordova popover if it's an external URL
-                Andamio.events.attach('a[target="_blank"]', function(event) {
+                Andamio.events.attach('a[target="_blank"]', function (event) {
 
                     var target  = $(event.currentTarget),
                         href = target.attr("href");
@@ -297,7 +298,7 @@ Andamio.phone = (function () {
                     return false;
                 });
 
-                Andamio.dom.doc.on("statusbartap", function() {
+                Andamio.dom.doc.on("statusbartap", function () {
 
                     var currentView = Andamio.views.list.lookup(Andamio.views.currentView),
                         scroller = Andamio.nav.status ? Andamio.dom.pageNav : currentView.scroller;
@@ -310,11 +311,11 @@ Andamio.phone = (function () {
                 });
 
                 // refresh when application is activated from background
-                Andamio.dom.doc.on("resign", function() {
+                Andamio.dom.doc.on("resign", function () {
                     Andamio.config.phone.updateTimestamp = new Date();
                 });
 
-                Andamio.dom.doc.on("active", function() {
+                Andamio.dom.doc.on("active", function () {
                     var now = new Date();
                     if (now - Andamio.config.updateTimestamp > Andamio.config.updateTimeout) {
 
@@ -331,7 +332,7 @@ Andamio.phone = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true */
+/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
 /*global Andamio */
 
 /**
@@ -340,7 +341,7 @@ Andamio.phone = (function () {
  * @class store
  * @namespace APP
  */
-Andamio.cache = (function() {
+Andamio.cache = (function () {
 
     "use strict";
 
@@ -348,102 +349,95 @@ Andamio.cache = (function() {
 
     return {
 
-        getCache: function(key) {
+        getCache: function (key) {
 
-            if (! key) {
-                return;
-            }
+            if (key && cache) {
+                var result = cache.get(key);
 
-            var result = cache.get(key);
-
-            if (result) {
-                return result;
+                if (result) {
+                    return result;
+                }
             }
         },
 
-        setCache: function(key, data, expiration) {
+        setCache: function (key, data, expiration) {
 
-            if (! key || ! data) {
-                return;
+            if (key && data && cache) {
+                var minutes = (typeof expiration === "number") ? expiration : 2 * 60;
+                cache.set(key, data, minutes);
             }
-
-            var minutes = (typeof expiration === "number") ? expiration : 2 * 60;
-
-            cache.set(key, data, minutes);
         },
 
-        deleteCache: function(key) {
+        deleteCache: function (key) {
 
-            if (! key) {
-                return;
+            if (key && cache) {
+                cache.remove(key);
             }
-
-            cache.remove(key);
         },
 
-        init: function() {
+        init: function () {
 
-            if (window.lscache) {
-                Andamio.config.cache = window.lscache.supported();
-                cache = window.lscache;
-            }
+            cache = window.lscache || false;
+            Andamio.config.cache = cache ? cache.supported() : false;
         }
     };
 })();
 
-/*jshint es5: true, browser: true */
+/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
 /*global Andamio */
 
 Andamio.connection = (function () {
 
     "use strict";
 
-    var offlineMessage;
+    var isOnline,
+        offlineMessage;
 
     return {
 
         goOnline: function () {
-            Andamio.dom.html.removeClass("is-offline");
-            Andamio.alert.status = false;
+            isOnline = true;
+            Andamio.alert.hide();
         },
 
         goOffline: function () {
-            Andamio.dom.html.addClass("is-offline");
+            isOnline = false;
             Andamio.alert.show(offlineMessage);
         },
 
         get status() {
-            return !Andamio.dom.html.hasClass("is-offline");
-        },
-
-        set status(value) {
-            if (value) {
-                Andamio.connection.goOnline();
-            } else {
-                Andamio.connection.goOffline();
-            }
+            return isOnline;
         },
 
         init: function () {
+
             var self = this;
-            self.status = !Andamio.dom.html.hasClass("is-offline");
+            isOnline = true;
             offlineMessage = Andamio.config.offlineMessage || '<a href="javascript:void(0)" class="action-refresh">It appears your connection isn\'t working. Try again.</a>';
 
-            Andamio.dom.doc.on("ajaxSuccess", self.goOnline);
+            Andamio.dom.doc.on("ajaxSuccess", function () {
+
+                if (! isOnline) {
+                    self.goOnline();
+                }
+            });
+
             Andamio.dom.doc.on("ajaxError", self.goOffline);
         }
     };
 })();
 
-/*jshint es5: true, browser: true */
+/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
 /*global Andamio, $ */
 
 Andamio.page = (function () {
 
+    "use strict";
+
     /**
      * Stores content in cache based on URL
      */
-    function storeResponse(url, response, expiration) {
+    function storeResponse (url, response, expiration) {
 
         if (Andamio.config.cache) {
             Andamio.cache.setCache(url, response, expiration);
@@ -453,7 +447,7 @@ Andamio.page = (function () {
     /**
      * Ajax request to URL, storing the result in cache on success. Fails silently.
      */
-    function doAjaxRequest(url, expiration, callback) {
+    function doAjaxRequest (url, expiration, callback) {
 
         // Add cachebuster
         var requestUrl = url + ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime();
@@ -465,12 +459,12 @@ Andamio.page = (function () {
                 "X-PJAX": true,
                 "X-Requested-With": "XMLHttpRequest"
             },
-            success: function(response) {
 
+            success: function (response) {
                 storeResponse(url, response, expiration);
             },
 
-            complete: function(data) {
+            complete: function (data) {
                 if ($.isFunction(callback)) callback(data.responseText);
             }
         });
@@ -485,7 +479,7 @@ Andamio.page = (function () {
      * @param callback {Function} optional callback function that receives the content
      */
     return {
-        load: function(url, expiration, callback) {
+        load: function (url, expiration, callback) {
 
             if (! url) {
                 return false;
@@ -501,7 +495,7 @@ Andamio.page = (function () {
                 }
             } else {
 
-                doAjaxRequest(url, expiration, function(response) {
+                doAjaxRequest(url, expiration, function (response) {
 
                     if ($.isFunction(callback)) {
                         callback(response);
@@ -510,7 +504,7 @@ Andamio.page = (function () {
             }
         },
 
-        refresh: function(url, expiration, callback) {
+        refresh: function (url, expiration, callback) {
 
             Andamio.cache.deleteCache(url);
             this.load(url, expiration, callback);
@@ -519,10 +513,12 @@ Andamio.page = (function () {
 
 })();
 
-/*jshint es5: true, browser: true */
+/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
 /*global Andamio, $ */
 
 Andamio.pager = (function () {
+
+    "use strict";
 
     var isActive,
         isAutofetching,
@@ -548,7 +544,7 @@ Andamio.pager = (function () {
             self.autoFetching = true;
         }
 
-        Andamio.config.pager.loadMoreAction.on("click", function() {
+        Andamio.config.pager.loadMoreAction.on("click", function () {
             self.loadNextPage();
         });
     }
@@ -561,7 +557,7 @@ Andamio.pager = (function () {
             self.autoFetching = false;
         }
 
-        Andamio.config.pager.loadMoreAction.off("click", function() {
+        Andamio.config.pager.loadMoreAction.off("click", function () {
             self.loadNextPage();
         });
 
@@ -590,7 +586,7 @@ Andamio.pager = (function () {
             autoFetch           : this.params.autoFetch || false,
             autoFetchMax        : this.params.autoFetchMax || 3,
             autoFetchThreshold  : this.params.autoFetchThreshold || 100,
-            callback            : $.isFunction(this.params.callback) ? this.params.callback : function() {},
+            callback            : $.isFunction(this.params.callback) ? this.params.callback : function () {},
             expires             : this.params.expires || null,
             itemsPerPage        : this.params.itemsPerPage || 10,
             loadMoreAction      : this.params.loadMoreAction || $('<div class="pager-action"><a href="javascript:void(0)" class="button button-block action-load-more">Load more</a></div>'),
@@ -602,17 +598,17 @@ Andamio.pager = (function () {
 
         Object.defineProperties(this, {
             autoFetching: {
-                get: function() {
+                get: function () {
                     return isAutofetching;
                 },
 
-                set: function(value) {
+                set: function (value) {
 
                     isAutofetching = value;
                     var self = this;
 
                     if (value) {
-                        currentScroller.on("scroll", function() {
+                        currentScroller.on("scroll", function () {
                             self.onScroll();
                         });
                     } else {
@@ -622,11 +618,11 @@ Andamio.pager = (function () {
             },
 
             status: {
-                get: function() {
+                get: function () {
                     return isActive;
                 },
 
-                set: function(value) {
+                set: function (value) {
 
                     var self = this;
 
@@ -647,7 +643,7 @@ Andamio.pager = (function () {
         }
     }
 
-    Pager.prototype.loadNextPage = function(callback) {
+    Pager.prototype.loadNextPage = function (callback) {
 
         if (! isLoading) {
 
@@ -657,7 +653,7 @@ Andamio.pager = (function () {
 
             var self = this;
 
-            Andamio.page.load(Andamio.config.pager.url + self.pageNumber, Andamio.config.pager.expires, function(response) {
+            Andamio.page.load(Andamio.config.pager.url + self.pageNumber, Andamio.config.pager.expires, function (response) {
 
                 isLoading = false;
 
@@ -683,18 +679,18 @@ Andamio.pager = (function () {
         }
     };
 
-    Pager.prototype.onScroll = function() {
+    Pager.prototype.onScroll = function () {
 
         if (! isLoading) {
 
             var scrollTop = currentScroller.scrollTop(),
                 self = this;
 
-            Andamio.util.delay(function() {
+            Andamio.util.delay(function () {
 
                 if (scrollTop + currentScrollerHeight + Andamio.config.pager.autoFetchThreshold >= currentScrollerScrollHeight) {
 
-                    self.loadNextPage(function() {
+                    self.loadNextPage(function () {
 
                         // make sure the scrolltop is saved
                         currentScroller.scrollTop(scrollTop);
@@ -711,14 +707,15 @@ Andamio.pager = (function () {
 
     return {
 
-        init: function(options) {
+        init: function (options) {
 
             return new Pager(options);
         }
     };
 
 })();
-/*jshint es5: true, browser: true */
+
+/*jshint es5: true, browser: true, undef:true, unused:true */
 /*global $, Andamio */
 
 Andamio.dom.pageAlert = $(".js-page-alert");
@@ -741,6 +738,8 @@ Andamio.alert = (function () {
 
     "use strict";
 
+    var isActive;
+
     return {
         show: function (msg) {
 
@@ -748,39 +747,32 @@ Andamio.alert = (function () {
                 Andamio.dom.pageAlertText = msg;
             }
 
+            isActive = true;
             Andamio.dom.html.addClass("has-alert");
             Andamio.dom.pageAlert.show();
         },
 
         hide: function () {
 
+            isActive = false;
             Andamio.dom.html.removeClass("has-alert");
             Andamio.dom.pageAlert.hide();
         },
 
         get status () {
 
-            return Andamio.dom.html.hasClass("has-alert");
-        },
-
-        set status (value) {
-
-            if (value) {
-                this.show();
-            } else {
-                this.hide();
-            }
+            return isActive;
         },
 
         init: function () {
 
-            this.status = Andamio.dom.html.hasClass("has-alert");
+            isActive = Andamio.dom.html.hasClass("has-alert");
             Andamio.events.attach(".action-hide-alert", this.hide);
         }
     };
 })();
 
-/*jshint es5: true, browser: true */
+/*jshint es5: true, browser: true, undef:true, unused:true */
 /*global $, Andamio */
 
 Andamio.dom.pageLoader = $(".js-page-loader");
@@ -789,11 +781,11 @@ Andamio.dom.pageLoaderImg = Andamio.dom.pageLoader.find(".js-page-loader-spinner
 Object.defineProperties(Andamio.dom, {
     pageLoaderText: {
 
-        get: function() {
+        get: function () {
             return this.pageLoader.find(".js-page-loader-text").text();
         },
 
-        set: function(str) {
+        set: function (str) {
             this.pageLoader.find(".js-page-loader-text").html(str);
         }
     }
@@ -803,8 +795,12 @@ Andamio.loader = (function () {
 
     "use strict";
 
+    var isActive;
+
     return {
-        show: function(msg) {
+        show: function (msg) {
+
+            isActive = true;
 
             if (msg) {
                 Andamio.dom.pageLoaderText = msg;
@@ -822,8 +818,9 @@ Andamio.loader = (function () {
             }
         },
 
-        hide: function() {
+        hide: function () {
 
+            isActive = false;
             Andamio.dom.html.removeClass("has-loader");
 
             if (Andamio.config.cordova) {
@@ -838,44 +835,34 @@ Andamio.loader = (function () {
 
         get status() {
 
-            return Andamio.dom.html.hasClass("has-loader");
+            return isActive;
         },
 
-        set status(value) {
+        init: function () {
 
-            if (value) {
-                this.show();
-            }
-            else {
-                this.hide();
-            }
-        },
-
-        init: function() {
-
-            this.status = Andamio.dom.html.hasClass("has-loader");
+            isActive = Andamio.dom.html.hasClass("has-loader");
 
             var timeoutToken;
 
-            Andamio.dom.doc.on("Andamio:views:activateView:start", function() {
+            Andamio.dom.doc.on("Andamio:views:activateView:start", function () {
 
                 // show loader if nothing is shown within 0,250 seconds
-                timeoutToken = window.setTimeout(function() {
+                timeoutToken = setTimeout(function () {
                     Andamio.loader.show();
 
                 }, 250);
             });
 
-            Andamio.dom.doc.on("Andamio:views:activateView:finish", function() {
+            Andamio.dom.doc.on("Andamio:views:activateView:finish", function () {
 
-                window.clearTimeout(timeoutToken);
+                clearTimeout(timeoutToken);
                 Andamio.loader.hide();
             });
         }
     };
 })();
 
-/*jshint es5: true, browser: true */
+/*jshint es5: true, browser: true, undef:true, unused:true */
 /*global $, Andamio */
 
 Andamio.dom.pageNav = $(".js-page-navigation");
@@ -884,12 +871,12 @@ Andamio.dom.pageNavItems = Andamio.dom.pageNav.find(".action-nav-item");
 Object.defineProperties(Andamio.dom, {
     pageNavActive: {
 
-        get: function() {
+        get: function () {
 
             return this.pageNavItems.filter(".active");
         },
 
-        set: function(elem) {
+        set: function (elem) {
 
             var current = this.pageNavActive;
 
@@ -904,7 +891,8 @@ Andamio.nav = (function () {
 
     "use strict";
 
-    var docheight,
+    var isActive,
+        docheight,
         navheight;
 
     function setPageHeight(height) {
@@ -915,7 +903,8 @@ Andamio.nav = (function () {
 
     return {
 
-        show: function() {
+        show: function () {
+            isActive = true;
             Andamio.dom.html.addClass("has-navigation");
 
             if (!Andamio.config.webapp) {
@@ -923,7 +912,8 @@ Andamio.nav = (function () {
             }
         },
 
-        hide: function() {
+        hide: function () {
+            isActive = false;
             Andamio.dom.html.removeClass("has-navigation");
 
             if (!Andamio.config.webapp) {
@@ -932,27 +922,19 @@ Andamio.nav = (function () {
         },
 
         get status() {
-            return Andamio.dom.html.hasClass("has-navigation");
+            return isActive;
         },
 
-        set status(value) {
-            if (value) {
-                this.show();
-            } else {
-                this.hide();
-            }
-        },
-
-        init: function() {
+        init: function () {
             var self = this;
 
-            self.status = Andamio.dom.html.hasClass("has-navigation");
+            isActive = Andamio.dom.html.hasClass("has-navigation");
 
             docheight = Andamio.dom.win.height();
             navheight = Andamio.dom.pageNav.height();
 
             // When in Mobile Safari, add the height of the address bar
-            if (Andamio.config.os.iphone && ! Andamio.config.webapp) {
+            if (Andamio.config.os.iphone && !Andamio.config.webapp) {
                 docheight += 60;
             }
 
@@ -971,6 +953,11 @@ Andamio.nav = (function () {
                     url     = Andamio.util.getUrl(target),
                     title   = Andamio.util.getTitle(target);
 
+                if (Andamio.dom.pageNavActive[0] === target[0] && !Andamio.config.os.tablet) {
+                    self.hide();
+                    return;
+                }
+
                 Andamio.dom.pageNavActive = target;
 
                 if (!Andamio.config.os.tablet) {
@@ -978,7 +965,7 @@ Andamio.nav = (function () {
                 }
 
                 if (title) {
-                    Andamio.dom.viewport.one("Andamio:views:activateView:finish", function() {
+                    Andamio.dom.viewport.one("Andamio:views:activateView:finish", function () {
                         Andamio.views.list.lookup("parentView").title = title;
                     });
                 }
@@ -991,7 +978,7 @@ Andamio.nav = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true */
+/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
 /*global Andamio, $ */
 
 Andamio.reveal = (function () {
@@ -999,7 +986,7 @@ Andamio.reveal = (function () {
     "use strict";
 
     return {
-        init: function() {
+        init: function () {
 
             Andamio.events.attach(".action-reveal", function (event) {
 
@@ -1008,7 +995,7 @@ Andamio.reveal = (function () {
                     targetContent,
                     activeClass = 'active',
                     activeClassSelector = '.' + activeClass,
-                    target  = $(event.currentTarget);
+                    target = $(event.currentTarget);
 
                 if (!target) {
                     return;
@@ -1044,10 +1031,12 @@ Andamio.reveal = (function () {
 
 })();
 
-/*jshint es5: true, browser: true */
+/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
 /*global Andamio, $, Swipe */
 
 Andamio.slideshow = (function () {
+
+    "use strict";
 
     function SwipeDots(number) {
 
@@ -1062,8 +1051,8 @@ Andamio.slideshow = (function () {
 
             Object.defineProperties(this, {
                 active: {
-                    get: function() { return this.wrapper.find(".active"); },
-                    set: function(elem) {
+                    get: function () { return this.wrapper.find(".active"); },
+                    set: function (elem) {
                         this.wrapper.find(".active").removeClass("active");
                         $(elem).addClass("active");
                     }
@@ -1077,24 +1066,24 @@ Andamio.slideshow = (function () {
     return {
         init: function(id, options, callback) {
 
-            var slideshowActive = $(id).data("js-slideshow-active");
+            var slideshowContainer = $("#" + id);
 
-            this.options = {
-                startSlide: 0,
-                speed: 300,
-                continuous: true,
-                disableScroll: false
-            };
+            if (! slideshowContainer.hasClass(".js-slideshow-active")) {
 
-            // Setup user-defined options
-            if (typeof options === "object" && typeof options !== "undefined") {
+                this.options = {
+                    startSlide: 0,
+                    speed: 300,
+                    continuous: true,
+                    disableScroll: false
+                };
 
-                for (var key in options) {
-                    this.options[key] = options[key];
+                // Setup user-defined options
+                if (typeof options === "object" && typeof options !== "undefined") {
+
+                    for (var key in options) {
+                        this.options[key] = options[key];
+                    }
                 }
-            }
-
-            if (! slideshowActive) {
 
                 // setup Swipe
                 var slideshow = new Swipe(document.getElementById(id), this.options);
@@ -1104,7 +1093,7 @@ Andamio.slideshow = (function () {
                 dots.wrapper.insertAfter(slideshow.container);
 
                 // Taps on individual dots go to their corresponding slide
-                $(slideshow.container).next().on("click", function (event) {
+                slideshowContainer.next().on("click", function (event) {
 
                     var target  = event.target;
 
@@ -1133,7 +1122,7 @@ Andamio.slideshow = (function () {
                     }
                 };
 
-                $(slideshow.container).on("click", function (event) {
+                slideshowContainer.on("click", function (event) {
 
                     var target = $(event.target),
                         isNext = target.parents(".action-slideshow-next"),
@@ -1147,6 +1136,8 @@ Andamio.slideshow = (function () {
                         slideshow.prev();
                     }
                 });
+
+                slideshowContainer.addClass("js-slideshow-active");
 
                 return slideshow;
             }
@@ -1240,10 +1231,12 @@ Andamio.tabs = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true */
+/*jshint es5: true, browser: true, indent:4, undef:true, unused:true, strict:true */
 /*global Andamio, $ */
 
 Andamio.views = (function () {
+
+    "use strict";
 
     function last(list) {
         if (list.length > 0) {
@@ -1253,7 +1246,7 @@ Andamio.views = (function () {
 
     function prev(list) {
         if (list && list.length > 1) {
-            return list[list.length -2];
+            return list[list.length - 2];
         }
     }
 
@@ -1272,18 +1265,18 @@ Andamio.views = (function () {
         if (content) {
             Object.defineProperties(this, {
                 title: {
-                    get: function() { return this.container.find(".js-title"); },
-                    set: function(value) {
+                    get: function () { return this.container.find(".js-title"); },
+                    set: function (value) {
                         if (typeof value === "string") {
                             this.container.find(".js-title").text(value);
                         }
                     }
                 },
                 content: {
-                    get: function() { return this.container.hasClass("js-content") ? this.container : this.container.find(".js-content"); }
+                    get: function () { return this.container.hasClass("js-content") ? this.container : this.container.find(".js-content"); }
                 },
                 scroller: {
-                    get: function() {
+                    get: function () {
                         if (Andamio.config.webapp) {
                             return this.container.hasClass("overthrow") ? this.container : this.container.find(".overthrow");
                         } else {
@@ -1303,7 +1296,7 @@ Andamio.views = (function () {
              * @method slide
              * @param direction {String} direction to which the view should slide
              */
-            this.slide = function(direction) {
+            this.slide = function (direction) {
                 var container = this.container,
                     position = this.position;
 
@@ -1371,10 +1364,10 @@ Andamio.views = (function () {
         Object.defineProperties(this, {
 
             active: {
-                get: function() {
+                get: function () {
                     return this.container.hasClass("view-active");
                 },
-                set: function(value) {
+                set: function (value) {
                     if (value) {
                         this.container.addClass("view-active").removeClass("view-hidden");
                     } else {
@@ -1388,7 +1381,7 @@ Andamio.views = (function () {
     /**
      * Resets the view to its original state
      */
-    View.prototype.reset = function() {
+    View.prototype.reset = function () {
 
         if (this.position && Andamio.config.webapp) {
             this.position = this.initialPosition;
@@ -1415,9 +1408,9 @@ Andamio.views = (function () {
         var viewHistory = [];
         var scrollHistory = [];
 
-        this._urlHistory = function()    { return urlHistory; };
-        this._viewHistory = function()   { return viewHistory; };
-        this._scrollHistory = function() { return scrollHistory; };
+        this._urlHistory    = function () { return urlHistory; };
+        this._viewHistory   = function () { return viewHistory; };
+        this._scrollHistory = function () { return scrollHistory; };
 
         this.childCount = 0;
         this.modalCount = 0;
@@ -1428,33 +1421,33 @@ Andamio.views = (function () {
         Object.defineProperties(this, {
 
             currentUrl: {
-                get: function()      { return last(urlHistory); },
-                set: function(value) { addUniq(value, urlHistory); }
+                get: function ()      { return last(urlHistory); },
+                set: function (value) { addUniq(value, urlHistory); }
             },
 
             previousUrl: {
-                get: function()      { return prev(urlHistory); }
+                get: function ()      { return prev(urlHistory); }
             },
 
             currentView: {
-                get: function()      { return last(viewHistory); },
-                set: function(value) { viewHistory.push(value); }
+                get: function ()      { return last(viewHistory); },
+                set: function (value) { viewHistory.push(value); }
             },
 
             previousView: {
-                get: function()      { return prev(viewHistory); }
+                get: function ()      { return prev(viewHistory); }
             },
 
             scrollPosition: {
-                get: function()      { return last(scrollHistory); },
-                set: function(value) { scrollHistory.push(value); }
+                get: function ()      { return last(scrollHistory); },
+                set: function (value) { scrollHistory.push(value); }
             },
 
         });
 
-        this.resetViews = function() {
+        this.resetViews = function () {
 
-            this.list.each(function(value) {
+            this.list.each(function (value) {
                 var view = Andamio.views.list.lookup(value);
                 view.reset();
             });
@@ -1465,7 +1458,7 @@ Andamio.views = (function () {
             fastPath = true;
         };
 
-        this.activateView = function(view, url, expiration, scrollPosition) {
+        this.activateView = function (view, url, expiration, scrollPosition) {
 
             if (this.list.contains(view)) {
 
@@ -1479,7 +1472,7 @@ Andamio.views = (function () {
 
                     currentView.content.html('<div class="page-header"></div><div class="page-content"></div>');
 
-                    Andamio.page.load(url, expiration, function(response) {
+                    Andamio.page.load(url, expiration, function (response) {
 
                         currentView.content.html(response);
 
@@ -1493,7 +1486,7 @@ Andamio.views = (function () {
             }
         };
 
-        this.deactivateView = function(view) {
+        this.deactivateView = function (view) {
 
             if (this.list.contains(view)) {
 
@@ -1502,7 +1495,7 @@ Andamio.views = (function () {
             }
         };
 
-        this.pushView = function(view, url, expiration, scrollPosition) {
+        this.pushView = function (view, url, expiration, scrollPosition) {
 
             if (this.list.contains(view)) {
                 this.currentView = view;
@@ -1520,7 +1513,7 @@ Andamio.views = (function () {
             }
         };
 
-        this.popView = function() {
+        this.popView = function () {
 
             if (this.previousView) {
 
@@ -1545,7 +1538,7 @@ Andamio.views = (function () {
             }
         };
 
-        this.refreshView = function(expiration) {
+        this.refreshView = function (expiration) {
 
             var url = this.currentUrl,
                 currentView = this.list.lookup(this.currentView);
@@ -1553,14 +1546,14 @@ Andamio.views = (function () {
             if (url) {
                 currentView.content.html('<div class="page-header"></div><div class="page-content"></div>');
 
-                Andamio.page.refresh(url, expiration, function(response) {
+                Andamio.page.refresh(url, expiration, function (response) {
 
                     currentView.content.html(response);
                 });
             }
         };
 
-        this.openParentPage = function(url, expiration) {
+        this.openParentPage = function (url, expiration) {
 
             this.resetViews();
 
@@ -1568,7 +1561,7 @@ Andamio.views = (function () {
             this.pushView("parentView", url, minutes);
         };
 
-        this.pushModal = function(url, expiration) {
+        this.pushModal = function (url, expiration) {
 
             if (this.modalCount > 0) {
                 return false;
@@ -1583,7 +1576,7 @@ Andamio.views = (function () {
             }
         };
 
-        this.popModal = function() {
+        this.popModal = function () {
 
             if (this.modalCount > 0) {
 
@@ -1598,7 +1591,7 @@ Andamio.views = (function () {
             }
         };
 
-        this.pushChild = function(url, expiration) {
+        this.pushChild = function (url, expiration) {
 
             this.childCount++;
 
@@ -1616,7 +1609,7 @@ Andamio.views = (function () {
                 if (Andamio.config.webapp) {
                     Andamio.dom.childView.removeClass("slide-left").addClass("slide-right");
 
-                    Andamio.util.delay(function() {
+                    Andamio.util.delay(function () {
                         parentView.slide("slide-left");
                         childView.slide("slide-default");
                     }, 0);
@@ -1629,7 +1622,7 @@ Andamio.views = (function () {
                 if (Andamio.config.webapp) {
                     Andamio.dom.parentView.removeClass("slide-left").addClass("slide-right");
 
-                    Andamio.util.delay(function() {
+                    Andamio.util.delay(function () {
                         parentView.slide("slide-default");
                         childView.slide("slide-left");
                     }, 0);
@@ -1637,7 +1630,7 @@ Andamio.views = (function () {
             }
         };
 
-        this.popChild = function() {
+        this.popChild = function () {
 
             var parentView  = this.list.lookup("parentView"),
                 childView   = this.list.lookup("childView");
@@ -1648,7 +1641,7 @@ Andamio.views = (function () {
 
                     Andamio.dom.parentView.removeClass("slide-right").addClass("slide-left");
 
-                    Andamio.util.delay(function() {
+                    Andamio.util.delay(function () {
                         parentView.slide("slide-default");
                         childView.slide("slide-right");
                     }, 0);
@@ -1660,7 +1653,7 @@ Andamio.views = (function () {
 
                     Andamio.dom.childView.removeClass("slide-right").addClass("slide-left");
 
-                    Andamio.util.delay(function() {
+                    Andamio.util.delay(function () {
                         childView.slide("slide-default");
                         parentView.slide("slide-right");
                     }, 0);
@@ -1671,7 +1664,7 @@ Andamio.views = (function () {
             this.childCount--;
         };
 
-        this.init = function() {
+        this.init = function () {
 
             if (typeof Andamio.config.initialView === "string") {
                 Andamio.views.openParentPage(Andamio.config.initialView);
@@ -1705,8 +1698,8 @@ Andamio.views = (function () {
             });
 
             if (Andamio.config.os.android) {
-                navigator.bootstrap.addConstructor(function() {
-                    Andamio.dom.doc.addEventListener("backbutton", function() {
+                navigator.bootstrap.addConstructor(function () {
+                    Andamio.dom.doc.addEventListener("backbutton", function () {
                         Andamio.views.popChild();
                     });
                 });
@@ -1727,7 +1720,7 @@ Andamio.views = (function () {
     return new ViewCollection();
 })();
 
-/*jshint es5: true, browser: true */
+/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
 /*global Andamio */
 
 /**
@@ -1736,7 +1729,9 @@ Andamio.views = (function () {
  * @class init
  * @namespace APP
  */
-Andamio.init = function(options) {
+Andamio.init = function (options) {
+
+    "use strict";
 
     // Apply user parameters
     Andamio.config.init(options);
