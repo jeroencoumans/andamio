@@ -1,4 +1,4 @@
-/*jshint es5: true, browser: true, boss:true */
+/*jshint es5: true, browser: true, undef:true, unused:true, strict:true, boss:true */
 /*global Andamio, FastClick */
 
 Andamio.config = (function () {
@@ -6,7 +6,7 @@ Andamio.config = (function () {
     "use strict";
 
     /*** Zepto detect.js ***/
-    var detect = function(ua) {
+    var detect = function (ua) {
         var os = this.os = {}, browser = this.browser = {},
             webkit = ua.match(/WebKit\/([\d.]+)/),
             android = ua.match(/(Android)\s+([\d.]+)/),
@@ -60,7 +60,7 @@ Andamio.config = (function () {
             }
         },
 
-        init: function(options) {
+        init: function (options) {
 
             detect.call(this, navigator.userAgent);
 
@@ -105,7 +105,8 @@ Andamio.config = (function () {
             }
 
             if (this.os.tablet) {
-                Andamio.dom.html.addClass("desktop has-navigation");
+                Andamio.dom.html.addClass("tablet");
+                Andamio.nav.show();
                 this.webapp = true;
             }
 

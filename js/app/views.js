@@ -1,7 +1,9 @@
-/*jshint es5: true, browser: true */
+/*jshint es5: true, browser: true, indent:4, undef:true, unused:true, strict:true */
 /*global Andamio, $ */
 
 Andamio.views = (function () {
+
+    "use strict";
 
     function last(list) {
         if (list.length > 0) {
@@ -11,7 +13,7 @@ Andamio.views = (function () {
 
     function prev(list) {
         if (list && list.length > 1) {
-            return list[list.length -2];
+            return list[list.length - 2];
         }
     }
 
@@ -30,18 +32,18 @@ Andamio.views = (function () {
         if (content) {
             Object.defineProperties(this, {
                 title: {
-                    get: function() { return this.container.find(".js-title"); },
-                    set: function(value) {
+                    get: function () { return this.container.find(".js-title"); },
+                    set: function (value) {
                         if (typeof value === "string") {
                             this.container.find(".js-title").text(value);
                         }
                     }
                 },
                 content: {
-                    get: function() { return this.container.hasClass("js-content") ? this.container : this.container.find(".js-content"); }
+                    get: function () { return this.container.hasClass("js-content") ? this.container : this.container.find(".js-content"); }
                 },
                 scroller: {
-                    get: function() {
+                    get: function () {
                         if (Andamio.config.webapp) {
                             return this.container.hasClass("overthrow") ? this.container : this.container.find(".overthrow");
                         } else {
@@ -61,7 +63,7 @@ Andamio.views = (function () {
              * @method slide
              * @param direction {String} direction to which the view should slide
              */
-            this.slide = function(direction) {
+            this.slide = function (direction) {
                 var container = this.container,
                     position = this.position;
 
@@ -129,10 +131,10 @@ Andamio.views = (function () {
         Object.defineProperties(this, {
 
             active: {
-                get: function() {
+                get: function () {
                     return this.container.hasClass("view-active");
                 },
-                set: function(value) {
+                set: function (value) {
                     if (value) {
                         this.container.addClass("view-active").removeClass("view-hidden");
                     } else {
@@ -146,7 +148,7 @@ Andamio.views = (function () {
     /**
      * Resets the view to its original state
      */
-    View.prototype.reset = function() {
+    View.prototype.reset = function () {
 
         if (this.position && Andamio.config.webapp) {
             this.position = this.initialPosition;
@@ -173,9 +175,9 @@ Andamio.views = (function () {
         var viewHistory = [];
         var scrollHistory = [];
 
-        this._urlHistory = function()    { return urlHistory; };
-        this._viewHistory = function()   { return viewHistory; };
-        this._scrollHistory = function() { return scrollHistory; };
+        this._urlHistory    = function () { return urlHistory; };
+        this._viewHistory   = function () { return viewHistory; };
+        this._scrollHistory = function () { return scrollHistory; };
 
         this.childCount = 0;
         this.modalCount = 0;
@@ -186,33 +188,33 @@ Andamio.views = (function () {
         Object.defineProperties(this, {
 
             currentUrl: {
-                get: function()      { return last(urlHistory); },
-                set: function(value) { addUniq(value, urlHistory); }
+                get: function ()      { return last(urlHistory); },
+                set: function (value) { addUniq(value, urlHistory); }
             },
 
             previousUrl: {
-                get: function()      { return prev(urlHistory); }
+                get: function ()      { return prev(urlHistory); }
             },
 
             currentView: {
-                get: function()      { return last(viewHistory); },
-                set: function(value) { viewHistory.push(value); }
+                get: function ()      { return last(viewHistory); },
+                set: function (value) { viewHistory.push(value); }
             },
 
             previousView: {
-                get: function()      { return prev(viewHistory); }
+                get: function ()      { return prev(viewHistory); }
             },
 
             scrollPosition: {
-                get: function()      { return last(scrollHistory); },
-                set: function(value) { scrollHistory.push(value); }
+                get: function ()      { return last(scrollHistory); },
+                set: function (value) { scrollHistory.push(value); }
             },
 
         });
 
-        this.resetViews = function() {
+        this.resetViews = function () {
 
-            this.list.each(function(value) {
+            this.list.each(function (value) {
                 var view = Andamio.views.list.lookup(value);
                 view.reset();
             });
@@ -223,7 +225,7 @@ Andamio.views = (function () {
             fastPath = true;
         };
 
-        this.activateView = function(view, url, expiration, scrollPosition) {
+        this.activateView = function (view, url, expiration, scrollPosition) {
 
             if (this.list.contains(view)) {
 
@@ -237,7 +239,7 @@ Andamio.views = (function () {
 
                     currentView.content.html('<div class="page-header"></div><div class="page-content"></div>');
 
-                    Andamio.page.load(url, expiration, function(response) {
+                    Andamio.page.load(url, expiration, function (response) {
 
                         currentView.content.html(response);
 
@@ -251,7 +253,7 @@ Andamio.views = (function () {
             }
         };
 
-        this.deactivateView = function(view) {
+        this.deactivateView = function (view) {
 
             if (this.list.contains(view)) {
 
@@ -260,7 +262,7 @@ Andamio.views = (function () {
             }
         };
 
-        this.pushView = function(view, url, expiration, scrollPosition) {
+        this.pushView = function (view, url, expiration, scrollPosition) {
 
             if (this.list.contains(view)) {
                 this.currentView = view;
@@ -278,7 +280,7 @@ Andamio.views = (function () {
             }
         };
 
-        this.popView = function() {
+        this.popView = function () {
 
             if (this.previousView) {
 
@@ -303,7 +305,7 @@ Andamio.views = (function () {
             }
         };
 
-        this.refreshView = function(expiration) {
+        this.refreshView = function (expiration) {
 
             var url = this.currentUrl,
                 currentView = this.list.lookup(this.currentView);
@@ -311,14 +313,14 @@ Andamio.views = (function () {
             if (url) {
                 currentView.content.html('<div class="page-header"></div><div class="page-content"></div>');
 
-                Andamio.page.refresh(url, expiration, function(response) {
+                Andamio.page.refresh(url, expiration, function (response) {
 
                     currentView.content.html(response);
                 });
             }
         };
 
-        this.openParentPage = function(url, expiration) {
+        this.openParentPage = function (url, expiration) {
 
             this.resetViews();
 
@@ -326,7 +328,7 @@ Andamio.views = (function () {
             this.pushView("parentView", url, minutes);
         };
 
-        this.pushModal = function(url, expiration) {
+        this.pushModal = function (url, expiration) {
 
             if (this.modalCount > 0) {
                 return false;
@@ -341,7 +343,7 @@ Andamio.views = (function () {
             }
         };
 
-        this.popModal = function() {
+        this.popModal = function () {
 
             if (this.modalCount > 0) {
 
@@ -356,7 +358,7 @@ Andamio.views = (function () {
             }
         };
 
-        this.pushChild = function(url, expiration) {
+        this.pushChild = function (url, expiration) {
 
             this.childCount++;
 
@@ -374,7 +376,7 @@ Andamio.views = (function () {
                 if (Andamio.config.webapp) {
                     Andamio.dom.childView.removeClass("slide-left").addClass("slide-right");
 
-                    Andamio.util.delay(function() {
+                    Andamio.util.delay(function () {
                         parentView.slide("slide-left");
                         childView.slide("slide-default");
                     }, 0);
@@ -387,7 +389,7 @@ Andamio.views = (function () {
                 if (Andamio.config.webapp) {
                     Andamio.dom.parentView.removeClass("slide-left").addClass("slide-right");
 
-                    Andamio.util.delay(function() {
+                    Andamio.util.delay(function () {
                         parentView.slide("slide-default");
                         childView.slide("slide-left");
                     }, 0);
@@ -395,7 +397,7 @@ Andamio.views = (function () {
             }
         };
 
-        this.popChild = function() {
+        this.popChild = function () {
 
             var parentView  = this.list.lookup("parentView"),
                 childView   = this.list.lookup("childView");
@@ -406,7 +408,7 @@ Andamio.views = (function () {
 
                     Andamio.dom.parentView.removeClass("slide-right").addClass("slide-left");
 
-                    Andamio.util.delay(function() {
+                    Andamio.util.delay(function () {
                         parentView.slide("slide-default");
                         childView.slide("slide-right");
                     }, 0);
@@ -418,7 +420,7 @@ Andamio.views = (function () {
 
                     Andamio.dom.childView.removeClass("slide-right").addClass("slide-left");
 
-                    Andamio.util.delay(function() {
+                    Andamio.util.delay(function () {
                         childView.slide("slide-default");
                         parentView.slide("slide-right");
                     }, 0);
@@ -429,7 +431,7 @@ Andamio.views = (function () {
             this.childCount--;
         };
 
-        this.init = function() {
+        this.init = function () {
 
             if (typeof Andamio.config.initialView === "string") {
                 Andamio.views.openParentPage(Andamio.config.initialView);
@@ -463,8 +465,8 @@ Andamio.views = (function () {
             });
 
             if (Andamio.config.os.android) {
-                navigator.bootstrap.addConstructor(function() {
-                    Andamio.dom.doc.addEventListener("backbutton", function() {
+                navigator.bootstrap.addConstructor(function () {
+                    Andamio.dom.doc.addEventListener("backbutton", function () {
                         Andamio.views.popChild();
                     });
                 });

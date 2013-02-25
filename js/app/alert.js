@@ -1,4 +1,4 @@
-/*jshint es5: true, browser: true */
+/*jshint es5: true, browser: true, undef:true, unused:true */
 /*global $, Andamio */
 
 Andamio.dom.pageAlert = $(".js-page-alert");
@@ -21,6 +21,8 @@ Andamio.alert = (function () {
 
     "use strict";
 
+    var isActive;
+
     return {
         show: function (msg) {
 
@@ -28,33 +30,26 @@ Andamio.alert = (function () {
                 Andamio.dom.pageAlertText = msg;
             }
 
+            isActive = true;
             Andamio.dom.html.addClass("has-alert");
             Andamio.dom.pageAlert.show();
         },
 
         hide: function () {
 
+            isActive = false;
             Andamio.dom.html.removeClass("has-alert");
             Andamio.dom.pageAlert.hide();
         },
 
         get status () {
 
-            return Andamio.dom.html.hasClass("has-alert");
-        },
-
-        set status (value) {
-
-            if (value) {
-                this.show();
-            } else {
-                this.hide();
-            }
+            return isActive;
         },
 
         init: function () {
 
-            this.status = Andamio.dom.html.hasClass("has-alert");
+            isActive = Andamio.dom.html.hasClass("has-alert");
             Andamio.events.attach(".action-hide-alert", this.hide);
         }
     };

@@ -1,4 +1,4 @@
-/*jshint es5: true, browser: true */
+/*jshint es5: true, browser: true, undef:true, unused:true */
 /*global $, Andamio */
 
 Andamio.dom.pageNav = $(".js-page-navigation");
@@ -7,12 +7,12 @@ Andamio.dom.pageNavItems = Andamio.dom.pageNav.find(".action-nav-item");
 Object.defineProperties(Andamio.dom, {
     pageNavActive: {
 
-        get: function() {
+        get: function () {
 
             return this.pageNavItems.filter(".active");
         },
 
-        set: function(elem) {
+        set: function (elem) {
 
             var current = this.pageNavActive;
 
@@ -27,7 +27,8 @@ Andamio.nav = (function () {
 
     "use strict";
 
-    var docheight,
+    var isActive,
+        docheight,
         navheight;
 
     function setPageHeight(height) {
@@ -38,7 +39,8 @@ Andamio.nav = (function () {
 
     return {
 
-        show: function() {
+        show: function () {
+            isActive = true;
             Andamio.dom.html.addClass("has-navigation");
 
             if (!Andamio.config.webapp) {
@@ -46,7 +48,8 @@ Andamio.nav = (function () {
             }
         },
 
-        hide: function() {
+        hide: function () {
+            isActive = false;
             Andamio.dom.html.removeClass("has-navigation");
 
             if (!Andamio.config.webapp) {
@@ -55,27 +58,19 @@ Andamio.nav = (function () {
         },
 
         get status() {
-            return Andamio.dom.html.hasClass("has-navigation");
+            return isActive;
         },
 
-        set status(value) {
-            if (value) {
-                this.show();
-            } else {
-                this.hide();
-            }
-        },
-
-        init: function() {
+        init: function () {
             var self = this;
 
-            self.status = Andamio.dom.html.hasClass("has-navigation");
+            isActive = Andamio.dom.html.hasClass("has-navigation");
 
             docheight = Andamio.dom.win.height();
             navheight = Andamio.dom.pageNav.height();
 
             // When in Mobile Safari, add the height of the address bar
-            if (Andamio.config.os.iphone && ! Andamio.config.webapp) {
+            if (Andamio.config.os.iphone && !Andamio.config.webapp) {
                 docheight += 60;
             }
 
@@ -94,6 +89,11 @@ Andamio.nav = (function () {
                     url     = Andamio.util.getUrl(target),
                     title   = Andamio.util.getTitle(target);
 
+                if (Andamio.dom.pageNavActive[0] === target[0] && !Andamio.config.os.tablet) {
+                    self.hide();
+                    return;
+                }
+
                 Andamio.dom.pageNavActive = target;
 
                 if (!Andamio.config.os.tablet) {
@@ -101,7 +101,7 @@ Andamio.nav = (function () {
                 }
 
                 if (title) {
-                    Andamio.dom.viewport.one("Andamio:views:activateView:finish", function() {
+                    Andamio.dom.viewport.one("Andamio:views:activateView:finish", function () {
                         Andamio.views.list.lookup("parentView").title = title;
                     });
                 }

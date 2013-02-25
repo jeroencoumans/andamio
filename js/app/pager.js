@@ -1,7 +1,9 @@
-/*jshint es5: true, browser: true */
+/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
 /*global Andamio, $ */
 
 Andamio.pager = (function () {
+
+    "use strict";
 
     var isActive,
         isAutofetching,
@@ -27,7 +29,7 @@ Andamio.pager = (function () {
             self.autoFetching = true;
         }
 
-        Andamio.config.pager.loadMoreAction.on("click", function() {
+        Andamio.config.pager.loadMoreAction.on("click", function () {
             self.loadNextPage();
         });
     }
@@ -40,7 +42,7 @@ Andamio.pager = (function () {
             self.autoFetching = false;
         }
 
-        Andamio.config.pager.loadMoreAction.off("click", function() {
+        Andamio.config.pager.loadMoreAction.off("click", function () {
             self.loadNextPage();
         });
 
@@ -69,7 +71,7 @@ Andamio.pager = (function () {
             autoFetch           : this.params.autoFetch || false,
             autoFetchMax        : this.params.autoFetchMax || 3,
             autoFetchThreshold  : this.params.autoFetchThreshold || 100,
-            callback            : $.isFunction(this.params.callback) ? this.params.callback : function() {},
+            callback            : $.isFunction(this.params.callback) ? this.params.callback : function () {},
             expires             : this.params.expires || null,
             itemsPerPage        : this.params.itemsPerPage || 10,
             loadMoreAction      : this.params.loadMoreAction || $('<div class="pager-action"><a href="javascript:void(0)" class="button button-block action-load-more">Load more</a></div>'),
@@ -81,17 +83,17 @@ Andamio.pager = (function () {
 
         Object.defineProperties(this, {
             autoFetching: {
-                get: function() {
+                get: function () {
                     return isAutofetching;
                 },
 
-                set: function(value) {
+                set: function (value) {
 
                     isAutofetching = value;
                     var self = this;
 
                     if (value) {
-                        currentScroller.on("scroll", function() {
+                        currentScroller.on("scroll", function () {
                             self.onScroll();
                         });
                     } else {
@@ -101,11 +103,11 @@ Andamio.pager = (function () {
             },
 
             status: {
-                get: function() {
+                get: function () {
                     return isActive;
                 },
 
-                set: function(value) {
+                set: function (value) {
 
                     var self = this;
 
@@ -126,7 +128,7 @@ Andamio.pager = (function () {
         }
     }
 
-    Pager.prototype.loadNextPage = function(callback) {
+    Pager.prototype.loadNextPage = function (callback) {
 
         if (! isLoading) {
 
@@ -136,7 +138,7 @@ Andamio.pager = (function () {
 
             var self = this;
 
-            Andamio.page.load(Andamio.config.pager.url + self.pageNumber, Andamio.config.pager.expires, function(response) {
+            Andamio.page.load(Andamio.config.pager.url + self.pageNumber, Andamio.config.pager.expires, function (response) {
 
                 isLoading = false;
 
@@ -162,18 +164,18 @@ Andamio.pager = (function () {
         }
     };
 
-    Pager.prototype.onScroll = function() {
+    Pager.prototype.onScroll = function () {
 
         if (! isLoading) {
 
             var scrollTop = currentScroller.scrollTop(),
                 self = this;
 
-            Andamio.util.delay(function() {
+            Andamio.util.delay(function () {
 
                 if (scrollTop + currentScrollerHeight + Andamio.config.pager.autoFetchThreshold >= currentScrollerScrollHeight) {
 
-                    self.loadNextPage(function() {
+                    self.loadNextPage(function () {
 
                         // make sure the scrolltop is saved
                         currentScroller.scrollTop(scrollTop);
@@ -190,7 +192,7 @@ Andamio.pager = (function () {
 
     return {
 
-        init: function(options) {
+        init: function (options) {
 
             return new Pager(options);
         }

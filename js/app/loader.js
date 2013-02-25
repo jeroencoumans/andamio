@@ -1,4 +1,4 @@
-/*jshint es5: true, browser: true */
+/*jshint es5: true, browser: true, undef:true, unused:true */
 /*global $, Andamio */
 
 Andamio.dom.pageLoader = $(".js-page-loader");
@@ -7,11 +7,11 @@ Andamio.dom.pageLoaderImg = Andamio.dom.pageLoader.find(".js-page-loader-spinner
 Object.defineProperties(Andamio.dom, {
     pageLoaderText: {
 
-        get: function() {
+        get: function () {
             return this.pageLoader.find(".js-page-loader-text").text();
         },
 
-        set: function(str) {
+        set: function (str) {
             this.pageLoader.find(".js-page-loader-text").html(str);
         }
     }
@@ -21,8 +21,12 @@ Andamio.loader = (function () {
 
     "use strict";
 
+    var isActive;
+
     return {
-        show: function(msg) {
+        show: function (msg) {
+
+            isActive = true;
 
             if (msg) {
                 Andamio.dom.pageLoaderText = msg;
@@ -40,8 +44,9 @@ Andamio.loader = (function () {
             }
         },
 
-        hide: function() {
+        hide: function () {
 
+            isActive = false;
             Andamio.dom.html.removeClass("has-loader");
 
             if (Andamio.config.cordova) {
@@ -56,37 +61,27 @@ Andamio.loader = (function () {
 
         get status() {
 
-            return Andamio.dom.html.hasClass("has-loader");
+            return isActive;
         },
 
-        set status(value) {
+        init: function () {
 
-            if (value) {
-                this.show();
-            }
-            else {
-                this.hide();
-            }
-        },
-
-        init: function() {
-
-            this.status = Andamio.dom.html.hasClass("has-loader");
+            isActive = Andamio.dom.html.hasClass("has-loader");
 
             var timeoutToken;
 
-            Andamio.dom.doc.on("Andamio:views:activateView:start", function() {
+            Andamio.dom.doc.on("Andamio:views:activateView:start", function () {
 
                 // show loader if nothing is shown within 0,250 seconds
-                timeoutToken = window.setTimeout(function() {
+                timeoutToken = setTimeout(function () {
                     Andamio.loader.show();
 
                 }, 250);
             });
 
-            Andamio.dom.doc.on("Andamio:views:activateView:finish", function() {
+            Andamio.dom.doc.on("Andamio:views:activateView:finish", function () {
 
-                window.clearTimeout(timeoutToken);
+                clearTimeout(timeoutToken);
                 Andamio.loader.hide();
             });
         }

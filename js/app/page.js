@@ -1,12 +1,14 @@
-/*jshint es5: true, browser: true */
+/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
 /*global Andamio, $ */
 
 Andamio.page = (function () {
 
+    "use strict";
+
     /**
      * Stores content in cache based on URL
      */
-    function storeResponse(url, response, expiration) {
+    function storeResponse (url, response, expiration) {
 
         if (Andamio.config.cache) {
             Andamio.cache.setCache(url, response, expiration);
@@ -16,7 +18,7 @@ Andamio.page = (function () {
     /**
      * Ajax request to URL, storing the result in cache on success. Fails silently.
      */
-    function doAjaxRequest(url, expiration, callback) {
+    function doAjaxRequest (url, expiration, callback) {
 
         // Add cachebuster
         var requestUrl = url + ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime();
@@ -28,12 +30,12 @@ Andamio.page = (function () {
                 "X-PJAX": true,
                 "X-Requested-With": "XMLHttpRequest"
             },
-            success: function(response) {
 
+            success: function (response) {
                 storeResponse(url, response, expiration);
             },
 
-            complete: function(data) {
+            complete: function (data) {
                 if ($.isFunction(callback)) callback(data.responseText);
             }
         });
@@ -48,7 +50,7 @@ Andamio.page = (function () {
      * @param callback {Function} optional callback function that receives the content
      */
     return {
-        load: function(url, expiration, callback) {
+        load: function (url, expiration, callback) {
 
             if (! url) {
                 return false;
@@ -64,7 +66,7 @@ Andamio.page = (function () {
                 }
             } else {
 
-                doAjaxRequest(url, expiration, function(response) {
+                doAjaxRequest(url, expiration, function (response) {
 
                     if ($.isFunction(callback)) {
                         callback(response);
@@ -73,7 +75,7 @@ Andamio.page = (function () {
             }
         },
 
-        refresh: function(url, expiration, callback) {
+        refresh: function (url, expiration, callback) {
 
             Andamio.cache.deleteCache(url);
             this.load(url, expiration, callback);

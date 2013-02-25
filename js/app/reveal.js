@@ -1,4 +1,4 @@
-/*jshint es5: true, browser: true */
+/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
 /*global Andamio, $ */
 
 Andamio.reveal = (function () {
@@ -6,7 +6,7 @@ Andamio.reveal = (function () {
     "use strict";
 
     return {
-        init: function() {
+        init: function () {
 
             Andamio.events.attach(".action-reveal", function (event) {
 
@@ -15,7 +15,7 @@ Andamio.reveal = (function () {
                     targetContent,
                     activeClass = 'active',
                     activeClassSelector = '.' + activeClass,
-                    target  = $(event.currentTarget);
+                    target = $(event.currentTarget);
 
                 if (!target) {
                     return;
