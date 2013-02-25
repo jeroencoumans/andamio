@@ -1,7 +1,9 @@
-/*jshint es5: true, browser: true */
+/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
 /*global Andamio, $, Swipe */
 
 Andamio.slideshow = (function () {
+
+    "use strict";
 
     function SwipeDots(number) {
 
@@ -16,8 +18,8 @@ Andamio.slideshow = (function () {
 
             Object.defineProperties(this, {
                 active: {
-                    get: function() { return this.wrapper.find(".active"); },
-                    set: function(elem) {
+                    get: function () { return this.wrapper.find(".active"); },
+                    set: function (elem) {
                         this.wrapper.find(".active").removeClass("active");
                         $(elem).addClass("active");
                     }
@@ -31,24 +33,24 @@ Andamio.slideshow = (function () {
     return {
         init: function(id, options, callback) {
 
-            var slideshowActive = $(id).data("js-slideshow-active");
+            var slideshowContainer = $("#" + id);
 
-            this.options = {
-                startSlide: 0,
-                speed: 300,
-                continuous: true,
-                disableScroll: false
-            };
+            if (! slideshowContainer.hasClass(".js-slideshow-active")) {
 
-            // Setup user-defined options
-            if (typeof options === "object" && typeof options !== "undefined") {
+                this.options = {
+                    startSlide: 0,
+                    speed: 300,
+                    continuous: true,
+                    disableScroll: false
+                };
 
-                for (var key in options) {
-                    this.options[key] = options[key];
+                // Setup user-defined options
+                if (typeof options === "object" && typeof options !== "undefined") {
+
+                    for (var key in options) {
+                        this.options[key] = options[key];
+                    }
                 }
-            }
-
-            if (! slideshowActive) {
 
                 // setup Swipe
                 var slideshow = new Swipe(document.getElementById(id), this.options);
@@ -58,7 +60,7 @@ Andamio.slideshow = (function () {
                 dots.wrapper.insertAfter(slideshow.container);
 
                 // Taps on individual dots go to their corresponding slide
-                $(slideshow.container).next().on("click", function (event) {
+                slideshowContainer.next().on("click", function (event) {
 
                     var target  = event.target;
 
@@ -87,7 +89,7 @@ Andamio.slideshow = (function () {
                     }
                 };
 
-                $(slideshow.container).on("click", function (event) {
+                slideshowContainer.on("click", function (event) {
 
                     var target = $(event.target),
                         isNext = target.parents(".action-slideshow-next"),
@@ -101,6 +103,8 @@ Andamio.slideshow = (function () {
                         slideshow.prev();
                     }
                 });
+
+                slideshowContainer.addClass("js-slideshow-active");
 
                 return slideshow;
             }
