@@ -3068,6 +3068,7 @@ Andamio.config = (function () {
             var win = window;
 
             this.webapp  = win.location.search.search("webapp") > 0 || win.navigator.standalone;
+            this.website = !this.webapp;
             this.cordova = win.navigator.userAgent.indexOf("TMGContainer") > -1;
             this.server  = win.location.origin + win.location.pathname;
             this.touch   = 'ontouchstart' in win;
@@ -3331,7 +3332,7 @@ Andamio.cache = (function () {
         setCache: function (key, data, expiration) {
 
             if (key && data && cache) {
-                var minutes = (typeof expiration === "number") ? expiration : 2 * 60;
+                var minutes = (typeof expiration === "number") ? expiration : Andamio.config.cacheExpiration;
                 cache.set(key, data, minutes);
             }
         },
@@ -3347,6 +3348,10 @@ Andamio.cache = (function () {
 
             cache = window.lscache || false;
             Andamio.config.cache = cache ? cache.supported() : false;
+
+            if (cache) {
+                Andamio.config.cacheExpiration = 120;
+            }
         }
     };
 })();
@@ -4525,7 +4530,7 @@ Andamio.views = (function () {
 
             this.resetViews();
 
-            var minutes = expiration || 24 * 60; // lscache sets expiration in minutes, so this is 24 hours
+            var minutes = expiration || Andamio.config.cacheExpiration;
             this.pushView("parentView", url, minutes);
         };
 

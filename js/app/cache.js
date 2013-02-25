@@ -29,7 +29,7 @@ Andamio.cache = (function () {
         setCache: function (key, data, expiration) {
 
             if (key && data && cache) {
-                var minutes = (typeof expiration === "number") ? expiration : 2 * 60;
+                var minutes = (typeof expiration === "number") ? expiration : Andamio.config.cacheExpiration;
                 cache.set(key, data, minutes);
             }
         },
@@ -45,6 +45,10 @@ Andamio.cache = (function () {
 
             cache = window.lscache || false;
             Andamio.config.cache = cache ? cache.supported() : false;
+
+            if (cache) {
+                Andamio.config.cacheExpiration = 120;
+            }
         }
     };
 })();

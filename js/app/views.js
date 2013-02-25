@@ -324,7 +324,7 @@ Andamio.views = (function () {
 
             this.resetViews();
 
-            var minutes = expiration || 24 * 60; // lscache sets expiration in minutes, so this is 24 hours
+            var minutes = expiration || Andamio.config.cacheExpiration;
             this.pushView("parentView", url, minutes);
         };
 

@@ -78,6 +78,7 @@ Andamio.config = (function () {
             var win = window;
 
             this.webapp  = win.location.search.search("webapp") > 0 || win.navigator.standalone;
+            this.website = !this.webapp;
             this.cordova = win.navigator.userAgent.indexOf("TMGContainer") > -1;
             this.server  = win.location.origin + win.location.pathname;
             this.touch   = 'ontouchstart' in win;
