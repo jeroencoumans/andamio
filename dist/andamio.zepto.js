@@ -4106,8 +4106,9 @@ Andamio.slideshow = (function () {
                     // Download images on demand when they have a data-src and .js-slideshow-media
                     var img = $(item).find(".js-slideshow-media");
 
-                    if (img) {
-                        img.css('background-image', 'url(' + img.data("src") + ')');
+                    if (img.length > 0) {
+                        var url = img.data("src");
+                        img.css('background-image', 'url(' + url + ')');
                     }
 
                     if ($.isFunction(callback)) {
