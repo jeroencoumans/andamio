@@ -1,9 +1,7 @@
-/*jshint es5: true, browser: true, indent:4, undef:true, unused:true, strict:true */
+/*jshint es5: true, browser: true, undef:true, unused:true */
 /*global Andamio, $ */
 
 Andamio.views = (function () {
-
-    "use strict";
 
     function last(list) {
         if (list.length > 0) {

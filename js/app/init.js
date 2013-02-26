@@ -1,4 +1,4 @@
-/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
+/*jshint es5: true, browser: true, undef:true, unused:true */
 /*global Andamio */
 
 /**
@@ -8,8 +8,6 @@
  * @namespace APP
  */
 Andamio.init = function (options) {
-
-    "use strict";
 
     // Apply user parameters
     Andamio.config.init(options);

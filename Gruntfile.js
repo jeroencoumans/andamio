@@ -10,8 +10,7 @@ module.exports = function(grunt) {
                     browser: true,
                     indent:4,
                     undef:true,
-                    unused:true,
-                    strict:true
+                    unused:true
                 }
             }
         },

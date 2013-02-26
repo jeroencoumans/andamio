@@ -25,8 +25,6 @@ Object.defineProperties(Andamio.dom, {
 
 Andamio.tabs = (function () {
 
-    "use strict";
-
     return {
 
         show: function() {

@@ -19,8 +19,6 @@ Object.defineProperties(Andamio.dom, {
 
 Andamio.loader = (function () {
 
-    "use strict";
-
     var isActive;
 
     return {

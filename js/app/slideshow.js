@@ -1,9 +1,7 @@
-/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
+/*jshint es5: true, browser: true, undef:true, unused:true */
 /*global Andamio, $, Swipe */
 
 Andamio.slideshow = (function () {
-
-    "use strict";
 
     function SwipeDots(number) {
 

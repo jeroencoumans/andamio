@@ -25,8 +25,6 @@ Object.defineProperties(Andamio.dom, {
 
 Andamio.nav = (function () {
 
-    "use strict";
-
     var isActive,
         docheight,
         navheight;

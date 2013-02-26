@@ -19,8 +19,6 @@ Object.defineProperties(Andamio.dom, {
 
 Andamio.alert = (function () {
 
-    "use strict";
-
     var isActive;
 
     return {

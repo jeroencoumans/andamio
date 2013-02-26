@@ -1,9 +1,7 @@
-/*jshint es5: true, browser: true, undef:true, unused:true, strict:true, boss:true */
+/*jshint es5: true, browser: true, undef:true, unused:true, boss:true */
 /*global Andamio, FastClick */
 
 Andamio.config = (function () {
-
-    "use strict";
 
     /*** Zepto detect.js ***/
     var detect = function (ua) {

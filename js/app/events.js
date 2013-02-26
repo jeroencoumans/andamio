@@ -1,8 +1,6 @@
-/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
+/*jshint es5: true, browser: true, undef:true, unused:true */
 /*global Andamio */
 Andamio.events = (function () {
-
-    "use strict";
 
     return {
         attach: function (selector, fn, bubbles) {

@@ -10287,14 +10287,12 @@ var lscache = function() {
   };
 }();
 
-/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
+/*jshint es5: true, browser: true, undef:true, unused:true */
 /*global $, Andamio */
 
 window.Andamio = {};
 
 Andamio.dom = (function () {
-
-    "use strict";
 
     return {
         win:        $(window),
@@ -10309,12 +10307,10 @@ Andamio.dom = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true, strict:true, boss:true */
+/*jshint es5: true, browser: true, undef:true, unused:true, boss:true */
 /*global Andamio, FastClick */
 
 Andamio.config = (function () {
-
-    "use strict";
 
     /*** Zepto detect.js ***/
     var detect = function (ua) {
@@ -10436,11 +10432,9 @@ Andamio.config = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
+/*jshint es5: true, browser: true, undef:true, unused:true */
 /*global Andamio */
 Andamio.events = (function () {
-
-    "use strict";
 
     return {
         attach: function (selector, fn, bubbles) {
@@ -10563,12 +10557,10 @@ Andamio.util.delay = (function(){
         timer = setTimeout(callback, ms);
     };
 })();
-/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
+/*jshint es5: true, browser: true, undef:true, unused:true */
 /*global Andamio, $, cordova */
 
 Andamio.phone = (function () {
-
-    "use strict";
 
     return {
         init: function () {
@@ -10634,7 +10626,7 @@ Andamio.phone = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
+/*jshint es5: true, browser: true, undef:true, unused:true */
 /*global Andamio */
 
 /**
@@ -10644,8 +10636,6 @@ Andamio.phone = (function () {
  * @namespace APP
  */
 Andamio.cache = (function () {
-
-    "use strict";
 
     var cache;
 
@@ -10690,12 +10680,10 @@ Andamio.cache = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
+/*jshint es5: true, browser: true, undef:true, unused:true */
 /*global Andamio */
 
 Andamio.connection = (function () {
-
-    "use strict";
 
     var isOnline,
         offlineMessage;
@@ -10734,12 +10722,10 @@ Andamio.connection = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
+/*jshint es5: true, browser: true, undef:true, unused:true */
 /*global Andamio, $ */
 
 Andamio.page = (function () {
-
-    "use strict";
 
     /**
      * Stores content in cache based on URL
@@ -10820,12 +10806,10 @@ Andamio.page = (function () {
 
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
+/*jshint es5: true, browser: true, undef:true, unused:true */
 /*global Andamio, $ */
 
 Andamio.pager = (function () {
-
-    "use strict";
 
     var isActive,
         isAutofetching,
@@ -11043,8 +11027,6 @@ Object.defineProperties(Andamio.dom, {
 
 Andamio.alert = (function () {
 
-    "use strict";
-
     var isActive;
 
     return {
@@ -11099,8 +11081,6 @@ Object.defineProperties(Andamio.dom, {
 });
 
 Andamio.loader = (function () {
-
-    "use strict";
 
     var isActive;
 
@@ -11196,8 +11176,6 @@ Object.defineProperties(Andamio.dom, {
 
 Andamio.nav = (function () {
 
-    "use strict";
-
     var isActive,
         docheight,
         navheight;
@@ -11285,12 +11263,10 @@ Andamio.nav = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
+/*jshint es5: true, browser: true, undef:true, unused:true */
 /*global Andamio, $ */
 
 Andamio.reveal = (function () {
-
-    "use strict";
 
     return {
         init: function () {
@@ -11338,12 +11314,10 @@ Andamio.reveal = (function () {
 
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
+/*jshint es5: true, browser: true, undef:true, unused:true */
 /*global Andamio, $, Swipe */
 
 Andamio.slideshow = (function () {
-
-    "use strict";
 
     function SwipeDots(number) {
 
@@ -11481,8 +11455,6 @@ Object.defineProperties(Andamio.dom, {
 
 Andamio.tabs = (function () {
 
-    "use strict";
-
     return {
 
         show: function() {
@@ -11539,12 +11511,10 @@ Andamio.tabs = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true, indent:4, undef:true, unused:true, strict:true */
+/*jshint es5: true, browser: true, undef:true, unused:true */
 /*global Andamio, $ */
 
 Andamio.views = (function () {
-
-    "use strict";
 
     function last(list) {
         if (list.length > 0) {
@@ -12020,7 +11990,7 @@ Andamio.views = (function () {
     return new ViewCollection();
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
+/*jshint es5: true, browser: true, undef:true, unused:true */
 /*global Andamio */
 
 /**
@@ -12030,8 +12000,6 @@ Andamio.views = (function () {
  * @namespace APP
  */
 Andamio.init = function (options) {
-
-    "use strict";
 
     // Apply user parameters
     Andamio.config.init(options);
