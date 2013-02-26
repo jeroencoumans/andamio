@@ -564,13 +564,12 @@ sup {
   box-sizing: border-box;
   position: fixed;
   top: 50%;
-  left: 0;
-  right: 0;
+  left: 50%;
+  margin: -52px 0 0 -50px;
   width: 100px;
-  margin: -52px auto 0;
   padding: 20px 10px;
   z-index: 1000;
-  background: rgba(0, 0, 0, 0.85);
+  background: #050505;
   border-radius: 10px;
   text-align: center;
 }
@@ -1564,7 +1563,6 @@ a {
   -webkit-background-clip: padding;
   background-clip: padding-box;
   text-align: center;
-  max-width: 10em;
   background-color: #840101;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#b70201), to(#840101));
   background-image: -webkit-linear-gradient(top, #b70201 0, #840101 100%);

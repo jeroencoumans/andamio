@@ -15,13 +15,14 @@
     .box-sizing();
     position: fixed;
     top: 50%;
-    left: 0; right: 0;
+    left: 50%;
+    margin: -(@loader-img-height + @baseline) 0 0 -(@loader-width / 2);
     width: @loader-width;
-    margin: -(@loader-img-height + @baseline) auto 0;
     padding: @grid-l @grid-m;
     z-index: 1000;
 
-    background: @loader-background;
+    // background: @loader-background;
+    background: @black;
     border-radius: @grid-m;
     text-align: center;
 
