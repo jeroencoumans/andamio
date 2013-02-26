@@ -333,6 +333,13 @@ Andamio.phone = (function () {
                     }
                 });
 
+                if (Andamio.config.os.android) {
+                    navigator.bootstrap.addConstructor(function () {
+                        Andamio.dom.doc.addEventListener("backbutton", function () {
+                            Andamio.views.popChild();
+                        });
+                    });
+                }
             });
         }
     };
@@ -1707,14 +1714,6 @@ Andamio.views = (function () {
 
                 Andamio.views.popChild();
             });
-
-            if (Andamio.config.os.android) {
-                navigator.bootstrap.addConstructor(function () {
-                    Andamio.dom.doc.addEventListener("backbutton", function () {
-                        Andamio.views.popChild();
-                    });
-                });
-            }
 
             Andamio.events.attach(".action-hide-modal", function () {
 
