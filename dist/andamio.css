@@ -633,9 +633,6 @@ sup {
   pointer-events: auto;
   z-index: 2;
 }
-.ios6 .page-navigation-toggle {
-  z-index: 1;
-}
 .website {
   overflow-x: hidden;
   overflow-y: scroll;
