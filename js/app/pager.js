@@ -142,10 +142,13 @@ Andamio.pager = (function () {
         if (! isLoading) {
 
             isLoading = true;
-            showSpinner();
             this.pageNumber++;
 
             var self = this;
+
+            if (! self.autoFetching) {
+                showSpinner();
+            }
 
             Andamio.page.load(Andamio.config.pager.url + self.pageNumber, Andamio.config.pager.expires, function (response) {
 
@@ -154,7 +157,9 @@ Andamio.pager = (function () {
                 if (response) {
                     Andamio.dom.pagerWrapper.append(response);
 
-                    hideSpinner();
+                    if (! self.autoFetching) {
+                        hideSpinner();
+                    }
 
                     currentScrollerHeight = currentScroller.height();
                     currentScrollerScrollHeight = currentScroller[0].scrollHeight || Andamio.dom.viewport.height();
