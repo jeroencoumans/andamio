@@ -10843,14 +10843,18 @@ Andamio.page = (function () {
 
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true */
+/*jshint es5: true, browser: true, undef:true, unused:true, strict:true */
 /*global Andamio, $ */
 
 Andamio.pager = (function () {
 
+    "use strict";
+
     var isActive,
         isAutofetching,
         isLoading,
+        loadMoreAction,
+        spinner,
         currentView,
         currentScroller,
         currentScrollerHeight,
@@ -10865,14 +10869,14 @@ Andamio.pager = (function () {
         currentScrollerHeight = currentScroller.height(),
         currentScrollerScrollHeight = currentScroller[0].scrollHeight || Andamio.dom.viewport.height();
 
-        Andamio.config.pager.loadMoreAction.insertAfter(Andamio.dom.pagerWrapper);
-        Andamio.config.pager.spinner.insertAfter(Andamio.dom.pagerWrapper).hide();
+        loadMoreAction.insertAfter(Andamio.dom.pagerWrapper);
+        spinner.insertAfter(Andamio.dom.pagerWrapper).hide();
 
         if (Andamio.config.pager.autoFetch) {
             self.autoFetching = true;
         }
 
-        Andamio.config.pager.loadMoreAction.on("click", function () {
+        loadMoreAction.on("click", function () {
             self.loadNextPage();
         });
     }
@@ -10885,22 +10889,22 @@ Andamio.pager = (function () {
             self.autoFetching = false;
         }
 
-        Andamio.config.pager.loadMoreAction.off("click", function () {
+        loadMoreAction.off("click", function () {
             self.loadNextPage();
         });
 
-        Andamio.config.pager.loadMoreAction.remove();
-        Andamio.config.pager.spinner.remove();
+        loadMoreAction.remove();
+        spinner.remove();
     }
 
     function showSpinner() {
-        Andamio.config.pager.spinner.show();
-        Andamio.config.pager.loadMoreAction.hide();
+        spinner.show();
+        loadMoreAction.hide();
     }
 
     function hideSpinner() {
-        Andamio.config.pager.spinner.hide();
-        Andamio.config.pager.loadMoreAction.show();
+        spinner.hide();
+        loadMoreAction.show();
     }
 
     function Pager(params) {
@@ -10908,6 +10912,8 @@ Andamio.pager = (function () {
         this.params = $.isPlainObject(params) ? params : {};
 
         Andamio.dom.pagerWrapper = this.params.elem || Andamio.views.list.lookup(Andamio.views.currentView).content.find(".js-pager-list");
+        loadMoreAction = this.params.loadMoreAction || $('<div class="pager-action"><a href="javascript:void(0)" class="button button-block action-load-more">Load more</a></div>');
+        spinner = this.params.spinner || $('<div class="pager-loading">Loading...</div></div>');
 
         // Store options in global config
         Andamio.config.pager = {
@@ -10917,8 +10923,8 @@ Andamio.pager = (function () {
             callback            : $.isFunction(this.params.callback) ? this.params.callback : function () {},
             expires             : this.params.expires || null,
             itemsPerPage        : this.params.itemsPerPage || 10,
-            loadMoreAction      : this.params.loadMoreAction || $('<div class="pager-action"><a href="javascript:void(0)" class="button button-block action-load-more">Load more</a></div>'),
-            spinner             : this.params.spinner || $('<div class="pager-loading">Loading...</div></div>'),
+            loadMoreAction      : loadMoreAction,
+            spinner             : spinner,
             url                 : this.params.url || Andamio.config.server + "?page="
         };
 
@@ -10936,11 +10942,18 @@ Andamio.pager = (function () {
                     var self = this;
 
                     if (value) {
+
+                        spinner.show();
+                        loadMoreAction.hide();
+
                         currentScroller.on("scroll", function () {
                             self.onScroll();
                         });
                     } else {
                         currentScroller.off("scroll");
+
+                        spinner.hide();
+                        loadMoreAction.show();
                     }
                 }
             },
