@@ -1226,34 +1226,30 @@ Object.defineProperties(Andamio.dom, {
 
 Andamio.tabs = (function () {
 
+    var hasTabs;
+
     return {
 
         show: function() {
+            hasTabs = true;
             Andamio.dom.html.addClass("has-page-tabs");
             Andamio.dom.pageTabs.show();
         },
 
         hide: function() {
+            hasTabs = false;
             Andamio.dom.html.removeClass("has-page-tabs");
             Andamio.dom.pageTabs.hide();
         },
 
         get status() {
-            return Andamio.dom.html.hasClass("has-page-tabs");
-        },
-
-        set status(value) {
-            if (value) {
-                this.show();
-            } else {
-                this.hide();
-            }
+            return hasTabs;
         },
 
         init: function() {
             var self = this;
 
-            self.status = Andamio.dom.html.hasClass("has-page-tabs");
+            hasTabs = Andamio.dom.html.hasClass("has-page-tabs");
 
             Andamio.events.attach(".action-tab-item", function (event) {
 
