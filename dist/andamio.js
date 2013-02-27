@@ -564,6 +564,7 @@ Andamio.pager = (function () {
         isLoading,
         loadMoreAction,
         spinner,
+        noMorePages,
         currentView,
         currentScroller,
         currentScrollerHeight,
@@ -604,6 +605,8 @@ Andamio.pager = (function () {
 
         loadMoreAction.remove();
         spinner.remove();
+
+        noMorePages.insertAfter(Andamio.dom.pagerWrapper);
     }
 
     function showSpinner() {
@@ -623,6 +626,7 @@ Andamio.pager = (function () {
         Andamio.dom.pagerWrapper = this.params.elem || Andamio.views.list.lookup(Andamio.views.currentView).content.find(".js-pager-list");
         loadMoreAction = this.params.loadMoreAction || $('<div class="pager-action"><a href="javascript:void(0)" class="button button-block action-load-more">Load more</a></div>');
         spinner = this.params.spinner || $('<div class="pager-loading">Loading...</div></div>');
+        noMorePages = this.params.noMorePages || $('<div class="pager-action">There are no more items.</div>');
 
         // Store options in global config
         Andamio.config.pager = {
@@ -633,6 +637,7 @@ Andamio.pager = (function () {
             expires             : this.params.expires || null,
             itemsPerPage        : this.params.itemsPerPage || 10,
             loadMoreAction      : loadMoreAction,
+            noMorePages         : noMorePages,
             spinner             : spinner,
             url                 : this.params.url || Andamio.config.server + "?page="
         };
