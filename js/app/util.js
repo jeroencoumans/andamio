@@ -99,10 +99,11 @@ Andamio.util = (function () {
     };
 })();
 
-Andamio.util.delay = (function(){
+Andamio.util.delay = (function () {
     var timer = 0;
-    return function(callback, ms){
-        clearTimeout (timer);
+
+    return function (callback, ms) {
+        clearTimeout(timer);
         timer = setTimeout(callback, ms);
     };
 })();

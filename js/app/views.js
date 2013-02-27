@@ -65,6 +65,8 @@ Andamio.views = (function () {
                 var container = this.container,
                     position = this.position;
 
+                Andamio.events.lock();
+
                 // Slide in from the left
                 if (position === "slide-left" && direction === "slide-default") {
                     container.addClass("slide-in-from-left").one("webkitTransitionEnd", function () {
@@ -165,8 +167,8 @@ Andamio.views = (function () {
 
         this.list = new Andamio.util.Dictionary({
             parentView: new View(Andamio.dom.parentView, true, "slide-default"),
-            childView:  new View(Andamio.dom.childView, true, "slide-right"),
-            modalView:  new View(Andamio.dom.modalView, true, "slide-bottom")
+            childView:  new View(Andamio.dom.childView,  true, "slide-right"),
+            modalView:  new View(Andamio.dom.modalView,  true, "slide-bottom")
         });
 
         var urlHistory = [];

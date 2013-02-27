@@ -10436,14 +10436,49 @@ Andamio.config = (function () {
 /*global Andamio */
 Andamio.events = (function () {
 
+    var isLocked = false,
+        lockTimer;
+
     return {
-        attach: function (selector, fn, bubbles) {
+
+        get status() {
+            return isLocked;
+        },
+
+        lock: function(timeout) {
+
+            if (! isLocked) {
+
+                isLocked = true;
+                timeout = (typeof timeout === "number" && timeout > 0) ? timeout : 300;
+
+                lockTimer = setTimeout(function() {
+
+                    isLocked = false;
+                }, timeout);
+            }
+        },
+
+        unlock: function() {
+
+            clearTimeout(lockTimer);
+            isLocked = false;
+        },
+
+        attach: function (selector, fn, lock) {
 
             Andamio.dom.viewport.on("click", selector, function (event) {
-                fn(event);
-                if (bubbles !== true) {
-                    return false;
+
+                if (! isLocked) {
+
+                    if (lock) {
+                        Andamio.events.lock();
+                    }
+
+                    fn(event);
                 }
+
+                return false;
             });
         }
     };
@@ -10550,13 +10585,15 @@ Andamio.util = (function () {
     };
 })();
 
-Andamio.util.delay = (function(){
+Andamio.util.delay = (function () {
     var timer = 0;
-    return function(callback, ms){
-        clearTimeout (timer);
+
+    return function (callback, ms) {
+        clearTimeout(timer);
         timer = setTimeout(callback, ms);
     };
 })();
+
 /*jshint es5: true, browser: true, undef:true, unused:true */
 /*global Andamio, $, cordova */
 
@@ -11190,6 +11227,7 @@ Andamio.nav = (function () {
 
         show: function () {
             isActive = true;
+            Andamio.events.lock();
             Andamio.dom.html.addClass("has-navigation");
 
             if (!Andamio.config.webapp) {
@@ -11199,6 +11237,7 @@ Andamio.nav = (function () {
 
         hide: function () {
             isActive = false;
+            Andamio.events.lock();
             Andamio.dom.html.removeClass("has-navigation");
 
             if (!Andamio.config.webapp) {
@@ -11578,6 +11617,8 @@ Andamio.views = (function () {
                 var container = this.container,
                     position = this.position;
 
+                Andamio.events.lock();
+
                 // Slide in from the left
                 if (position === "slide-left" && direction === "slide-default") {
                     container.addClass("slide-in-from-left").one("webkitTransitionEnd", function () {
@@ -11678,8 +11719,8 @@ Andamio.views = (function () {
 
         this.list = new Andamio.util.Dictionary({
             parentView: new View(Andamio.dom.parentView, true, "slide-default"),
-            childView:  new View(Andamio.dom.childView, true, "slide-right"),
-            modalView:  new View(Andamio.dom.modalView, true, "slide-bottom")
+            childView:  new View(Andamio.dom.childView,  true, "slide-right"),
+            modalView:  new View(Andamio.dom.modalView,  true, "slide-bottom")
         });
 
         var urlHistory = [];

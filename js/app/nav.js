@@ -39,6 +39,7 @@ Andamio.nav = (function () {
 
         show: function () {
             isActive = true;
+            Andamio.events.lock();
             Andamio.dom.html.addClass("has-navigation");
 
             if (!Andamio.config.webapp) {
@@ -48,6 +49,7 @@ Andamio.nav = (function () {
 
         hide: function () {
             isActive = false;
+            Andamio.events.lock();
             Andamio.dom.html.removeClass("has-navigation");
 
             if (!Andamio.config.webapp) {
