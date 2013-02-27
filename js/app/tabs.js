@@ -60,15 +60,11 @@ Andamio.tabs = (function () {
 
                 if (title) {
                     Andamio.dom.viewport.one("Andamio:views:activateView:finish", function() {
-                        var currentView = Andamio.views.list.lookup(Andamio.views.currentView);
-                        currentView.title = title;
+                        Andamio.views.list.values.parentView.title = title;
                     });
                 }
 
-                if (url) {
-                    Andamio.views.activateView(Andamio.views.currentView, url, null, 0);
-                    Andamio.views.currentUrl = url;
-                }
+                Andamio.views.openParentPage(url);
             });
 
             Andamio.events.attach(".action-show-tabs", Andamio.tabs.show);

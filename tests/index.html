@@ -14,14 +14,30 @@
 
     <div class="js-page-view page-view">
 
-        <div class="js-parent-view parent-view view-active js-content">
-            <div class="page-header"></div>
-            <div class="page-content"></div>
+        <div class="js-parent-view parent-view view-active">
+            <div class="page-header">
+                <a href="javascript:void(0)" class="page-logo js-title">Parent</a>
+                <a href="javascript:void(0);" class="button-header-wrapper action-show-nav"><span class="button-header">Menu</span></a>
+                <a href="javascript:void(0)" class="button-header-wrapper-alternate action-refresh"><span class="button-header">Refresh</span></a>
+            </div>
+
+            <div class="js-content page-content overthrow"></div>
         </div>
 
-        <div class="js-child-view child-view view-hidden js-content">
-            <div class="page-header"></div>
-            <div class="page-content"></div>
+        <div class="js-child-view child-view view-hidden">
+            <div class="page-header">
+                <a href="/" class="page-logo js-title"></a>
+                <a href="javascript:void(0)" class="button-header-wrapper action-pop"><span class="button-header">Terug</span></a>
+            </div>
+            <div class="js-content page-content overthrow"></div>
+        </div>
+
+        <div class="js-child-view-alternate child-view view-hidden">
+            <div class="page-header">
+                <a href="/" class="page-logo js-title"></a>
+                <a href="javascript:void(0)" class="button-header-wrapper action-pop"><span class="button-header">Terug</span></a>
+            </div>
+            <div class="js-content page-content overthrow"></div>
         </div>
 
         <div class="js-page-tabs tabs" style="display:none">
@@ -52,23 +68,25 @@
 
     <a href="javascript:void(0)" class="page-navigation-toggle action-hide-nav"></a>
 
-    <div class="js-modal-view modal-view js-content view-hidden">
-        <div class="page-header"></div>
-        <div class="page-content"></div>
+    <div class="js-modal-view modal-view view-hidden">
+        <div class="page-header">
+            <a href="/" class="page-logo js-title">Default modal title</a>
+            <a href="javascript:void(0);" class="button-header-wrapper action-hide-modal"><span class="button-header">Close</span></a>
+        </div>
+        <div class="js-content page-content overthrow"></div>
     </div>
 
     <div class="js-page-loader page-loader" style="display:none">
         <img src="../img/spinner-dark.gif" class="js-page-loader-spinner page-loader-spinner" width="32" height="32">
-        <div class="js-page-loader-text page-loader-text">Loading...</div>
+        <div class="js-page-loader-text page-loader-text">Loading&hellip;</div>
     </div>
 
     <div class="js-page-alert page-alert" style="display:none">
         <div class="js-page-alert-text page-alert-text"></div>
     </div>
 
-
-    <!--<script src="../dist/andamio.zepto.js"></script>-->
-    <script src="../dist/andamio.jquery.js"></script>
+    <script src="../dist/andamio.zepto.js"></script>
+    <!--<script src="../dist/andamio.jquery.js"></script>-->
     <script>
 
         $(document).ready(function() {
