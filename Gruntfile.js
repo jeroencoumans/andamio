@@ -90,7 +90,7 @@ module.exports = function(grunt) {
         less: {
             dev: {
                 files: {
-                    'dist/andamio.css': 'style/main.less'
+                    'dist/<%= pkg.name %>.css': 'style/main.less'
                 }
             },
             dist: {
@@ -98,7 +98,7 @@ module.exports = function(grunt) {
                     yuicompress: true
                 },
                 files: {
-                    'dist/andamio.min.css': 'style/main.less'
+                    'dist/<%= pkg.name %>.min.css': 'style/main.less'
                 }
             }
         },

@@ -233,7 +233,7 @@ Andamio.views = (function () {
 
                     Andamio.dom.doc.trigger("Andamio:views:activateView:start", [url]);
 
-                    currentView.content.html('<div class="page-header"></div><div class="page-content"></div>');
+                    currentView.content.empty();
 
                     Andamio.page.load(url, expiration, function (response) {
 
@@ -303,7 +303,7 @@ Andamio.views = (function () {
                 currentView = this.list.lookup(this.currentView);
 
             if (url) {
-                currentView.content.html('<div class="page-header"></div><div class="page-content"></div>');
+                currentView.content.empty();
 
                 Andamio.page.refresh(url, expiration, function (response) {
 

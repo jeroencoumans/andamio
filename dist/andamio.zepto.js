@@ -3652,24 +3652,13 @@ Andamio.pager = (function () {
                 get: function () {
                     return isActive;
                 },
-
-                set: function (value) {
-
-                    var self = this;
-
-                    if (value) {
-                        enablePager(self);
-                    } else {
-                        disablePager(self);
-                    }
-                },
             }
         });
 
         // Activate
         if (Andamio.dom.pagerWrapper.length > 0) {
             if (Andamio.config.pager.itemsPerPage <= Andamio.dom.pagerWrapper[0].children.length) {
-                this.status = true;
+                enablePager(this);
             }
         }
     }
@@ -3709,7 +3698,7 @@ Andamio.pager = (function () {
 
                 } else {
 
-                    self.status = false;
+                    disablePager(self);
                 }
             });
         }
@@ -4485,7 +4474,7 @@ Andamio.views = (function () {
 
                     Andamio.dom.doc.trigger("Andamio:views:activateView:start", [url]);
 
-                    currentView.content.html('<div class="page-header"></div><div class="page-content"></div>');
+                    currentView.content.empty();
 
                     Andamio.page.load(url, expiration, function (response) {
 
@@ -4555,7 +4544,7 @@ Andamio.views = (function () {
                 currentView = this.list.lookup(this.currentView);
 
             if (url) {
-                currentView.content.html('<div class="page-header"></div><div class="page-content"></div>');
+                currentView.content.empty();
 
                 Andamio.page.refresh(url, expiration, function (response) {
 
