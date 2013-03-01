@@ -42,7 +42,7 @@ Andamio.slideshow = (function () {
                     disableScroll: false
                 };
 
-                // Setup user-defined options
+                // Merge user-defined options
                 if (typeof options === "object" && typeof options !== "undefined") {
 
                     for (var key in options) {
@@ -51,16 +51,14 @@ Andamio.slideshow = (function () {
                 }
 
                 // setup Swipe
-                var slideshow = new Swipe(document.getElementById(id), this.options);
+                var slideshow = new Swipe(document.getElementById(id), this.options),
+                    dots = new SwipeDots(slideshow.length);
 
-                // setup dots
-                var dots = new SwipeDots(slideshow.length);
-                dots.wrapper.insertAfter(slideshow.container);
+                dots.wrapper
+                    .insertAfter(slideshow.container)
+                    .on("click", function (event) {
 
-                // Taps on individual dots go to their corresponding slide
-                slideshowContainer.next().on("click", function (event) {
-
-                    var target  = event.target;
+                    var target = event.target;
 
                     dots.items.each(function (index, item) {
 
@@ -75,18 +73,17 @@ Andamio.slideshow = (function () {
 
                     dots.active = dots.items[index];
 
-                    // Download images on demand when they have a data-src and .js-slideshow-media
-                    var img = $(item).find(".js-slideshow-media");
-
-                    if (img.length > 0) {
-                        var url = img.data("src");
-                        img.css('background-image', 'url(' + url + ')');
-                    }
-
                     if ($.isFunction(callback)) {
                         callback(index, item);
                     }
                 };
+
+                slideshowContainer.find(".js-slideshow-media").each(function (index, item) {
+
+                    var img = $(item),
+                        url = img.data("src");
+                    img.css('background-image', 'url(' + url + ')');
+                });
 
                 slideshowContainer.on("click", function (event) {
 
