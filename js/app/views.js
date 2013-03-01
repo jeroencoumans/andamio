@@ -1,4 +1,4 @@
-/*jshint es5: true, browser: true, undef:true, unused:true */
+/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio, $ */
 
 Andamio.views = (function () {
@@ -361,42 +361,42 @@ Andamio.views = (function () {
 
             switch (currentView) {
 
-                // Initial situation
-                case parentView:
-                    this.pushView("childView", url, expiration, 0);
+            // Initial situation
+            case parentView:
+                this.pushView("childView", url, expiration, 0);
 
-                    if (Andamio.config.webapp) {
-                        parentView.slide("slide-left");
+                if (Andamio.config.webapp) {
+                    parentView.slide("slide-left");
+                    childView.slide("slide-default");
+                }
+
+                break;
+
+            case childView:
+                this.pushView("childViewAlt", url, expiration, 0);
+
+                if (Andamio.config.webapp) {
+                    Andamio.dom.childViewAlt.removeClass("slide-left").addClass("slide-right");
+
+                    Andamio.util.delay(function () {
+                        childView.slide("slide-left");
+                        childViewAlt.slide("slide-default");
+                    }, 0);
+                }
+
+                break;
+
+            case childViewAlt:
+                this.pushView("childView", url, expiration, 0);
+
+                if (Andamio.config.webapp) {
+                    Andamio.dom.childView.removeClass("slide-left").addClass("slide-right");
+
+                    Andamio.util.delay(function () {
+                        childViewAlt.slide("slide-left");
                         childView.slide("slide-default");
-                    }
-
-                break;
-
-                case childView:
-                    this.pushView("childViewAlt", url, expiration, 0);
-
-                    if (Andamio.config.webapp) {
-                        Andamio.dom.childViewAlt.removeClass("slide-left").addClass("slide-right");
-
-                        Andamio.util.delay(function () {
-                            childView.slide("slide-left");
-                            childViewAlt.slide("slide-default");
-                        }, 0);
-                    }
-
-                break;
-
-                case childViewAlt:
-                    this.pushView("childView", url, expiration, 0);
-
-                    if (Andamio.config.webapp) {
-                        Andamio.dom.childView.removeClass("slide-left").addClass("slide-right");
-
-                        Andamio.util.delay(function () {
-                            childViewAlt.slide("slide-left");
-                            childView.slide("slide-default");
-                        }, 0);
-                    }
+                    }, 0);
+                }
 
                 break;
             }
@@ -412,36 +412,36 @@ Andamio.views = (function () {
                 currentView  = this.list.lookup(this.currentView);
 
             switch (currentView) {
-                case parentView:
+            case parentView:
                 return; // abort!
 
-                case childView:
+            case childView:
 
-                    if (this.childCount === 1) {
+                if (this.childCount === 1) {
 
-                        parentView.slide("slide-default");
+                    parentView.slide("slide-default");
+                    childView.slide("slide-right");
+
+                } else {
+
+                    Andamio.dom.childViewAlt.removeClass("slide-right").addClass("slide-left");
+
+                    Andamio.util.delay(function () {
                         childView.slide("slide-right");
-
-                    } else {
-
-                        Andamio.dom.childViewAlt.removeClass("slide-right").addClass("slide-left");
-
-                        Andamio.util.delay(function () {
-                            childView.slide("slide-right");
-                            childViewAlt.slide("slide-default");
-                        }, 0);
-                    }
+                        childViewAlt.slide("slide-default");
+                    }, 0);
+                }
 
                 break;
 
-                case childViewAlt:
+            case childViewAlt:
 
-                    Andamio.dom.childView.removeClass("slide-right").addClass("slide-left");
+                Andamio.dom.childView.removeClass("slide-right").addClass("slide-left");
 
-                    Andamio.util.delay(function () {
-                        childViewAlt.slide("slide-right");
-                        childView.slide("slide-default");
-                    }, 0);
+                Andamio.util.delay(function () {
+                    childViewAlt.slide("slide-right");
+                    childView.slide("slide-default");
+                }, 0);
 
                 break;
             }

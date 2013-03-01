@@ -2973,7 +2973,7 @@ var lscache = function() {
   };
 }();
 
-/*jshint es5: true, browser: true, undef:true, unused:true */
+/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global $, Andamio */
 
 window.Andamio = {};
@@ -3119,7 +3119,7 @@ Andamio.config = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true */
+/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio */
 Andamio.events = (function () {
 
@@ -3132,21 +3132,21 @@ Andamio.events = (function () {
             return isLocked;
         },
 
-        lock: function(timeout) {
+        lock: function (timeout) {
 
             if (! isLocked) {
 
                 isLocked = true;
                 timeout = (typeof timeout === "number" && timeout > 0) ? timeout : 300;
 
-                lockTimer = setTimeout(function() {
+                lockTimer = setTimeout(function () {
 
                     isLocked = false;
                 }, timeout);
             }
         },
 
-        unlock: function() {
+        unlock: function () {
 
             clearTimeout(lockTimer);
             isLocked = false;
@@ -3171,7 +3171,7 @@ Andamio.events = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true */
+/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio, $ */
 
 Andamio.util = (function () {
@@ -3187,20 +3187,20 @@ Andamio.util = (function () {
         this.values = startValues || {};
     }
 
-    Dictionary.prototype.store = function(name, value) {
+    Dictionary.prototype.store = function (name, value) {
         this.values[name] = value;
     };
 
-    Dictionary.prototype.lookup = function(name) {
+    Dictionary.prototype.lookup = function (name) {
         return this.values[name];
     };
 
-    Dictionary.prototype.contains = function(name) {
+    Dictionary.prototype.contains = function (name) {
         return Object.prototype.hasOwnProperty.call(this.values, name) &&
         Object.prototype.propertyIsEnumerable.call(this.values, name);
     };
 
-    Dictionary.prototype.each = function(action) {
+    Dictionary.prototype.each = function (action) {
         forEachIn(this.values, action);
     };
 
@@ -3214,7 +3214,7 @@ Andamio.util = (function () {
          * @param {HTMLElement} elem the element to get the URL from
          * @return {String} Will return the URL when a `data-url` value is found, else return the href if an href is found that doesn't start with `javascript`, else return the hash if hash is found
          */
-        getUrl: function(elem) {
+        getUrl: function (elem) {
 
             var url = $(elem).data("url"),
                 href = $(elem).attr("href"),
@@ -3224,7 +3224,7 @@ Andamio.util = (function () {
                 return url;
             }
 
-            else if (href.substring(0,10) !== "javascript") {
+            else if (href.substring(0, 10) !== "javascript") {
                 return href;
             }
 
@@ -3239,7 +3239,7 @@ Andamio.util = (function () {
          * @param {Array} array the selector used to get the DOM elements, e.g. ".article-list .action-pjax"
          * @return {Array} an array of URL's
          */
-        getUrlList: function(list) {
+        getUrlList: function (list) {
 
             if (! list) {
                 return;
@@ -3247,7 +3247,7 @@ Andamio.util = (function () {
 
             var urlList = [];
 
-            $(list).each(function(index, item) {
+            $(list).each(function (index, item) {
 
                 var url = Andamio.util.getUrl(item);
                 if (url) urlList.push(url);
@@ -3262,13 +3262,14 @@ Andamio.util = (function () {
          * @param {HTMLElement} elem the element to get the title from
          * @return {String} the value of `data-title` if it's found, else the text of the element
          */
-        getTitle: function(elem) {
+        getTitle: function (elem) {
 
             var titleData = $(elem).data("title"),
                 titleText = $(elem).text();
 
             return titleData ? titleData : titleText;
-        },
+        }
+
     };
 })();
 
@@ -3281,7 +3282,7 @@ Andamio.util.delay = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true */
+/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio, $, cordova */
 
 Andamio.phone = (function () {
@@ -3350,7 +3351,7 @@ Andamio.phone = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true */
+/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio */
 
 /**
@@ -3365,7 +3366,7 @@ Andamio.cache = (function () {
 
     return {
 
-        getCache: function (key) {
+        get: function (key) {
 
             if (key && cache) {
                 var result = cache.get(key);
@@ -3376,7 +3377,7 @@ Andamio.cache = (function () {
             }
         },
 
-        setCache: function (key, data, expiration) {
+        set: function (key, data, expiration) {
 
             if (key && data && cache) {
                 var minutes = (typeof expiration === "number") ? expiration : Andamio.config.cacheExpiration;
@@ -3384,7 +3385,7 @@ Andamio.cache = (function () {
             }
         },
 
-        deleteCache: function (key) {
+        delete: function (key) {
 
             if (key && cache) {
                 cache.remove(key);
@@ -3404,7 +3405,7 @@ Andamio.cache = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true */
+/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio */
 
 Andamio.connection = (function () {
@@ -3446,91 +3447,63 @@ Andamio.connection = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true */
+/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio, $ */
 
 Andamio.page = (function () {
 
-    /**
-     * Stores content in cache based on URL
-     */
-    function storeResponse (url, response, expiration) {
+    function doAjaxRequest(url, expiration, callback) {
 
-        if (Andamio.config.cache) {
-            Andamio.cache.setCache(url, response, expiration);
-        }
-    }
-
-    /**
-     * Ajax request to URL, storing the result in cache on success. Fails silently.
-     */
-    function doAjaxRequest (url, expiration, callback) {
-
-        // Add cachebuster
+        // Cachebuster
         var requestUrl = url + ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime();
 
         $.ajax({
             "url": requestUrl,
-            "timeout": 10000,
             "headers": {
                 "X-PJAX": true,
                 "X-Requested-With": "XMLHttpRequest"
             },
 
             success: function (response) {
-                storeResponse(url, response, expiration);
+                Andamio.cache.set(url, response, expiration);
             },
 
             complete: function (data) {
-                if ($.isFunction(callback)) callback(data.responseText);
+                callback(data.responseText);
             }
         });
     }
 
-
-    /**
-     * Returns the content from url, storing it when it's not stored yet
-     * @method getContent
-     * @param url {String} URL to load
-     * @param expiration {Integer} how long (in minutes) the content can be cached when retrieving
-     * @param callback {Function} optional callback function that receives the content
-     */
     return {
         load: function (url, expiration, callback) {
 
-            if (! url) {
-                return false;
-            }
+            if (url && $.isFunction(callback)) {
 
-            // try to get the cached content first
-            var cachedContent = Andamio.cache.getCache(url);
+                var cachedContent = Andamio.cache.get(url);
 
-            if (cachedContent) {
+                if (cachedContent) {
 
-                if ($.isFunction(callback)) {
                     callback(cachedContent);
-                }
-            } else {
 
-                doAjaxRequest(url, expiration, function (response) {
+                } else {
 
-                    if ($.isFunction(callback)) {
+                    doAjaxRequest(url, expiration, function (response) {
                         callback(response);
-                    }
-                });
+                    });
+                }
             }
         },
 
         refresh: function (url, expiration, callback) {
 
-            Andamio.cache.deleteCache(url);
+            Andamio.cache.delete(url);
             this.load(url, expiration, callback);
         }
     };
 
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true */
+/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio, $ */
 
 Andamio.pager = (function () {
@@ -3740,7 +3713,7 @@ Andamio.pager = (function () {
 
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true */
+/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global $, Andamio */
 
 Andamio.dom.pageAlert = $(".js-page-alert");
@@ -3782,7 +3755,7 @@ Andamio.alert = (function () {
             Andamio.dom.pageAlert.hide();
         },
 
-        get status () {
+        get status() {
 
             return isActive;
         },
@@ -3795,7 +3768,7 @@ Andamio.alert = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true */
+/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global $, Andamio */
 
 Andamio.dom.pageLoader = $(".js-page-loader");
@@ -3883,7 +3856,7 @@ Andamio.loader = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true */
+/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global $, Andamio */
 
 Andamio.dom.pageNav = $(".js-page-navigation");
@@ -3899,11 +3872,10 @@ Object.defineProperties(Andamio.dom, {
 
         set: function (elem) {
 
-            var current = this.pageNavActive;
-
-            // TODO: check wether elem is present in pageNavItems
-            current.removeClass("active");
-            elem.addClass("active");
+            if ($.contains(this.pageNav[0], elem[0])) {
+                this.pageNavActive.removeClass("active");
+                elem.addClass("active");
+            }
         }
     }
 });
@@ -3999,7 +3971,7 @@ Andamio.nav = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true */
+/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio, $ */
 
 Andamio.reveal = (function () {
@@ -4050,7 +4022,7 @@ Andamio.reveal = (function () {
 
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true */
+/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio, $, Swipe */
 
 Andamio.slideshow = (function () {
@@ -4060,7 +4032,7 @@ Andamio.slideshow = (function () {
         if (typeof number === "number") {
             this.wrapper = $('<div class="slideshow-dots">');
 
-            for (var i=0;i<number;i++) {
+            for (var i = 0; i < number; i++) {
                 this.wrapper.append($('<div class="slideshow-dot"></div>'));
             }
 
@@ -4081,7 +4053,7 @@ Andamio.slideshow = (function () {
     }
 
     return {
-        init: function(id, options, callback) {
+        init: function (id, options, callback) {
 
             var slideshowContainer = $("#" + id);
 
@@ -4123,7 +4095,7 @@ Andamio.slideshow = (function () {
                 });
 
                 // setup dots callback
-                slideshow.callback = function(index, item) {
+                slideshow.callback = function (index, item) {
 
                     dots.active = dots.items[index];
 
@@ -4164,7 +4136,7 @@ Andamio.slideshow = (function () {
 
 })();
 
-/*jshint es5: true, browser: true */
+/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global $, Andamio */
 
 Andamio.dom.pageTabs = $(".js-page-tabs");
@@ -4173,18 +4145,17 @@ Andamio.dom.pageTabsItems = Andamio.dom.pageTabs.find(".action-tab-item");
 Object.defineProperties(Andamio.dom, {
     pageTabsActive: {
 
-        get: function() {
+        get: function () {
 
             return this.pageTabsItems.filter(".active");
         },
 
-        set: function(elem) {
+        set: function (elem) {
 
-            var current = this.pageTabsActive;
-
-            // TODO: check wether elem is present in pageTabsItems
-            current.removeClass("active");
-            elem.addClass("active");
+            if ($.contains(this.pageTabs[0], elem[0])) {
+                this.pageTabsActive.removeClass("active");
+                elem.addClass("active");
+            }
         }
     }
 });
@@ -4195,13 +4166,13 @@ Andamio.tabs = (function () {
 
     return {
 
-        show: function() {
+        show: function () {
             hasTabs = true;
             Andamio.dom.html.addClass("has-page-tabs");
             Andamio.dom.pageTabs.show();
         },
 
-        hide: function() {
+        hide: function () {
             hasTabs = false;
             Andamio.dom.html.removeClass("has-page-tabs");
             Andamio.dom.pageTabs.hide();
@@ -4211,10 +4182,12 @@ Andamio.tabs = (function () {
             return hasTabs;
         },
 
-        init: function() {
-            var self = this;
+        init: function () {
 
             hasTabs = Andamio.dom.html.hasClass("has-page-tabs");
+
+            Andamio.events.attach(".action-show-tabs", Andamio.tabs.show);
+            Andamio.events.attach(".action-hide-tabs", Andamio.tabs.hide);
 
             Andamio.events.attach(".action-tab-item", function (event) {
 
@@ -4225,21 +4198,18 @@ Andamio.tabs = (function () {
                 Andamio.dom.pageTabsActive = target;
 
                 if (title) {
-                    Andamio.dom.viewport.one("Andamio:views:activateView:finish", function() {
+                    Andamio.dom.viewport.one("Andamio:views:activateView:finish", function () {
                         Andamio.views.list.values.parentView.title = title;
                     });
                 }
 
                 Andamio.views.openParentPage(url);
             });
-
-            Andamio.events.attach(".action-show-tabs", Andamio.tabs.show);
-            Andamio.events.attach(".action-hide-tabs", Andamio.tabs.hide);
         }
     };
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true */
+/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio, $ */
 
 Andamio.views = (function () {
@@ -4602,42 +4572,42 @@ Andamio.views = (function () {
 
             switch (currentView) {
 
-                // Initial situation
-                case parentView:
-                    this.pushView("childView", url, expiration, 0);
+            // Initial situation
+            case parentView:
+                this.pushView("childView", url, expiration, 0);
 
-                    if (Andamio.config.webapp) {
-                        parentView.slide("slide-left");
+                if (Andamio.config.webapp) {
+                    parentView.slide("slide-left");
+                    childView.slide("slide-default");
+                }
+
+                break;
+
+            case childView:
+                this.pushView("childViewAlt", url, expiration, 0);
+
+                if (Andamio.config.webapp) {
+                    Andamio.dom.childViewAlt.removeClass("slide-left").addClass("slide-right");
+
+                    Andamio.util.delay(function () {
+                        childView.slide("slide-left");
+                        childViewAlt.slide("slide-default");
+                    }, 0);
+                }
+
+                break;
+
+            case childViewAlt:
+                this.pushView("childView", url, expiration, 0);
+
+                if (Andamio.config.webapp) {
+                    Andamio.dom.childView.removeClass("slide-left").addClass("slide-right");
+
+                    Andamio.util.delay(function () {
+                        childViewAlt.slide("slide-left");
                         childView.slide("slide-default");
-                    }
-
-                break;
-
-                case childView:
-                    this.pushView("childViewAlt", url, expiration, 0);
-
-                    if (Andamio.config.webapp) {
-                        Andamio.dom.childViewAlt.removeClass("slide-left").addClass("slide-right");
-
-                        Andamio.util.delay(function () {
-                            childView.slide("slide-left");
-                            childViewAlt.slide("slide-default");
-                        }, 0);
-                    }
-
-                break;
-
-                case childViewAlt:
-                    this.pushView("childView", url, expiration, 0);
-
-                    if (Andamio.config.webapp) {
-                        Andamio.dom.childView.removeClass("slide-left").addClass("slide-right");
-
-                        Andamio.util.delay(function () {
-                            childViewAlt.slide("slide-left");
-                            childView.slide("slide-default");
-                        }, 0);
-                    }
+                    }, 0);
+                }
 
                 break;
             }
@@ -4653,36 +4623,36 @@ Andamio.views = (function () {
                 currentView  = this.list.lookup(this.currentView);
 
             switch (currentView) {
-                case parentView:
+            case parentView:
                 return; // abort!
 
-                case childView:
+            case childView:
 
-                    if (this.childCount === 1) {
+                if (this.childCount === 1) {
 
-                        parentView.slide("slide-default");
+                    parentView.slide("slide-default");
+                    childView.slide("slide-right");
+
+                } else {
+
+                    Andamio.dom.childViewAlt.removeClass("slide-right").addClass("slide-left");
+
+                    Andamio.util.delay(function () {
                         childView.slide("slide-right");
-
-                    } else {
-
-                        Andamio.dom.childViewAlt.removeClass("slide-right").addClass("slide-left");
-
-                        Andamio.util.delay(function () {
-                            childView.slide("slide-right");
-                            childViewAlt.slide("slide-default");
-                        }, 0);
-                    }
+                        childViewAlt.slide("slide-default");
+                    }, 0);
+                }
 
                 break;
 
-                case childViewAlt:
+            case childViewAlt:
 
-                    Andamio.dom.childView.removeClass("slide-right").addClass("slide-left");
+                Andamio.dom.childView.removeClass("slide-right").addClass("slide-left");
 
-                    Andamio.util.delay(function () {
-                        childViewAlt.slide("slide-right");
-                        childView.slide("slide-default");
-                    }, 0);
+                Andamio.util.delay(function () {
+                    childViewAlt.slide("slide-right");
+                    childView.slide("slide-default");
+                }, 0);
 
                 break;
             }
@@ -4739,7 +4709,7 @@ Andamio.views = (function () {
     return new ViewCollection();
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true */
+/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio */
 
 /**

@@ -1,4 +1,4 @@
-/*jshint es5: true, browser: true, undef:true, unused:true */
+/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio, $, Swipe */
 
 Andamio.slideshow = (function () {
@@ -8,7 +8,7 @@ Andamio.slideshow = (function () {
         if (typeof number === "number") {
             this.wrapper = $('<div class="slideshow-dots">');
 
-            for (var i=0;i<number;i++) {
+            for (var i = 0; i < number; i++) {
                 this.wrapper.append($('<div class="slideshow-dot"></div>'));
             }
 
@@ -29,7 +29,7 @@ Andamio.slideshow = (function () {
     }
 
     return {
-        init: function(id, options, callback) {
+        init: function (id, options, callback) {
 
             var slideshowContainer = $("#" + id);
 
@@ -71,7 +71,7 @@ Andamio.slideshow = (function () {
                 });
 
                 // setup dots callback
-                slideshow.callback = function(index, item) {
+                slideshow.callback = function (index, item) {
 
                     dots.active = dots.items[index];
 

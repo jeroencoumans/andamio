@@ -1,4 +1,4 @@
-/*jshint es5: true, browser: true */
+/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio, $ */
 
 Andamio.util = (function () {
@@ -14,20 +14,20 @@ Andamio.util = (function () {
         this.values = startValues || {};
     }
 
-    Dictionary.prototype.store = function(name, value) {
+    Dictionary.prototype.store = function (name, value) {
         this.values[name] = value;
     };
 
-    Dictionary.prototype.lookup = function(name) {
+    Dictionary.prototype.lookup = function (name) {
         return this.values[name];
     };
 
-    Dictionary.prototype.contains = function(name) {
+    Dictionary.prototype.contains = function (name) {
         return Object.prototype.hasOwnProperty.call(this.values, name) &&
         Object.prototype.propertyIsEnumerable.call(this.values, name);
     };
 
-    Dictionary.prototype.each = function(action) {
+    Dictionary.prototype.each = function (action) {
         forEachIn(this.values, action);
     };
 
@@ -41,7 +41,7 @@ Andamio.util = (function () {
          * @param {HTMLElement} elem the element to get the URL from
          * @return {String} Will return the URL when a `data-url` value is found, else return the href if an href is found that doesn't start with `javascript`, else return the hash if hash is found
          */
-        getUrl: function(elem) {
+        getUrl: function (elem) {
 
             var url = $(elem).data("url"),
                 href = $(elem).attr("href"),
@@ -51,7 +51,7 @@ Andamio.util = (function () {
                 return url;
             }
 
-            else if (href.substring(0,10) !== "javascript") {
+            else if (href.substring(0, 10) !== "javascript") {
                 return href;
             }
 
@@ -66,7 +66,7 @@ Andamio.util = (function () {
          * @param {Array} array the selector used to get the DOM elements, e.g. ".article-list .action-pjax"
          * @return {Array} an array of URL's
          */
-        getUrlList: function(list) {
+        getUrlList: function (list) {
 
             if (! list) {
                 return;
@@ -74,7 +74,7 @@ Andamio.util = (function () {
 
             var urlList = [];
 
-            $(list).each(function(index, item) {
+            $(list).each(function (index, item) {
 
                 var url = Andamio.util.getUrl(item);
                 if (url) urlList.push(url);
@@ -89,13 +89,14 @@ Andamio.util = (function () {
          * @param {HTMLElement} elem the element to get the title from
          * @return {String} the value of `data-title` if it's found, else the text of the element
          */
-        getTitle: function(elem) {
+        getTitle: function (elem) {
 
             var titleData = $(elem).data("title"),
                 titleText = $(elem).text();
 
             return titleData ? titleData : titleText;
-        },
+        }
+
     };
 })();
 

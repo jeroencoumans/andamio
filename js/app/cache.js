@@ -1,4 +1,4 @@
-/*jshint es5: true, browser: true, undef:true, unused:true */
+/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio */
 
 /**
@@ -13,7 +13,7 @@ Andamio.cache = (function () {
 
     return {
 
-        getCache: function (key) {
+        get: function (key) {
 
             if (key && cache) {
                 var result = cache.get(key);
@@ -24,7 +24,7 @@ Andamio.cache = (function () {
             }
         },
 
-        setCache: function (key, data, expiration) {
+        set: function (key, data, expiration) {
 
             if (key && data && cache) {
                 var minutes = (typeof expiration === "number") ? expiration : Andamio.config.cacheExpiration;
@@ -32,7 +32,7 @@ Andamio.cache = (function () {
             }
         },
 
-        deleteCache: function (key) {
+        delete: function (key) {
 
             if (key && cache) {
                 cache.remove(key);

@@ -1,4 +1,4 @@
-/*jshint es5: true, browser: true, undef:true, unused:true */
+/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global $, Andamio */
 
 Andamio.dom.pageAlert = $(".js-page-alert");
@@ -40,7 +40,7 @@ Andamio.alert = (function () {
             Andamio.dom.pageAlert.hide();
         },
 
-        get status () {
+        get status() {
 
             return isActive;
         },

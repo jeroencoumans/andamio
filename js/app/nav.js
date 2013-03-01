@@ -1,4 +1,4 @@
-/*jshint es5: true, browser: true, undef:true, unused:true */
+/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global $, Andamio */
 
 Andamio.dom.pageNav = $(".js-page-navigation");
@@ -14,11 +14,10 @@ Object.defineProperties(Andamio.dom, {
 
         set: function (elem) {
 
-            var current = this.pageNavActive;
-
-            // TODO: check wether elem is present in pageNavItems
-            current.removeClass("active");
-            elem.addClass("active");
+            if ($.contains(this.pageNav[0], elem[0])) {
+                this.pageNavActive.removeClass("active");
+                elem.addClass("active");
+            }
         }
     }
 });

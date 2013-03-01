@@ -1,4 +1,4 @@
-/*jshint es5: true, browser: true, undef:true, unused:true */
+/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio */
 Andamio.events = (function () {
 
@@ -11,21 +11,21 @@ Andamio.events = (function () {
             return isLocked;
         },
 
-        lock: function(timeout) {
+        lock: function (timeout) {
 
             if (! isLocked) {
 
                 isLocked = true;
                 timeout = (typeof timeout === "number" && timeout > 0) ? timeout : 300;
 
-                lockTimer = setTimeout(function() {
+                lockTimer = setTimeout(function () {
 
                     isLocked = false;
                 }, timeout);
             }
         },
 
-        unlock: function() {
+        unlock: function () {
 
             clearTimeout(lockTimer);
             isLocked = false;

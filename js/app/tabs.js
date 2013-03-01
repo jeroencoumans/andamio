@@ -1,4 +1,4 @@
-/*jshint es5: true, browser: true */
+/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global $, Andamio */
 
 Andamio.dom.pageTabs = $(".js-page-tabs");
@@ -7,18 +7,17 @@ Andamio.dom.pageTabsItems = Andamio.dom.pageTabs.find(".action-tab-item");
 Object.defineProperties(Andamio.dom, {
     pageTabsActive: {
 
-        get: function() {
+        get: function () {
 
             return this.pageTabsItems.filter(".active");
         },
 
-        set: function(elem) {
+        set: function (elem) {
 
-            var current = this.pageTabsActive;
-
-            // TODO: check wether elem is present in pageTabsItems
-            current.removeClass("active");
-            elem.addClass("active");
+            if ($.contains(this.pageTabs[0], elem[0])) {
+                this.pageTabsActive.removeClass("active");
+                elem.addClass("active");
+            }
         }
     }
 });
@@ -29,13 +28,13 @@ Andamio.tabs = (function () {
 
     return {
 
-        show: function() {
+        show: function () {
             hasTabs = true;
             Andamio.dom.html.addClass("has-page-tabs");
             Andamio.dom.pageTabs.show();
         },
 
-        hide: function() {
+        hide: function () {
             hasTabs = false;
             Andamio.dom.html.removeClass("has-page-tabs");
             Andamio.dom.pageTabs.hide();
@@ -45,10 +44,12 @@ Andamio.tabs = (function () {
             return hasTabs;
         },
 
-        init: function() {
-            var self = this;
+        init: function () {
 
             hasTabs = Andamio.dom.html.hasClass("has-page-tabs");
+
+            Andamio.events.attach(".action-show-tabs", Andamio.tabs.show);
+            Andamio.events.attach(".action-hide-tabs", Andamio.tabs.hide);
 
             Andamio.events.attach(".action-tab-item", function (event) {
 
@@ -59,16 +60,13 @@ Andamio.tabs = (function () {
                 Andamio.dom.pageTabsActive = target;
 
                 if (title) {
-                    Andamio.dom.viewport.one("Andamio:views:activateView:finish", function() {
+                    Andamio.dom.viewport.one("Andamio:views:activateView:finish", function () {
                         Andamio.views.list.values.parentView.title = title;
                     });
                 }
 
                 Andamio.views.openParentPage(url);
             });
-
-            Andamio.events.attach(".action-show-tabs", Andamio.tabs.show);
-            Andamio.events.attach(".action-hide-tabs", Andamio.tabs.hide);
         }
     };
 })();
