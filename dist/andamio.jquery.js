@@ -11775,8 +11775,7 @@ Andamio.views = (function () {
         this.resetViews = function () {
 
             this.list.each(function (value) {
-                var view = Andamio.views.list.lookup(value);
-                view.reset();
+                Andamio.views.list.values[value].reset();
             });
 
             viewHistory = [];
@@ -11819,8 +11818,7 @@ Andamio.views = (function () {
 
             if (this.list.contains(view)) {
 
-                var currentView = this.list.lookup(view);
-                currentView.active = false;
+                this.list.lookup(view).active = false;
             }
         };
 
@@ -11883,7 +11881,7 @@ Andamio.views = (function () {
             this.resetViews();
 
             var minutes = expiration || Andamio.config.cacheExpiration;
-            this.pushView("parentView", url, minutes);
+            this.pushView("parentView", url, minutes, 0);
         };
 
         this.pushModal = function (url, expiration) {
@@ -11977,39 +11975,41 @@ Andamio.views = (function () {
                 childViewAlt = this.list.lookup("childViewAlt"),
                 currentView  = this.list.lookup(this.currentView);
 
-            switch (currentView) {
-            case parentView:
-                return; // abort!
+            if (Andamio.config.webapp) {
+                switch (currentView) {
+                case parentView:
+                    return; // abort!
 
-            case childView:
+                case childView:
 
-                if (this.childCount === 1) {
+                    if (this.childCount === 1) {
 
-                    parentView.slide("slide-default");
-                    childView.slide("slide-right");
+                        parentView.slide("slide-default");
+                        childView.slide("slide-right");
 
-                } else {
+                    } else {
 
-                    Andamio.dom.childViewAlt.removeClass("slide-right").addClass("slide-left");
+                        Andamio.dom.childViewAlt.removeClass("slide-right").addClass("slide-left");
+
+                        Andamio.util.delay(function () {
+                            childView.slide("slide-right");
+                            childViewAlt.slide("slide-default");
+                        }, 0);
+                    }
+
+                    break;
+
+                case childViewAlt:
+
+                    Andamio.dom.childView.removeClass("slide-right").addClass("slide-left");
 
                     Andamio.util.delay(function () {
-                        childView.slide("slide-right");
-                        childViewAlt.slide("slide-default");
+                        childViewAlt.slide("slide-right");
+                        childView.slide("slide-default");
                     }, 0);
+
+                    break;
                 }
-
-                break;
-
-            case childViewAlt:
-
-                Andamio.dom.childView.removeClass("slide-right").addClass("slide-left");
-
-                Andamio.util.delay(function () {
-                    childViewAlt.slide("slide-right");
-                    childView.slide("slide-default");
-                }, 0);
-
-                break;
             }
 
             this.popView();
