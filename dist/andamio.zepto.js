@@ -3448,8 +3448,6 @@ Andamio.connection = (function () {
         init: function () {
 
             isOnline = navigator.onLine;
-            Andamio.dom.win.on("offline", this.goOffline);
-            Andamio.dom.win.on("online", this.goOnline);
         }
     };
 
@@ -3482,7 +3480,9 @@ Andamio.page = (function () {
                 if (type === "timeout") {
                     Andamio.connection.goOffline();
                 } else {
-                    Andamio.alert.show(errorMessage);
+                    if (Andamio.connection.status) {
+                        Andamio.alert.show(errorMessage);
+                    }
                 }
             },
 
