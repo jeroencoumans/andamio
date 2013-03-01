@@ -3354,6 +3354,18 @@ Andamio.phone = (function () {
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio */
 
+Andamio.i18n = {
+    offlineMessage: "There was a problem. Is your connection working? <br>Please check and try again.",
+    ajaxGeneralError: "Computer said no:",
+    ajaxNotFound: "The page couldn't be found.",
+    ajaxTimeout: "The server timed out waiting for the request.",
+    ajaxServerError: "The server is having problems, try again later.",
+    ajaxRetry: "Please go back or try again."
+};
+
+/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
+/*global Andamio */
+
 /**
  * Provides methods for storing HTML documents offline
  * @author Jeroen Coumans
@@ -3406,12 +3418,11 @@ Andamio.cache = (function () {
 })();
 
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
-/*global Andamio */
+/*global Andamio, $ */
 
 Andamio.connection = (function () {
 
-    var isOnline,
-        offlineMessage;
+    var isOnline;
 
     return {
 
@@ -3421,8 +3432,13 @@ Andamio.connection = (function () {
         },
 
         goOffline: function () {
-            isOnline = false;
-            Andamio.alert.show(offlineMessage);
+
+            if (!!isOnline) {
+                isOnline = false;
+
+                var offlineMessage = $('<a href="javascript:void(0)" class="action-refresh">' + Andamio.i18n.offlineMessage + '</a>');
+                Andamio.alert.show(offlineMessage);
+            }
         },
 
         get status() {
@@ -3431,20 +3447,12 @@ Andamio.connection = (function () {
 
         init: function () {
 
-            var self = this;
-            isOnline = true;
-            offlineMessage = Andamio.config.offlineMessage || '<a href="javascript:void(0)" class="action-refresh">It appears your connection isn\'t working. Try again.</a>';
-
-            Andamio.dom.doc.on("ajaxSuccess", function () {
-
-                if (! isOnline) {
-                    self.goOnline();
-                }
-            });
-
-            Andamio.dom.doc.on("ajaxError", self.goOffline);
+            isOnline = navigator.onLine;
+            Andamio.dom.win.on("offline", this.goOffline);
+            Andamio.dom.win.on("online", this.goOnline);
         }
     };
+
 })();
 
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
@@ -3459,17 +3467,29 @@ Andamio.page = (function () {
 
         $.ajax({
             "url": requestUrl,
+            "timeout": 0,
             "headers": {
                 "X-PJAX": true,
                 "X-Requested-With": "XMLHttpRequest"
             },
 
-            success: function (response) {
-                Andamio.cache.set(url, response, expiration);
+            error: function (xhr, type) {
+
+                // type is one of: "timeout", "error", "abort", "parsererror"
+                var status = xhr.status,
+                    errorMessage = '<a href="javascript:void(0)" class="action-refresh">' + Andamio.i18n.ajaxGeneralError + '<br>' + type + " " + status + '<br>' + Andamio.i18n.ajaxRetry + '</a>';
+
+                if (type === "timeout") {
+                    Andamio.connection.goOffline();
+                } else {
+                    Andamio.alert.show(errorMessage);
+                }
             },
 
-            complete: function (data) {
-                callback(data.responseText);
+            success: function (response) {
+                Andamio.connection.goOnline();
+                Andamio.cache.set(url, response, expiration);
+                callback(response);
             }
         });
     }
@@ -3764,6 +3784,7 @@ Andamio.alert = (function () {
 
             isActive = Andamio.dom.html.hasClass("has-alert");
             Andamio.events.attach(".action-hide-alert", this.hide);
+            Andamio.dom.doc.on("Andamio:views:activateView", this.hide);
         }
     };
 })();
@@ -3836,13 +3857,14 @@ Andamio.loader = (function () {
 
             isActive = Andamio.dom.html.hasClass("has-loader");
 
-            var timeoutToken;
+            var self = this,
+                timeoutToken;
 
             Andamio.dom.doc.on("Andamio:views:activateView:start", function () {
 
                 // show loader if nothing is shown within 0,250 seconds
                 timeoutToken = setTimeout(function () {
-                    Andamio.loader.show();
+                    self.show();
 
                 }, 250);
             });
@@ -3850,7 +3872,13 @@ Andamio.loader = (function () {
             Andamio.dom.doc.on("Andamio:views:activateView:finish", function () {
 
                 clearTimeout(timeoutToken);
-                Andamio.loader.hide();
+                self.hide();
+            });
+
+            Andamio.dom.doc.on("ajaxError", function () {
+
+                clearTimeout(timeoutToken);
+                self.hide();
             });
         }
     };
@@ -4436,6 +4464,8 @@ Andamio.views = (function () {
                 var currentView = this.list.lookup(view);
 
                 currentView.active = true;
+
+                Andamio.dom.doc.trigger("Andamio:views:activateView");
 
                 if (url) {
 

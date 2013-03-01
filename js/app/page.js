@@ -10,17 +10,31 @@ Andamio.page = (function () {
 
         $.ajax({
             "url": requestUrl,
+            "timeout": 0,
             "headers": {
                 "X-PJAX": true,
                 "X-Requested-With": "XMLHttpRequest"
             },
 
-            success: function (response) {
-                Andamio.cache.set(url, response, expiration);
+            error: function (xhr, type) {
+
+                // type is one of: "timeout", "error", "abort", "parsererror"
+                var status = xhr.status,
+                    errorMessage = '<a href="javascript:void(0)" class="action-refresh">' + Andamio.i18n.ajaxGeneralError + '<br>' + type + " " + status + '<br>' + Andamio.i18n.ajaxRetry + '</a>';
+
+                if (type === "timeout") {
+                    Andamio.connection.goOffline();
+                } else {
+                    if (Andamio.connection.status) {
+                        Andamio.alert.show(errorMessage);
+                    }
+                }
             },
 
-            complete: function (data) {
-                callback(data.responseText);
+            success: function (response) {
+                Andamio.connection.goOnline();
+                Andamio.cache.set(url, response, expiration);
+                callback(response);
             }
         });
     }

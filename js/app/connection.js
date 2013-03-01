@@ -1,10 +1,9 @@
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
-/*global Andamio */
+/*global Andamio, $ */
 
 Andamio.connection = (function () {
 
-    var isOnline,
-        offlineMessage;
+    var isOnline;
 
     return {
 
@@ -14,8 +13,13 @@ Andamio.connection = (function () {
         },
 
         goOffline: function () {
-            isOnline = false;
-            Andamio.alert.show(offlineMessage);
+
+            if (!!isOnline) {
+                isOnline = false;
+
+                var offlineMessage = $('<a href="javascript:void(0)" class="action-refresh">' + Andamio.i18n.offlineMessage + '</a>');
+                Andamio.alert.show(offlineMessage);
+            }
         },
 
         get status() {
@@ -24,18 +28,8 @@ Andamio.connection = (function () {
 
         init: function () {
 
-            var self = this;
-            isOnline = true;
-            offlineMessage = Andamio.config.offlineMessage || '<a href="javascript:void(0)" class="action-refresh">It appears your connection isn\'t working. Try again.</a>';
-
-            Andamio.dom.doc.on("ajaxSuccess", function () {
-
-                if (! isOnline) {
-                    self.goOnline();
-                }
-            });
-
-            Andamio.dom.doc.on("ajaxError", self.goOffline);
+            isOnline = navigator.onLine;
         }
     };
+
 })();

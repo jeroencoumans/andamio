@@ -1558,6 +1558,9 @@ a {
 .page-alert .page-alert-text a {
   color: inherit;
 }
+.page-alert .page-alert-text .action-refresh {
+  display: block;
+}
 .page-footer {
   background: #050505;
   color: #fff;
