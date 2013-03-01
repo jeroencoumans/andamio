@@ -89,8 +89,19 @@ Andamio.config = (function () {
             // Setup user-defined options
             if (typeof options === "object") {
                 for (var key in options) {
-                    if (key === "init") return;
-                    this[key] = options[key];
+
+                    switch (key) {
+                    case "init":
+                        break;
+                    case "i18n":
+                        for (var string in options.i18n) {
+                            Andamio.i18n[string] = options.i18n[string];
+                        }
+                        break;
+                    default:
+                        this[key] = options[key];
+                        break;
+                    }
                 }
             }
 

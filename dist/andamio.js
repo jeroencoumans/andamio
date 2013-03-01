@@ -19,6 +19,21 @@ Andamio.dom = (function () {
     };
 })();
 
+/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
+/*global Andamio */
+
+Andamio.i18n = {
+    ajaxGeneralError: "Computer said no:",
+    ajaxNotFound: "The page couldn't be found.",
+    ajaxTimeout: "The server timed out waiting for the request.",
+    ajaxServerError: "The server is having problems, try again later.",
+    ajaxRetry: "Please go back or try again.",
+    offlineMessage: "There was a problem. Is your connection working? <br>Please check and try again.",
+    pagerLoadMore: "Load more",
+    pagerLoading: "Loading&hellip;",
+    pagerNoMorePages: "There are no more items."
+};
+
 /*jshint es5: true, browser: true, undef:true, unused:true, boss:true */
 /*global Andamio, FastClick */
 
@@ -110,8 +125,19 @@ Andamio.config = (function () {
             // Setup user-defined options
             if (typeof options === "object") {
                 for (var key in options) {
-                    if (key === "init") return;
-                    this[key] = options[key];
+
+                    switch (key) {
+                    case "init":
+                        break;
+                    case "i18n":
+                        for (var string in options.i18n) {
+                            Andamio.i18n[string] = options.i18n[string];
+                        }
+                        break;
+                    default:
+                        this[key] = options[key];
+                        break;
+                    }
                 }
             }
 
@@ -375,21 +401,6 @@ Andamio.phone = (function () {
         }
     };
 })();
-
-/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
-/*global Andamio */
-
-Andamio.i18n = {
-    ajaxGeneralError: "Computer said no:",
-    ajaxNotFound: "The page couldn't be found.",
-    ajaxTimeout: "The server timed out waiting for the request.",
-    ajaxServerError: "The server is having problems, try again later.",
-    ajaxRetry: "Please go back or try again.",
-    offlineMessage: "There was a problem. Is your connection working? <br>Please check and try again.",
-    pagerLoadMore: "Load more",
-    pagerLoading: "Loading&hellip;",
-    pagerNoMorePages: "There are no more items."
-};
 
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio */

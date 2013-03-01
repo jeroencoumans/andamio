@@ -21,13 +21,13 @@ module.exports = function(grunt) {
                 src: [
                     // Setup
                     'js/app/core.js',
+                    'js/app/i18n.js',
                     'js/app/config.js',
 
                     // Reusable functions
                     'js/app/events.js',
                     'js/app/util.js',
                     'js/app/phone.js',
-                    'js/app/i18n.js',
 
                     // Data handling
                     'js/app/cache.js',
