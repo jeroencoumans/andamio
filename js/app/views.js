@@ -163,20 +163,22 @@ Andamio.views = (function () {
 
     function ViewCollection() {
 
+        // Internally used variables
+        var parentView   = new View(Andamio.dom.parentView,   true, "slide-default"),
+            childView    = new View(Andamio.dom.childView,    true, "slide-right"),
+            childViewAlt = new View(Andamio.dom.childViewAlt, true, "slide-right"),
+            modalView    = new View(Andamio.dom.modalView,    true, "slide-bottom"),
+            urlHistory = [],
+            viewHistory = [],
+            scrollHistory = [];
+
+        // Public variables
         this.list = new Andamio.util.Dictionary({
-            parentView:   new View(Andamio.dom.parentView,   true, "slide-default"),
-            childView:    new View(Andamio.dom.childView,    true, "slide-right"),
-            childViewAlt: new View(Andamio.dom.childViewAlt, true, "slide-right"),
-            modalView:    new View(Andamio.dom.modalView,    true, "slide-bottom")
+            parentView:   parentView,
+            childView:    childView,
+            childViewAlt: childViewAlt,
+            modalView:    modalView
         });
-
-        var urlHistory = [];
-        var viewHistory = [];
-        var scrollHistory = [];
-
-        this._urlHistory    = function () { return urlHistory; };
-        this._viewHistory   = function () { return viewHistory; };
-        this._scrollHistory = function () { return scrollHistory; };
 
         this.childCount = 0;
         this.modalCount = 0;
@@ -185,7 +187,7 @@ Andamio.views = (function () {
 
             currentUrl: {
                 get: function ()      { return last(urlHistory); },
-                set: function (value) { addUniq(value, urlHistory); }
+                set: function (value) { addUniq(value, urlHistory); } // TODO: when opening the same URL in a new view, history gets messed up
             },
 
             previousUrl: {
@@ -354,10 +356,7 @@ Andamio.views = (function () {
 
             this.childCount++;
 
-            var parentView   = this.list.lookup("parentView"),
-                childView    = this.list.lookup("childView"),
-                childViewAlt = this.list.lookup("childViewAlt"),
-                currentView  = this.list.lookup(this.currentView);
+            var currentView  = this.list.lookup(this.currentView);
 
             switch (currentView) {
 
@@ -376,7 +375,7 @@ Andamio.views = (function () {
                 this.pushView("childViewAlt", url, expiration, 0);
 
                 if (Andamio.config.webapp) {
-                    Andamio.dom.childViewAlt.removeClass("slide-left").addClass("slide-right");
+                    childViewAlt.container.removeClass("slide-left").addClass("slide-right");
 
                     Andamio.util.delay(function () {
                         childView.slide("slide-left");
@@ -390,7 +389,7 @@ Andamio.views = (function () {
                 this.pushView("childView", url, expiration, 0);
 
                 if (Andamio.config.webapp) {
-                    Andamio.dom.childView.removeClass("slide-left").addClass("slide-right");
+                    childView.container.removeClass("slide-left").addClass("slide-right");
 
                     Andamio.util.delay(function () {
                         childViewAlt.slide("slide-left");
@@ -400,16 +399,11 @@ Andamio.views = (function () {
 
                 break;
             }
-
-
         };
 
         this.popChild = function () {
 
-            var parentView   = this.list.lookup("parentView"),
-                childView    = this.list.lookup("childView"),
-                childViewAlt = this.list.lookup("childViewAlt"),
-                currentView  = this.list.lookup(this.currentView);
+            var currentView  = this.list.lookup(this.currentView);
 
             if (Andamio.config.webapp) {
                 switch (currentView) {
@@ -425,7 +419,7 @@ Andamio.views = (function () {
 
                     } else {
 
-                        Andamio.dom.childViewAlt.removeClass("slide-right").addClass("slide-left");
+                        childViewAlt.container.removeClass("slide-right").addClass("slide-left");
 
                         Andamio.util.delay(function () {
                             childView.slide("slide-right");
@@ -437,7 +431,7 @@ Andamio.views = (function () {
 
                 case childViewAlt:
 
-                    Andamio.dom.childView.removeClass("slide-right").addClass("slide-left");
+                    childView.container.removeClass("slide-right").addClass("slide-left");
 
                     Andamio.util.delay(function () {
                         childViewAlt.slide("slide-right");
