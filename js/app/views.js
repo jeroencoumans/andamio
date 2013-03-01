@@ -229,6 +229,8 @@ Andamio.views = (function () {
 
                 currentView.active = true;
 
+                Andamio.dom.doc.trigger("Andamio:views:activateView");
+
                 if (url) {
 
                     Andamio.dom.doc.trigger("Andamio:views:activateView:start", [url]);
