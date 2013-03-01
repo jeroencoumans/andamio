@@ -10910,9 +10910,9 @@ Andamio.pager = (function () {
         this.params = $.isPlainObject(params) ? params : {};
 
         Andamio.dom.pagerWrapper = this.params.elem || Andamio.views.list.lookup(Andamio.views.currentView).content.find(".js-pager-list");
-        loadMoreAction = this.params.loadMoreAction || $('<div class="pager-action"><a href="javascript:void(0)" class="button button-block action-load-more">' + Andamio.i18n.pagerLoadMore + '</a></div>');
-        spinner = this.params.spinner || $('<div class="pager-loading">' + Andamio.i18n.pagerLoading + '</div></div>');
-        noMorePages = this.params.noMorePages || $('<div class="pager-action">' + Andamio.i18n.pagerNoMorePages + '</div>');
+        loadMoreAction  = $('<div class="pager-action"><a href="javascript:void(0)" class="button button-block action-load-more">' + (this.params.loadMoreAction || Andamio.i18n.pagerLoadMore) + '</a></div>');
+        spinner         = $('<div class="pager-loading">' + (this.params.spinner || Andamio.i18n.pagerLoading) + '</div></div>');
+        noMorePages     = $('<div class="pager-action">' + (this.params.noMorePages || Andamio.i18n.pagerNoMorePages) + '</div>');
 
         // Store options in global config
         Andamio.config.pager = {
