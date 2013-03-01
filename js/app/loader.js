@@ -66,13 +66,14 @@ Andamio.loader = (function () {
 
             isActive = Andamio.dom.html.hasClass("has-loader");
 
-            var timeoutToken;
+            var self = this,
+                timeoutToken;
 
             Andamio.dom.doc.on("Andamio:views:activateView:start", function () {
 
                 // show loader if nothing is shown within 0,250 seconds
                 timeoutToken = setTimeout(function () {
-                    Andamio.loader.show();
+                    self.show();
 
                 }, 250);
             });
@@ -80,7 +81,13 @@ Andamio.loader = (function () {
             Andamio.dom.doc.on("Andamio:views:activateView:finish", function () {
 
                 clearTimeout(timeoutToken);
-                Andamio.loader.hide();
+                self.hide();
+            });
+
+            Andamio.dom.doc.on("ajaxError", function () {
+
+                clearTimeout(timeoutToken);
+                self.hide();
             });
         }
     };
