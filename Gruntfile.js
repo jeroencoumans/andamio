@@ -27,6 +27,7 @@ module.exports = function(grunt) {
                     'js/app/events.js',
                     'js/app/util.js',
                     'js/app/phone.js',
+                    'js/app/i18n.js',
 
                     // Data handling
                     'js/app/cache.js',
