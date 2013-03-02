@@ -1025,7 +1025,7 @@ Andamio.nav = (function () {
                 }
 
                 if (title) {
-                    Andamio.dom.viewport.one("Andamio:views:activateView:finish", function () {
+                    Andamio.dom.doc.one("Andamio:views:activateView:finish", function () {
                         Andamio.views.list.lookup("parentView").title = title;
                     });
                 }
