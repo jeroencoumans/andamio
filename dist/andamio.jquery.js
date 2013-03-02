@@ -10991,7 +10991,8 @@ Andamio.pager = (function () {
             isLoading = true;
             this.pageNumber++;
 
-            var self = this;
+            var self = this,
+                content;
 
             if (! self.autoFetching) {
                 showSpinner();
@@ -11000,9 +11001,21 @@ Andamio.pager = (function () {
             Andamio.page.load(Andamio.config.pager.url + self.pageNumber, Andamio.config.pager.expires, function (response) {
 
                 isLoading = false;
+                content = false;
 
                 if (response) {
-                    Andamio.dom.pagerWrapper.append(response);
+                    if ($.isPlainObject(response)) {
+                        if (! $.isEmptyObject(response.content)) {
+                            content = response.content;
+                        }
+                    } else {
+                        content = response;
+                    }
+                }
+
+                if (content) {
+
+                    Andamio.dom.pagerWrapper.append(content);
 
                     if (! self.autoFetching) {
                         hideSpinner();
