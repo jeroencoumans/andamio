@@ -272,15 +272,15 @@ Andamio.util = (function () {
                 hash = $(elem).hash;
 
             if (url) {
-                return url;
+                return encodeURI(url);
             }
 
             else if (href.substring(0, 10) !== "javascript") {
-                return href;
+                return encodeURI(href);
             }
 
             else if (hash) {
-                return hash;
+                return encodeURIComponent(hash);
             }
         },
 
