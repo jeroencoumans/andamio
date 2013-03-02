@@ -329,7 +329,7 @@ Andamio.views = (function () {
             } else {
 
                 if (Andamio.config.webapp) {
-                    this.list.lookup("modalView").slide("slide-default");
+                    modalView.slide("slide-default");
                 }
 
                 this.pushView("modalView", url, expiration);
@@ -342,7 +342,7 @@ Andamio.views = (function () {
             if (this.modalCount > 0) {
 
                 if (Andamio.config.webapp) {
-                    this.list.lookup("modalView").slide("slide-bottom");
+                    modalView.slide("slide-bottom");
                 }
 
                 this.popView();
