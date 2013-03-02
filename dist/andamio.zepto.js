@@ -4292,30 +4292,35 @@ Andamio.views = (function () {
     function View(container, content, position) {
         this.container = container;
 
-        if (content) {
-            Object.defineProperties(this, {
-                title: {
-                    get: function () { return this.container.find(".js-title"); },
-                    set: function (value) {
-                        if (typeof value === "string") {
-                            this.container.find(".js-title").text(value);
-                        }
-                    }
+        Object.defineProperties(this, {
+            title: {
+                configurable: true,
+                get: function () {
+                    return this.container.find(".js-title");
                 },
-                content: {
-                    get: function () { return this.container.hasClass("js-content") ? this.container : this.container.find(".js-content"); }
-                },
-                scroller: {
-                    get: function () {
-                        if (Andamio.config.webapp) {
-                            return this.container.hasClass("overthrow") ? this.container : this.container.find(".overthrow");
-                        } else {
-                            return Andamio.dom.win;
-                        }
+                set: function (value) {
+                    if (typeof value === "string") {
+                        this.container.find(".js-title").text(value);
                     }
                 }
-            });
-        }
+            },
+            content: {
+                configurable: true,
+                get: function () {
+                    return this.container.hasClass("js-content") ? this.container : this.container.find(".js-content");
+                }
+            },
+            scroller: {
+                configurable: true,
+                get: function () {
+                    if (Andamio.config.webapp) {
+                        return this.container.hasClass("overthrow") ? this.container : this.container.find(".overthrow");
+                    } else {
+                        return Andamio.dom.win;
+                    }
+                }
+            }
+        });
 
         if (position) {
             this.initialPosition = position;
