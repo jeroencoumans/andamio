@@ -18,6 +18,11 @@
     Layout
 
 ***/
+/***
+
+    Icons
+
+***/
 /* =============================================================================
    Base
    ========================================================================== */
@@ -553,14 +558,16 @@ sup {
   text-align: center;
 }
 .page-loader .page-loader-spinner {
+  display: block;
   margin: 0 auto 10px;
+  background: url(../img/spinner-dark.gif) 50% 50% no-repeat;
   width: 32px;
   height: 32px;
 }
 .page-loader .page-loader-text {
   font-size: 15px;
   font-weight: bold;
-  color: #fff;
+  color: #ffffff;
 }
 /***
 
