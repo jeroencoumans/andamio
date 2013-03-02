@@ -57,15 +57,18 @@ Andamio.tabs = (function () {
                     url     = Andamio.util.getUrl(target),
                     title   = Andamio.util.getTitle(target);
 
-                Andamio.dom.pageTabsActive = target;
+                if (Andamio.dom.pageTabsActive[0] !== target[0]) {
 
-                if (title) {
-                    Andamio.dom.viewport.one("Andamio:views:activateView:finish", function () {
-                        Andamio.views.list.values.parentView.title = title;
-                    });
+                    Andamio.dom.pageTabsActive = target;
+
+                    if (title) {
+                        Andamio.dom.viewport.one("Andamio:views:activateView:finish", function () {
+                            Andamio.views.list.values.parentView.title = title;
+                        });
+                    }
+
+                    Andamio.views.openParentPage(url);
                 }
-
-                Andamio.views.openParentPage(url);
             });
         }
     };
