@@ -10825,18 +10825,17 @@ Andamio.page = (function () {
     return {
         load: function (url, expiration, callback) {
 
-            if (url && $.isFunction(callback)) {
+            if (url) {
 
                 var cachedContent = Andamio.cache.get(url);
 
                 if (cachedContent) {
 
-                    callback(cachedContent);
-
+                    if ($.isFunction(callback)) callback(cachedContent);
                 } else {
 
                     doAjaxRequest(url, expiration, function (response) {
-                        callback(response);
+                        if ($.isFunction(callback)) callback(response);
                     });
                 }
             }
