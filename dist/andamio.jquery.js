@@ -11548,15 +11548,18 @@ Andamio.tabs = (function () {
                     url     = Andamio.util.getUrl(target),
                     title   = Andamio.util.getTitle(target);
 
-                Andamio.dom.pageTabsActive = target;
+                if (Andamio.dom.pageTabsActive[0] !== target[0]) {
 
-                if (title) {
-                    Andamio.dom.viewport.one("Andamio:views:activateView:finish", function () {
-                        Andamio.views.list.values.parentView.title = title;
-                    });
+                    Andamio.dom.pageTabsActive = target;
+
+                    if (title) {
+                        Andamio.dom.viewport.one("Andamio:views:activateView:finish", function () {
+                            Andamio.views.list.values.parentView.title = title;
+                        });
+                    }
+
+                    Andamio.views.openParentPage(url);
                 }
-
-                Andamio.views.openParentPage(url);
             });
         }
     };
@@ -11893,7 +11896,7 @@ Andamio.views = (function () {
             } else {
 
                 if (Andamio.config.webapp) {
-                    this.list.lookup("modalView").slide("slide-default");
+                    modalView.slide("slide-default");
                 }
 
                 this.pushView("modalView", url, expiration);
@@ -11906,7 +11909,7 @@ Andamio.views = (function () {
             if (this.modalCount > 0) {
 
                 if (Andamio.config.webapp) {
-                    this.list.lookup("modalView").slide("slide-bottom");
+                    modalView.slide("slide-bottom");
                 }
 
                 this.popView();
