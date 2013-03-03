@@ -86,6 +86,16 @@ Andamio.config = (function () {
                 this.os.tablet = true;
             }
 
+            if (this.cache) {
+                this.cacheExpiration = 120;
+            }
+
+            if (this.touch) {
+                this.fastclick = new FastClick(win.document.body);
+            } else {
+                Andamio.dom.html.addClass("no-touch");
+            }
+
             // Setup user-defined options
             if (typeof options === "object") {
                 for (var key in options) {
@@ -103,16 +113,6 @@ Andamio.config = (function () {
                         break;
                     }
                 }
-            }
-
-            if (this.cache) {
-                this.cacheExpiration = 120;
-            }
-
-            if (this.touch) {
-                this.fastclick = new FastClick(win.document.body);
-            } else {
-                Andamio.dom.html.addClass("no-touch");
             }
 
             if (this.cordova) {
