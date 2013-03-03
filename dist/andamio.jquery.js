@@ -10411,6 +10411,16 @@ Andamio.config = (function () {
                 this.os.tablet = true;
             }
 
+            if (this.cache) {
+                this.cacheExpiration = 120;
+            }
+
+            if (this.touch) {
+                this.fastclick = new FastClick(win.document.body);
+            } else {
+                Andamio.dom.html.addClass("no-touch");
+            }
+
             // Setup user-defined options
             if (typeof options === "object") {
                 for (var key in options) {
@@ -10428,16 +10438,6 @@ Andamio.config = (function () {
                         break;
                     }
                 }
-            }
-
-            if (this.cache) {
-                this.cacheExpiration = 120;
-            }
-
-            if (this.touch) {
-                this.fastclick = new FastClick(win.document.body);
-            } else {
-                Andamio.dom.html.addClass("no-touch");
             }
 
             if (this.cordova) {
@@ -11395,11 +11395,11 @@ Andamio.pulltorefresh = (function () {
 
     return {
 
-        get refreshCallback() {
+        get callback() {
             return refreshCallback;
         },
 
-        set refreshCallback(callback) {
+        set callback(callback) {
             refreshCallback = $.isFunction(callback) ? callback : function () {};
         },
 
@@ -11967,11 +11967,14 @@ Andamio.views = (function () {
                 currentView = this.list.lookup(this.currentView);
 
             if (url) {
+
+                Andamio.dom.doc.trigger("Andamio:views:activateView:start", [url]);
                 currentView.content.empty();
 
                 Andamio.page.refresh(url, expiration, function (response) {
 
                     currentView.content.html(response);
+                    Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [url]);
 
                     if ($.isFunction(callback)) {
                         callback();

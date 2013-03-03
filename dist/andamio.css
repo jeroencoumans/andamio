@@ -1535,10 +1535,6 @@ video {
   -moz-transform: rotate(-180deg);
   transform: rotate(-180deg);
 }
-.pull-to-refresh.is-refreshing {
-  -webkit-transform: translate(0, -230px) translateZ(0);
-  transform: translate(0, -230px) translateZ(0);
-}
 .webapp,
 .website,
 .viewport {

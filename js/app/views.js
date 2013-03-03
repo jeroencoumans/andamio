@@ -310,11 +310,14 @@ Andamio.views = (function () {
                 currentView = this.list.lookup(this.currentView);
 
             if (url) {
+
+                Andamio.dom.doc.trigger("Andamio:views:activateView:start", [url]);
                 currentView.content.empty();
 
                 Andamio.page.refresh(url, expiration, function (response) {
 
                     currentView.content.html(response);
+                    Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [url]);
 
                     if ($.isFunction(callback)) {
                         callback();

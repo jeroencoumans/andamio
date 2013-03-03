@@ -52,11 +52,11 @@ Andamio.pulltorefresh = (function () {
 
     return {
 
-        get refreshCallback() {
+        get callback() {
             return refreshCallback;
         },
 
-        set refreshCallback(callback) {
+        set callback(callback) {
             refreshCallback = $.isFunction(callback) ? callback : function () {};
         },
 
