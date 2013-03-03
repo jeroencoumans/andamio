@@ -65,18 +65,20 @@ Andamio.nav = (function () {
 
             isActive = Andamio.dom.html.hasClass("has-navigation");
 
-            docheight = Andamio.dom.win.height();
-            navheight = Andamio.dom.pageNav.height();
+            if (!Andamio.config.webapp) {
+                docheight = Andamio.dom.win.height();
+                navheight = Andamio.dom.pageNav.height();
 
-            // When in Mobile Safari, add the height of the address bar
-            if (Andamio.config.os.iphone && !Andamio.config.webapp) {
-                docheight += 60;
-            }
+                // When in Mobile Safari, add the height of the address bar
+                if (Andamio.config.os.iphone) {
+                    docheight += 60;
+                }
 
-            // make sure the navigation is as high as the page
-            if (docheight > navheight) {
-                navheight = docheight;
-                Andamio.dom.pageNav.height(navheight);
+                // make sure the navigation is as high as the page
+                if (docheight > navheight) {
+                    navheight = docheight;
+                    Andamio.dom.pageNav.height(navheight);
+                }
             }
 
             Andamio.events.attach(".action-show-nav", self.show);
