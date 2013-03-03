@@ -47,4 +47,10 @@
     </div>
 </div>
 
-<script>Andamio.slideshow.init("slideshow-test");</script>
+<script>
+    Andamio.slideshow.init("slideshow-test");
+
+    if (Andamio.config.webapp) {
+        Andamio.pulltorefresh.init();
+    }
+</script>

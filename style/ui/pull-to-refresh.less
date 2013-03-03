@@ -1,0 +1,36 @@
+/***
+
+    The pull to refresh
+
+***/
+
+@pull-to-refresh-background: darken(@global-background-color, 10%);
+@pull-to-refresh-border: darken(@global-background-color, 15%);
+@pull-to-refresh-height: 250px;
+
+
+.pull-to-refresh {
+    .overlay-top;
+    height: @pull-to-refresh-height;
+    .translate3d(0, -@pull-to-refresh-height, 0);
+    background: @pull-to-refresh-background;
+    border-bottom: 1px solid @pull-to-refresh-border;
+
+    .icon-arrow-down {
+        .overlay-bottom;
+        margin: @grid-s auto;
+        .rotate(0deg);
+        .animate();
+    }
+
+    &.can-refresh {
+
+        .icon-arrow-down {
+            .rotate(-180deg);
+        }
+    }
+
+    &.is-refreshing {
+        .translate3d(0, -(@pull-to-refresh-height - @grid-l), 0);
+    }
+}

@@ -1498,6 +1498,47 @@ video {
 .slideshow-dots .slideshow-dot.active {
   background: #626262;
 }
+/***
+
+    The pull to refresh
+
+***/
+.pull-to-refresh {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 250px;
+  -webkit-transform: translate(0, -250px) translateZ(0);
+  transform: translate(0, -250px) translateZ(0);
+  background: #dadada;
+  border-bottom: 1px solid #cdcdcd;
+}
+.pull-to-refresh .icon-arrow-down {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: 5px auto;
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transition-delay: 0;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform-style: flat;
+  -webkit-transition-property: all;
+  -webkit-transition-duration: 300ms;
+  -webkit-transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
+}
+.pull-to-refresh.can-refresh .icon-arrow-down {
+  -webkit-transform: rotate(-180deg);
+  -moz-transform: rotate(-180deg);
+  transform: rotate(-180deg);
+}
+.pull-to-refresh.is-refreshing {
+  -webkit-transform: translate(0, -230px) translateZ(0);
+  transform: translate(0, -230px) translateZ(0);
+}
 .webapp,
 .website,
 .viewport {
