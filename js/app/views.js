@@ -304,7 +304,7 @@ Andamio.views = (function () {
             }
         };
 
-        this.refreshView = function (expiration) {
+        this.refreshView = function (expiration, callback) {
 
             var url = this.currentUrl,
                 currentView = this.list.lookup(this.currentView);
@@ -315,6 +315,10 @@ Andamio.views = (function () {
                 Andamio.page.refresh(url, expiration, function (response) {
 
                     currentView.content.html(response);
+
+                    if ($.isFunction(callback)) {
+                        callback();
+                    }
                 });
             }
         };
