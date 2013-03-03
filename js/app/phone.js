@@ -45,7 +45,7 @@ Andamio.phone = (function () {
 
                 Andamio.dom.doc.on("active", function () {
                     var now = new Date();
-                    if (now - Andamio.config.updateTimestamp > Andamio.config.updateTimeout) {
+                    if (now - Andamio.config.phone.updateTimestamp > Andamio.config.phone.updateTimeout) {
 
                         if (Andamio.alert.status) {
                             Andamio.alert.hide();

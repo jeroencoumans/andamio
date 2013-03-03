@@ -3355,7 +3355,7 @@ Andamio.phone = (function () {
 
                 Andamio.dom.doc.on("active", function () {
                     var now = new Date();
-                    if (now - Andamio.config.updateTimestamp > Andamio.config.updateTimeout) {
+                    if (now - Andamio.config.phone.updateTimestamp > Andamio.config.phone.updateTimeout) {
 
                         if (Andamio.alert.status) {
                             Andamio.alert.hide();
@@ -4248,7 +4248,7 @@ Andamio.tabs = (function () {
                     Andamio.dom.pageTabsActive = target;
 
                     if (title) {
-                        Andamio.dom.viewport.one("Andamio:views:activateView:finish", function () {
+                        Andamio.dom.doc.one("Andamio:views:activateView:finish", function () {
                             Andamio.views.list.values.parentView.title = title;
                         });
                     }

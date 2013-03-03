@@ -1498,16 +1498,19 @@ video {
 .slideshow-dots .slideshow-dot.active {
   background: #626262;
 }
-html,
-body {
+.webapp,
+.website,
+.viewport {
   margin: 0;
   padding: 0;
-}
-.viewport {
-  background: #f3f3f3;
   color: #050505;
   word-wrap: break-word;
 }
+.website,
+.website .viewport {
+  background: #f3f3f3;
+}
+.webapp,
 .webapp .viewport {
   background: #2b2b2b;
 }

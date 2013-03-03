@@ -1,18 +1,21 @@
 // Global defaults
-html,
-body {
+.webapp,
+.website,
+.viewport {
     margin: 0;
     padding: 0;
-}
-
-.viewport {
-    background: @global-background-color;
     color: @global-text-color;
     word-wrap: break-word;
+}
 
-    .webapp & {
-        background: @webapp-background-color;
-    }
+.website,
+.website .viewport {
+    background: @global-background-color;
+}
+
+.webapp,
+.webapp .viewport {
+    background: @webapp-background-color;
 }
 
 h1, h2, h3, h4, h5, h6 {
