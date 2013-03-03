@@ -1548,6 +1548,7 @@ window.Swipe = function(element, options) {
   this.delay = options.auto || 0;
   this.cont = (options.continuous != undefined) ? !!options.continuous : true;
   this.disableScroll = !!options.disableScroll;
+  this.noPropagation = options.noPropagation || false;
 
   // verify index is a number not string
   this.index = parseInt(this.index,10);
@@ -1734,7 +1735,7 @@ Swipe.prototype = {
       case 'resize': this.setup(); break;
     }
 
-    e.stopPropagation();
+    if (this.noPropagation) e.stopPropagation();
   },
 
   onTouchStart: function(e) {
