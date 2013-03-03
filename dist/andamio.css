@@ -1107,6 +1107,7 @@ tr:first-child {
   height: 44px;
   width: 25%;
   z-index: 2;
+  line-height: 44px;
 }
 .button-header-wrapper {
   position: absolute;

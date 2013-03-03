@@ -11291,18 +11291,20 @@ Andamio.nav = (function () {
 
             isActive = Andamio.dom.html.hasClass("has-navigation");
 
-            docheight = Andamio.dom.win.height();
-            navheight = Andamio.dom.pageNav.height();
+            if (!Andamio.config.webapp) {
+                docheight = Andamio.dom.win.height();
+                navheight = Andamio.dom.pageNav.height();
 
-            // When in Mobile Safari, add the height of the address bar
-            if (Andamio.config.os.iphone && !Andamio.config.webapp) {
-                docheight += 60;
-            }
+                // When in Mobile Safari, add the height of the address bar
+                if (Andamio.config.os.iphone) {
+                    docheight += 60;
+                }
 
-            // make sure the navigation is as high as the page
-            if (docheight > navheight) {
-                navheight = docheight;
-                Andamio.dom.pageNav.height(navheight);
+                // make sure the navigation is as high as the page
+                if (docheight > navheight) {
+                    navheight = docheight;
+                    Andamio.dom.pageNav.height(navheight);
+                }
             }
 
             Andamio.events.attach(".action-show-nav", self.show);
@@ -11427,7 +11429,7 @@ Andamio.slideshow = (function () {
 
             if (! slideshowContainer.hasClass(".js-slideshow-active")) {
 
-                this.options = {
+                var defaults = {
                     startSlide: 0,
                     speed: 300,
                     continuous: true,
@@ -11435,16 +11437,11 @@ Andamio.slideshow = (function () {
                 };
 
                 // Merge user-defined options
-                if (typeof options === "object" && typeof options !== "undefined") {
-
-                    for (var key in options) {
-                        this.options[key] = options[key];
-                    }
-                }
+                this.options = $.extend({}, defaults, options);
 
                 // setup Swipe
                 var slideshow = new Swipe(document.getElementById(id), this.options),
-                    dots = new SwipeDots(slideshow.length);
+                    dots      = new SwipeDots(slideshow.length);
 
                 dots.wrapper
                     .insertAfter(slideshow.container)
@@ -11483,11 +11480,11 @@ Andamio.slideshow = (function () {
                         isNext = target.parents(".action-slideshow-next"),
                         isPrev = target.parents(".action-slideshow-prev");
 
-                    if (isNext.length > 0) {
+                    if (isNext.length) {
                         slideshow.next();
                     }
 
-                    if (isPrev.length > 0) {
+                    if (isPrev.length) {
                         slideshow.prev();
                     }
                 });

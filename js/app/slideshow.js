@@ -35,7 +35,7 @@ Andamio.slideshow = (function () {
 
             if (! slideshowContainer.hasClass(".js-slideshow-active")) {
 
-                this.options = {
+                var defaults = {
                     startSlide: 0,
                     speed: 300,
                     continuous: true,
@@ -43,16 +43,11 @@ Andamio.slideshow = (function () {
                 };
 
                 // Merge user-defined options
-                if (typeof options === "object" && typeof options !== "undefined") {
-
-                    for (var key in options) {
-                        this.options[key] = options[key];
-                    }
-                }
+                this.options = $.extend({}, defaults, options);
 
                 // setup Swipe
                 var slideshow = new Swipe(document.getElementById(id), this.options),
-                    dots = new SwipeDots(slideshow.length);
+                    dots      = new SwipeDots(slideshow.length);
 
                 dots.wrapper
                     .insertAfter(slideshow.container)
@@ -91,11 +86,11 @@ Andamio.slideshow = (function () {
                         isNext = target.parents(".action-slideshow-next"),
                         isPrev = target.parents(".action-slideshow-prev");
 
-                    if (isNext.length > 0) {
+                    if (isNext.length) {
                         slideshow.next();
                     }
 
-                    if (isPrev.length > 0) {
+                    if (isPrev.length) {
                         slideshow.prev();
                     }
                 });
