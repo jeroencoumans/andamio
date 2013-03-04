@@ -145,7 +145,7 @@ Andamio.pager = (function () {
                 showSpinner();
             }
 
-            Andamio.page.load(Andamio.config.pager.url + self.pageNumber, Andamio.config.pager.expires, function (response) {
+            Andamio.page.load(Andamio.config.pager.url + self.pageNumber, Andamio.config.pager.expires, true, function (response) {
 
                 isLoading = false;
                 content = false;

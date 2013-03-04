@@ -3,12 +3,13 @@
 
 Andamio.page = (function () {
 
-    function doAjaxRequest(url, expiration, callback) {
+    function doAjaxRequest(url, expiration, cache, callback) {
 
         $.ajax({
-            "url": url,
-            "timeout": 0,
-            "headers": {
+            url: url,
+            timeout: 0,
+            cache: cache,
+            headers: {
                 "X-PJAX": true,
                 "X-Requested-With": "XMLHttpRequest"
             },
@@ -37,7 +38,7 @@ Andamio.page = (function () {
     }
 
     return {
-        load: function (url, expiration, callback) {
+        load: function (url, expiration, cache, callback) {
 
             if (url) {
 
@@ -48,7 +49,7 @@ Andamio.page = (function () {
                     if ($.isFunction(callback)) callback(cachedContent);
                 } else {
 
-                    doAjaxRequest(url, expiration, function (response) {
+                    doAjaxRequest(url, expiration, cache, function (response) {
                         if ($.isFunction(callback)) callback(response);
                     });
                 }
@@ -58,7 +59,7 @@ Andamio.page = (function () {
         refresh: function (url, expiration, callback) {
 
             Andamio.cache.delete(url);
-            this.load(url, expiration, callback);
+            this.load(url, expiration, false, callback);
         }
     };
 

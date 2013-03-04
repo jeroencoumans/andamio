@@ -243,7 +243,7 @@ Andamio.views = (function () {
 
                     currentView.content.empty();
 
-                    Andamio.page.load(url, expiration, function (response) {
+                    Andamio.page.load(url, expiration, true, function (response) {
 
                         currentView.content.html(response);
 

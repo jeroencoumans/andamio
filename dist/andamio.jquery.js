@@ -10787,12 +10787,13 @@ Andamio.connection = (function () {
 
 Andamio.page = (function () {
 
-    function doAjaxRequest(url, expiration, callback) {
+    function doAjaxRequest(url, expiration, cache, callback) {
 
         $.ajax({
-            "url": url,
-            "timeout": 0,
-            "headers": {
+            url: url,
+            timeout: 0,
+            cache: cache,
+            headers: {
                 "X-PJAX": true,
                 "X-Requested-With": "XMLHttpRequest"
             },
@@ -10821,7 +10822,7 @@ Andamio.page = (function () {
     }
 
     return {
-        load: function (url, expiration, callback) {
+        load: function (url, expiration, cache, callback) {
 
             if (url) {
 
@@ -10832,7 +10833,7 @@ Andamio.page = (function () {
                     if ($.isFunction(callback)) callback(cachedContent);
                 } else {
 
-                    doAjaxRequest(url, expiration, function (response) {
+                    doAjaxRequest(url, expiration, cache, function (response) {
                         if ($.isFunction(callback)) callback(response);
                     });
                 }
@@ -10842,7 +10843,7 @@ Andamio.page = (function () {
         refresh: function (url, expiration, callback) {
 
             Andamio.cache.delete(url);
-            this.load(url, expiration, callback);
+            this.load(url, expiration, false, callback);
         }
     };
 
@@ -10995,7 +10996,7 @@ Andamio.pager = (function () {
                 showSpinner();
             }
 
-            Andamio.page.load(Andamio.config.pager.url + self.pageNumber, Andamio.config.pager.expires, function (response) {
+            Andamio.page.load(Andamio.config.pager.url + self.pageNumber, Andamio.config.pager.expires, true, function (response) {
 
                 isLoading = false;
                 content = false;
@@ -11912,7 +11913,7 @@ Andamio.views = (function () {
 
                     currentView.content.empty();
 
-                    Andamio.page.load(url, expiration, function (response) {
+                    Andamio.page.load(url, expiration, true, function (response) {
 
                         currentView.content.html(response);
 
