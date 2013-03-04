@@ -499,11 +499,8 @@ Andamio.page = (function () {
 
     function doAjaxRequest(url, expiration, callback) {
 
-        // Cachebuster
-        var requestUrl = url + ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime();
-
         $.ajax({
-            "url": requestUrl,
+            "url": url,
             "timeout": 0,
             "headers": {
                 "X-PJAX": true,
