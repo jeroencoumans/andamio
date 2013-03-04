@@ -1021,6 +1021,10 @@ Andamio.nav = (function () {
             Andamio.events.attach(".action-show-nav", self.show);
             Andamio.events.attach(".action-hide-nav", self.hide);
 
+            Andamio.dom.doc.on("touchmove", ".action-hide-nav", function (event) {
+                event.preventDefault();
+            });
+
             Andamio.events.attach(".action-nav-item", function (event) {
 
                 var target  = $(event.currentTarget),
