@@ -4034,18 +4034,16 @@ Andamio.nav = (function () {
 Andamio.pulltorefresh = (function () {
 
     var isRefreshing,
-        threshold,
-        scroller,
-        callback;
+        params;
 
     function setRefreshing(value) {
 
         isRefreshing = value;
 
         if (value) {
-            scroller.addClass("is-refreshing").removeClass("can-refresh");
+            params.scroller.addClass("is-refreshing").removeClass("can-refresh");
         } else {
-            scroller.removeClass("is-refreshing");
+            params.scroller.removeClass("is-refreshing");
         }
     }
 
@@ -4055,15 +4053,15 @@ Andamio.pulltorefresh = (function () {
             return;
         }
 
-        var scrollTop = scroller.scrollTop();
+        var scrollTop = params.scroller.scrollTop();
 
-        if (scrollTop < 0 && scrollTop < threshold && ! scroller.hasClass("can-refresh")) {
+        if (scrollTop < 0 && scrollTop < params.threshold && ! params.scroller.hasClass("can-refresh")) {
 
-            scroller.addClass("can-refresh");
+            params.scroller.addClass("can-refresh");
 
-        } else if (scrollTop < 0 && scrollTop > threshold && scroller.hasClass("can-refresh")) {
+        } else if (scrollTop < 0 && scrollTop > params.threshold && params.scroller.hasClass("can-refresh")) {
 
-            scroller.removeClass("can-refresh");
+            params.scroller.removeClass("can-refresh");
         }
     }
 
@@ -4073,16 +4071,16 @@ Andamio.pulltorefresh = (function () {
             return;
         }
 
-        var scrollTop = scroller.scrollTop();
+        var scrollTop = params.scroller.scrollTop();
 
-        if (scrollTop < threshold) {
+        if (scrollTop < params.threshold) {
 
             setRefreshing(true);
 
             Andamio.views.refreshView(null, function () {
 
                 setRefreshing(false);
-                callback();
+                params.callback();
             });
         }
     }
@@ -4090,29 +4088,31 @@ Andamio.pulltorefresh = (function () {
     return {
 
         get callback() {
-            return callback;
-        },
-
-        set callback(callback) {
-            callback = $.isFunction(callback) ? callback : function () {};
+            return params.callback;
         },
 
         get status() {
-            return scroller ? scroller.hasClass("has-pull-to-refresh") : false;
+            return params.scroller ? params.scroller.hasClass("has-pull-to-refresh") : false;
         },
 
         init: function (options) {
 
             isRefreshing = false;
-            scroller     = $.isPlainObject(options) ? options.scroller : Andamio.views.list.values.parentView.scroller;
-            callback     = $.isPlainObject(options) && $.isFunction(options.callback) ? options.callback : function () {};
-            threshold    = $.isPlainObject(options) && typeof options.threshold === "number" ? options.threshold : -40;
 
-            if (! scroller.hasClass("has-pull-to-refresh")) {
+            // defaults
+            params = {
+                scroller  : Andamio.views.list.values.parentView.scroller,
+                callback  : function () {},
+                threshold : -50
+            };
 
-                scroller.addClass("has-pull-to-refresh");
-                scroller.on("touchend", onTouchEnd, true);
-                scroller.on("touchmove", onTouchMove, true);
+            $.extend(params, options);
+
+            if (! params.scroller.hasClass("has-pull-to-refresh")) {
+
+                params.scroller.addClass("has-pull-to-refresh");
+                params.scroller.on("touchend", onTouchEnd, true);
+                params.scroller.on("touchmove", onTouchMove, true);
             }
         }
     };
