@@ -2,35 +2,95 @@
 
     The pull to refresh
 
+    When initialized, the following container class is set:
+        .has-pull-to-refresh
+
+    States (set on the scroll container):
+        .can-refresh
+        .is-refreshing
+
+    Pull-to-refresh element:
+    .pull-to-refresh
+        .pull-to-refresh-text
+            .icon-arrow-down (icon)
+            .pull-to-refresh-text-pull (when initially pulling)
+            .pull-to-refresh-text-release (when pull can be released to trigger refresh)
+            .pull-to-refresh-text-loading (when refreshing)
+
 ***/
 
 @pull-to-refresh-background: darken(@global-background-color, 10%);
-@pull-to-refresh-border: darken(@global-background-color, 15%);
+@pull-to-refresh-color: darken(@pull-to-refresh-background, 40%);
+@pull-to-refresh-border: darken(@pull-to-refresh-background, 15%);
 @pull-to-refresh-height: 250px;
-
+@pull-to-refresh-text-height: @baseline + @grid-l;
 
 .pull-to-refresh {
     .overlay-top;
-    height: @pull-to-refresh-height;
+    z-index: 1;
     .translate3d(0, -@pull-to-refresh-height, 0);
+    height: @pull-to-refresh-height;
     background: @pull-to-refresh-background;
-    border-bottom: 1px solid @pull-to-refresh-border;
 
     .icon-arrow-down {
-        .overlay-bottom;
-        margin: @grid-s auto;
-        .rotate(0deg);
+        .overlay-bottom-left;
+        margin: @grid-m;
         .animate();
+        .rotate(0deg);
+    }
+}
+
+    .pull-to-refresh-text {
+        .overlay-bottom;
+        overflow: hidden;
+        height: @pull-to-refresh-text-height;
+        margin: @grid-m auto 0;
+
+        color: @pull-to-refresh-color;
+        text-shadow: 0 1px 0 lighten(@pull-to-refresh-background, 20%);
+        border-top: 1px solid lighten(@pull-to-refresh-background, 10%);
+        border-bottom: 1px solid @pull-to-refresh-border;
+        .box-shadow(0 -1px 0 @pull-to-refresh-border);
     }
 
-    &.can-refresh {
-
-        .icon-arrow-down {
-            .rotate(-180deg);
+        .pull-to-refresh-text-pull,
+        .pull-to-refresh-text-release,
+        .pull-to-refresh-text-loading {
+            .overlay-bottom;
+            margin: 0 0 @grid-m;
+            .translate3d(0,0,0);
+            left: @arrow-width + (2 * @grid-m);
         }
+
+        .pull-to-refresh-text-release,
+        .pull-to-refresh-text-loading {
+            .translate3d(0,-@pull-to-refresh-text-height,0);
+        }
+
+// When the user can release drag-down to trigger a refresh
+.can-refresh {
+    .pull-to-refresh-text-pull,
+    .pull-to-refresh-text-loading {
+        .translate3d(0,-@pull-to-refresh-text-height,0);
     }
 
-    // &.is-refreshing {
-    //     .translate3d(0, -(@pull-to-refresh-height - @grid-l), 0);
-    // }
+    .pull-to-refresh-text-release {
+        .translate3d(0,0,0);
+    }
+
+    .icon-arrow-down {
+        .rotate(-180deg);
+    }
+}
+
+// When refresh is in progress. TODO: isn't shown currently
+.is-refreshing {
+    .pull-to-refresh-text-loading {
+        .translate3d(0,0,0);
+    }
+
+    .pull-to-refresh-text-pull,
+    .pull-to-refresh-text-release {
+        .translate3d(0,-@pull-to-refresh-text-height,0);
+    }
 }

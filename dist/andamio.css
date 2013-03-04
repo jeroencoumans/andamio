@@ -1449,6 +1449,8 @@ video {
   }
 }
 .slideshow-wrapper {
+  -webkit-transform: translate(0, 0) translateZ(0);
+  transform: translate(0, 0) translateZ(0);
   overflow: hidden;
   position: relative;
   -webkit-user-select: none;
@@ -1502,38 +1504,102 @@ video {
 
     The pull to refresh
 
+    When initialized, the following container class is set:
+        .has-pull-to-refresh
+
+    States (set on the scroll container):
+        .can-refresh
+        .is-refreshing
+
+    Pull-to-refresh element:
+    .pull-to-refresh
+        .pull-to-refresh-text
+            .icon-arrow-down (icon)
+            .pull-to-refresh-text-pull (when initially pulling)
+            .pull-to-refresh-text-release (when pull can be released to trigger refresh)
+            .pull-to-refresh-text-loading (when refreshing)
+
 ***/
 .pull-to-refresh {
   position: absolute;
   top: 0;
   right: 0;
   left: 0;
-  height: 250px;
+  z-index: 1;
   -webkit-transform: translate(0, -250px) translateZ(0);
   transform: translate(0, -250px) translateZ(0);
+  height: 250px;
   background: #dadada;
-  border-bottom: 1px solid #cdcdcd;
 }
 .pull-to-refresh .icon-arrow-down {
   position: absolute;
   bottom: 0;
-  right: 0;
   left: 0;
-  margin: 5px auto;
-  -webkit-transform: rotate(0deg);
-  -moz-transform: rotate(0deg);
-  transform: rotate(0deg);
+  margin: 10px;
   -webkit-transition-delay: 0;
   -webkit-backface-visibility: hidden;
   -webkit-transform-style: flat;
   -webkit-transition-property: all;
   -webkit-transition-duration: 300ms;
   -webkit-transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  transform: rotate(0deg);
 }
-.pull-to-refresh.can-refresh .icon-arrow-down {
+.pull-to-refresh-text {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  overflow: hidden;
+  height: 40px;
+  margin: 10px auto 0;
+  color: #737373;
+  text-shadow: 0 1px 0 #ffffff;
+  border-top: 1px solid #f3f3f3;
+  border-bottom: 1px solid #b3b3b3;
+  -webkit-box-shadow: 0 -1px 0 #b3b3b3;
+  box-shadow: 0 -1px 0 #b3b3b3;
+}
+.pull-to-refresh-text-pull,
+.pull-to-refresh-text-release,
+.pull-to-refresh-text-loading {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: 0 0 10px;
+  -webkit-transform: translate(0, 0) translateZ(0);
+  transform: translate(0, 0) translateZ(0);
+  left: 41px;
+}
+.pull-to-refresh-text-release,
+.pull-to-refresh-text-loading {
+  -webkit-transform: translate(0, -40px) translateZ(0);
+  transform: translate(0, -40px) translateZ(0);
+}
+.can-refresh .pull-to-refresh-text-pull,
+.can-refresh .pull-to-refresh-text-loading {
+  -webkit-transform: translate(0, -40px) translateZ(0);
+  transform: translate(0, -40px) translateZ(0);
+}
+.can-refresh .pull-to-refresh-text-release {
+  -webkit-transform: translate(0, 0) translateZ(0);
+  transform: translate(0, 0) translateZ(0);
+}
+.can-refresh .icon-arrow-down {
   -webkit-transform: rotate(-180deg);
   -moz-transform: rotate(-180deg);
   transform: rotate(-180deg);
+}
+.is-refreshing .pull-to-refresh-text-loading {
+  -webkit-transform: translate(0, 0) translateZ(0);
+  transform: translate(0, 0) translateZ(0);
+}
+.is-refreshing .pull-to-refresh-text-pull,
+.is-refreshing .pull-to-refresh-text-release {
+  -webkit-transform: translate(0, -40px) translateZ(0);
+  transform: translate(0, -40px) translateZ(0);
 }
 .webapp,
 .website,

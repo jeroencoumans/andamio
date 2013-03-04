@@ -4,11 +4,20 @@
 Andamio.pulltorefresh = (function () {
 
     var isRefreshing,
-        pullEl,
-        pullThreshold,
-        scrollWrapper,
-        scrollContent,
-        refreshCallback;
+        threshold,
+        scroller,
+        callback;
+
+    function setRefreshing(value) {
+
+        isRefreshing = value;
+
+        if (value) {
+            scroller.addClass("is-refreshing").removeClass("can-refresh");
+        } else {
+            scroller.removeClass("is-refreshing");
+        }
+    }
 
     function onTouchMove() {
 
@@ -16,15 +25,15 @@ Andamio.pulltorefresh = (function () {
             return;
         }
 
-        var scrollTop = scrollWrapper.scrollTop();
+        var scrollTop = scroller.scrollTop();
 
-        if (scrollTop < 0 && scrollTop < pullThreshold && ! pullEl.hasClass("can-refresh")) {
+        if (scrollTop < 0 && scrollTop < threshold && ! scroller.hasClass("can-refresh")) {
 
-            pullEl.addClass("can-refresh");
+            scroller.addClass("can-refresh");
 
-        } else if (scrollTop < 0 && scrollTop > pullThreshold && pullEl.hasClass("can-refresh")) {
+        } else if (scrollTop < 0 && scrollTop > threshold && scroller.hasClass("can-refresh")) {
 
-            pullEl.removeClass("can-refresh");
+            scroller.removeClass("can-refresh");
         }
     }
 
@@ -34,18 +43,16 @@ Andamio.pulltorefresh = (function () {
             return;
         }
 
-        var scrollTop = scrollWrapper.scrollTop();
+        var scrollTop = scroller.scrollTop();
 
-        if (scrollTop < pullThreshold) {
+        if (scrollTop < threshold) {
 
-            isRefreshing = true;
-            pullEl.addClass("is-refreshing");
+            setRefreshing(true);
 
             Andamio.views.refreshView(null, function () {
 
-                isRefreshing = false;
-                pullEl.removeClass("can-refresh is-refreshing");
-                refreshCallback();
+                setRefreshing(false);
+                callback();
             });
         }
     }
@@ -53,27 +60,29 @@ Andamio.pulltorefresh = (function () {
     return {
 
         get callback() {
-            return refreshCallback;
+            return callback;
         },
 
         set callback(callback) {
-            refreshCallback = $.isFunction(callback) ? callback : function () {};
+            callback = $.isFunction(callback) ? callback : function () {};
+        },
+
+        get status() {
+            return scroller ? scroller.hasClass("has-pull-to-refresh") : false;
         },
 
         init: function (options) {
 
-            isRefreshing    = false;
-            pullEl          = $.isPlainObject(options) ? options.pullEl : Andamio.views.list.values.parentView.scroller.find(".js-pull-to-refresh");
-            scrollWrapper   = $.isPlainObject(options) ? options.scrollWrapper : Andamio.views.list.values.parentView.scroller;
-            scrollContent   = $.isPlainObject(options) ? options.scrollContent : Andamio.views.list.values.parentView.content;
-            refreshCallback = $.isPlainObject(options) && $.isFunction(options.callback) ? options.callback : function () {};
-            pullThreshold   = $.isPlainObject(options) && typeof options.pullThreshold === "number" ? options.pullThreshold : -50;
+            isRefreshing = false;
+            scroller     = $.isPlainObject(options) ? options.scroller : Andamio.views.list.values.parentView.scroller;
+            callback     = $.isPlainObject(options) && $.isFunction(options.callback) ? options.callback : function () {};
+            threshold    = $.isPlainObject(options) && typeof options.threshold === "number" ? options.threshold : -40;
 
-            if (! scrollWrapper.hasClass("has-pull-to-refresh")) {
+            if (! scroller.hasClass("has-pull-to-refresh")) {
 
-                scrollWrapper.addClass("has-pull-to-refresh");
-                scrollWrapper.on("touchend", onTouchEnd, true);
-                scrollWrapper.on("touchmove", onTouchMove, true);
+                scroller.addClass("has-pull-to-refresh");
+                scroller.on("touchend", onTouchEnd, true);
+                scroller.on("touchmove", onTouchMove, true);
             }
         }
     };
