@@ -48,5 +48,11 @@
 </div>
 
 <script>
-    Andamio.slideshow.init("slideshow-test");
+
+    if (mySlideshow) {
+        mySlideshow.destroy();
+    }
+
+    var mySlideshow = Andamio.slideshow.init("slideshow-test");
+
 </script>
