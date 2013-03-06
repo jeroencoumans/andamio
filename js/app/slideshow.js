@@ -3,6 +3,10 @@
 
 Andamio.slideshow = (function () {
 
+    var slideshow,
+        slideshowContainer,
+        dots;
+
     function SwipeDots(number) {
 
         if (typeof number === "number") {
@@ -29,9 +33,20 @@ Andamio.slideshow = (function () {
     }
 
     return {
+
+        destroy: function () {
+
+            dots.wrapper.off("click");
+            slideshowContainer.off("click");
+            slideshow.kill();
+            slideshowContainer = null;
+            slideshow = null;
+            dots = null;
+        },
+
         init: function (id, options, callback) {
 
-            var slideshowContainer = $("#" + id);
+            slideshowContainer = $("#" + id);
 
             if (! slideshowContainer.hasClass(".js-slideshow-active")) {
 
@@ -46,8 +61,8 @@ Andamio.slideshow = (function () {
                 this.options = $.extend({}, defaults, options);
 
                 // setup Swipe
-                var slideshow = new Swipe(document.getElementById(id), this.options),
-                    dots      = new SwipeDots(slideshow.length);
+                slideshow = this.slideshow = new Swipe(document.getElementById(id), this.options);
+                dots      = this.dots      = new SwipeDots(slideshow.length);
 
                 dots.wrapper
                     .insertAfter(slideshow.container)
@@ -97,7 +112,7 @@ Andamio.slideshow = (function () {
 
                 slideshowContainer.addClass("js-slideshow-active");
 
-                return slideshow;
+                return this;
             }
         }
     };
