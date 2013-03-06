@@ -562,6 +562,26 @@ Andamio.page = (function () {
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio, $ */
 
+/**
+
+    Setup a pager in the current view. The following initialization options are available:
+
+    var myPager = Andamio.pager.init({
+        pagerWrapper        : Andamio.views.list.lookup(Andamio.views.currentView).content.find(".js-pager-list"), // wrapper element
+        autoFetch           : false, // boolean, wether to automatically download new pages when scrolling to the bottom
+        autoFetchMax        : 3,    // number of pages to fetch automatically, afterwards a button is available
+        autoFetchThreshold  : 100,  // pixels from the bottom before autoFetch is triggered
+        callback            : function () {} // function that is executed after a page has succesfully loaded
+        expires             : null, // minutes to save the pages in cache (if available)
+        itemsPerPage        : 10, // the amount of items that are except per page, used to detect when to disable the pager
+        loadMoreAction      : Andamio.i18n.pagerLoadMore, // text displayed in the "load more" button
+        noMorePages         : Andamio.i18n.pagerNoMorePages, // text displayed when there are no more pages
+        spinner             : Andamio.i18n.pagerLoading, // text displayed while loading the next page
+        url                 : Andamio.config.server + "?page=" // URL that should be loaded. The pagenumber is automatically appended
+    })
+
+ **/
+
 Andamio.pager = (function () {
 
     var isActive,
@@ -570,7 +590,6 @@ Andamio.pager = (function () {
         loadMoreAction,
         spinner,
         noMorePages,
-        currentView,
         currentScroller,
         currentScrollerHeight,
         currentScrollerScrollHeight;
@@ -579,21 +598,16 @@ Andamio.pager = (function () {
 
         isActive = true;
 
-        currentView = Andamio.views.list.lookup(Andamio.views.currentView),
-        currentScroller = currentView.scroller,
+        currentScroller = Andamio.views.list.lookup(Andamio.views.currentView).scroller,
         currentScrollerHeight = currentScroller.height(),
         currentScrollerScrollHeight = currentScroller[0].scrollHeight || Andamio.dom.viewport.height();
 
-        loadMoreAction.insertAfter(Andamio.dom.pagerWrapper);
+        loadMoreAction.on("click", self.loadNextPage).insertAfter(Andamio.dom.pagerWrapper);
         spinner.insertAfter(Andamio.dom.pagerWrapper).hide();
 
         if (Andamio.config.pager.autoFetch) {
             self.autoFetching = true;
         }
-
-        loadMoreAction.on("click", function () {
-            self.loadNextPage();
-        });
     }
 
     function disablePager(self) {
@@ -604,11 +618,7 @@ Andamio.pager = (function () {
             self.autoFetching = false;
         }
 
-        loadMoreAction.off("click", function () {
-            self.loadNextPage();
-        });
-
-        loadMoreAction.remove();
+        loadMoreAction.off("click", self.loadNextPage).remove();
         spinner.remove();
 
         noMorePages.insertAfter(Andamio.dom.pagerWrapper);
@@ -628,7 +638,7 @@ Andamio.pager = (function () {
 
         this.params = $.isPlainObject(params) ? params : {};
 
-        Andamio.dom.pagerWrapper = this.params.elem || Andamio.views.list.lookup(Andamio.views.currentView).content.find(".js-pager-list");
+        Andamio.dom.pagerWrapper = this.params.pagerWrapper || Andamio.views.list.lookup(Andamio.views.currentView).content.find(".js-pager-list");
         loadMoreAction  = $('<div class="pager-action"><a href="javascript:void(0)" class="button button-block action-load-more">' + (this.params.loadMoreAction || Andamio.i18n.pagerLoadMore) + '</a></div>');
         spinner         = $('<div class="pager-loading">' + (this.params.spinner || Andamio.i18n.pagerLoading) + '</div></div>');
         noMorePages     = $('<div class="pager-action">' + (this.params.noMorePages || Andamio.i18n.pagerNoMorePages) + '</div>');
@@ -770,6 +780,11 @@ Andamio.pager = (function () {
                 }
             }, 300);
         }
+    };
+
+    Pager.prototype.disable = function () {
+
+        disablePager(this);
     };
 
     return {
@@ -1201,6 +1216,10 @@ Andamio.reveal = (function () {
 
 Andamio.slideshow = (function () {
 
+    var slideshow,
+        slideshowContainer,
+        dots;
+
     function SwipeDots(number) {
 
         if (typeof number === "number") {
@@ -1227,9 +1246,20 @@ Andamio.slideshow = (function () {
     }
 
     return {
+
+        destroy: function () {
+
+            dots.wrapper.off("click");
+            slideshowContainer.off("click");
+            slideshow.kill();
+            slideshowContainer = null;
+            slideshow = null;
+            dots = null;
+        },
+
         init: function (id, options, callback) {
 
-            var slideshowContainer = $("#" + id);
+            slideshowContainer = $("#" + id);
 
             if (! slideshowContainer.hasClass(".js-slideshow-active")) {
 
@@ -1244,8 +1274,8 @@ Andamio.slideshow = (function () {
                 this.options = $.extend({}, defaults, options);
 
                 // setup Swipe
-                var slideshow = new Swipe(document.getElementById(id), this.options),
-                    dots      = new SwipeDots(slideshow.length);
+                slideshow = this.slideshow = new Swipe(document.getElementById(id), this.options);
+                dots      = this.dots      = new SwipeDots(slideshow.length);
 
                 dots.wrapper
                     .insertAfter(slideshow.container)
@@ -1295,7 +1325,7 @@ Andamio.slideshow = (function () {
 
                 slideshowContainer.addClass("js-slideshow-active");
 
-                return slideshow;
+                return this;
             }
         }
     };
@@ -1619,7 +1649,7 @@ Andamio.views = (function () {
 
                 if (url) {
 
-                    Andamio.dom.doc.trigger("Andamio:views:activateView:start", [url]);
+                    Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view, url]);
 
                     currentView.content.empty();
 
@@ -1631,7 +1661,7 @@ Andamio.views = (function () {
                             currentView.scroller[0].scrollTop = scrollPosition;
                         }
 
-                        Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [url]);
+                        Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view, url]);
                     });
                 }
             }
@@ -1687,17 +1717,18 @@ Andamio.views = (function () {
         this.refreshView = function (expiration, callback) {
 
             var url = this.currentUrl,
-                currentView = this.list.lookup(this.currentView);
+                currentView = this.currentView,
+                currentViewContent = this.list.lookup(currentView).content;
 
             if (url) {
 
-                Andamio.dom.doc.trigger("Andamio:views:activateView:start", [url]);
-                currentView.content.empty();
+                Andamio.dom.doc.trigger("Andamio:views:activateView:start", [currentView, url]);
+                currentViewContent.empty();
 
                 Andamio.page.refresh(url, expiration, function (response) {
 
-                    currentView.content.html(response);
-                    Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [url]);
+                    currentViewContent.html(response);
+                    Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [currentView, url]);
 
                     if ($.isFunction(callback)) {
                         callback();

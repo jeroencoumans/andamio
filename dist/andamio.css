@@ -648,6 +648,7 @@ sup {
   -webkit-transform: translate(0, 0) translateZ(0);
   transform: translate(0, 0) translateZ(0);
   -webkit-transition-delay: 0;
+  -webkit-perspective: 1000;
   -webkit-backface-visibility: hidden;
   -webkit-transform-style: flat;
   -webkit-transition-property: -webkit-transform;
@@ -1537,6 +1538,7 @@ video {
   left: 0;
   margin: 10px;
   -webkit-transition-delay: 0;
+  -webkit-perspective: 1000;
   -webkit-backface-visibility: hidden;
   -webkit-transform-style: flat;
   -webkit-transition-property: all;
