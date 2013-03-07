@@ -1,5 +1,5 @@
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
-/*global Andamio, $ */
+/*global Andamio, $, humaneDate */
 
 Andamio.util = (function () {
 
@@ -95,6 +95,16 @@ Andamio.util = (function () {
                 titleText = $(elem).text();
 
             return titleData ? titleData : titleText;
+        },
+
+        relativeDate: function (value) {
+
+            if (value instanceof Date) {
+
+                return humaneDate(value, false, {
+                    lang: Andamio.i18n.relativeDates
+                });
+            }
         }
 
     };

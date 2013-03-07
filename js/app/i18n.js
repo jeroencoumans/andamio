@@ -10,5 +10,22 @@ Andamio.i18n = {
     offlineMessage: "There was a problem. Is your connection working? <br>Please check and try again.",
     pagerLoadMore: "Load more",
     pagerLoading: "Loading&hellip;",
-    pagerNoMorePages: "There are no more items."
+    pagerNoMorePages: "There are no more items.",
+    relativeDates: {
+        ago: 'ago',
+        from: '',
+        now: 'Just now',
+        minute: 'Minute',
+        minutes: 'Minutes',
+        hour: 'Hour',
+        hours: 'Hours',
+        day: 'Day',
+        days: 'Days',
+        week: 'Week',
+        weeks: 'Weeks',
+        month: 'Month',
+        months: 'Months',
+        year: 'Year',
+        years: 'Years'
+    }
 };

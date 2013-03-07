@@ -28,8 +28,14 @@ Andamio.pulltorefresh = (function () {
         now = new Date();
 
         if (now - updateTimestamp > 1000) {
-            updateEl.text(updateTimestamp.toRelativeTime(60 * 1000)); // everything under a minute is "now"
+            updateEl.text(Andamio.util.relativeDate(updateTimestamp));
         }
+    }
+
+    function cancelLastUpdate() {
+
+        clearInterval(updateInterval);
+        updateInterval = false;
     }
 
     function toggleRefresh() {
@@ -38,11 +44,9 @@ Andamio.pulltorefresh = (function () {
 
         if (scrollTop >= 0) {
 
-            clearInterval(updateInterval);
-            updateInterval = false;
-        } else {
+            cancelLastUpdate();
 
-            setLastUpdate();
+        } else {
 
             if (scrollTop < params.threshold) {
 
@@ -66,8 +70,8 @@ Andamio.pulltorefresh = (function () {
 
     function onTouchEnd() {
 
-        clearInterval(updateInterval);
-        updateInterval = false;
+        cancelLastUpdate();
+        setLastUpdate();
 
         if (isRefreshing) {
             return;
@@ -120,7 +124,8 @@ Andamio.pulltorefresh = (function () {
                     .on("touchmove", onTouchMove)
                     .on("touchend", onTouchEnd);
                 updateEl = $(".js-pull-to-refresh-timestamp");
-                setLastUpdate(new Date());
+                updateTimestamp = new Date();
+                updateEl.text(Andamio.util.relativeDate(updateTimestamp));
 
                 Andamio.dom.doc.on("Andamio:views:activateView:finish", function (event, currentView) {
 
