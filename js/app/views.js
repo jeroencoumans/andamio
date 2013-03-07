@@ -225,6 +225,7 @@ Andamio.views = (function () {
             urlHistory = [];
             scrollHistory = [];
             this.childCount = 0;
+            this.modalCount = 0;
         };
 
         this.activateView = function (view, url, expiration, scrollPosition) {
