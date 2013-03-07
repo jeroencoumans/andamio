@@ -51,13 +51,21 @@ module.exports = function(grunt) {
                 ],
                 dest: 'dist/<%= pkg.name %>.js'
             },
+            libs: {
+                src: [
+                    'js/lib/date.extensions.js',    // https://github.com/azer/relative-date.git
+                    'js/lib/swipe.js',              // https://github.com/bradbirdsall/Swipe
+                    'js/lib/fastclick.js',          // https://github.com/ftlabs/fastclick
+                    'js/lib/lscache.js'             // https://github.com/pamelafox/lscache
+                ],
+                dest: 'dist/<%= pkg.name %>.libs.js'
+            },
+
             jquery: {
                 src: [
                     'js/lib/jquery/jquery-2.0.0b1.js',
                     'js/lib/jquery/jquery.scrollto.js',
-                    'js/lib/swipe.js',
-                    'js/lib/fastclick.js',
-                    'js/lib/lscache.js',
+                    'dist/<%= pkg.name %>.libs.js',
                     'dist/<%= pkg.name %>.js'
                     ],
                 dest: 'dist/<%= pkg.name %>.jquery.js'
@@ -70,9 +78,7 @@ module.exports = function(grunt) {
                     'js/lib/zepto/fx.js',
                     'js/lib/zepto/stack.js',
                     'js/lib/zepto.scroll.js',
-                    'js/lib/swipe.js',
-                    'js/lib/fastclick.js',
-                    'js/lib/lscache.js',
+                    'dist/<%= pkg.name %>.libs.js',
                     'dist/<%= pkg.name %>.js'
                     ],
                 dest: 'dist/<%= pkg.name %>.zepto.js'
