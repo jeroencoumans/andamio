@@ -40,6 +40,14 @@
     }
 }
 
+    .pull-to-refresh-date {
+        position: absolute;
+        left: @grid-m; right: @grid-m;
+        bottom: @pull-to-refresh-text-height + @grid-m;
+        .detail;
+        .translate3d(0,0,0);
+    }
+
     .pull-to-refresh-text {
         .overlay-bottom;
         overflow: hidden;
