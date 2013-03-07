@@ -31,7 +31,24 @@ Andamio.i18n = {
     offlineMessage: "There was a problem. Is your connection working? <br>Please check and try again.",
     pagerLoadMore: "Load more",
     pagerLoading: "Loading&hellip;",
-    pagerNoMorePages: "There are no more items."
+    pagerNoMorePages: "There are no more items.",
+    relativeDates: {
+        ago: 'ago',
+        from: '',
+        now: 'Just now',
+        minute: 'Minute',
+        minutes: 'Minutes',
+        hour: 'Hour',
+        hours: 'Hours',
+        day: 'Day',
+        days: 'Days',
+        week: 'Week',
+        weeks: 'Weeks',
+        month: 'Month',
+        months: 'Months',
+        year: 'Year',
+        years: 'Years'
+    }
 };
 
 /*jshint es5: true, browser: true, undef:true, unused:true, boss:true */
@@ -223,7 +240,7 @@ Andamio.events = (function () {
 })();
 
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
-/*global Andamio, $ */
+/*global Andamio, $, humaneDate */
 
 Andamio.util = (function () {
 
@@ -319,6 +336,16 @@ Andamio.util = (function () {
                 titleText = $(elem).text();
 
             return titleData ? titleData : titleText;
+        },
+
+        relativeDate: function (value) {
+
+            if (value instanceof Date) {
+
+                return humaneDate(value, false, {
+                    lang: Andamio.i18n.relativeDates
+                });
+            }
         }
 
     };
@@ -1101,8 +1128,14 @@ Andamio.pulltorefresh = (function () {
         now = new Date();
 
         if (now - updateTimestamp > 1000) {
-            updateEl.text(updateTimestamp.toRelativeTime(60 * 1000)); // everything under a minute is "now"
+            updateEl.text(Andamio.util.relativeDate(updateTimestamp));
         }
+    }
+
+    function cancelLastUpdate() {
+
+        clearInterval(updateInterval);
+        updateInterval = false;
     }
 
     function toggleRefresh() {
@@ -1111,11 +1144,9 @@ Andamio.pulltorefresh = (function () {
 
         if (scrollTop >= 0) {
 
-            clearInterval(updateInterval);
-            updateInterval = false;
-        } else {
+            cancelLastUpdate();
 
-            setLastUpdate();
+        } else {
 
             if (scrollTop < params.threshold) {
 
@@ -1139,8 +1170,8 @@ Andamio.pulltorefresh = (function () {
 
     function onTouchEnd() {
 
-        clearInterval(updateInterval);
-        updateInterval = false;
+        cancelLastUpdate();
+        setLastUpdate();
 
         if (isRefreshing) {
             return;
@@ -1193,7 +1224,8 @@ Andamio.pulltorefresh = (function () {
                     .on("touchmove", onTouchMove)
                     .on("touchend", onTouchEnd);
                 updateEl = $(".js-pull-to-refresh-timestamp");
-                setLastUpdate(new Date());
+                updateTimestamp = new Date();
+                updateEl.text(Andamio.util.relativeDate(updateTimestamp));
 
                 Andamio.dom.doc.on("Andamio:views:activateView:finish", function (event, currentView) {
 

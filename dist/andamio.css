@@ -1450,8 +1450,6 @@ video {
   }
 }
 .slideshow-wrapper {
-  -webkit-transform: translate(0, 0) translateZ(0);
-  transform: translate(0, 0) translateZ(0);
   overflow: hidden;
   position: relative;
   -webkit-user-select: none;
@@ -1476,6 +1474,8 @@ video {
   left: 0;
   bottom: 0;
   width: 100%;
+  -webkit-transform: translate(0, 0) translateZ(0);
+  transform: translate(0, 0) translateZ(0);
 }
 .slideshow-wrapper .slideshow-item {
   float: left;

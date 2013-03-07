@@ -1516,126 +1516,115 @@ window.Zepto = Zepto
     };
 }(Zepto));
 
-/**
- * Returns a description of this date in relative terms.
-
- * Examples, where new Date().toString() == "Mon Nov 23 2009 17:36:51 GMT-0500 (EST)":
- *
- * new Date().toRelativeTime()
- * --> 'Just now'
- *
- * new Date("Nov 21, 2009").toRelativeTime()
- * --> '2 days ago'
- *
- * new Date("Nov 25, 2009").toRelativeTime()
- * --> '2 days from now'
- *
- * // One second ago
- * new Date("Nov 23 2009 17:36:50 GMT-0500 (EST)").toRelativeTime()
- * --> '1 second ago'
- *
- * toRelativeTime() takes an optional argument - a configuration object.
- * It can have the following properties:
- * - now - Date object that defines "now" for the purpose of conversion.
- *         By default, current date & time is used (i.e. new Date())
- * - nowThreshold - Threshold in milliseconds which is considered "Just now"
- *                  for times in the past or "Right now" for now or the immediate future
- * - smartDays - If enabled, dates within a week of now will use Today/Yesterday/Tomorrow
- *               or weekdays along with time, e.g. "Thursday at 15:10:34"
- *               rather than "4 days ago" or "Tomorrow at 20:12:01"
- *               instead of "1 day from now"
- *
- * If a single number is given as argument, it is interpreted as nowThreshold:
- *
- * // One second ago, now setting a now_threshold to 5 seconds
- * new Date("Nov 23 2009 17:36:50 GMT-0500 (EST)").toRelativeTime(5000)
- * --> 'Just now'
- *
- * // One second in the future, now setting a now_threshold to 5 seconds
- * new Date("Nov 23 2009 17:36:52 GMT-0500 (EST)").toRelativeTime(5000)
- * --> 'Right now'
- *
- */
- Date.prototype.toRelativeTime = (function() {
-
-  var _ = function(options) {
-    var opts = processOptions(options);
-
-    var now = opts.now || new Date();
-    var delta = now - this;
-    var future = (delta <= 0);
-    delta = Math.abs(delta);
-
-    // special cases controlled by options
-    if (delta <= opts.nowThreshold) {
-      return 'Just now';
-    }
-    if (opts.smartDays && delta <= 6 * MS_IN_DAY) {
-      return toSmartDays(this, now);
-    }
-
-    var units = null;
-    for (var key in CONVERSIONS) {
-      if (delta < CONVERSIONS[key])
-        break;
-      units = key; // keeps track of the selected key over the iteration
-      delta = delta / CONVERSIONS[key];
-    }
-
-    // pluralize a unit when the difference is greater than 1.
-    delta = Math.floor(delta);
-    if (delta !== 1) { units += "s"; }
-    return [delta, units, future ? "from now" : "ago"].join(" ");
-  };
-
-  var processOptions = function(arg) {
-    if (!arg) arg = 0;
-    if (typeof arg === 'string') {
-      arg = parseInt(arg, 10);
-    }
-    if (typeof arg === 'number') {
-      if (isNaN(arg)) arg = 0;
-      return {nowThreshold: arg};
-    }
-    return arg;
-  };
-
-  var toSmartDays = function(date, now) {
-    var day;
-    var weekday = date.getDay(),
-        dayDiff = weekday - now.getDay();
-    if (dayDiff == 0)       day = 'Today';
-    else if (dayDiff == -1) day = 'Yesterday';
-    else if (dayDiff == 1 && date > now)  day = 'Tomorrow';
-    else                    day = WEEKDAYS[weekday];
-    return day + " at " + date.toLocaleTimeString();
-  };
-
-  var CONVERSIONS = {
-    millisecond: 1, // ms    -> ms
-    second: 1000,   // ms    -> sec
-    minute: 60,     // sec   -> min
-    hour:   60,     // min   -> hour
-    day:    24,     // hour  -> day
-    month:  30,     // day   -> month (roughly)
-    year:   12      // month -> year
-  };
-  var MS_IN_DAY = (CONVERSIONS.millisecond * CONVERSIONS.second * CONVERSIONS.minute * CONVERSIONS.hour * CONVERSIONS.day);
-
-  var WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-  return _;
-
-})();
-
-
-
 /*
- * Wraps up a common pattern used with this plugin whereby you take a String
- * representation of a Date, and want back a date object.
+ * Javascript Humane Dates
+ * Copyright (c) 2008 Dean Landolt (deanlandolt.com)
+ * Re-write by Zach Leatherman (zachleat.com)
+ *
+ * Adopted from the John Resig's pretty.js
+ * at http://ejohn.org/blog/javascript-pretty-date
+ * and henrah's proposed modification
+ * at http://ejohn.org/blog/javascript-pretty-date/#comment-297458
+ *
+ * Licensed under the MIT license.
  */
-Date.fromString = function(str) {
-  return new Date(Date.parse(str));
+
+function humaneDate(date, compareTo, opts){
+
+    if(!date) {
+        return;
+    }
+
+    opts = opts || {};
+
+    var lang = opts.lang || {
+            ago: 'Ago',
+            from: '',
+            now: 'Just Now',
+            minute: 'Minute',
+            minutes: 'Minutes',
+            hour: 'Hour',
+            hours: 'Hours',
+            day: 'Day',
+            days: 'Days',
+            week: 'Week',
+            weeks: 'Weeks',
+            month: 'Month',
+            months: 'Months',
+            year: 'Year',
+            years: 'Years'
+        },
+        formats = opts.formats || [
+            [60, lang.now],
+            [3600, lang.minute, lang.minutes, 60], // 60 minutes, 1 minute
+            [86400, lang.hour, lang.hours, 3600], // 24 hours, 1 hour
+            [604800, lang.day, lang.days, 86400], // 7 days, 1 day
+            [2628000, lang.week, lang.weeks, 604800], // ~1 month, 1 week
+            [31536000, lang.month, lang.months, 2628000], // 1 year, ~1 month
+            [Infinity, lang.year, lang.years, 31536000] // Infinity, 1 year
+        ],
+        isString = typeof date == 'string',
+        date = isString ?
+                    new Date(('' + date).replace(/-/g,"/").replace(/[TZ]/g," ")) :
+                    date,
+        compareTo = compareTo || new Date,
+        seconds = (compareTo - date +
+                        (compareTo.getTimezoneOffset() -
+                            // if we received a GMT time from a string, doesn't include time zone bias
+                            // if we got a date object, the time zone is built in, we need to remove it.
+                            (isString ? 0 : date.getTimezoneOffset())
+                        ) * 60000
+                    ) / 1000,
+        token;
+
+    if(seconds < 0) {
+        seconds = Math.abs(seconds);
+        token = lang.from ? ' ' + lang.from : '';
+    } else {
+        token = lang.ago ? ' ' + lang.ago : '';
+    }
+
+    /*
+     * 0 seconds && < 60 seconds        Now
+     * 60 seconds                       1 Minute
+     * > 60 seconds && < 60 minutes     X Minutes
+     * 60 minutes                       1 Hour
+     * > 60 minutes && < 24 hours       X Hours
+     * 24 hours                         1 Day
+     * > 24 hours && < 7 days           X Days
+     * 7 days                           1 Week
+     * > 7 days && < ~ 1 Month          X Weeks
+     * ~ 1 Month                        1 Month
+     * > ~ 1 Month && < 1 Year          X Months
+     * 1 Year                           1 Year
+     * > 1 Year                         X Years
+     *
+     * Single units are +10%. 1 Year shows first at 1 Year + 10%
+     */
+
+    function normalize(val, single)
+    {
+        var margin = 0.1;
+        if(val >= single && val <= single * (1+margin)) {
+            return single;
+        }
+        return val;
+    }
+
+    for(var i = 0, format = formats[0]; formats[i]; format = formats[++i]) {
+        if(seconds < format[0]) {
+            if(i === 0) {
+                // Now
+                return format[1];
+            }
+
+            var val = Math.ceil(normalize(seconds, format[3]) / (format[3]));
+            return val +
+                    ' ' +
+                    (val != 1 ? format[2] : format[1]) +
+                    (i > 0 ? token : '');
+        }
+    }
 };
 /*
  * Swipe 2.0
@@ -3139,7 +3128,24 @@ Andamio.i18n = {
     offlineMessage: "There was a problem. Is your connection working? <br>Please check and try again.",
     pagerLoadMore: "Load more",
     pagerLoading: "Loading&hellip;",
-    pagerNoMorePages: "There are no more items."
+    pagerNoMorePages: "There are no more items.",
+    relativeDates: {
+        ago: 'ago',
+        from: '',
+        now: 'Just now',
+        minute: 'Minute',
+        minutes: 'Minutes',
+        hour: 'Hour',
+        hours: 'Hours',
+        day: 'Day',
+        days: 'Days',
+        week: 'Week',
+        weeks: 'Weeks',
+        month: 'Month',
+        months: 'Months',
+        year: 'Year',
+        years: 'Years'
+    }
 };
 
 /*jshint es5: true, browser: true, undef:true, unused:true, boss:true */
@@ -3331,7 +3337,7 @@ Andamio.events = (function () {
 })();
 
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
-/*global Andamio, $ */
+/*global Andamio, $, humaneDate */
 
 Andamio.util = (function () {
 
@@ -3427,6 +3433,16 @@ Andamio.util = (function () {
                 titleText = $(elem).text();
 
             return titleData ? titleData : titleText;
+        },
+
+        relativeDate: function (value) {
+
+            if (value instanceof Date) {
+
+                return humaneDate(value, false, {
+                    lang: Andamio.i18n.relativeDates
+                });
+            }
         }
 
     };
@@ -4209,8 +4225,14 @@ Andamio.pulltorefresh = (function () {
         now = new Date();
 
         if (now - updateTimestamp > 1000) {
-            updateEl.text(updateTimestamp.toRelativeTime(60 * 1000)); // everything under a minute is "now"
+            updateEl.text(Andamio.util.relativeDate(updateTimestamp));
         }
+    }
+
+    function cancelLastUpdate() {
+
+        clearInterval(updateInterval);
+        updateInterval = false;
     }
 
     function toggleRefresh() {
@@ -4219,11 +4241,9 @@ Andamio.pulltorefresh = (function () {
 
         if (scrollTop >= 0) {
 
-            clearInterval(updateInterval);
-            updateInterval = false;
-        } else {
+            cancelLastUpdate();
 
-            setLastUpdate();
+        } else {
 
             if (scrollTop < params.threshold) {
 
@@ -4247,8 +4267,8 @@ Andamio.pulltorefresh = (function () {
 
     function onTouchEnd() {
 
-        clearInterval(updateInterval);
-        updateInterval = false;
+        cancelLastUpdate();
+        setLastUpdate();
 
         if (isRefreshing) {
             return;
@@ -4301,7 +4321,8 @@ Andamio.pulltorefresh = (function () {
                     .on("touchmove", onTouchMove)
                     .on("touchend", onTouchEnd);
                 updateEl = $(".js-pull-to-refresh-timestamp");
-                setLastUpdate(new Date());
+                updateTimestamp = new Date();
+                updateEl.text(Andamio.util.relativeDate(updateTimestamp));
 
                 Andamio.dom.doc.on("Andamio:views:activateView:finish", function (event, currentView) {
 
