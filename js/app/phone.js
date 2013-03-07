@@ -51,7 +51,9 @@ Andamio.phone = (function () {
                             Andamio.alert.hide();
                         }
 
-                        Andamio.views.refreshView();
+                        if (Andamio.views.currentView === "parentView") {
+                            Andamio.views.refreshView();
+                        }
                     }
                 });
 
