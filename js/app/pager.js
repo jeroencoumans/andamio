@@ -6,7 +6,7 @@
     Setup a pager in the current view. The following initialization options are available:
 
     var myPager = Andamio.pager.init({
-        pagerWrapper        : Andamio.views.list.lookup(Andamio.views.currentView).content.find(".js-pager-list"), // wrapper element
+        pagerWrapper        : Andamio.views.currentView.content.find(".js-pager-list"), // wrapper element
         autoFetch           : false, // boolean, wether to automatically download new pages when scrolling to the bottom
         autoFetchMax        : 3,    // number of pages to fetch automatically, afterwards a button is available
         autoFetchThreshold  : 100,  // pixels from the bottom before autoFetch is triggered
@@ -37,7 +37,7 @@ Andamio.pager = (function () {
 
         isActive = true;
 
-        currentScroller = Andamio.views.list.lookup(Andamio.views.currentView).scroller,
+        currentScroller = Andamio.views.currentView.scroller,
         currentScrollerHeight = currentScroller.height(),
         currentScrollerScrollHeight = currentScroller[0].scrollHeight || Andamio.dom.viewport.height();
 
@@ -77,7 +77,7 @@ Andamio.pager = (function () {
 
         this.params = $.isPlainObject(params) ? params : {};
 
-        Andamio.dom.pagerWrapper = this.params.pagerWrapper || Andamio.views.list.lookup(Andamio.views.currentView).content.find(".js-pager-list");
+        Andamio.dom.pagerWrapper = this.params.pagerWrapper || Andamio.views.currentView.content.find(".js-pager-list");
         loadMoreAction  = $('<div class="pager-action"><a href="javascript:void(0)" class="button button-block action-load-more">' + (this.params.loadMoreAction || Andamio.i18n.pagerLoadMore) + '</a></div>');
         spinner         = $('<div class="pager-loading">' + (this.params.spinner || Andamio.i18n.pagerLoading) + '</div></div>');
         noMorePages     = $('<div class="pager-action">' + (this.params.noMorePages || Andamio.i18n.pagerNoMorePages) + '</div>');

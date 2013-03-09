@@ -1,6 +1,8 @@
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio, $ */
 
+/*** TODO: add support for data-title ***/
+
 Andamio.views = (function () {
 
     function last(list) {
@@ -52,6 +54,18 @@ Andamio.views = (function () {
                         return this.container.hasClass("overthrow") ? this.container : this.container.find(".overthrow");
                     } else {
                         return Andamio.dom.win;
+                    }
+                }
+            },
+            active: {
+                get: function () {
+                    return this.container.hasClass("view-active");
+                },
+                set: function (value) {
+                    if (value) {
+                        this.container.addClass("view-active").removeClass("view-hidden");
+                    } else {
+                        this.container.addClass("view-hidden").removeClass("view-active");
                     }
                 }
             }
@@ -132,22 +146,6 @@ Andamio.views = (function () {
                 this.position = direction;
             };
         }
-
-        Object.defineProperties(this, {
-
-            active: {
-                get: function () {
-                    return this.container.hasClass("view-active");
-                },
-                set: function (value) {
-                    if (value) {
-                        this.container.addClass("view-active").removeClass("view-hidden");
-                    } else {
-                        this.container.addClass("view-hidden").removeClass("view-active");
-                    }
-                }
-            }
-        });
     }
 
     /**
@@ -177,13 +175,10 @@ Andamio.views = (function () {
             viewHistory = [],
             scrollHistory = [];
 
-        // Public variables
-        this.list = new Andamio.util.Dictionary({
-            parentView:   parentView,
-            childView:    childView,
-            childViewAlt: childViewAlt,
-            modalView:    modalView
-        });
+        this.parentView = parentView;
+        this.childView = childView;
+        this.childViewAlt = childViewAlt;
+        this.modalView = modalView;
 
         this.childCount = 0;
         this.modalCount = 0;
@@ -213,13 +208,25 @@ Andamio.views = (function () {
                 set: function (value) { scrollHistory.push(value); }
             },
 
+            urlHistory: {
+                get: function ()      { return urlHistory; }
+            },
+
+            viewHistory: {
+                get: function ()      { return viewHistory; }
+            },
+
+            scrollHistory: {
+                get: function ()      { return scrollHistory; }
+            }
         });
 
         this.resetViews = function () {
 
-            this.list.each(function (value) {
-                Andamio.views.list.values[value].reset();
-            });
+            this.parentView.reset();
+            this.childView.reset();
+            this.childViewAlt.reset();
+            this.modalView.reset();
 
             viewHistory = [];
             urlHistory = [];
@@ -230,58 +237,47 @@ Andamio.views = (function () {
 
         this.activateView = function (view, url, expiration, scrollPosition) {
 
-            if (this.list.contains(view)) {
+            view.active = true;
+            Andamio.dom.doc.trigger("Andamio:views:activateView");
 
-                var currentView = this.list.lookup(view);
+            if (url) {
 
-                currentView.active = true;
+                Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view, url]);
 
-                Andamio.dom.doc.trigger("Andamio:views:activateView");
+                view.content.empty();
 
-                if (url) {
+                Andamio.page.load(url, expiration, true, function (response) {
 
-                    Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view, url]);
+                    view.content.html(response);
 
-                    currentView.content.empty();
+                    if (typeof scrollPosition === "number") {
+                        view.scroller[0].scrollTop = scrollPosition;
+                    }
 
-                    Andamio.page.load(url, expiration, true, function (response) {
-
-                        currentView.content.html(response);
-
-                        if (typeof scrollPosition === "number") {
-                            currentView.scroller[0].scrollTop = scrollPosition;
-                        }
-
-                        Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view, url]);
-                    });
-                }
+                    Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view, url]);
+                });
             }
         };
 
         this.deactivateView = function (view) {
 
-            if (this.list.contains(view)) {
-
-                this.list.lookup(view).active = false;
-            }
+            view.active = false;
         };
 
         this.pushView = function (view, url, expiration, scrollPosition) {
 
-            if (this.list.contains(view)) {
-                this.currentView = view;
+            this.currentView = view;
 
-                if (url) {
-                    this.currentUrl = url;
-                }
+            if (url) {
+                this.currentUrl = url;
+            }
 
-                if (this.previousView) {
-                    this.scrollPosition = this.list.lookup(this.previousView).scroller[0].scrollTop;
-                }
-
-                this.activateView(view, url, expiration, scrollPosition);
+            if (this.previousView) {
+                this.scrollPosition = this.previousView.scroller[0].scrollTop;
                 this.deactivateView(this.previousView);
             }
+
+            this.activateView(view, url, expiration, scrollPosition);
         };
 
         this.popView = function () {
@@ -309,7 +305,7 @@ Andamio.views = (function () {
 
             var url = this.currentUrl,
                 currentView = this.currentView,
-                currentViewContent = this.list.lookup(currentView).content;
+                currentViewContent = currentView.content;
 
             if (url) {
 
@@ -331,9 +327,7 @@ Andamio.views = (function () {
         this.openParentPage = function (url, expiration) {
 
             this.resetViews();
-
-            var minutes = expiration || Andamio.config.cacheExpiration;
-            this.pushView("parentView", url, minutes, 0);
+            this.pushView(parentView, url, expiration, 0);
         };
 
         this.pushModal = function (url, expiration) {
@@ -346,7 +340,7 @@ Andamio.views = (function () {
                     modalView.slide("slide-default");
                 }
 
-                this.pushView("modalView", url, expiration);
+                this.pushView(modalView, url, expiration);
                 this.modalCount++;
             }
         };
@@ -370,13 +364,13 @@ Andamio.views = (function () {
 
             this.childCount++;
 
-            var currentView  = this.list.lookup(this.currentView);
+            var currentView  = this.currentView;
 
             switch (currentView) {
 
             // Initial situation
             case parentView:
-                this.pushView("childView", url, expiration, 0);
+                this.pushView(childView, url, expiration, 0);
 
                 if (Andamio.config.webapp) {
                     parentView.slide("slide-left");
@@ -386,7 +380,7 @@ Andamio.views = (function () {
                 break;
 
             case childView:
-                this.pushView("childViewAlt", url, expiration, 0);
+                this.pushView(childViewAlt, url, expiration, 0);
 
                 if (Andamio.config.webapp) {
                     childViewAlt.container.removeClass("slide-left").addClass("slide-right");
@@ -400,7 +394,7 @@ Andamio.views = (function () {
                 break;
 
             case childViewAlt:
-                this.pushView("childView", url, expiration, 0);
+                this.pushView(childView, url, expiration, 0);
 
                 if (Andamio.config.webapp) {
                     childView.container.removeClass("slide-left").addClass("slide-right");
@@ -417,7 +411,7 @@ Andamio.views = (function () {
 
         this.popChild = function () {
 
-            var currentView  = this.list.lookup(this.currentView);
+            var currentView = this.currentView;
 
             if (Andamio.config.webapp) {
                 switch (currentView) {
@@ -462,11 +456,15 @@ Andamio.views = (function () {
 
         this.init = function () {
 
+            var self = this,
+                target,
+                url;
+
             if (typeof Andamio.config.initialView === "string") {
-                Andamio.views.openParentPage(Andamio.config.initialView);
+                self.openParentPage(Andamio.config.initialView);
             } else {
-                Andamio.views.openParentPage();
-                Andamio.views.currentUrl = Andamio.config.server;
+                self.openParentPage();
+                self.currentUrl = Andamio.config.server;
             }
 
             /**
@@ -474,33 +472,33 @@ Andamio.views = (function () {
              */
             Andamio.events.attach(".action-push", function (event) {
 
-                var target = $(event.currentTarget),
-                    url = Andamio.util.getUrl(target);
+                target = $(event.currentTarget),
+                url = Andamio.util.getUrl(target);
 
-                Andamio.views.pushChild(url);
+                self.pushChild(url);
             });
 
             Andamio.events.attach(".action-show-modal", function (event) {
 
-                var target = $(event.currentTarget),
-                    url = Andamio.util.getUrl(target);
+                target = $(event.currentTarget),
+                url = Andamio.util.getUrl(target);
 
-                Andamio.views.pushModal(url);
+                self.pushModal(url);
             });
 
             Andamio.events.attach(".action-pop", function () {
 
-                Andamio.views.popChild();
+                self.popChild();
             });
 
             Andamio.events.attach(".action-hide-modal", function () {
 
-                Andamio.views.popModal();
+                self.popModal();
             });
 
             Andamio.events.attach(".action-refresh", function () {
 
-                Andamio.views.refreshView();
+                self.refreshView();
             });
         };
     }

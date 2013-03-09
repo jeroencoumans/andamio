@@ -63,7 +63,7 @@ Andamio.tabs = (function () {
 
                     if (title) {
                         Andamio.dom.doc.one("Andamio:views:activateView:finish", function () {
-                            Andamio.views.list.values.parentView.title = title;
+                            Andamio.views.parentView.title = title;
                         });
                     }
 

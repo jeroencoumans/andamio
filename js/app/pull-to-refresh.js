@@ -111,7 +111,7 @@ Andamio.pulltorefresh = (function () {
 
             // By default, we set the pull to refresh on the parentView
             params = {
-                scroller  : Andamio.views.list.values.parentView.scroller,
+                scroller  : Andamio.views.parentView.scroller,
                 callback  : function () {},
                 threshold : -50
             };

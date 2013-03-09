@@ -28,8 +28,7 @@ Andamio.phone = (function () {
 
                 Andamio.dom.doc.on("statusbartap", function () {
 
-                    var currentView = Andamio.views.list.lookup(Andamio.views.currentView),
-                        scroller = Andamio.nav.status ? Andamio.dom.pageNav : currentView.scroller;
+                    var scroller = Andamio.nav.status ? Andamio.dom.pageNav : Andamio.views.currentView.scroller;
 
                     if ($.scrollTo) {
                         scroller.scrollTo(0, 400);
