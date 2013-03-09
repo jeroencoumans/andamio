@@ -103,11 +103,12 @@
     }
 
     var myPager = Andamio.pager.init({
-        pagerWrapper        : Andamio.views.list.lookup(Andamio.views.currentView).content.find(".pager-test-wrapper"),
+        pagerWrapper        : Andamio.views.currentView.content.find(".pager-test-wrapper"),
         autoFetch           : true,
+        autoFetchMax        : 1,
         autoFetchThreshold  : 300,
         callback            : function (pageNumber) {
-            console.log("Paging " + pageNumber);
+            console.log("Loading page " + pageNumber);
 
             if (pageNumber > 2) {
                 myPager.disable();
