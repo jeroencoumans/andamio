@@ -104,8 +104,15 @@
         $(document).ready(function() {
 
             Andamio.init({
-                initialView: "blocks/parent.html"
+                title: "Andamio",
+                initialView: "blocks/parent.html",
+                social: {
+                    twitter: "jeroencoumans",
+                    facebook: 497899636895210
+                }
             });
+
+            Andamio.social.init();
 
         });
     </script>
