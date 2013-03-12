@@ -729,7 +729,7 @@ Andamio.pager = (function () {
                     }
                 }
 
-                if (content) {
+                if (content.length > Andamio.config.pager.itemsPerPage) {
 
                     Andamio.dom.pagerWrapper.append(content);
 
