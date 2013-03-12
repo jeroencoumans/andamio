@@ -11472,17 +11472,14 @@ Andamio.nav = (function () {
 
 Andamio.pulltorefresh = (function () {
 
-    var isRefreshing,
+    var isActive,
+        isLoading,
         scrollTop,
-        updateTimestamp,
-        now,
-        updateEl,
-        updateInterval,
         params;
 
-    function setRefreshing(value) {
+    function setLoading(value) {
 
-        isRefreshing = value;
+        isLoading = value;
 
         if (value) {
             params.scroller.addClass("is-refreshing").removeClass("can-refresh");
@@ -11491,58 +11488,23 @@ Andamio.pulltorefresh = (function () {
         }
     }
 
-    function setLastUpdate(date) {
-
-        updateTimestamp = (date instanceof Date) ? date : updateTimestamp;
-        now = new Date();
-
-        if (now - updateTimestamp > 1000) {
-            updateEl.text(Andamio.util.relativeDate(updateTimestamp));
-        }
-    }
-
-    function cancelLastUpdate() {
-
-        clearInterval(updateInterval);
-        updateInterval = false;
-    }
-
-    function toggleRefresh() {
+    function onTouchMove() {
 
         scrollTop = params.scroller.scrollTop();
 
-        if (scrollTop >= 0) {
+        if (scrollTop < 0 && scrollTop < params.threshold) {
 
-            cancelLastUpdate();
+            params.scroller.addClass("can-refresh");
 
         } else {
 
-            if (scrollTop < params.threshold) {
-
-                params.scroller.addClass("can-refresh");
-
-            } else {
-
-                params.scroller.removeClass("can-refresh");
-            }
+            params.scroller.removeClass("can-refresh");
         }
-    }
-
-    function onTouchMove() {
-
-        if (isRefreshing || updateInterval) {
-            return;
-        }
-
-        updateInterval = setInterval(toggleRefresh, 100);
     }
 
     function onTouchEnd() {
 
-        cancelLastUpdate();
-        setLastUpdate();
-
-        if (isRefreshing) {
+        if (isLoading) {
             return;
         }
 
@@ -11550,11 +11512,11 @@ Andamio.pulltorefresh = (function () {
 
         if (scrollTop < params.threshold) {
 
-            setRefreshing(true);
+            setLoading(true);
 
             Andamio.views.refreshView(null, function () {
 
-                setRefreshing(false);
+                setLoading(false);
                 params.callback();
             });
         }
@@ -11562,21 +11524,35 @@ Andamio.pulltorefresh = (function () {
 
     return {
 
-        get callback() {
-            return params.callback;
-        },
-
         get status() {
-            return params.scroller ? params.scroller.hasClass("has-pull-to-refresh") : false;
+            return isActive;
         },
 
-        get updateTimestamp() {
-            return updateTimestamp;
+        enable: function () {
+
+            isActive = true;
+
+            if ($.isPlainObject(params)) {
+                params.scroller.addClass("has-pull-to-refresh")
+                    .on("touchmove", onTouchMove)
+                    .on("touchend", onTouchEnd);
+            }
+        },
+
+        disable: function () {
+
+            isActive = false;
+
+            if ($.isPlainObject(params)) {
+                params.scroller.removeClass("has-pull-to-refresh")
+                    .off("touchmove", onTouchMove)
+                    .off("touchend", onTouchEnd);
+            }
         },
 
         init: function (options) {
 
-            isRefreshing = false;
+            isActive = false;
 
             // By default, we set the pull to refresh on the parentView
             params = {
@@ -11587,25 +11563,9 @@ Andamio.pulltorefresh = (function () {
 
             $.extend(params, options);
 
-            if (! params.scroller.hasClass("has-pull-to-refresh")) {
-
-                params.scroller.addClass("has-pull-to-refresh")
-                    .on("touchmove", onTouchMove)
-                    .on("touchend", onTouchEnd);
-                updateEl = $(".js-pull-to-refresh-timestamp");
-                updateTimestamp = new Date();
-                updateEl.text(Andamio.util.relativeDate(updateTimestamp));
-
-                Andamio.dom.doc.on("Andamio:views:activateView:finish", function (event, currentView) {
-
-                    if (currentView === "parentView") {
-                        setLastUpdate(new Date());
-                    }
-                });
-            }
+            this.enable();
         }
     };
-
 })();
 
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
