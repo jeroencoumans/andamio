@@ -23,14 +23,15 @@
 @pull-to-refresh-color: darken(@pull-to-refresh-background, 40%);
 @pull-to-refresh-border: darken(@pull-to-refresh-background, 15%);
 @pull-to-refresh-height: 250px;
-@pull-to-refresh-text-height: @baseline + @grid-l;
+@pull-to-refresh-text-height: 2 * @baseline + @grid-m;
 
 .pull-to-refresh {
     .overlay-top;
     z-index: 1;
     .translate3d(0, -@pull-to-refresh-height, 0);
     height: @pull-to-refresh-height;
-    background: @pull-to-refresh-background;
+    .gradient(@webapp-background-color, @pull-to-refresh-background);
+    background-size: 100% @pull-to-refresh-height - @pull-to-refresh-text-height;
 
     .icon-arrow-down {
         .overlay-bottom-left;
