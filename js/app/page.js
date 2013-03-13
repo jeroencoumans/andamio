@@ -7,7 +7,6 @@ Andamio.page = (function () {
 
         $.ajax({
             url: url,
-            timeout: 0,
             cache: cache,
             headers: {
                 "X-PJAX": true,
