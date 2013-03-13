@@ -41,7 +41,7 @@ module.exports = function(grunt) {
                     'js/app/nav.js',
                     'js/app/pull-to-refresh.js',
                     'js/app/reveal.js',
-                    'js/app/sharing.js',
+                    'js/app/social.js',
                     'js/app/slideshow.js',
                     'js/app/tabs.js',
                     'js/app/views.js',

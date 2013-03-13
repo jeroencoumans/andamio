@@ -24,7 +24,7 @@
 
             <div class="page-content overthrow">
                 <div class="js-pull-to-refresh pull-to-refresh hidden-website">
-                    <span class="pull-to-refresh-date">Last updated: <span class="js-pull-to-refresh-timestamp"></span></span>
+                    <!-- <span class="pull-to-refresh-date">Last updated: <span class="js-pull-to-refresh-timestamp"></span></span> -->
                     <h4 class="pull-to-refresh-text">
                         <i class="icon icon-arrow-down"></i>
                         <span class="pull-to-refresh-text-pull">Pull down to refresh</span>
@@ -112,7 +112,13 @@
                 }
             });
 
-            Andamio.social.init();
+            if (Andamio.config.cordova) {
+                Andamio.social.init({
+                    callback: function (service) {
+                        console.log("Sharing via " + service);
+                    }
+                });
+            }
 
         });
     </script>

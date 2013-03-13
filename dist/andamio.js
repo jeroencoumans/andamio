@@ -499,7 +499,6 @@ Andamio.page = (function () {
 
         $.ajax({
             url: url,
-            timeout: 0,
             cache: cache,
             headers: {
                 "X-PJAX": true,
@@ -1224,7 +1223,7 @@ Andamio.reveal = (function () {
 
 Andamio.social = (function () {
 
-    var title, description, thumbnail, serviceUrl, url, subject, message, callback;
+    var title, description, serviceUrl, url, subject, message, callback;
 
     function openWindow(url) {
 
@@ -1244,10 +1243,14 @@ Andamio.social = (function () {
                 if (navigator.social.RESULT_OK === result) {
 
                     if ($.isFunction(callback)) {
-                        callback();
+                        callback(service);
                     }
 
                 } else if (navigator.social.RESULT_ERROR === result) {
+
+                    if ($.isFunction(callback)) {
+                        callback(service);
+                    }
 
                     navigator.utility.openUrl(serviceUrl, "popover");
                 }
@@ -1257,18 +1260,9 @@ Andamio.social = (function () {
             openWindow(serviceUrl);
 
             if ($.isFunction(callback)) {
-                callback();
+                callback(service);
             }
         }
-    }
-
-    function getThumbnail() {
-
-        var picture    = Andamio.views.currentView.content.find(thumbnail),
-            pictureSrc = picture[0].src,
-            pictureImg = picture[0].style.backgroundImage.slice(4, -1);
-
-        return pictureSrc || pictureImg;
     }
 
     function getTitle() {
@@ -1284,7 +1278,7 @@ Andamio.social = (function () {
         // Figure out what the service is and pass around the correct params
         share: function (service, callback) {
 
-            url = (Andamio.views.currentUrl.search(Andamio.config.server) === 0) ? Andamio.views.currentUrl : Andamio.config.server + Andamio.views.currentUrl;
+            url = Andamio.views.currentUrl;
             subject = getTitle();
             message = getDescription();
 
@@ -1301,7 +1295,6 @@ Andamio.social = (function () {
                 serviceUrl = encodeURI("https://www.facebook.com/dialog/feed?app_id=" +
                              Andamio.config.social.facebook +
                              "&link=" + url +
-                             "&picture=" + getThumbnail() +
                              "&name=" + subject +
                              "&caption=" + url +
                              "&description=" + message +
@@ -1312,7 +1305,7 @@ Andamio.social = (function () {
                 break;
             case "twitter":
 
-                message = getTitle() + " %url - via @" + Andamio.config.twitterAccount;
+                message = getTitle() + " %url - via @" + Andamio.config.social.twitter;
                 serviceUrl = encodeURI("https://twitter.com/intent/tweet?" +
                              "text=" + subject +
                              "&url=" + url +
@@ -1343,14 +1336,12 @@ Andamio.social = (function () {
 
             title       = ".js-sharing-title";
             description = ".js-sharing-description";
-            thumbnail   = ".js-sharing-thumbnail";
             callback    = function () {};
 
             if ($.isPlainObject(options)) {
                 if (typeof options.title === "string")       title       = options.title;
                 if (typeof options.description === "string") description = options.description;
-                if (typeof options.thumbnail === "string")   thumbnail   = options.thumbnail;
-                if (typeof $.isFunction(options.callback))   callback    = options.callback;
+                if ($.isFunction(options.callback))          callback    = options.callback;
             }
 
             var self = this;
