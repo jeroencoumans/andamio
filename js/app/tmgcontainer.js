@@ -1,7 +1,7 @@
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio, $, cordova */
 
-Andamio.phone = (function () {
+Andamio.tmgcontainer = (function () {
 
     return {
         init: function () {
@@ -55,14 +55,6 @@ Andamio.phone = (function () {
                         }
                     }
                 });
-
-                if (Andamio.config.os.android) {
-                    navigator.bootstrap.addConstructor(function () {
-                        Andamio.dom.doc.addEventListener("backbutton", function () {
-                            Andamio.views.popChild();
-                        });
-                    });
-                }
             });
         }
     };

@@ -26,7 +26,7 @@ Andamio.init = function (options) {
         Andamio.tabs.init();
     }
 
-    if (Andamio.config.cordova) {
-        Andamio.phone.init();
+    if (Andamio.config.tmgcontainer) {
+        Andamio.tmgcontainer.init();
     }
 };

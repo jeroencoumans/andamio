@@ -17,7 +17,7 @@ Andamio.social = (function () {
 
     function sharePage(service, serviceUrl, url, subject, message, callback) {
 
-        if (Andamio.config.cordova) {
+        if (Andamio.config.tmgcontainer) {
             navigator.social.shareUrl(service, serviceUrl, url, subject, message, function (result) {
 
                 if (navigator.social.RESULT_OK === result) {

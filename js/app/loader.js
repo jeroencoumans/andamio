@@ -32,7 +32,7 @@ Andamio.loader = (function () {
 
             Andamio.dom.html.addClass("has-loader");
 
-            if (Andamio.config.cordova) {
+            if (Andamio.config.tmgcontainer) {
                 if (navigator.spinner) {
                     navigator.spinner.show({"message": msg});
                 }
@@ -47,7 +47,7 @@ Andamio.loader = (function () {
             isActive = false;
             Andamio.dom.html.removeClass("has-loader");
 
-            if (Andamio.config.cordova) {
+            if (Andamio.config.tmgcontainer) {
                 if (navigator.spinner) {
                     navigator.spinner.hide();
                 }

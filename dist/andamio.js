@@ -130,7 +130,7 @@ Andamio.config = (function () {
 
             this.webapp  = win.location.search.search("webapp") > 0 || win.navigator.standalone;
             this.website = !this.webapp;
-            this.cordova = 'cordova' in win || win.navigator.userAgent.indexOf("TMGContainer") > -1;
+            this.tmgcontainer = win.navigator.userAgent.indexOf("TMGContainer") > -1;
             this.server  = win.location.origin + win.location.pathname;
             this.touch   = 'ontouchstart' in win;
             this.cache   = window.lscache ? window.lscache.supported() : false;
@@ -168,7 +168,7 @@ Andamio.config = (function () {
                 }
             }
 
-            if (this.cordova) {
+            if (this.tmgcontainer) {
                 this.webapp = true;
             }
 
@@ -333,7 +333,7 @@ Andamio.util.delay = (function () {
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio, $, cordova */
 
-Andamio.phone = (function () {
+Andamio.tmgcontainer = (function () {
 
     return {
         init: function () {
@@ -387,14 +387,6 @@ Andamio.phone = (function () {
                         }
                     }
                 });
-
-                if (Andamio.config.os.android) {
-                    navigator.bootstrap.addConstructor(function () {
-                        Andamio.dom.doc.addEventListener("backbutton", function () {
-                            Andamio.views.popChild();
-                        });
-                    });
-                }
             });
         }
     };
@@ -884,7 +876,7 @@ Andamio.loader = (function () {
 
             Andamio.dom.html.addClass("has-loader");
 
-            if (Andamio.config.cordova) {
+            if (Andamio.config.tmgcontainer) {
                 if (navigator.spinner) {
                     navigator.spinner.show({"message": msg});
                 }
@@ -899,7 +891,7 @@ Andamio.loader = (function () {
             isActive = false;
             Andamio.dom.html.removeClass("has-loader");
 
-            if (Andamio.config.cordova) {
+            if (Andamio.config.tmgcontainer) {
                 if (navigator.spinner) {
                     navigator.spinner.hide();
                 }
@@ -1233,7 +1225,7 @@ Andamio.social = (function () {
 
     function sharePage(service, serviceUrl, url, subject, message, callback) {
 
-        if (Andamio.config.cordova) {
+        if (Andamio.config.tmgcontainer) {
             navigator.social.shareUrl(service, serviceUrl, url, subject, message, function (result) {
 
                 if (navigator.social.RESULT_OK === result) {
@@ -2097,7 +2089,7 @@ Andamio.init = function (options) {
         Andamio.tabs.init();
     }
 
-    if (Andamio.config.cordova) {
-        Andamio.phone.init();
+    if (Andamio.config.tmgcontainer) {
+        Andamio.tmgcontainer.init();
     }
 };

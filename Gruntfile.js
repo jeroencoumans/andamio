@@ -27,7 +27,7 @@ module.exports = function(grunt) {
                     // Reusable functions
                     'js/app/events.js',
                     'js/app/util.js',
-                    'js/app/phone.js',
+                    'js/app/tmgcontainer.js',
 
                     // Data handling
                     'js/app/cache.js',
@@ -53,7 +53,7 @@ module.exports = function(grunt) {
             },
             libs: {
                 src: [
-                    'js/lib/humane.js',     // https://github.com/zachleat/Humane-Dates
+                    // 'js/lib/humane.js',     // https://github.com/zachleat/Humane-Dates
                     'js/lib/swipe.js',      // https://github.com/bradbirdsall/Swipe
                     'js/lib/fastclick.js',  // https://github.com/ftlabs/fastclick
                     'js/lib/lscache.js'     // https://github.com/pamelafox/lscache
