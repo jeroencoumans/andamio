@@ -31,13 +31,11 @@ Andamio.tabs = (function () {
         show: function () {
             hasTabs = true;
             Andamio.dom.html.addClass("has-page-tabs");
-            Andamio.dom.pageTabs.show();
         },
 
         hide: function () {
             hasTabs = false;
             Andamio.dom.html.removeClass("has-page-tabs");
-            Andamio.dom.pageTabs.hide();
         },
 
         get status() {

@@ -1,60 +1,45 @@
 /***
 
     iOS-like navigation tabs at the bottom
-    In website mode, these will display at the top
-    NOTE: these must be placed betwee .page-header and .page-content
-
-    @expects:
-    .tabs
-        .tab-item
-            .tab-item-icon
+    Webapp-only
 
 ***/
 
 @page-tab-height: 49px;
 
-.tabs {
+.page-tabs {
     .flex-row();
+    height: @page-tab-height;
+    .animate(-webkit-transform);
+    .overlay-bottom;
+    .translate3d(0, @page-tab-height, 0);
 
     .tab-item {
         .flex-unit();
         .truncate;
+
+        padding: @grid-s;
+        vertical-align: bottom;
+    }
+
+        .tab-item-icon {
+            display: block;
+            margin: 0 auto 3px;
+        }
+}
+
+.webapp.has-page-tabs {
+    .page-tabs {
+        .translate3d(0,0,0); // Move it into view
+    }
+
+    .page-content {
+        bottom: @page-tab-height;
     }
 }
 
 .website {
-    .tab-item-icon {
+    .page-tabs {
         display: none; // hide by default
-    }
-}
-
-.webapp {
-    .tabs {
-        .overlay-bottom;
-        font-size: @font-tiny;
-        line-height: @font-tiny;
-
-        .tab-item {
-            height: @page-tab-height - 4;
-            padding: 0 0 4px;
-            vertical-align: bottom;
-        }
-
-            .tab-item-icon {
-                display: block;
-                margin: 2px auto 0;
-            }
-    }
-
-    .tabs + .page-content {
-        bottom: @page-tab-height;
-    }
-}
-
-/*** Global tabs ***/
-.has-page-tabs {
-    .parent-view,
-    .child-view {
-        bottom: @page-tab-height;
     }
 }

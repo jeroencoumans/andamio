@@ -4171,50 +4171,37 @@ Andamio.pulltorefresh = (function () {
     var isActive,
         isLoading,
         scrollTop,
-        params;
-
-    function setLoading(value) {
-
-        isLoading = value;
-
-        if (value) {
-            params.scroller.addClass("is-refreshing").removeClass("can-refresh");
-        } else {
-            params.scroller.removeClass("is-refreshing");
-        }
-    }
+        options;
 
     function onTouchMove() {
 
-        scrollTop = params.scroller.scrollTop();
+        scrollTop = options.scroller.scrollTop();
 
-        if (scrollTop < 0 && scrollTop < params.threshold) {
+        if (scrollTop < 0 && scrollTop < options.threshold) {
 
-            params.scroller.addClass("can-refresh");
-
+            options.scroller.addClass("can-refresh");
         } else {
 
-            params.scroller.removeClass("can-refresh");
+            options.scroller.removeClass("can-refresh");
         }
+    }
+
+    function onRefreshEnd() {
+
+        isLoading = false;
+        options.scroller.removeClass("is-refreshing");
+        options.callback();
     }
 
     function onTouchEnd() {
 
-        if (isLoading) {
-            return;
-        }
+        scrollTop = options.scroller.scrollTop();
 
-        scrollTop = params.scroller.scrollTop();
+        if (scrollTop < options.threshold) {
 
-        if (scrollTop < params.threshold) {
-
-            setLoading(true);
-
-            Andamio.views.refreshView(null, function () {
-
-                setLoading(false);
-                params.callback();
-            });
+            isLoading = true;
+            options.scroller.addClass("is-refreshing").removeClass("can-refresh");
+            Andamio.views.refreshView(null, onRefreshEnd);
         }
     }
 
@@ -4224,12 +4211,21 @@ Andamio.pulltorefresh = (function () {
             return isActive;
         },
 
+        get loading() {
+            return isLoading;
+        },
+
+        get options() {
+
+            return options;
+        },
+
         enable: function () {
 
             isActive = true;
 
-            if ($.isPlainObject(params)) {
-                params.scroller.addClass("has-pull-to-refresh")
+            if ($.isPlainObject(options)) {
+                options.scroller.addClass("has-pull-to-refresh")
                     .on("touchmove", onTouchMove)
                     .on("touchend", onTouchEnd);
             }
@@ -4239,25 +4235,25 @@ Andamio.pulltorefresh = (function () {
 
             isActive = false;
 
-            if ($.isPlainObject(params)) {
-                params.scroller.removeClass("has-pull-to-refresh")
+            if ($.isPlainObject(options)) {
+                options.scroller.removeClass("has-pull-to-refresh")
                     .off("touchmove", onTouchMove)
                     .off("touchend", onTouchEnd);
             }
         },
 
-        init: function (options) {
+        init: function (params) {
 
             isActive = false;
 
             // By default, we set the pull to refresh on the parentView
-            params = {
+            options = {
                 scroller  : Andamio.views.parentView.scroller,
                 callback  : function () {},
                 threshold : -50
             };
 
-            $.extend(params, options);
+            $.extend(options, params);
 
             this.enable();
         }
@@ -4617,13 +4613,11 @@ Andamio.tabs = (function () {
         show: function () {
             hasTabs = true;
             Andamio.dom.html.addClass("has-page-tabs");
-            Andamio.dom.pageTabs.show();
         },
 
         hide: function () {
             hasTabs = false;
             Andamio.dom.html.removeClass("has-page-tabs");
-            Andamio.dom.pageTabs.hide();
         },
 
         get status() {
@@ -4958,8 +4952,12 @@ Andamio.views = (function () {
 
                 // Delete the last view
                 viewHistory.pop();
-                urlHistory.pop();
                 scrollHistory.pop();
+
+                // Only pop history if there's more than 1 item
+                if (urlHistory.length > 1) {
+                    urlHistory.pop();
+                }
             }
         };
 
@@ -5190,8 +5188,11 @@ Andamio.init = function (options) {
 
     Andamio.views.init();
     Andamio.nav.init();
-    Andamio.tabs.init();
     Andamio.reveal.init();
+
+    if (Andamio.config.webapp) {
+        Andamio.tabs.init();
+    }
 
     if (Andamio.config.cordova) {
         Andamio.phone.init();

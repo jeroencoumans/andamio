@@ -699,59 +699,55 @@ sup {
 /***
 
     iOS-like navigation tabs at the bottom
-    In website mode, these will display at the top
-    NOTE: these must be placed betwee .page-header and .page-content
-
-    @expects:
-    .tabs
-        .tab-item
-            .tab-item-icon
+    Webapp-only
 
 ***/
-.tabs {
+.page-tabs {
   display: table;
   width: 100%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  height: 49px;
+  -webkit-transition-delay: 0;
+  -webkit-perspective: 1000;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform-style: flat;
+  -webkit-transition-property: -webkit-transform;
+  -webkit-transition-duration: 300ms;
+  -webkit-transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  -webkit-transform: translate(0, 49px) translateZ(0);
+  transform: translate(0, 49px) translateZ(0);
 }
-.tabs .tab-item {
+.page-tabs .tab-item {
   display: table-cell;
   vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-.tabs .tab-item br {
-  display: none;
-}
-.website .tab-item-icon {
-  display: none;
-}
-.webapp .tabs {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  font-size: 10px;
-  line-height: 10px;
-}
-.webapp .tabs .tab-item {
-  height: 45px;
-  padding: 0 0 4px;
+  padding: 5px;
   vertical-align: bottom;
 }
-.webapp .tabs .tab-item-icon {
+.page-tabs .tab-item br {
+  display: none;
+}
+.page-tabs .tab-item-icon {
   display: block;
-  margin: 2px auto 0;
+  margin: 0 auto 3px;
 }
-.webapp .tabs + .page-content {
+.webapp.has-page-tabs .page-tabs {
+  -webkit-transform: translate(0, 0) translateZ(0);
+  transform: translate(0, 0) translateZ(0);
+}
+.webapp.has-page-tabs .page-content {
   bottom: 49px;
 }
-/*** Global tabs ***/
-.has-page-tabs .parent-view,
-.has-page-tabs .child-view {
-  bottom: 49px;
+.website .page-tabs {
+  display: none;
 }
 ul {
   list-style: none outside;
@@ -1809,7 +1805,7 @@ a {
     Tabs
 
 ***/
-.tabs {
+.page-tabs {
   background-color: #121212;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#383838), to(#121212));
   background-image: -webkit-linear-gradient(top, #383838 0, #121212 100%);
@@ -1818,13 +1814,17 @@ a {
   background-image: linear-gradient(top, #383838 0, #121212 100%);
   background-repeat: repeat-x;
   text-shadow: 1px 1px 1px #000000;
+  border-top: 1px solid #383838;
+  font-size: 10px;
+  line-height: 10px;
 }
-.tabs .tab-item {
-  padding: 10px;
+.page-tabs .tab-item {
   text-align: center;
   color: #c4c4c4;
+  -webkit-box-shadow: inset 0 1px 0 #5e5e5e, inset 1px 0 0 rgba(56, 56, 56, 0.8), inset -1px 0 0 #121212;
+  box-shadow: inset 0 1px 0 #5e5e5e, inset 1px 0 0 rgba(56, 56, 56, 0.8), inset -1px 0 0 #121212;
 }
-.tabs .tab-item.active {
+.page-tabs .tab-item.active {
   background-color: #525252;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#1e1e1e), to(#525252));
   background-image: -webkit-linear-gradient(top, #1e1e1e 0, #525252 100%);
@@ -1833,22 +1833,6 @@ a {
   background-image: linear-gradient(top, #1e1e1e 0, #525252 100%);
   background-repeat: repeat-x;
   color: #ffffff;
-}
-.website .tabs {
-  border-top: 1px solid #121212;
-  border-bottom: 1px solid #000000;
-}
-.website .tabs .tab-item {
-  border-left: 1px solid rgba(56, 56, 56, 0.7);
-  border-right: 1px solid #1e1e1e;
-}
-.webapp .tabs {
-  border-top: 1px solid #383838;
-  border-bottom: 0;
-}
-.webapp .tabs .tab-item {
-  -webkit-box-shadow: inset 0 1px 0 #5e5e5e, inset 1px 0 0 rgba(56, 56, 56, 0.8), inset -1px 0 0 #121212;
-  box-shadow: inset 0 1px 0 #5e5e5e, inset 1px 0 0 rgba(56, 56, 56, 0.8), inset -1px 0 0 #121212;
 }
 /***
 

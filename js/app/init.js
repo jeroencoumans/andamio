@@ -20,8 +20,11 @@ Andamio.init = function (options) {
 
     Andamio.views.init();
     Andamio.nav.init();
-    Andamio.tabs.init();
     Andamio.reveal.init();
+
+    if (Andamio.config.webapp) {
+        Andamio.tabs.init();
+    }
 
     if (Andamio.config.cordova) {
         Andamio.phone.init();
