@@ -296,8 +296,12 @@ Andamio.views = (function () {
 
                 // Delete the last view
                 viewHistory.pop();
-                urlHistory.pop();
                 scrollHistory.pop();
+
+                // Only pop history if there's more than 1 item
+                if (urlHistory.length > 1) {
+                    urlHistory.pop();
+                }
             }
         };
 
