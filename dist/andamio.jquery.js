@@ -10625,6 +10625,8 @@ Andamio.util.delay = (function () {
 
 Andamio.tmgcontainer = (function () {
 
+    var target, href, scroller, now;
+
     return {
         init: function () {
 
@@ -10641,8 +10643,8 @@ Andamio.tmgcontainer = (function () {
                 // Listens to all clicks on anchor tags and opens them in Cordova popover if it's an external URL
                 Andamio.events.attach('a[target="_blank"]', function (event) {
 
-                    var target  = $(event.currentTarget),
-                        href = target.attr("href");
+                    target  = $(event.currentTarget),
+                    href = target.attr("href");
 
                     navigator.utility.openUrl(href, "popover");
                     return false;
@@ -10650,7 +10652,7 @@ Andamio.tmgcontainer = (function () {
 
                 Andamio.dom.doc.on("statusbartap", function () {
 
-                    var scroller = Andamio.nav.status ? Andamio.dom.pageNav : Andamio.views.currentView.scroller;
+                    scroller = Andamio.nav.status ? Andamio.dom.pageNav : Andamio.views.currentView.scroller;
 
                     if ($.scrollTo) {
                         scroller.scrollTo(0, 400);
@@ -10665,14 +10667,16 @@ Andamio.tmgcontainer = (function () {
                 });
 
                 Andamio.dom.doc.on("active", function () {
-                    var now = new Date();
+
+                    now = new Date();
+
                     if (now - Andamio.config.phone.updateTimestamp > Andamio.config.phone.updateTimeout) {
 
                         if (Andamio.alert.status) {
                             Andamio.alert.hide();
                         }
 
-                        if (Andamio.views.currentView === "parentView") {
+                        if (Andamio.views.currentView === Andamio.views.parentView) {
                             Andamio.views.refreshView();
                         }
                     }
@@ -11515,7 +11519,7 @@ Andamio.social = (function () {
 
     function sharePage(service, serviceUrl, url, subject, message, callback) {
 
-        if (Andamio.config.tmgcontainer) {
+        if (navigator.social) {
             navigator.social.shareUrl(service, serviceUrl, url, subject, message, function (result) {
 
                 if (navigator.social.RESULT_OK === result) {

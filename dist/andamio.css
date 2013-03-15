@@ -743,7 +743,7 @@ sup {
   -webkit-transform: translate(0, 0) translateZ(0);
   transform: translate(0, 0) translateZ(0);
 }
-.webapp.has-page-tabs .page-content {
+.webapp.has-page-tabs .page-view .page-content {
   bottom: 49px;
 }
 .website .page-tabs {
