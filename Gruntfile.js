@@ -77,6 +77,7 @@ module.exports = function(grunt) {
                     'js/lib/zepto/event.js',
                     'js/lib/zepto/fx.js',
                     'js/lib/zepto/stack.js',
+                    'js/lib/zepto/touch.js',
                     'js/lib/zepto.scroll.js',
                     'dist/<%= pkg.name %>.libs.js',
                     'dist/<%= pkg.name %>.js'
