@@ -23,15 +23,13 @@
             </div>
 
             <div class="page-content overthrow">
-                <div class="js-pull-to-refresh pull-to-refresh hidden-website">
+                <h4 class="js-pull-to-refresh pull-to-refresh hidden-website">
                     <!-- <span class="pull-to-refresh-date">Last updated: <span class="js-pull-to-refresh-timestamp"></span></span> -->
-                    <h4 class="pull-to-refresh-text">
-                        <i class="icon icon-arrow-down"></i>
-                        <span class="pull-to-refresh-text-pull">Pull down to refresh</span>
-                        <span class="pull-to-refresh-text-release">Release to refresh</span>
-                        <span class="pull-to-refresh-text-loading">Loading&hellip;</span>
-                    </h4>
-                </div>
+                    <i class="icon icon-arrow-down"></i>
+                    <span class="pull-to-refresh-text-pull">Pull down to refresh</span>
+                    <span class="pull-to-refresh-text-release">Release to refresh</span>
+                    <span class="pull-to-refresh-text-loading">Loading&hellip;</span>
+                </h4>
                 <div class="js-content"></div>
             </div>
         </div>
@@ -111,6 +109,10 @@
                     facebook: 497899636895210
                 }
             });
+
+            if (Andamio.config.webapp) {
+                Andamio.pulltorefresh.init();
+            }
 
         });
     </script>

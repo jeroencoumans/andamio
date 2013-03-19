@@ -26,80 +26,68 @@
 @pull-to-refresh-text-height: 2 * @baseline + @grid-m;
 
 .pull-to-refresh {
-    .overlay-top;
+    position: absolute;
+    top: -@pull-to-refresh-height;
+    left: 0; right: 0;
     z-index: 1;
-    .translate3d(0, -@pull-to-refresh-height, 0);
-    height: @pull-to-refresh-height;
-    .gradient(@webapp-background-color, @pull-to-refresh-background);
-    background-size: 100% @pull-to-refresh-height - @pull-to-refresh-text-height;
+    .translate3d(0); // necessary to make it appear above the bounceback
+
+    padding-top: @pull-to-refresh-height - @pull-to-refresh-text-height;
+    height: @pull-to-refresh-text-height;
+    line-height: @pull-to-refresh-text-height;
+
+    background: @pull-to-refresh-background;
+    color: @pull-to-refresh-color;
+    text-shadow: 0 1px 0 lighten(@pull-to-refresh-background, 20%);
+
+    overflow: hidden;
 
     .icon-arrow-down {
-        .overlay-bottom-left;
-        margin: @grid-m;
-        .animate();
-        .rotate(0deg);
+        .animate(-webkit-transform);
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        margin: 0 @grid-m;
     }
 }
 
-    .pull-to-refresh-date {
-        position: absolute;
-        left: @grid-m; right: @grid-m;
-        bottom: @pull-to-refresh-text-height + @grid-m;
-        .detail;
-        .translate3d(0,0,0);
-    }
-
-    .pull-to-refresh-text {
+    .pull-to-refresh-text-pull,
+    .pull-to-refresh-text-release,
+    .pull-to-refresh-text-loading {
         .overlay-bottom;
-        overflow: hidden;
-        height: @pull-to-refresh-text-height;
-        margin: @grid-m auto 0;
-
-        color: @pull-to-refresh-color;
-        text-shadow: 0 1px 0 lighten(@pull-to-refresh-background, 20%);
-        border-top: 1px solid lighten(@pull-to-refresh-background, 10%);
+        padding-left: @arrow-width + (2 * @grid-m);
         border-bottom: 1px solid @pull-to-refresh-border;
-        .box-shadow(0 -1px 0 @pull-to-refresh-border);
     }
 
-        .pull-to-refresh-text-pull,
-        .pull-to-refresh-text-release,
-        .pull-to-refresh-text-loading {
-            .overlay-bottom;
-            margin: 0 0 @grid-m;
-            .translate3d(0,0,0);
-            left: @arrow-width + (2 * @grid-m);
-        }
-
-        .pull-to-refresh-text-release,
-        .pull-to-refresh-text-loading {
-            .translate3d(0,-@pull-to-refresh-text-height,0);
-        }
+    .pull-to-refresh-text-release,
+    .pull-to-refresh-text-loading {
+        visibility: hidden;
+    }
 
 // When the user can release drag-down to trigger a refresh
 .can-refresh {
     .pull-to-refresh-text-pull,
     .pull-to-refresh-text-loading {
-        .translate3d(0,-@pull-to-refresh-text-height,0);
+        visibility: hidden;
     }
 
     .pull-to-refresh-text-release {
-        .translate3d(0,0,0);
+        visibility: visible;
     }
 
     .icon-arrow-down {
-        .rotate(-180deg);
+        -webkit-transform: translateZ(0) rotate(-180deg);
+        transform: translateZ(0) rotate(-180deg);
     }
 }
 
 // When refresh is in progress. TODO: isn't shown currently
 .is-refreshing {
-    .pull-to-refresh-text-loading {
-        .translate3d(0,0,0);
-    }
-
     .pull-to-refresh-text-pull,
     .pull-to-refresh-text-release {
-        .translate3d(0,-@pull-to-refresh-text-height,0);
+        visibility: hidden;
+    }
+
+    .pull-to-refresh-text-loading {
+        visibility: visible;
     }
 }

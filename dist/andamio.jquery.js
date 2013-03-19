@@ -11389,9 +11389,9 @@ Andamio.pulltorefresh = (function () {
 
     function onTouchMove() {
 
-        scrollTop = options.scroller.scrollTop();
+        scrollTop = options.scroller[0].scrollTop;
 
-        if (scrollTop < 0 && scrollTop < options.threshold) {
+        if (scrollTop < options.threshold) {
 
             options.scroller.addClass("can-refresh");
         } else {
@@ -11409,7 +11409,7 @@ Andamio.pulltorefresh = (function () {
 
     function onTouchEnd() {
 
-        scrollTop = options.scroller.scrollTop();
+        scrollTop = options.scroller[0].scrollTop;
 
         if (scrollTop < options.threshold) {
 
@@ -11437,23 +11437,17 @@ Andamio.pulltorefresh = (function () {
         enable: function () {
 
             isActive = true;
-
-            if ($.isPlainObject(options)) {
-                options.scroller.addClass("has-pull-to-refresh")
-                    .on("touchmove", onTouchMove)
-                    .on("touchend", onTouchEnd);
-            }
+            options.scroller.addClass("has-pull-to-refresh")
+                .on("touchmove", onTouchMove)
+                .on("touchend", onTouchEnd);
         },
 
         disable: function () {
 
             isActive = false;
-
-            if ($.isPlainObject(options)) {
-                options.scroller.removeClass("has-pull-to-refresh")
-                    .off("touchmove", onTouchMove)
-                    .off("touchend", onTouchEnd);
-            }
+            options.scroller.removeClass("has-pull-to-refresh")
+                .off("touchmove", onTouchMove)
+                .off("touchend", onTouchEnd);
         },
 
         init: function (params) {
