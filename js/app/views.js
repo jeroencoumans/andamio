@@ -26,7 +26,7 @@ Andamio.views = (function () {
     /**
      * A view has a container, optional content and position
      */
-    function View(container, content, position) {
+    function View(container, position) {
         this.container = container;
 
         Object.defineProperties(this, {
@@ -164,78 +164,51 @@ Andamio.views = (function () {
         this.active = false;
     };
 
-    function ViewCollection() {
+    var parentView,
+        childView,
+        childViewAlt,
+        modalView;
 
-        // Internally used variables
-        var parentView   = new View(Andamio.dom.parentView,   true, "slide-default"),
-            childView    = new View(Andamio.dom.childView,    true, "slide-right"),
-            childViewAlt = new View(Andamio.dom.childViewAlt, true, "slide-right"),
-            modalView    = new View(Andamio.dom.modalView,    true, "slide-bottom"),
-            urlHistory = [],
-            viewHistory = [],
-            scrollHistory = [];
+    return {
 
-        this.parentView = parentView;
-        this.childView = childView;
-        this.childViewAlt = childViewAlt;
-        this.modalView = modalView;
+        parentView   : new View(Andamio.dom.parentView,   "slide-default"),
+        childView    : new View(Andamio.dom.childView,    "slide-right"),
+        childViewAlt : new View(Andamio.dom.childViewAlt, "slide-right"),
+        modalView    : new View(Andamio.dom.modalView,    "slide-bottom"),
 
-        this.childCount = 0;
-        this.modalCount = 0;
+        urlHistory   : [],
+        viewHistory  : [],
+        scrollHistory: [],
 
-        Object.defineProperties(this, {
+        childCount   : 0,
+        modalCount   : 0,
 
-            currentUrl: {
-                get: function ()      { return last(urlHistory); },
-                set: function (value) { addUniq(value, urlHistory); } // TODO: when opening the same URL in a new view, history gets messed up
-            },
+        get currentUrl()        { return last(this.urlHistory); },
+        set currentUrl(val)     { addUniq(val, this.urlHistory); }, // TODO: when opening the same URL in a new view, history gets messed up
 
-            previousUrl: {
-                get: function ()      { return prev(urlHistory); }
-            },
+        get previousUrl()       { return prev(this.urlHistory); },
+        get currentView()       { return last(this.viewHistory); },
+        set currentView(val)    { this.viewHistory.push(val); },
+        get previousView()      { return prev(this.viewHistory); },
 
-            currentView: {
-                get: function ()      { return last(viewHistory); },
-                set: function (value) { viewHistory.push(value); }
-            },
+        get scrollPosition()    { return last(this.scrollHistory); },
+        set scrollPosition(val) { this.scrollHistory.push(val); },
 
-            previousView: {
-                get: function ()      { return prev(viewHistory); }
-            },
-
-            scrollPosition: {
-                get: function ()      { return last(scrollHistory); },
-                set: function (value) { scrollHistory.push(value); }
-            },
-
-            urlHistory: {
-                get: function ()      { return urlHistory; }
-            },
-
-            viewHistory: {
-                get: function ()      { return viewHistory; }
-            },
-
-            scrollHistory: {
-                get: function ()      { return scrollHistory; }
-            }
-        });
-
-        this.resetViews = function () {
+        resetViews: function () {
 
             this.parentView.reset();
             this.childView.reset();
             this.childViewAlt.reset();
             this.modalView.reset();
 
-            viewHistory = [];
-            urlHistory = [];
-            scrollHistory = [];
+            this.viewHistory = [];
+            this.urlHistory = [];
+            this.scrollHistory = [];
             this.childCount = 0;
             this.modalCount = 0;
-        };
+        },
 
-        this.activateView = function (view, url, expiration, scrollPosition) {
+        activateView: function (view, url, expiration, scrollPosition) {
 
             view.active = true;
             Andamio.dom.doc.trigger("Andamio:views:activateView");
@@ -257,14 +230,14 @@ Andamio.views = (function () {
                     Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view, url]);
                 });
             }
-        };
+        },
 
-        this.deactivateView = function (view) {
+        deactivateView: function (view) {
 
             view.active = false;
-        };
+        },
 
-        this.pushView = function (view, url, expiration, scrollPosition) {
+        pushView: function (view, url, expiration, scrollPosition) {
 
             this.currentView = view;
 
@@ -278,9 +251,9 @@ Andamio.views = (function () {
             }
 
             this.activateView(view, url, expiration, scrollPosition);
-        };
+        },
 
-        this.popView = function () {
+        popView: function () {
 
             if (this.previousView) {
 
@@ -295,17 +268,17 @@ Andamio.views = (function () {
                 }
 
                 // Delete the last view
-                viewHistory.pop();
-                scrollHistory.pop();
+                this.viewHistory.pop();
+                this.scrollHistory.pop();
 
                 // Only pop history if there's more than 1 item
-                if (urlHistory.length > 1) {
-                    urlHistory.pop();
+                if (this.urlHistory.length > 1) {
+                    this.urlHistory.pop();
                 }
             }
-        };
+        },
 
-        this.refreshView = function (expiration, callback) {
+        refreshView: function (expiration, callback) {
 
             var url = this.currentUrl,
                 currentView = this.currentView,
@@ -326,35 +299,35 @@ Andamio.views = (function () {
                     }
                 });
             }
-        };
+        },
 
-        this.openParentPage = function (url, expiration) {
+        openParentPage: function (url, expiration) {
 
             this.resetViews();
             this.pushView(parentView, url, expiration, 0);
-        };
+        },
 
-        this.pushModal = function (url, expiration) {
+        pushModal: function (url, expiration) {
 
             if (this.modalCount > 0) {
                 return false;
             } else {
 
                 if (Andamio.config.webapp) {
-                    modalView.slide("slide-default");
+                    this.modalView.slide("slide-default");
                 }
 
-                this.pushView(modalView, url, expiration);
+                this.pushView(this.modalView, url, expiration);
                 this.modalCount++;
             }
-        };
+        },
 
-        this.popModal = function () {
+        popModal: function () {
 
             if (this.modalCount > 0) {
 
                 if (Andamio.config.webapp) {
-                    modalView.slide("slide-bottom");
+                    this.modalView.slide("slide-bottom");
                 }
 
                 this.popView();
@@ -362,15 +335,13 @@ Andamio.views = (function () {
             } else {
                 return false;
             }
-        };
+        },
 
-        this.pushChild = function (url, expiration) {
+        pushChild: function (url, expiration) {
 
             this.childCount++;
 
-            var currentView  = this.currentView;
-
-            switch (currentView) {
+            switch (this.currentView) {
 
             // Initial situation
             case parentView:
@@ -411,9 +382,9 @@ Andamio.views = (function () {
 
                 break;
             }
-        };
+        },
 
-        this.popChild = function () {
+        popChild: function () {
 
             var currentView = this.currentView;
 
@@ -456,13 +427,18 @@ Andamio.views = (function () {
 
             this.popView();
             this.childCount--;
-        };
+        },
 
-        this.init = function () {
+        init: function () {
 
             var self = this,
                 target,
                 url;
+
+            parentView = this.parentView;
+            childView = this.childView;
+            childViewAlt = this.childViewAlt;
+            modalView = this.modalView;
 
             if (typeof Andamio.config.initialView === "string") {
                 self.openParentPage(Andamio.config.initialView);
@@ -504,8 +480,7 @@ Andamio.views = (function () {
 
                 self.refreshView();
             });
-        };
-    }
+        }
+    };
 
-    return new ViewCollection();
 })();
