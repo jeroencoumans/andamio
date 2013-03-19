@@ -474,18 +474,7 @@ sup {
   left: 0;
   top: 44px;
 }
-.webapp.has-modalview.ios5,
-.webapp.has-navigation.ios5 {
-  /***
-
-            On iOS 5, overlapping scroll elements cause jittering scrolling, so we disable it
-            NOTE: don't apply to iOS 6, since it will cause flickering when toggling a modal view!
-
-        ***/
-
-}
-.webapp.has-modalview.ios5 .page-view .page-content,
-.webapp.has-navigation.ios5 .page-view .page-content {
+.webapp.ios5 .view-hidden .overthrow {
   overflow: hidden;
   -webkit-overflow-scrolling: default;
 }
@@ -524,7 +513,6 @@ sup {
   height: 42px;
   border-top: 1px solid;
   border-bottom: 1px solid;
-  position: relative;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -645,11 +633,8 @@ sup {
 .webapp .page-view,
 .webapp .page-navigation,
 .webapp .page-navigation-toggle {
-  -webkit-transform: translate(0, 0) translateZ(0);
-  transform: translate(0, 0) translateZ(0);
   -webkit-transition-delay: 0;
   -webkit-perspective: 1000;
-  -webkit-backface-visibility: hidden;
   -webkit-transform-style: flat;
   -webkit-transition-property: -webkit-transform;
   -webkit-transition-duration: 300ms;
@@ -711,7 +696,6 @@ sup {
   height: 49px;
   -webkit-transition-delay: 0;
   -webkit-perspective: 1000;
-  -webkit-backface-visibility: hidden;
   -webkit-transform-style: flat;
   -webkit-transition-property: -webkit-transform;
   -webkit-transition-duration: 300ms;
@@ -1108,15 +1092,13 @@ tr:first-child {
 }
 .button-header-wrapper {
   position: absolute;
-  left: 0;
   top: 0;
-  bottom: 0;
+  left: 0;
 }
 .button-header-wrapper-alternate {
   position: absolute;
-  right: 0;
   top: 0;
-  bottom: 0;
+  right: 0;
 }
 .button-header-wrapper-alternate .button-header {
   float: right;
@@ -1351,10 +1333,6 @@ video {
   -webkit-transform: translate(0, -100%) translateZ(0);
   transform: translate(0, -100%) translateZ(0);
 }
-.slide-default {
-  -webkit-transform: translate(0, 0) translateZ(0);
-  transform: translate(0, 0) translateZ(0);
-}
 .slide-in-from-left {
   -webkit-transform: translate(0, 0) translateZ(0);
   transform: translate(0, 0) translateZ(0);
@@ -1542,7 +1520,6 @@ video {
   margin: 10px;
   -webkit-transition-delay: 0;
   -webkit-perspective: 1000;
-  -webkit-backface-visibility: hidden;
   -webkit-transform-style: flat;
   -webkit-transition-property: all;
   -webkit-transition-duration: 300ms;
