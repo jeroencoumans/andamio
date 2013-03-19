@@ -38,17 +38,12 @@
                 top: @page-header-height;
             }
 
-    &.has-modalview.ios5,
-    &.has-navigation.ios5 {
-        /***
-
-            On iOS 5, overlapping scroll elements cause jittering scrolling, so we disable it
-            NOTE: don't apply to iOS 6, since it will cause flickering when toggling a modal view!
-
-        ***/
-        .page-view .page-content {
-            overflow: hidden;
-            -webkit-overflow-scrolling: default;
+    &.ios5 {
+        .view-hidden {
+            .overthrow {
+                overflow: hidden;
+                -webkit-overflow-scrolling: default;
+            }
         }
     }
 }
