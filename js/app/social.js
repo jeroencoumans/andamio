@@ -3,7 +3,7 @@
 
 Andamio.social = (function () {
 
-    var title, description, serviceUrl, url, subject, message, callback;
+    var title, description, thumbnail, callback, fallback;
 
     function openWindow(url) {
 
@@ -15,34 +15,9 @@ Andamio.social = (function () {
         window.open(url, "Share it", "left=" + left + ", top=" + top + ", width=" + width + ", height=" + height + ", centerscreen=yes");
     }
 
-    function sharePage(service, serviceUrl, url, subject, message, callback) {
-
-        if (navigator.social) {
-            navigator.social.shareUrl(service, serviceUrl, url, subject, message, function (result) {
-
-                if (navigator.social.RESULT_OK === result) {
-
-                    if ($.isFunction(callback)) {
-                        callback(service);
-                    }
-
-                } else if (navigator.social.RESULT_ERROR === result) {
-
-                    if ($.isFunction(callback)) {
-                        callback(service);
-                    }
-
-                    navigator.utility.openUrl(serviceUrl, "popover");
-                }
-            });
-        } else {
-
-            openWindow(serviceUrl);
-
-            if ($.isFunction(callback)) {
-                callback(service);
-            }
-        }
+    function getThumbnail() {
+        var el = Andamio.views.currentView.content.find(thumbnail);
+        return el.attr("src") || el.css("background-image").slice(4, -1);
     }
 
     function getTitle() {
@@ -55,60 +30,85 @@ Andamio.social = (function () {
 
     return {
 
-        // Figure out what the service is and pass around the correct params
-        share: function (service, callback) {
+        shareMail: function (url, subject, message, callback) {
 
-            url = Andamio.views.currentUrl;
-            subject = getTitle();
-            message = getDescription();
+            message += "\n\n" + url;
+            fallback = encodeURI("mailto:?subject=" + subject + "&body=" + message);
 
-            switch (service) {
+            if (window.plugins && window.plugins.emailComposer) {
+                window.plugins.emailComposer.showEmailComposerWithCB(callback, subject, message);
+            } else {
+                openWindow(fallback);
+            }
+        },
 
-            case "hyves":
+        shareFacebook: function (url, subject, message, callback) {
 
-                serviceUrl = encodeURI("http://www.hyves.nl/respect/confirm/?hc_hint=1&url=" + url);
-                sharePage("hyves", serviceUrl, url, "", "", callback);
-                break;
-            case "facebook":
+            fallback =  encodeURI("https://www.facebook.com/dialog/feed?app_id=" +
+                        Andamio.config.social.facebook +
+                        "&link=" + url +
+                        "&name=" + subject +
+                        "&caption=" + url +
+                        "&picture=" + getThumbnail() +
+                        "&description=" + message +
+                        "&redirect_uri=" + url +
+                        "&display=" + (Andamio.config.touch ? "touch" : "popup"));
 
-                var display = Andamio.config.touch ? "touch" : "popup";
-                serviceUrl = encodeURI("https://www.facebook.com/dialog/feed?app_id=" +
-                             Andamio.config.social.facebook +
-                             "&link=" + url +
-                             "&name=" + subject +
-                             "&caption=" + url +
-                             "&description=" + message +
-                             "&redirect_uri=" + url +
-                             "&display=" + display);
+            // https://github.com/phonegap/phonegap-facebook-plugin
+            if (window.plugins && window.plugins.facebookConnect) {
 
-                sharePage("facebook", serviceUrl, url, "", subject, callback);
-                break;
-            case "twitter":
+                window.plugins.facebookConnect.dialog('feed', {
+                    link: url,
+                    picture: getThumbnail(),
+                    name: subject,
+                    caption: url,
+                    description: message
+                }, function (response) {
 
-                message = getTitle() + " %url - via @" + Andamio.config.social.twitter;
-                serviceUrl = encodeURI("https://twitter.com/intent/tweet?" +
-                             "text=" + subject +
-                             "&url=" + url +
-                             "&via=" + Andamio.config.social.twitter);
+                    callback("facebook", response);
+                });
+            } else {
+                openWindow(fallback);
+            }
+        },
 
-                sharePage("twitter", serviceUrl, url, "", message, callback);
+        shareHyves: function (url, callback) {
 
-                break;
-            case "email":
+            fallback = encodeURI("http://www.hyves.nl/respect/confirm/?hc_hint=1&url=" + url);
+            openWindow(fallback);
+            callback("hyves");
+        },
 
-                message += "\n\n" + url;
-                serviceUrl = encodeURI("mailto:?subject=" + subject + "&body=" + message);
-                sharePage("email", serviceUrl, url, subject, message, callback);
-                break;
-            case "linkedin":
+        shareLinkedin: function (url, subject, message, callback) {
 
-                serviceUrl = encodeURI("http://www.linkedin.com/shareArticle?mini=true" +
-                             "&url=" + url +
-                             "&title=" + subject +
-                             "&summary=" + message +
-                             "&source=" + Andamio.config.title);
-                sharePage("linkedin", serviceUrl, url, "", message, callback);
-                break;
+            fallback = encodeURI("http://www.linkedin.com/shareArticle?mini=true" +
+                       "&url=" + url +
+                       "&title=" + subject +
+                       "&summary=" + message +
+                       "&source=" + Andamio.config.title);
+            openWindow(fallback);
+            callback("linkedin");
+        },
+
+        shareTwitter: function (url, subject, message, callback) {
+
+            message = getTitle() + " via @" + Andamio.config.social.twitter;
+            fallback = encodeURI("https://twitter.com/intent/tweet?" +
+                         "text=" + subject +
+                         "&url=" + url +
+                         "&via=" + Andamio.config.social.twitter);
+
+            // requires https://github.com/phonegap/phonegap-plugins/tree/master/iPhone/Twitter
+            if (window.plugins && window.plugins.twitter) {
+                window.plugins.twitter.composeTweet(
+                    function ()      { callback("twitter"); },
+                    function (error) { callback("twitter", error); },
+                    message, {
+                        urlAttach: url,
+                        imageAttach: getThumbnail()
+                    });
+            } else {
+                openWindow(fallback);
             }
         },
 
@@ -116,32 +116,41 @@ Andamio.social = (function () {
 
             title       = ".js-sharing-title";
             description = ".js-sharing-description";
+            thumbnail   = ".js-sharing-thumbnail";
             callback    = function () {};
 
             if ($.isPlainObject(options)) {
                 if (typeof options.title === "string")       title       = options.title;
                 if (typeof options.description === "string") description = options.description;
+                if (typeof options.thumbnail === "string")   thumbnail   = options.thumbnail;
                 if ($.isFunction(options.callback))          callback    = options.callback;
             }
 
             var self = this;
 
-            function shareButton(event, service, callback) {
-                var target = $(event.currentTarget);
+            Andamio.events.attach(".action-share-email", function () {
+                var url = Andamio.views.currentUrl;
+                var subject = getTitle();
+                var message = getDescription();
 
-                if (! target.hasClass("button-disabled")) {
-                    self.share(service, function () {
-                        target.addClass("button-disabled");
-                        callback();
-                    });
-                }
-            }
+                self.shareMail(url, subject, message, callback);
+            });
 
-            Andamio.events.attach(".action-share-facebook", function (e) { shareButton(e, "facebook", callback); });
-            Andamio.events.attach(".action-share-twitter",  function (e) { shareButton(e, "twitter",  callback); });
-            Andamio.events.attach(".action-share-hyves",    function (e) { shareButton(e, "hyves",    callback); });
-            Andamio.events.attach(".action-share-email",    function (e) { shareButton(e, "email",    callback); });
-            Andamio.events.attach(".action-share-linkedin", function (e) { shareButton(e, "linkedin", callback); });
+            Andamio.events.attach(".action-share-facebook", function () {
+                var url = Andamio.views.currentUrl;
+                var subject = getTitle();
+                var message = getDescription();
+
+                self.shareFacebook(url, subject, message, callback);
+            });
+
+            Andamio.events.attach(".action-share-twitter", function () {
+                var url = Andamio.views.currentUrl;
+                var subject = getTitle();
+                var message = getDescription();
+
+                self.shareTwitter(url, subject, message, callback);
+            });
         }
     };
 })();
