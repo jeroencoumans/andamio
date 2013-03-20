@@ -1,7 +1,11 @@
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio, $ */
 
+Andamio.dom.refreshDate = $(".js-refresh-date");
+
 Andamio.page = (function () {
+
+    var updateTimestamp, updateTimer;
 
     function doAjaxRequest(url, expiration, cache, callback) {
 
@@ -37,19 +41,43 @@ Andamio.page = (function () {
     }
 
     return {
+        get lastUpdate() {
+            return updateTimestamp;
+        },
+
+        set lastUpdate(date) {
+
+            updateTimestamp = (date instanceof Date) ? date : new Date();
+            Andamio.dom.refreshDate.text(Andamio.util.relativeDate(updateTimestamp));
+        },
+
         load: function (url, expiration, cache, callback) {
+
+            clearInterval(updateTimer);
+
+            var doCallback = function(response) {
+
+                self.lastUpdate = new Date();
+                updateTimer = window.setInterval(function () {
+                    Andamio.dom.refreshDate.text(Andamio.util.relativeDate(self.lastUpdate));
+                }, 60000);
+
+                if ($.isFunction(callback)) callback(response);
+            };
 
             if (url) {
 
-                var cachedContent = Andamio.cache.get(url);
+                var cachedContent = Andamio.cache.get(url),
+                    self = this;
 
                 if (cachedContent) {
 
-                    if ($.isFunction(callback)) callback(cachedContent);
+                    doCallback(cachedContent);
                 } else {
 
                     doAjaxRequest(url, expiration, cache, function (response) {
-                        if ($.isFunction(callback)) callback(response);
+
+                        doCallback(response);
                     });
                 }
             }
