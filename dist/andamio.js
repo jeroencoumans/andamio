@@ -568,28 +568,33 @@ Andamio.page = (function () {
 
             clearInterval(updateTimer);
 
-            var doCallback = function(response) {
+            var self = this,
+                doCallback = function (response) {
 
-                self.lastUpdate = new Date();
-                updateTimer = window.setInterval(function () {
-                    Andamio.dom.refreshDate.text(Andamio.util.relativeDate(self.lastUpdate));
-                }, 60000);
+                if (Andamio.dom.refreshDate.length > 0) {
+                    updateTimer = window.setInterval(function () {
+                        Andamio.dom.refreshDate.text(Andamio.util.relativeDate(self.lastUpdate));
+                    }, 60000);
+                }
 
                 if ($.isFunction(callback)) callback(response);
             };
 
             if (url) {
 
-                var cachedContent = Andamio.cache.get(url),
-                    self = this;
+                var cachedContent = Andamio.cache.get(url);
 
                 if (cachedContent) {
 
+                    // TODO: get the actual date from lscache
+                    // self.lastUpdate = localStorage.getItem("lscache-" + url + "-cacheexpiration");
+                    self.lastUpdate = new Date();
                     doCallback(cachedContent);
                 } else {
 
                     doAjaxRequest(url, expiration, cache, function (response) {
 
+                        self.lastUpdate = new Date();
                         doCallback(response);
                     });
                 }

@@ -1522,6 +1522,15 @@ video {
   transform: translateZ(0);
   margin: 0 10px;
 }
+.pull-to-refresh-date {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: 0 10px 50px;
+  color: #929191;
+  line-height: initial;
+}
 .pull-to-refresh-text-pull,
 .pull-to-refresh-text-release,
 .pull-to-refresh-text-loading {
@@ -1529,6 +1538,8 @@ video {
   bottom: 0;
   right: 0;
   left: 0;
+  margin: 0;
+  line-height: inherit;
   padding-left: 41px;
   border-bottom: 1px solid #b3b3b3;
 }

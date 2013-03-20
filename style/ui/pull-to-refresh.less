@@ -50,10 +50,19 @@
     }
 }
 
+    .pull-to-refresh-date {
+        .overlay-bottom;
+        margin: 0 @grid-m @pull-to-refresh-text-height;
+        .detail;
+        line-height: initial;
+    }
+
     .pull-to-refresh-text-pull,
     .pull-to-refresh-text-release,
     .pull-to-refresh-text-loading {
         .overlay-bottom;
+        margin: 0;
+        line-height: inherit;
         padding-left: @arrow-width + (2 * @grid-m);
         border-bottom: 1px solid @pull-to-refresh-border;
     }
