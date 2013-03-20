@@ -6,16 +6,14 @@
     Setup a pager in the current view. The following initialization options are available:
 
     var myPager = Andamio.pager.init({
-        pagerWrapper        : Andamio.views.currentView.content.find(".js-pager-list"), // wrapper element
-        autoFetch           : false, // boolean, wether to automatically download new pages when scrolling to the bottom
+        autoFetch           : true, // boolean, wether to automatically download new pages when scrolling to the bottom
         autoFetchMax        : 3,    // number of pages to fetch automatically, afterwards a button is available
         autoFetchThreshold  : 100,  // pixels from the bottom before autoFetch is triggered
         callback            : function () {} // function that is executed after a page has succesfully loaded
         expires             : null, // minutes to save the pages in cache (if available)
         itemsPerPage        : 10, // the amount of items that are except per page, used to detect when to disable the pager
-        loadMoreAction      : Andamio.i18n.pagerLoadMore, // text displayed in the "load more" button
-        noMorePages         : Andamio.i18n.pagerNoMorePages, // text displayed when there are no more pages
-        spinner             : Andamio.i18n.pagerLoading, // text displayed while loading the next page
+        pageNumber          : 0, // starting page number
+        pagerWrapper        : Andamio.views.currentView.content.find(".js-pager-list"), // pager wrapper
         url                 : Andamio.config.server + "?page=" // URL that should be loaded. The pagenumber is automatically appended
     })
 
@@ -23,45 +21,17 @@
 
 Andamio.pager = (function () {
 
-    var isActive,
-        isAutofetching,
-        isLoading,
+    var self,
+        status,
+        options,
+        loading,
         loadMoreAction,
         spinner,
         noMorePages,
-        currentScroller,
-        currentScrollerHeight,
-        currentScrollerScrollHeight;
-
-    function enablePager(self) {
-
-        isActive = true;
-
-        currentScroller = Andamio.views.currentView.scroller,
-        currentScrollerHeight = currentScroller.height(),
-        currentScrollerScrollHeight = currentScroller[0].scrollHeight || Andamio.dom.viewport.height();
-
-        loadMoreAction.on("click", self.loadNextPage).insertAfter(Andamio.dom.pagerWrapper);
-        spinner.insertAfter(Andamio.dom.pagerWrapper).hide();
-
-        if (Andamio.config.pager.autoFetch) {
-            self.autoFetching = true;
-        }
-    }
-
-    function disablePager(self) {
-
-        isActive = false;
-
-        if (Andamio.config.pager.autoFetch) {
-            self.autoFetching = false;
-        }
-
-        loadMoreAction.off("click", self.loadNextPage).remove();
-        spinner.remove();
-
-        noMorePages.insertAfter(Andamio.dom.pagerWrapper);
-    }
+        scrollTop,
+        scroller,
+        scrollerHeight,
+        scrollerScrollHeight;
 
     function showSpinner() {
         spinner.show();
@@ -73,92 +43,118 @@ Andamio.pager = (function () {
         loadMoreAction.show();
     }
 
-    function Pager(params) {
+    function onScroll() {
 
-        this.params = $.isPlainObject(params) ? params : {};
+        if (loading) return;
 
-        Andamio.dom.pagerWrapper = this.params.pagerWrapper || Andamio.views.currentView.content.find(".js-pager-list");
-        loadMoreAction  = $('<div class="pager-action"><a href="javascript:void(0)" class="button button-block action-load-more">' + (this.params.loadMoreAction || Andamio.i18n.pagerLoadMore) + '</a></div>');
-        spinner         = $('<div class="pager-loading">' + (this.params.spinner || Andamio.i18n.pagerLoading) + '</div></div>');
-        noMorePages     = $('<div class="pager-action">' + (this.params.noMorePages || Andamio.i18n.pagerNoMorePages) + '</div>');
+        Andamio.util.delay(function () {
 
-        // Store options in global config
-        Andamio.config.pager = {
-            autoFetch           : this.params.autoFetch || false,
-            autoFetchMax        : this.params.autoFetchMax || 3,
-            autoFetchThreshold  : this.params.autoFetchThreshold || 100,
-            callback            : $.isFunction(this.params.callback) ? this.params.callback : function () {},
-            expires             : this.params.expires || null,
-            itemsPerPage        : this.params.itemsPerPage || 10,
-            loadMoreAction      : loadMoreAction,
-            noMorePages         : noMorePages,
-            spinner             : spinner,
-            url                 : this.params.url || Andamio.config.server + "?page="
-        };
+            scrollTop = scroller.scrollTop();
 
-        this.pageNumber = this.params.pageNumber || 0;
+            if (scrollTop + scrollerHeight + options.autoFetchThreshold >= scrollerScrollHeight) {
 
-        Object.defineProperties(this, {
-            autoFetching: {
-                get: function () {
-                    return isAutofetching;
-                },
+                self.loadNextPage(function (pageNumber) {
 
-                set: function (value) {
+                    if (pageNumber >= options.autoFetchMax) {
 
-                    isAutofetching = value;
-                    var self = this;
-
-                    if (value) {
-
-                        spinner.show();
-                        loadMoreAction.hide();
-
-                        currentScroller.on("scroll", function () {
-                            self.onScroll();
-                        });
+                        disableAutofetch();
                     } else {
-                        currentScroller.off("scroll");
 
-                        spinner.hide();
-                        loadMoreAction.show();
+                        scrollerHeight = scroller.height(),
+                        scrollerScrollHeight = scroller[0].scrollHeight || Andamio.dom.viewport.height();
                     }
-                }
-            },
-
-            status: {
-                get: function () {
-                    return isActive;
-                },
+                });
             }
-        });
 
-        // Activate
-        if (Andamio.dom.pagerWrapper.length > 0) {
-            if (Andamio.config.pager.itemsPerPage <= Andamio.dom.pagerWrapper[0].children.length) {
-                enablePager(this);
-            }
-        }
+        }, 300);
     }
 
-    Pager.prototype.loadNextPage = function (callback) {
+    function enableAutofetch() {
 
-        if (! isLoading) {
+        spinner.show();
+        loadMoreAction.hide();
 
-            isLoading = true;
-            this.pageNumber++;
+        scrollerHeight = scroller.height(),
+        scrollerScrollHeight = scroller[0].scrollHeight || Andamio.dom.viewport.height();
 
-            var self = this,
-                content;
+        scroller.on("scroll", onScroll);
+    }
 
-            if (! self.autoFetching) {
+    function disableAutofetch() {
+
+        scroller.off("scroll");
+
+        spinner.hide();
+        loadMoreAction.show();
+    }
+
+    return {
+
+        enable: function () {
+
+            // check wether the pagerWrapper exists and if it contains enough items
+            if (options.pagerWrapper.length > 0 && options.itemsPerPage <= options.pagerWrapper[0].children.length) {
+
+                status = true;
+
+                // Add the load more button
+                loadMoreAction.on("click", self.loadNextPage).insertAfter(options.pagerWrapper);
+
+                // Add the spinner
+                spinner.insertAfter(options.pagerWrapper).hide();
+
+                if (options.autoFetch) {
+                    enableAutofetch();
+                }
+            }
+        },
+
+        disable: function () {
+
+            status = false;
+
+            // Remove load more button and spinner
+            loadMoreAction.off("click", self.loadNextPage).remove();
+            spinner.remove();
+
+            // Show the message that there are no more pages
+            noMorePages.insertAfter(options.pagerWrapper);
+
+            if (options.autoFetch) {
+                disableAutofetch();
+            }
+        },
+
+        get status() {
+            return status;
+        },
+
+        get options() {
+            return options;
+        },
+
+        loadNextPage: function (callback) {
+
+            if (loading) return;
+
+            loading = true;
+
+            if (! options.autoFetch) {
                 showSpinner();
             }
 
-            Andamio.page.load(Andamio.config.pager.url + self.pageNumber, Andamio.config.pager.expires, true, function (response) {
+            options.pageNumber++;
 
-                isLoading = false;
-                content = false;
+            Andamio.page.load(options.url + options.pageNumber, options.expires, true, function (response) {
+
+                loading = false;
+
+                if (! options.autoFetch) {
+                    hideSpinner();
+                }
+
+                var content = false,
+                    temp = document.createElement('div');
 
                 if (response) {
                     if ($.isPlainObject(response)) {
@@ -170,67 +166,47 @@ Andamio.pager = (function () {
                     }
                 }
 
-                if (content.length > Andamio.config.pager.itemsPerPage) {
+                temp.insertAdjacentHTML("beforeend", content);
 
-                    Andamio.dom.pagerWrapper.append(content);
-
-                    if (! self.autoFetching) {
-                        hideSpinner();
-                    }
-
-                    currentScrollerHeight = currentScroller.height();
-                    currentScrollerScrollHeight = currentScroller[0].scrollHeight || Andamio.dom.viewport.height();
-
-                    if ($.isFunction(callback)) {
-                        callback(self.pageNumber);
-                    }
-
-                    Andamio.config.pager.callback(self.pageNumber);
-
-                } else {
-
-                    disablePager(self);
+                if (temp.childElementCount > 0) {
+                    options.pagerWrapper.append(content);
                 }
+
+                if (temp.childElementCount < options.itemsPerPage) {
+                    self.disable();
+                }
+
+                if ($.isFunction(callback)) callback(options.pageNumber);
+                if ($.isFunction(options.callback)) options.callback(options.pageNumber);
             });
-        }
-    };
+        },
 
-    Pager.prototype.onScroll = function () {
+        init: function (params) {
 
-        if (! isLoading) {
+            // Setup defaults
+            options = {
+                autoFetch           : true,
+                autoFetchMax        : 3,
+                autoFetchThreshold  : 100,
+                callback            : function () {},
+                expires             : null,
+                itemsPerPage        : 10,
+                pageNumber          : 0,
+                pagerWrapper        : Andamio.views.currentView.content.find(".js-pager-list"),
+                url                 : Andamio.config.server + "?page="
+            };
 
-            var scrollTop = currentScroller.scrollTop(),
-                self = this;
+            loadMoreAction  = $('<div class="pager-action"><a href="javascript:void(0)" class="button button-block action-load-more">' + Andamio.i18n.pagerLoadMore + '</a></div>');
+            spinner         = $('<div class="pager-loading">' + Andamio.i18n.pagerLoading + '</div></div>');
+            noMorePages     = $('<div class="pager-action">' + Andamio.i18n.pagerNoMorePages + '</div>');
+            scroller        = Andamio.views.currentView.scroller;
 
-            Andamio.util.delay(function () {
+            $.extend(options, params);
 
-                if (scrollTop + currentScrollerHeight + Andamio.config.pager.autoFetchThreshold >= currentScrollerScrollHeight) {
+            self = this;
+            self.enable();
 
-                    self.loadNextPage(function () {
-
-                        // make sure the scrolltop is saved
-                        currentScroller.scrollTop(scrollTop);
-
-                        if (self.pageNumber >= Andamio.config.pager.autoFetchMax) {
-
-                            self.autoFetching = false;
-                        }
-                    });
-                }
-            }, 300);
-        }
-    };
-
-    Pager.prototype.disable = function () {
-
-        disablePager(this);
-    };
-
-    return {
-
-        init: function (options) {
-
-            return new Pager(options);
+            return self;
         }
     };
 
