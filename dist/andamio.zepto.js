@@ -3825,7 +3825,7 @@ Andamio.page = (function () {
         itemsPerPage        : 10, // the amount of items that are except per page, used to detect when to disable the pager
         pageNumber          : 0, // starting page number
         pagerWrapper        : Andamio.views.currentView.content.find(".js-pager-list"), // pager wrapper
-        url                 : Andamio.config.server + "?page=" // URL that should be loaded. The pagenumber is automatically appended
+        url                 : Andamio.config.server + "?page=" // URL that should be loaded. The pageNumber is automatically appended
     })
 
  **/
@@ -3949,24 +3949,20 @@ Andamio.pager = (function () {
             if (loading) return;
 
             loading = true;
-
-            if (! options.autoFetch) {
-                showSpinner();
-            }
-
             options.pageNumber++;
+
+            if (! options.autoFetch) showSpinner();
 
             Andamio.page.load(options.url + options.pageNumber, options.expires, true, function (response) {
 
                 loading = false;
 
-                if (! options.autoFetch) {
-                    hideSpinner();
-                }
+                if (! options.autoFetch) hideSpinner();
 
                 var content = false,
-                    temp = document.createElement('div');
+                    children = options.pagerWrapper.children().length;
 
+                // Some API's return content as a JSON object
                 if (response) {
                     if ($.isPlainObject(response)) {
                         if (! $.isEmptyObject(response.content)) {
@@ -3977,14 +3973,11 @@ Andamio.pager = (function () {
                     }
                 }
 
-                // TODO: check performance impact
-                temp.insertAdjacentHTML("beforeend", content);
+                // Insert the content
+                options.pagerWrapper[0].insertAdjacentHTML("beforeend", content);
 
-                if (temp.childElementCount > 0) {
-                    options.pagerWrapper.append(content);
-                }
-
-                if (temp.childElementCount < options.itemsPerPage) {
+                // if less children than items per page are returned, disable the pager
+                if (options.pagerWrapper.children().length - children < options.itemsPerPage) {
                     self.disable();
                 }
 
