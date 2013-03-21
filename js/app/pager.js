@@ -82,7 +82,7 @@ Andamio.pager = (function () {
 
     function disableAutofetch() {
 
-        scroller.off("scroll");
+        scroller.off("scroll", onScroll);
 
         spinner.hide();
         loadMoreAction.show();
@@ -166,6 +166,7 @@ Andamio.pager = (function () {
                     }
                 }
 
+                // TODO: check performance impact
                 temp.insertAdjacentHTML("beforeend", content);
 
                 if (temp.childElementCount > 0) {

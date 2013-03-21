@@ -474,9 +474,9 @@ sup {
   left: 0;
   top: 44px;
 }
-.webapp.ios5 .view-hidden .overthrow {
-  overflow: hidden;
+.webapp.ios5.has-modalview .page-view .overthrow {
   -webkit-overflow-scrolling: default;
+  overflow: hidden;
 }
 .tablet,
 .tablet .viewport {
@@ -601,11 +601,9 @@ sup {
   right: 0;
   bottom: 0;
   pointer-events: none;
-  z-index: -1;
 }
 .has-navigation .page-navigation-toggle {
   pointer-events: auto;
-  z-index: 2;
 }
 .website {
   overflow-x: hidden;
@@ -1699,12 +1697,8 @@ a {
 .page-navigation {
   background: #2b2b2b;
 }
-.page-navigation-toggle {
-  border-left: 1px solid #121212;
-}
 .tablet .page-navigation-toggle,
 .ios6 .page-navigation-toggle {
-  border-left: 0;
   -webkit-box-shadow: -10px 0 20px -5px #121212;
   box-shadow: -10px 0 20px -5px #121212;
 }

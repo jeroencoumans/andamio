@@ -49,7 +49,7 @@ Andamio.alert = (function () {
 
             isActive = Andamio.dom.html.hasClass("has-alert");
             Andamio.events.attach(".action-hide-alert", this.hide);
-            Andamio.dom.doc.on("Andamio:views:activateView", this.hide);
+            Andamio.dom.doc.on("Andamio:views:activateView:start", this.hide);
         }
     };
 })();

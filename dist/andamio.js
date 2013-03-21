@@ -694,7 +694,7 @@ Andamio.pager = (function () {
 
     function disableAutofetch() {
 
-        scroller.off("scroll");
+        scroller.off("scroll", onScroll);
 
         spinner.hide();
         loadMoreAction.show();
@@ -778,6 +778,7 @@ Andamio.pager = (function () {
                     }
                 }
 
+                // TODO: check performance impact
                 temp.insertAdjacentHTML("beforeend", content);
 
                 if (temp.childElementCount > 0) {
@@ -875,7 +876,7 @@ Andamio.alert = (function () {
 
             isActive = Andamio.dom.html.hasClass("has-alert");
             Andamio.events.attach(".action-hide-alert", this.hide);
-            Andamio.dom.doc.on("Andamio:views:activateView", this.hide);
+            Andamio.dom.doc.on("Andamio:views:activateView:start", this.hide);
         }
     };
 })();
@@ -1646,7 +1647,6 @@ Andamio.views = (function () {
         activateView: function (view, url, expiration, scrollPosition) {
 
             view.active = true;
-            Andamio.dom.doc.trigger("Andamio:views:activateView");
 
             if (url) {
 

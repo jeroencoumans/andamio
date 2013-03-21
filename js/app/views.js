@@ -211,7 +211,6 @@ Andamio.views = (function () {
         activateView: function (view, url, expiration, scrollPosition) {
 
             view.active = true;
-            Andamio.dom.doc.trigger("Andamio:views:activateView");
 
             if (url) {
 
