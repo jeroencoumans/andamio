@@ -1891,7 +1891,7 @@ Andamio.views = (function () {
                 url = Andamio.util.getUrl(target);
 
                 self.pushChild(url);
-            });
+            }, true);
 
             Andamio.events.attach(".action-show-modal", function (event) {
 
@@ -1899,22 +1899,22 @@ Andamio.views = (function () {
                 url = Andamio.util.getUrl(target);
 
                 self.pushModal(url);
-            });
+            }, true);
 
             Andamio.events.attach(".action-pop", function () {
 
                 self.popChild();
-            });
+            }, true);
 
             Andamio.events.attach(".action-hide-modal", function () {
 
                 self.popModal();
-            });
+            }, true);
 
             Andamio.events.attach(".action-refresh", function () {
 
                 self.refreshView();
-            });
+            }, true);
         }
     };
 
