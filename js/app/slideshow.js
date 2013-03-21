@@ -4,116 +4,112 @@
 Andamio.slideshow = (function () {
 
     var slideshow,
-        slideshowContainer,
-        dots;
+        slideshowEl,
+        dots,
+        options;
 
     function SwipeDots(number) {
+        this.wrapper = $('<div class="slideshow-dots">');
 
-        if (typeof number === "number") {
-            this.wrapper = $('<div class="slideshow-dots">');
-
-            for (var i = 0; i < number; i++) {
-                this.wrapper.append($('<div class="slideshow-dot"></div>'));
-            }
-
-            this.items = this.wrapper.find(".slideshow-dot");
-
-            Object.defineProperties(this, {
-                active: {
-                    get: function () { return this.wrapper.find(".active"); },
-                    set: function (elem) {
-                        this.wrapper.find(".active").removeClass("active");
-                        $(elem).addClass("active");
-                    }
-                }
-            });
-
-            this.active = this.items.first();
+        for (var i = 0; i < number; i++) {
+            this.wrapper.append($('<div class="slideshow-dot"></div>'));
         }
+
+        this.items = this.wrapper.find(".slideshow-dot");
+
+        Object.defineProperties(this, {
+            active: {
+                get: function () { return this.wrapper.find(".active"); },
+                set: function (elem) {
+                    this.wrapper.find(".active").removeClass("active");
+                    $(elem).addClass("active");
+                }
+            }
+        });
+
+        this.active = this.items.first();
     }
 
     return {
 
         destroy: function () {
 
-            dots.wrapper.off("click");
-            slideshowContainer.off("click");
             slideshow.kill();
-            slideshowContainer = null;
             slideshow = null;
+            dots.wrapper.off("click").remove();
             dots = null;
+
+            // needs to go last
+            slideshowEl.removeClass("js-slideshow-active").off("click").find(".slideshow-container").css("width", "");
         },
 
-        init: function (id, options, callback) {
+        init: function (id, params, callback) {
 
-            slideshowContainer = $("#" + id);
+            slideshowEl = $("#" + id);
 
-            if (! slideshowContainer.hasClass(".js-slideshow-active")) {
+            // don't initialize the same element twice
+            if (slideshowEl.hasClass("js-slideshow-active")) return;
 
-                var defaults = {
-                    startSlide: 0,
-                    speed: 300,
-                    continuous: true,
-                    disableScroll: false
-                };
+            slideshowEl.addClass("js-slideshow-active");
 
-                // Merge user-defined options
-                this.options = $.extend({}, defaults, options);
-
-                // setup Swipe
-                slideshow = this.slideshow = new Swipe(document.getElementById(id), this.options);
-                dots      = this.dots      = new SwipeDots(slideshow.length);
-
-                dots.wrapper
-                    .insertAfter(slideshow.container)
-                    .on("click", function (event) {
-
-                    var target = event.target;
-
-                    dots.items.each(function (index, item) {
-
-                        if (item === target) {
-                            slideshow.slide(index, 300);
-                        }
-                    });
-                });
-
-                // setup dots callback
-                slideshow.callback = function (index, item) {
+            // just use swipe.js defaults
+            options = {
+                callback: function (index, item) {
 
                     dots.active = dots.items[index];
 
                     if ($.isFunction(callback)) {
                         callback(index, item);
                     }
-                };
+                }
+            };
 
-                slideshowContainer.find(".js-slideshow-media").each(function (index, item) {
+            $.extend(options, params);
 
-                    var img = $(item),
-                        url = img.data("src");
-                    img.css('background-image', 'url(' + url + ')');
-                });
+            // setup Swipe
+            slideshow = this.slideshow = new Swipe(document.getElementById(id), options);
+            dots = new SwipeDots(slideshow.getNumSlides());
 
-                slideshowContainer.on("click", function (event) {
+            dots.wrapper
+                .insertAfter(slideshowEl)
+                .on("click", function (event) {
 
-                    var target = $(event.target),
-                        isNext = target.parents(".action-slideshow-next"),
-                        isPrev = target.parents(".action-slideshow-prev");
+                var target = event.target;
 
-                    if (isNext.length) {
-                        slideshow.next();
-                    }
+                dots.items.each(function (index, item) {
 
-                    if (isPrev.length) {
-                        slideshow.prev();
+                    if (item === target) {
+                        slideshow.slide(index, 300);
                     }
                 });
+            });
 
-                slideshowContainer.addClass("js-slideshow-active");
+            // preload images
+            slideshowEl.find(".js-slideshow-media").each(function (index, item) {
 
-                return this;
-            }
+                var img = $(item),
+                    url = img.data("src");
+                img.css('background-image', 'url(' + url + ')');
+            });
+
+
+            // setup event handlers
+            slideshowEl.on("click", function (event) {
+
+                var target = $(event.target),
+                    isNext = target.parents(".action-slideshow-next"),
+                    isPrev = target.parents(".action-slideshow-prev");
+
+                if (isNext.length) {
+                    slideshow.next();
+                }
+
+                if (isPrev.length) {
+                    slideshow.prev();
+                }
+            });
+
+            return this;
         }
     };
 
