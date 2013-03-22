@@ -10789,31 +10789,6 @@ Andamio.cache = (function () {
 
     var cache;
 
-    function compress(s) {
-        var i, l, out = '';
-        if (s.length % 2 !== 0) s += ' ';
-        for (i = 0, l = s.length; i < l; i += 2) {
-            out += String.fromCharCode((s.charCodeAt(i) * 256) + s.charCodeAt(i + 1));
-        }
-
-        // Add a snowman prefix to mark the resulting string as encoded (more on this later)
-        return String.fromCharCode(9731) + out;
-    }
-
-    function decompress(s) {
-        var i, l, n, m, out = '';
-
-        // If not prefixed with a snowman, just return the (already uncompressed) string
-        if (s.charCodeAt(0) !== 9731) return s;
-
-        for (i = 1, l = s.length; i < l; i++) {
-            n = s.charCodeAt(i);
-            m = Math.floor(n / 256);
-            out += String.fromCharCode(m, n % 256);
-        }
-        return out;
-    }
-
     return {
 
         get: function (key) {
@@ -10822,7 +10797,7 @@ Andamio.cache = (function () {
                 var result = cache.get(key);
 
                 if (result) {
-                    return decompress(result);
+                    return result;
                 }
             }
         },
@@ -10831,7 +10806,7 @@ Andamio.cache = (function () {
 
             if (key && data && cache) {
                 var minutes = (typeof expiration === "number") ? expiration : Andamio.config.cacheExpiration;
-                cache.set(key, compress(data), minutes);
+                cache.set(key, data, minutes);
             }
         },
 
@@ -12021,11 +11996,11 @@ Andamio.views = (function () {
 
                 Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view, url]);
 
-                view.content.empty();
+                view.content[0].innerHTML = "";
 
                 Andamio.page.load(url, expiration, true, function (response) {
 
-                    view.content.html(response);
+                    view.content[0].insertAdjacentHTML("afterBegin", response);
 
                     if (typeof scrollPosition === "number") {
                         view.scroller[0].scrollTop = scrollPosition;
@@ -12086,16 +12061,16 @@ Andamio.views = (function () {
 
             var url = this.currentUrl,
                 currentView = this.currentView,
-                currentViewContent = currentView.content;
+                currentViewContent = currentView.content[0];
 
             if (url) {
 
                 Andamio.dom.doc.trigger("Andamio:views:activateView:start", [currentView, url]);
-                currentViewContent.empty();
+                currentViewContent.innerHTML = "";
 
                 Andamio.page.refresh(url, expiration, function (response) {
 
-                    currentViewContent.html(response);
+                    currentViewContent.insertAdjacentHTML("beforeend", response);
                     Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [currentView, url]);
 
                     if ($.isFunction(callback)) {
