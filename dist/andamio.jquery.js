@@ -10484,19 +10484,6 @@ Andamio.config = (function () {
 
     return {
 
-        get webapp() {
-            return Andamio.dom.html.hasClass("webapp");
-        },
-
-        set webapp(value) {
-
-            if (value) {
-                Andamio.dom.html.removeClass("website").addClass("webapp");
-            } else {
-                Andamio.dom.html.removeClass("webapp").addClass("website");
-            }
-        },
-
         init: function (options) {
 
             detect.call(this, navigator.userAgent);
@@ -10514,8 +10501,7 @@ Andamio.config = (function () {
             // Setup defaults that can be overridden
             var win = window;
 
-            this.webapp  = win.location.search.search("webapp") > 0 || win.navigator.standalone;
-            this.website = !this.webapp;
+            this.webapp  = win.location.search.search("webapp") > 0 || win.navigator.standalone || Andamio.dom.html.hasClass("webapp");
             this.tmgcontainer = win.navigator.userAgent.indexOf("TMGContainer") > -1;
             this.server  = win.location.origin + win.location.pathname;
             this.touch   = 'ontouchstart' in win;
@@ -10563,6 +10549,14 @@ Andamio.config = (function () {
                 Andamio.nav.show();
                 this.webapp = true;
             }
+
+            if (this.webapp) {
+                Andamio.dom.html.removeClass("website").addClass("webapp");
+            } else {
+                Andamio.dom.html.removeClass("webapp").addClass("website");
+            }
+
+            this.website = !this.webapp;
 
             for (var os in this.os) {
                 if (Andamio.config.os[os] && os !== "version") {
