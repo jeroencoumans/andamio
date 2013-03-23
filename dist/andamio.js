@@ -630,7 +630,7 @@ Andamio.pager = (function () {
 
         Andamio.util.delay(function () {
 
-            scrollTop = scroller.scrollTop();
+            scrollTop = Andamio.config.webapp ? scroller.scrollTop() : Andamio.dom.viewport.scrollTop();
 
             if (scrollTop + scrollerHeight + options.autoFetchThreshold >= scrollerScrollHeight) {
 
@@ -1295,23 +1295,6 @@ Andamio.slideshow = (function () {
                 img.css('background-image', 'url(' + url + ')');
             });
 
-
-            // setup event handlers
-            slideshowEl.on("click", function (event) {
-
-                var target = $(event.target),
-                    isNext = target.parents(".action-slideshow-next"),
-                    isPrev = target.parents(".action-slideshow-prev");
-
-                if (isNext.length) {
-                    slideshow.next();
-                }
-
-                if (isPrev.length) {
-                    slideshow.prev();
-                }
-            });
-
             return this;
         }
     };
@@ -1606,9 +1589,9 @@ Andamio.views = (function () {
 
             view.active = true;
 
-            if (url) {
+            Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view]);
 
-                Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view, url]);
+            if (url) {
 
                 view.content[0].innerHTML = "";
 
@@ -1620,8 +1603,10 @@ Andamio.views = (function () {
                         view.scroller[0].scrollTop = scrollPosition;
                     }
 
-                    Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view, url]);
+                    Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view]);
                 });
+            } else {
+                Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view]);
             }
         },
 
@@ -1653,13 +1638,6 @@ Andamio.views = (function () {
                 // hide current
                 this.deactivateView(this.currentView);
 
-                // Fast path: parent view is still in the DOM, so just show it
-                if (this.childCount === 1) {
-                    this.activateView(this.previousView);
-                } else {
-                    this.activateView(this.previousView, this.previousUrl, false, this.scrollPosition);
-                }
-
                 // Delete the last view
                 this.viewHistory.pop();
                 this.scrollHistory.pop();
@@ -1668,6 +1646,14 @@ Andamio.views = (function () {
                 if (this.urlHistory.length > 1) {
                     this.urlHistory.pop();
                 }
+
+                // Fast path: parent view is still in the DOM, so just show it
+                if (this.childCount === 1) {
+                    this.activateView(this.currentView);
+                } else {
+                    this.activateView(this.currentView, this.currentUrl, false, this.scrollPosition);
+                }
+
             }
         },
 
@@ -1684,7 +1670,7 @@ Andamio.views = (function () {
 
                 Andamio.page.refresh(url, expiration, function (response) {
 
-                    currentViewContent.insertAdjacentHTML("beforeend", response);
+                    currentViewContent.insertAdjacentHTML("afterBegin", response);
                     Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [currentView, url]);
 
                     if ($.isFunction(callback)) {

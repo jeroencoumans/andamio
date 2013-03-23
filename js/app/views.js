@@ -212,9 +212,9 @@ Andamio.views = (function () {
 
             view.active = true;
 
-            if (url) {
+            Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view]);
 
-                Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view, url]);
+            if (url) {
 
                 view.content[0].innerHTML = "";
 
@@ -226,8 +226,10 @@ Andamio.views = (function () {
                         view.scroller[0].scrollTop = scrollPosition;
                     }
 
-                    Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view, url]);
+                    Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view]);
                 });
+            } else {
+                Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view]);
             }
         },
 
@@ -259,13 +261,6 @@ Andamio.views = (function () {
                 // hide current
                 this.deactivateView(this.currentView);
 
-                // Fast path: parent view is still in the DOM, so just show it
-                if (this.childCount === 1) {
-                    this.activateView(this.previousView);
-                } else {
-                    this.activateView(this.previousView, this.previousUrl, false, this.scrollPosition);
-                }
-
                 // Delete the last view
                 this.viewHistory.pop();
                 this.scrollHistory.pop();
@@ -274,6 +269,14 @@ Andamio.views = (function () {
                 if (this.urlHistory.length > 1) {
                     this.urlHistory.pop();
                 }
+
+                // Fast path: parent view is still in the DOM, so just show it
+                if (this.childCount === 1) {
+                    this.activateView(this.currentView);
+                } else {
+                    this.activateView(this.currentView, this.currentUrl, false, this.scrollPosition);
+                }
+
             }
         },
 
@@ -290,7 +293,7 @@ Andamio.views = (function () {
 
                 Andamio.page.refresh(url, expiration, function (response) {
 
-                    currentViewContent.insertAdjacentHTML("beforeend", response);
+                    currentViewContent.insertAdjacentHTML("afterBegin", response);
                     Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [currentView, url]);
 
                     if ($.isFunction(callback)) {
