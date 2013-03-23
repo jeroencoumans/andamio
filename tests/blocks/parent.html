@@ -1,24 +1,32 @@
 <div class="slideshow-wrapper slideshow-wrapper-16by9" id="slideshow-test">
     <div class="slideshow-container">
-        <div class="slideshow-item action-slideshow-next">
+        <div class="slideshow-item">
             <div class="media-flex" style="background-image: url(http://placehold.it/640x480/cccccc/999999&amp;text=Slide+1);"></div>
         </div>
-        <div class="slideshow-item action-slideshow-next">
+        <div class="slideshow-item">
             <div class="js-slideshow-media media-flex" data-src="http://placehold.it/640x480/bbbbbb/888888&amp;text=Slide+2"></div>
         </div>
-        <div class="slideshow-item action-slideshow-next">
+        <div class="slideshow-item">
             <div class="js-slideshow-media media-flex" data-src="http://placehold.it/640x480/aaaaaa/777777&amp;text=Slide+3"></div>
         </div>
-        <div class="slideshow-item action-slideshow-next">
+        <div class="slideshow-item">
             <div class="js-slideshow-media media-flex" data-src="http://placehold.it/640x480/999999/666666&amp;text=Slide+4"></div>
         </div>
-        <div class="slideshow-item action-slideshow-next">
+        <div class="slideshow-item">
             <div class="js-slideshow-media media-flex" data-src="http://placehold.it/640x480/888888/555555&amp;text=Slide+5"></div>
         </div>
-        <div class="slideshow-item action-slideshow-next">
+        <div class="slideshow-item">
             <div class="js-slideshow-media media-flex" data-src="http://placehold.it/640x480/777777/444444&amp;text=Slide+6"></div>
         </div>
     </div>
+
+    <a href="javascript:void(0)" class="action-slideshow-prev slideshow-prev">
+        <i class="icon icon-arrow-left"></i>
+    </a>
+
+    <a href="javascript:void(0)" class="action-slideshow-next slideshow-next">
+        <i class="icon icon-arrow-right"></i>
+    </a>
 </div>
 
 <div class="box">
@@ -101,29 +109,3 @@
         </div>
     </a>
 </div>
-
-<script>
-    if (myPager) {
-        myPager.disable();
-        myPager = null;
-    }
-
-    var myPager = Andamio.pager.init({
-        autoFetch           : true,
-        autoFetchMax        : 5,
-        autoFetchThreshold  : 300,
-        url                 : Andamio.config.server + "pager/",
-        callback            : function (pageNumber) {
-            console.log("Loading page " + pageNumber);
-        },
-    });
-
-    if (mySlideshow) {
-        mySlideshow.destroy();
-    }
-
-    var mySlideshow = Andamio.slideshow.init("slideshow-test", null, function (slideNumber) {
-        console.log("Swiped item " + slideNumber);
-    });
-
-</script>
