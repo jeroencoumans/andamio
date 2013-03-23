@@ -49,7 +49,7 @@ Andamio.pager = (function () {
 
         Andamio.util.delay(function () {
 
-            scrollTop = scroller.scrollTop();
+            scrollTop = Andamio.config.webapp ? scroller.scrollTop() : Andamio.dom.viewport.scrollTop();
 
             if (scrollTop + scrollerHeight + options.autoFetchThreshold >= scrollerScrollHeight) {
 
