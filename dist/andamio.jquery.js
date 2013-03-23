@@ -11592,11 +11592,6 @@ Andamio.reveal = (function () {
 
 Andamio.slideshow = (function () {
 
-    var slideshow,
-        slideshowEl,
-        dots,
-        options;
-
     function SwipeDots(number) {
         this.wrapper = $('<div class="slideshow-dots">');
 
@@ -11619,69 +11614,69 @@ Andamio.slideshow = (function () {
         this.active = this.items.first();
     }
 
-    return {
+    function Slideshow(id, params, callback) {
 
-        destroy: function () {
+        var self = this;
 
-            slideshow.kill();
-            slideshow = null;
-            dots.wrapper.off("click").remove();
-            dots = null;
+        this.options = {
+            callback: function (index, item) {
 
-            // needs to go last
-            slideshowEl.removeClass("js-slideshow-active").off("click").find(".slideshow-container").css("width", "");
-        },
+                self.dots.active = self.dots.items[index];
 
-        init: function (id, params, callback) {
-
-            slideshowEl = $("#" + id);
-
-            // don't initialize the same element twice
-            if (slideshowEl.hasClass("js-slideshow-active")) return;
-
-            slideshowEl.addClass("js-slideshow-active");
-
-            // just use swipe.js defaults
-            options = {
-                callback: function (index, item) {
-
-                    dots.active = dots.items[index];
-
-                    if ($.isFunction(callback)) {
-                        callback(index, item);
-                    }
+                if ($.isFunction(callback)) {
+                    callback(index, item);
                 }
-            };
+            }
+        };
 
-            $.extend(options, params);
+        $.extend(this.options, params);
 
-            // setup Swipe
-            slideshow = this.slideshow = new Swipe(document.getElementById(id), options);
-            dots = new SwipeDots(slideshow.getNumSlides());
+        this.id = id;
+        this.wrapper = $("#" + id);
+        this.slideshow = new Swipe(document.getElementById(id), this.options);
+        this.dots = new SwipeDots(this.slideshow.getNumSlides());
 
-            dots.wrapper
-                .insertAfter(slideshowEl)
-                .on("click", function (event) {
-
+        this.dots.wrapper
+            .insertAfter(self.wrapper)
+            .on("click", function (event) {
                 var target = event.target;
 
-                dots.items.each(function (index, item) {
+                self.dots.items.each(function (index, item) {
 
                     if (item === target) {
-                        slideshow.slide(index, 300);
+                        self.slideshow.slide(index, 300);
                     }
                 });
             });
 
-            // preload images
-            slideshowEl.find(".js-slideshow-media").each(function (index, item) {
+        // preload images
+        this.wrapper.find(".js-slideshow-media").each(function (index, item) {
 
-                var img = $(item),
-                    url = img.data("src");
-                img.css('background-image', 'url(' + url + ')');
-            });
+            var img = $(item),
+                url = img.data("src");
+            img.css('background-image', 'url(' + url + ')');
+        });
 
-            return this;
+        this.wrapper.find(".action-slideshow-next").on("click", this.slideshow.next);
+        this.wrapper.find(".action-slideshow-prev").on("click", this.slideshow.prev);
+    }
+
+    Slideshow.prototype.destroy = function () {
+
+        this.slideshow.kill();
+        this.dots.wrapper.off("click").remove();
+
+        // needs to go last
+        this.wrapper.find(".action-slideshow-next").off("click", this.slideshow.next);
+        this.wrapper.find(".action-slideshow-prev").off("click", this.slideshow.prev);
+        this.wrapper.find(".slideshow-container").css("width", "");
+    };
+
+    return {
+
+        init: function (id, params, callback) {
+
+            return new Slideshow(id, params, callback);
         }
     };
 
@@ -11975,11 +11970,10 @@ Andamio.views = (function () {
 
             view.active = true;
 
-            Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view]);
-
             if (url) {
 
                 view.content[0].innerHTML = "";
+                Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view, "load"]);
 
                 Andamio.page.load(url, expiration, true, function (response) {
 
@@ -11989,10 +11983,8 @@ Andamio.views = (function () {
                         view.scroller[0].scrollTop = scrollPosition;
                     }
 
-                    Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view]);
+                    Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view, "load"]);
                 });
-            } else {
-                Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view]);
             }
         },
 
@@ -12051,13 +12043,13 @@ Andamio.views = (function () {
 
             if (url) {
 
-                Andamio.dom.doc.trigger("Andamio:views:activateView:start", [currentView, url]);
+                Andamio.dom.doc.trigger("Andamio:views:activateView:start", [currentView, "refresh"]);
                 currentViewContent.innerHTML = "";
 
                 Andamio.page.refresh(url, expiration, function (response) {
 
                     currentViewContent.insertAdjacentHTML("afterBegin", response);
-                    Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [currentView, url]);
+                    Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [currentView, "refresh"]);
 
                     if ($.isFunction(callback)) {
                         callback();
