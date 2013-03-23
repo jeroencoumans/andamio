@@ -92,23 +92,6 @@ Andamio.slideshow = (function () {
                 img.css('background-image', 'url(' + url + ')');
             });
 
-
-            // setup event handlers
-            slideshowEl.on("click", function (event) {
-
-                var target = $(event.target),
-                    isNext = target.parents(".action-slideshow-next"),
-                    isPrev = target.parents(".action-slideshow-prev");
-
-                if (isNext.length) {
-                    slideshow.next();
-                }
-
-                if (isPrev.length) {
-                    slideshow.prev();
-                }
-            });
-
             return this;
         }
     };
