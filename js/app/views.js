@@ -216,11 +216,11 @@ Andamio.views = (function () {
 
                 Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view, url]);
 
-                view.content.empty();
+                view.content[0].innerHTML = "";
 
                 Andamio.page.load(url, expiration, true, function (response) {
 
-                    view.content.html(response);
+                    view.content[0].insertAdjacentHTML("afterBegin", response);
 
                     if (typeof scrollPosition === "number") {
                         view.scroller[0].scrollTop = scrollPosition;
@@ -281,16 +281,16 @@ Andamio.views = (function () {
 
             var url = this.currentUrl,
                 currentView = this.currentView,
-                currentViewContent = currentView.content;
+                currentViewContent = currentView.content[0];
 
             if (url) {
 
                 Andamio.dom.doc.trigger("Andamio:views:activateView:start", [currentView, url]);
-                currentViewContent.empty();
+                currentViewContent.innerHTML = "";
 
                 Andamio.page.refresh(url, expiration, function (response) {
 
-                    currentViewContent.html(response);
+                    currentViewContent.insertAdjacentHTML("beforeend", response);
                     Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [currentView, url]);
 
                     if ($.isFunction(callback)) {
