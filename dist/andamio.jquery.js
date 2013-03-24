@@ -10941,9 +10941,7 @@ Andamio.page = (function () {
 
                 if (cachedContent) {
 
-                    // TODO: get the actual date from lscache
-                    // self.lastUpdate = localStorage.getItem("lscache-" + url + "-cacheexpiration");
-                    self.lastUpdate = new Date();
+                    self.lastUpdate = new Date(localStorage.getItem("lscache-" + url + "-cacheexpiration") * 60000 - (60000 * Andamio.config.cacheExpiration));
                     doCallback(cachedContent);
                 } else {
 
