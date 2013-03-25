@@ -1589,7 +1589,7 @@ Andamio.views = (function () {
 
                 Andamio.page.load(url, expiration, true, function (response) {
 
-                    view.content[0].insertAdjacentHTML("afterBegin", response);
+                    view.content[0].innerHTML = response;
 
                     if (typeof scrollPosition === "number") {
                         view.scroller[0].scrollTop = scrollPosition;
@@ -1660,7 +1660,7 @@ Andamio.views = (function () {
 
                 Andamio.page.refresh(url, expiration, function (response) {
 
-                    currentViewContent.insertAdjacentHTML("afterBegin", response);
+                    currentViewContent.innerHTML = response;
                     Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [currentView, "refresh"]);
 
                     if ($.isFunction(callback)) {
