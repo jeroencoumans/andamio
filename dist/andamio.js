@@ -1630,7 +1630,6 @@ Andamio.views = (function () {
 
                 // Delete the last view
                 this.viewHistory.pop();
-                this.scrollHistory.pop();
 
                 // Only pop history if there's more than 1 item
                 if (this.urlHistory.length > 1) {
@@ -1644,6 +1643,8 @@ Andamio.views = (function () {
                     this.activateView(this.currentView, this.currentUrl, false, this.scrollPosition);
                 }
 
+                // Finally, delete the last scroll position
+                this.scrollHistory.pop();
             }
         },
 
