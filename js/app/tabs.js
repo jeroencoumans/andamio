@@ -66,6 +66,11 @@ Andamio.tabs = (function () {
                     }
 
                     Andamio.views.openParentPage(url);
+                } else {
+
+                    if (Andamio.views.currentView !== Andamio.views.parentView) {
+                        Andamio.views.openParentPage(url);
+                    }
                 }
             });
         }
