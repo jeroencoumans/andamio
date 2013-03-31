@@ -102,6 +102,7 @@
 
             var parentPager,
                 parentSlideshow,
+                childPager,
                 childSlideshow;
 
         $(document).ready(function() {
@@ -159,6 +160,30 @@
 
                 case Andamio.views.childView:
                 case Andamio.views.childViewAlt:
+
+                    if (childPager) {
+                        console.log("deactivate pager");
+
+                        childPager.disable();
+                        childPager = null;
+                    }
+
+                    var pagerEl = Andamio.views.currentView.content.find(".js-pager-list");
+
+                    if (pagerEl.length) {
+
+                        console.log("activate pager");
+
+                        childPager = Andamio.pager.init({
+                            autoFetch           : true,
+                            autoFetchMax        : 2,
+                            autoFetchThreshold  : 300,
+                            url                 : Andamio.config.server + "pager/",
+                            callback            : function (pageNumber) {
+                                console.log("Loading page " + pageNumber);
+                            },
+                        });
+                    }
 
                     if (childSlideshow) {
                         console.log("deactivate child slideshow");
