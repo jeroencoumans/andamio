@@ -120,6 +120,13 @@ module.exports = function(grunt) {
                 files: ['js/app/*.js'],
                 tasks: ['concat']
             }
+        },
+
+        casperjs: {
+            options: {
+                includes: ['tests/config.js']
+            },
+            files: ['tests/casperjs/*.js']
         }
     });
 
@@ -128,6 +135,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-less');
+    grunt.loadNpmTasks('grunt-casperjs');
 
-    grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'less']);
+    grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'less', 'casperjs']);
 };
