@@ -1,14 +1,21 @@
+@page-alert-background-start: @red;
+@page-alert-background-end: darken(@red, 10%);
+@page-alert-border: 1px solid darken(@page-alert-background-start, 15%);
+@page-alert-color: @white;
+@page-alert-button-background: darken(@red, 5%);
+@page-alert-button-color: @white;
+
 .page-alert {
     padding: @grid-l;
     .border-radius(@grid-m);
     text-align: center;
 
-    .gradient(@red, darken(@red, 10%));
+    .gradient(@page-alert-background-start, @page-alert-background-end);
     .box-shadow(0 2px 4px rgba(0,0,0, .25));
-    border: 1px solid darken(@red, 15%);
+    border: @page-alert-border;
 
     .page-alert-text {
-        color: @white;
+        color: @page-alert-color;
         text-shadow: 0 1px 1px darken(@red, 25%);
         font-weight: bold;
 
@@ -18,6 +25,21 @@
 
         .action-refresh {
             display: block;
+        }
+    }
+
+    .page-alert-button {
+        margin-top: @grid-l;
+        .gradient(@page-alert-button-background, darken(@page-alert-button-background, 10%));
+        border-color: darken(@page-alert-button-background, 10%) darken(@page-alert-button-background, 15%) darken(@page-alert-button-background, 20%);
+        color: @page-alert-button-color;
+        .box-shadow(inset 0 1px 2px -1px darken(@page-alert-button-background, 15%), 0 1px 0 fadeout(@page-alert-background-start, 25%));
+        text-shadow: 0 1px 1px darken(@page-alert-button-background, 30%);
+        font-size: @font-xs;
+
+        &.active {
+            background: darken(@page-alert-button-background, 15%);
+            border-color: darken(@page-alert-button-background, 25%) darken(@page-alert-button-background, 30%) darken(@page-alert-button-background, 40%);
         }
     }
 }
