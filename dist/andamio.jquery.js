@@ -10779,12 +10779,6 @@ Andamio.tmgcontainer = (function () {
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio */
 
-/**
- * Provides methods for storing HTML documents offline
- * @author Jeroen Coumans
- * @class store
- * @namespace APP
- */
 Andamio.cache = (function () {
 
     var cache;
@@ -10891,12 +10885,16 @@ Andamio.page = (function () {
                 var status = xhr.status,
                     errorMessage = '<a href="javascript:void(0)" class="action-refresh">' + Andamio.i18n.ajaxGeneralError + '<br>' + type + " " + status + '<br>' + Andamio.i18n.ajaxRetry + '</a>';
 
-                if (type === "timeout") {
+                switch(type) {
+
+                case "timeout":
                     Andamio.connection.goOffline();
-                } else {
+                    break;
+                case "error":
                     if (Andamio.connection.status) {
                         Andamio.alert.show(errorMessage);
                     }
+                    break;
                 }
             },
 
@@ -11161,7 +11159,6 @@ Andamio.pager = (function () {
 
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global $, Andamio */
-
 Andamio.dom.pageAlert = $(".js-page-alert");
 
 Object.defineProperties(Andamio.dom, {
@@ -11178,11 +11175,23 @@ Object.defineProperties(Andamio.dom, {
     }
 });
 
+/**
+ * Controls global alerts
+ * @author Jeroen Coumans
+ * @class alert
+ * @namespace Andamio
+ */
 Andamio.alert = (function () {
 
     var isActive;
 
     return {
+
+        /**
+         * Show alert
+         * @method show
+         * @param {String} msg the message of the alert
+         */
         show: function (msg) {
 
             if (msg) {
@@ -11194,6 +11203,10 @@ Andamio.alert = (function () {
             Andamio.dom.pageAlert.show();
         },
 
+        /**
+         * Hide alert
+         * @method hide
+         */
         hide: function () {
 
             isActive = false;
@@ -11201,11 +11214,20 @@ Andamio.alert = (function () {
             Andamio.dom.pageAlert.hide();
         },
 
+        /**
+         * Status of alert
+         * @method status
+         * @return {Boolean} true when alert is displayed, false when alert is hidden
+         */
         get status() {
 
             return isActive;
         },
 
+        /**
+         * Initialize variables and attach listeners
+         * @method init
+         */
         init: function () {
 
             isActive = Andamio.dom.html.hasClass("has-alert");
@@ -12237,12 +12259,6 @@ Andamio.views = (function () {
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio */
 
-/**
- * Core module for initializing capabilities and modules
- * @author Jeroen Coumans
- * @class init
- * @namespace APP
- */
 Andamio.init = function (options) {
 
     // Apply user parameters

@@ -1,12 +1,6 @@
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio */
 
-/**
- * Core module for initializing capabilities and modules
- * @author Jeroen Coumans
- * @class init
- * @namespace APP
- */
 Andamio.init = function (options) {
 
     // Apply user parameters

@@ -1,12 +1,6 @@
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio */
 
-/**
- * Provides methods for storing HTML documents offline
- * @author Jeroen Coumans
- * @class store
- * @namespace APP
- */
 Andamio.cache = (function () {
 
     var cache;

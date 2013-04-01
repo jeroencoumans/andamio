@@ -23,12 +23,16 @@ Andamio.page = (function () {
                 var status = xhr.status,
                     errorMessage = '<a href="javascript:void(0)" class="action-refresh">' + Andamio.i18n.ajaxGeneralError + '<br>' + type + " " + status + '<br>' + Andamio.i18n.ajaxRetry + '</a>';
 
-                if (type === "timeout") {
+                switch(type) {
+
+                case "timeout":
                     Andamio.connection.goOffline();
-                } else {
+                    break;
+                case "error":
                     if (Andamio.connection.status) {
                         Andamio.alert.show(errorMessage);
                     }
+                    break;
                 }
             },
 
