@@ -1599,12 +1599,14 @@ Andamio.views = (function () {
 
             if (url) {
 
+                var self = this;
                 view.content[0].innerHTML = "";
                 Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view, "load"]);
 
                 Andamio.page.load(url, expiration, true, function (response) {
 
                     view.content[0].innerHTML = response;
+                    self.currentUrl = url;
 
                     if (typeof scrollPosition === "number") {
                         view.scroller[0].scrollTop = scrollPosition;
@@ -1623,10 +1625,6 @@ Andamio.views = (function () {
         pushView: function (view, url, expiration, scrollPosition) {
 
             this.currentView = view;
-
-            if (url) {
-                this.currentUrl = url;
-            }
 
             if (this.previousView) {
                 this.scrollPosition = this.previousView.scroller[0].scrollTop;
