@@ -106,9 +106,7 @@ Andamio.nav = (function () {
                 }
 
                 if (title) {
-                    Andamio.dom.doc.one("Andamio:views:activateView:finish", function () {
-                        Andamio.views.parentView.title = title;
-                    });
+                    Andamio.views.parentView.title = title;
                 }
 
                 if (url) {
