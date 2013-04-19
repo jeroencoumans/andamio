@@ -12082,7 +12082,7 @@ Andamio.views = (function () {
                     this.modalView.slide("slide-default");
                 }
 
-                this.pushView(this.modalView, url, expiration);
+                this.pushView(this.modalView, url, expiration, 0);
                 this.modalCount++;
             }
         },
@@ -12227,6 +12227,8 @@ Andamio.views = (function () {
 
                 target = $(event.currentTarget),
                 url = Andamio.util.getUrl(target);
+
+                if (Andamio.nav.status) Andamio.nav.hide();
 
                 self.pushModal(url);
             }, true);

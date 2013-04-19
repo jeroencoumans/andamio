@@ -1331,6 +1331,10 @@ video {
   -webkit-transform: translate(0, -100%) translateZ(0);
   transform: translate(0, -100%) translateZ(0);
 }
+.slide-default {
+  -webkit-transform: translate(0, 0) translateZ(0);
+  transform: translate(0, 0) translateZ(0);
+}
 .slide-in-from-left {
   -webkit-transform: translate(0, 0) translateZ(0);
   transform: translate(0, 0) translateZ(0);
