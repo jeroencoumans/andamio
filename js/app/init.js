@@ -6,6 +6,11 @@ Andamio.init = function (options) {
     // Apply user parameters
     Andamio.config.init(options);
 
+    // Show UI as soon as possible
+    if (Andamio.config.tmgcontainer) {
+        Andamio.tmgcontainer.init();
+    }
+
     // Initialize the rest
     Andamio.alert.init();
     Andamio.cache.init();
@@ -18,9 +23,5 @@ Andamio.init = function (options) {
 
     if (Andamio.config.webapp) {
         Andamio.tabs.init();
-    }
-
-    if (Andamio.config.tmgcontainer) {
-        Andamio.tmgcontainer.init();
     }
 };
