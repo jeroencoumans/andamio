@@ -372,6 +372,12 @@ sup {
   right: 0;
   bottom: 0;
 }
+.display-none {
+  display: none;
+}
+.display-block {
+  display: block;
+}
 /***
 
     Makes an element animate from one state to another.
