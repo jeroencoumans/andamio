@@ -437,6 +437,7 @@ Andamio.views = (function () {
             childView = this.childView;
             childViewAlt = this.childViewAlt;
             modalView = this.modalView;
+            self.resetViews();
 
             if (typeof Andamio.config.initialView === "string") {
                 self.openParentPage(Andamio.config.initialView);
