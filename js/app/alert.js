@@ -40,8 +40,7 @@ Andamio.alert = (function () {
             }
 
             isActive = true;
-            Andamio.dom.html.addClass("has-alert");
-            Andamio.dom.pageAlert.show();
+            Andamio.dom.pageAlert.removeClass("none");
         },
 
         /**
@@ -51,8 +50,7 @@ Andamio.alert = (function () {
         hide: function () {
 
             isActive = false;
-            Andamio.dom.html.removeClass("has-alert");
-            Andamio.dom.pageAlert.hide();
+            Andamio.dom.pageAlert.addClass("none");
         },
 
         /**
@@ -71,7 +69,7 @@ Andamio.alert = (function () {
          */
         init: function () {
 
-            isActive = Andamio.dom.html.hasClass("has-alert");
+            isActive = false;
             Andamio.events.attach(".action-hide-alert", this.hide);
             Andamio.dom.doc.on("Andamio:views:activateView:start", this.hide);
         }
