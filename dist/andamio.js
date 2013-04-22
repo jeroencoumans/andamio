@@ -813,8 +813,7 @@ Andamio.alert = (function () {
             }
 
             isActive = true;
-            Andamio.dom.html.addClass("has-alert");
-            Andamio.dom.pageAlert.show();
+            Andamio.dom.pageAlert.removeClass("none");
         },
 
         /**
@@ -824,8 +823,7 @@ Andamio.alert = (function () {
         hide: function () {
 
             isActive = false;
-            Andamio.dom.html.removeClass("has-alert");
-            Andamio.dom.pageAlert.hide();
+            Andamio.dom.pageAlert.addClass("none");
         },
 
         /**
@@ -844,7 +842,7 @@ Andamio.alert = (function () {
          */
         init: function () {
 
-            isActive = Andamio.dom.html.hasClass("has-alert");
+            isActive = false;
             Andamio.events.attach(".action-hide-alert", this.hide);
             Andamio.dom.doc.on("Andamio:views:activateView:start", this.hide);
         }
@@ -883,22 +881,19 @@ Andamio.loader = (function () {
                 Andamio.dom.pageLoaderText = msg;
             }
 
-            Andamio.dom.html.addClass("has-loader");
-
             if (Andamio.config.tmgcontainer) {
                 if (navigator.spinner) {
                     navigator.spinner.show({"message": msg});
                 }
             }
             else {
-                Andamio.dom.pageLoader.show();
+                Andamio.dom.pageLoader.removeClass("display-none");
             }
         },
 
         hide: function () {
 
             isActive = false;
-            Andamio.dom.html.removeClass("has-loader");
 
             if (Andamio.config.tmgcontainer) {
                 if (navigator.spinner) {
@@ -906,7 +901,7 @@ Andamio.loader = (function () {
                 }
             }
             else {
-                Andamio.dom.pageLoader.hide();
+                Andamio.dom.pageLoader.addClass("display-none");
             }
         },
 
@@ -917,7 +912,7 @@ Andamio.loader = (function () {
 
         init: function () {
 
-            isActive = Andamio.dom.html.hasClass("has-loader");
+            isActive = false;
 
             var self = this,
                 timeoutToken;
@@ -1818,6 +1813,7 @@ Andamio.views = (function () {
             childView = this.childView;
             childViewAlt = this.childViewAlt;
             modalView = this.modalView;
+            self.resetViews();
 
             if (typeof Andamio.config.initialView === "string") {
                 self.openParentPage(Andamio.config.initialView);
@@ -1874,6 +1870,11 @@ Andamio.init = function (options) {
     // Apply user parameters
     Andamio.config.init(options);
 
+    // Show UI as soon as possible
+    if (Andamio.config.tmgcontainer) {
+        Andamio.tmgcontainer.init();
+    }
+
     // Initialize the rest
     Andamio.alert.init();
     Andamio.cache.init();
@@ -1886,9 +1887,5 @@ Andamio.init = function (options) {
 
     if (Andamio.config.webapp) {
         Andamio.tabs.init();
-    }
-
-    if (Andamio.config.tmgcontainer) {
-        Andamio.tmgcontainer.init();
     }
 };
