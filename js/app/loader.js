@@ -30,22 +30,19 @@ Andamio.loader = (function () {
                 Andamio.dom.pageLoaderText = msg;
             }
 
-            Andamio.dom.html.addClass("has-loader");
-
             if (Andamio.config.tmgcontainer) {
                 if (navigator.spinner) {
                     navigator.spinner.show({"message": msg});
                 }
             }
             else {
-                Andamio.dom.pageLoader.show();
+                Andamio.dom.pageLoader.removeClass("display-none");
             }
         },
 
         hide: function () {
 
             isActive = false;
-            Andamio.dom.html.removeClass("has-loader");
 
             if (Andamio.config.tmgcontainer) {
                 if (navigator.spinner) {
@@ -53,7 +50,7 @@ Andamio.loader = (function () {
                 }
             }
             else {
-                Andamio.dom.pageLoader.hide();
+                Andamio.dom.pageLoader.addClass("display-none");
             }
         },
 
@@ -64,7 +61,7 @@ Andamio.loader = (function () {
 
         init: function () {
 
-            isActive = Andamio.dom.html.hasClass("has-loader");
+            isActive = false;
 
             var self = this,
                 timeoutToken;
