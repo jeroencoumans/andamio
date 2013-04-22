@@ -87,12 +87,12 @@
         <div class="js-content page-content overthrow"></div>
     </div>
 
-    <div class="js-page-loader page-loader" style="display:none">
+    <div class="js-page-loader page-loader display-none">
         <i class="js-page-loader-spinner page-loader-spinner"></i>
         <div class="js-page-loader-text page-loader-text">Loading&hellip;</div>
     </div>
 
-    <div class="js-page-alert page-alert" style="display:none">
+    <div class="js-page-alert page-alert display-none">
         <div class="js-page-alert-text page-alert-text"></div>
         <a href="javascript:void(0)" class="action-hide-alert page-alert-button button button-block">Close</a>
     </div>
@@ -101,129 +101,127 @@
     <!--<script src="../dist/andamio.jquery.js"></script>-->
     <script>
 
-            var parentPager,
-                parentSlideshow,
-                childPager,
-                childSlideshow;
+    // Yes, everything is available so just start it up already
+    var parentPager,
+        parentSlideshow,
+        childPager,
+        childSlideshow;
 
-        $(document).ready(function() {
+    // Setup listeners for activating pager and slideshow
+    Andamio.dom.doc.on("Andamio:views:activateView:finish", function () {
 
-            // Setup listeners for activating pager and slideshow
-            Andamio.dom.doc.on("Andamio:views:activateView:finish", function () {
+        switch (Andamio.views.currentView) {
 
-                switch (Andamio.views.currentView) {
+        case Andamio.views.parentView:
 
-                case Andamio.views.parentView:
+            if (parentPager) {
+                console.log("deactivate pager");
 
-                    if (parentPager) {
-                        console.log("deactivate pager");
-
-                        parentPager.disable();
-                        parentPager = null;
-                    }
-
-                    var pagerEl = Andamio.views.currentView.content.find(".js-pager-list");
-
-                    if (pagerEl.length) {
-
-                        console.log("activate pager");
-
-                        parentPager = Andamio.pager.init({
-                            autoFetch           : true,
-                            autoFetchMax        : 2,
-                            autoFetchThreshold  : 300,
-                            url                 : Andamio.config.server + "pager/",
-                            callback            : function (pageNumber) {
-                                console.log("Loading page " + pageNumber);
-                            },
-                        });
-                    }
-
-                    if (parentSlideshow) {
-                        console.log("deactivate parent slideshow");
-
-                        parentSlideshow.destroy();
-                        parentSlideshow = null;
-                    }
-
-                    var slideshowEl = Andamio.views.currentView.content.find(".slideshow-wrapper").attr("id");
-
-                    if (slideshowEl) {
-
-                        console.log("activate parent slideshow");
-
-                        parentSlideshow = new Andamio.slideshow.init(slideshowEl, null, function (slideNumber) {
-                            console.log("Swiped item " + slideNumber);
-                        });
-                    }
-
-                    break;
-
-                case Andamio.views.childView:
-                case Andamio.views.childViewAlt:
-
-                    if (childPager) {
-                        console.log("deactivate pager");
-
-                        childPager.disable();
-                        childPager = null;
-                    }
-
-                    var pagerEl = Andamio.views.currentView.content.find(".js-pager-list");
-
-                    if (pagerEl.length) {
-
-                        console.log("activate pager");
-
-                        childPager = Andamio.pager.init({
-                            autoFetch           : true,
-                            autoFetchMax        : 2,
-                            autoFetchThreshold  : 300,
-                            url                 : Andamio.config.server + "pager/",
-                            callback            : function (pageNumber) {
-                                console.log("Loading page " + pageNumber);
-                            },
-                        });
-                    }
-
-                    if (childSlideshow) {
-                        console.log("deactivate child slideshow");
-
-                        childSlideshow.destroy();
-                        childSlideshow = null;
-                    }
-
-                    var slideshowEl = Andamio.views.currentView.content.find(".slideshow-wrapper").attr("id");
-
-                    if (slideshowEl) {
-
-                        console.log("activate child slideshow");
-
-                        childSlideshow = Andamio.slideshow.init(slideshowEl, null, function (slideNumber) {
-                            console.log("Swiped item " + slideNumber);
-                        });
-                    }
-
-                    break;
-                }
-            });
-
-            // Initialize
-            Andamio.init({
-                title: "Andamio",
-                initialView: "blocks/parent.html",
-                social: {
-                    twitter: "jeroencoumans",
-                    facebook: 497899636895210
-                }
-            });
-
-            // Setup pull to refresh
-            if (Andamio.config.webapp) {
-                Andamio.pulltorefresh.init();
+                parentPager.disable();
+                parentPager = null;
             }
 
-        });
+            var pagerEl = Andamio.views.currentView.content.find(".js-pager-list");
+
+            if (pagerEl.length) {
+
+                console.log("activate pager");
+
+                parentPager = Andamio.pager.init({
+                    autoFetch           : true,
+                    autoFetchMax        : 2,
+                    autoFetchThreshold  : 300,
+                    url                 : Andamio.config.server + "pager/",
+                    callback            : function (pageNumber) {
+                        console.log("Loading page " + pageNumber);
+                    },
+                });
+            }
+
+            if (parentSlideshow) {
+                console.log("deactivate parent slideshow");
+
+                parentSlideshow.destroy();
+                parentSlideshow = null;
+            }
+
+            var slideshowEl = Andamio.views.currentView.content.find(".slideshow-wrapper").attr("id");
+
+            if (slideshowEl) {
+
+                console.log("activate parent slideshow");
+
+                parentSlideshow = new Andamio.slideshow.init(slideshowEl, null, function (slideNumber) {
+                    console.log("Swiped item " + slideNumber);
+                });
+            }
+
+            break;
+
+        case Andamio.views.childView:
+        case Andamio.views.childViewAlt:
+
+            if (childPager) {
+                console.log("deactivate pager");
+
+                childPager.disable();
+                childPager = null;
+            }
+
+            var pagerEl = Andamio.views.currentView.content.find(".js-pager-list");
+
+            if (pagerEl.length) {
+
+                console.log("activate pager");
+
+                childPager = Andamio.pager.init({
+                    autoFetch           : true,
+                    autoFetchMax        : 2,
+                    autoFetchThreshold  : 300,
+                    url                 : Andamio.config.server + "pager/",
+                    callback            : function (pageNumber) {
+                        console.log("Loading page " + pageNumber);
+                    },
+                });
+            }
+
+            if (childSlideshow) {
+                console.log("deactivate child slideshow");
+
+                childSlideshow.destroy();
+                childSlideshow = null;
+            }
+
+            var slideshowEl = Andamio.views.currentView.content.find(".slideshow-wrapper").attr("id");
+
+            if (slideshowEl) {
+
+                console.log("activate child slideshow");
+
+                childSlideshow = Andamio.slideshow.init(slideshowEl, null, function (slideNumber) {
+                    console.log("Swiped item " + slideNumber);
+                });
+            }
+
+            break;
+        }
+    });
+
+    // Initialize
+    Andamio.init({
+        title: "Andamio",
+        initialView: "blocks/parent.html",
+        social: {
+            twitter: "jeroencoumans",
+            facebook: 497899636895210
+        }
+    });
+
+    // Setup pull to refresh
+    if (Andamio.config.webapp) {
+        Andamio.pulltorefresh.init();
+    }
+
     </script>
 
 </body>
