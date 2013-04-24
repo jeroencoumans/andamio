@@ -465,7 +465,6 @@ sup {
 .webapp .child-view-alternate,
 .webapp .modal-view {
   border-radius: 5px 5px 0 0;
-  -webkit-background-clip: padding;
   background-clip: padding-box;
   position: absolute;
   top: 0;
@@ -528,7 +527,6 @@ sup {
 }
 .webapp .page-header {
   border-radius: 5px 5px 0 0;
-  -webkit-background-clip: padding;
   background-clip: padding-box;
 }
 /***
@@ -651,7 +649,6 @@ sup {
   width: 100%;
   height: 100%;
   border-radius: 5px 5px 0 0;
-  -webkit-background-clip: padding;
   background-clip: padding-box;
 }
 .webapp.has-navigation .page-view,
@@ -875,7 +872,6 @@ ol {
 .table-view-grouped .table-cell:first-of-type {
   border-top: 1px solid #a2a2a2;
   border-radius: 5px 5px 0 0;
-  -webkit-background-clip: padding;
   background-clip: padding-box;
 }
 .table-view-grouped .table-cell:last-of-type {
@@ -1017,7 +1013,6 @@ tr:first-child {
   background: #a2a2a2;
   border: #626262;
   border-radius: 2px;
-  -webkit-background-clip: padding;
   background-clip: padding-box;
 }
 /***
@@ -1623,7 +1618,6 @@ a {
 .page-alert {
   padding: 20px;
   border-radius: 10px;
-  -webkit-background-clip: padding;
   background-clip: padding-box;
   text-align: center;
   background-color: #840101;
@@ -1846,7 +1840,6 @@ a {
   -webkit-box-shadow: 0 -1px 1px #ffffff, 0 1px 3px #343434;
   box-shadow: 0 -1px 1px #ffffff, 0 1px 3px #343434;
   border-radius: 20px;
-  -webkit-background-clip: padding;
   background-clip: padding-box;
   color: #393939;
   font-weight: bold;
@@ -1883,7 +1876,6 @@ a {
   box-shadow: 0 1px 0 rgba(204, 204, 204, 0.75);
   border: 1px solid #b3b3b3;
   border-radius: 2px;
-  -webkit-background-clip: padding;
   background-clip: padding-box;
   color: #050505;
   text-shadow: 0 1px 1px #e6e6e6;
@@ -1915,7 +1907,6 @@ a {
   box-shadow: inset 0 1px 2px #121212;
   border-bottom: 1px solid #5e5e5e;
   border-radius: 2px;
-  -webkit-background-clip: padding;
   background-clip: padding-box;
   color: #ffffff;
   font-weight: bold;
@@ -1955,7 +1946,6 @@ a {
 ***/
 .button-wrapper {
   border-radius: 4px;
-  -webkit-background-clip: padding;
   background-clip: padding-box;
   padding: 3px 4px;
   border-top: 1px solid rgba(0, 0, 0, 0.8);
