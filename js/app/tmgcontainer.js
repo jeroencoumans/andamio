@@ -3,7 +3,7 @@
 
 Andamio.tmgcontainer = (function () {
 
-    var target, href, scroller, now;
+    var scroller, now;
 
     return {
         init: function () {
@@ -19,10 +19,10 @@ Andamio.tmgcontainer = (function () {
                 cordova.exec(null, null, "SplashScreen", "hide", []);
 
                 // Listens to all clicks on anchor tags and opens them in Cordova popover if it's an external URL
-                Andamio.events.attach('a[target="_blank"]', function (event) {
+                Andamio.events.attach('.action-external', function (event) {
 
-                    target  = $(event.currentTarget),
-                    href = target.attr("href");
+                    var target  = $(event.currentTarget),
+                        href = target.attr("href");
 
                     navigator.utility.openUrl(href, "popover");
                     return false;

@@ -2234,7 +2234,7 @@ if ( window.jQuery || window.Zepto ) {
 /**
  * @preserve FastClick: polyfill to remove click delays on browsers with touch UIs.
  *
- * @version 0.6.1
+ * @version 0.6.4
  * @codingstandard ftlabs-jsv2
  * @copyright The Financial Times Limited [All Rights Reserved]
  * @license MIT License (see LICENSE.txt)
@@ -2329,8 +2329,7 @@ function FastClick(layer) {
     /** @type function() */
     this.onTouchCancel = function() { return FastClick.prototype.onTouchCancel.apply(self, arguments); };
 
-    // Devices that don't support touch don't need FastClick
-    if (typeof window.ontouchstart === 'undefined') {
+    if (FastClick.notNeeded()) {
         return;
     }
 
@@ -2429,23 +2428,20 @@ FastClick.prototype.deviceIsIOSWithBadTarget = FastClick.prototype.deviceIsIOS &
  */
 FastClick.prototype.needsClick = function(target) {
     'use strict';
-    switch (target.nodeName.toLowerCase()) {
-    case 'button':
-    case 'input':
+    var nodeName = target.nodeName.toLowerCase();
+
+    if (nodeName === 'button' || nodeName === 'input') {
 
         // File inputs need real clicks on iOS 6 due to a browser bug (issue #68)
-        if (this.deviceIsIOS && target.type === 'file') {
+        // Don't send a synthetic click to disabled inputs (issue #62)
+        if ((this.deviceIsIOS && target.type === 'file') || target.disabled) {
             return true;
         }
-
-        // Don't send a synthetic click to disabled inputs (issue #62)
-        return target.disabled;
-    case 'label':
-    case 'video':
+    } else if (nodeName === 'label' || nodeName === 'video') {
         return true;
-    default:
-        return (/\bneedsclick\b/).test(target.className);
     }
+
+    return (/\bneedsclick\b/).test(target.className);
 };
 
 
@@ -2760,10 +2756,7 @@ FastClick.prototype.onTouchEnd = function(event) {
     // real clicks or if it is in the whitelist in which case only non-programmatic clicks are permitted.
     if (!this.needsClick(targetElement)) {
         event.preventDefault();
-        var self = this;
-        setTimeout(function(){
-            self.sendClick(targetElement, event);
-        }, 0);
+        this.sendClick(targetElement, event);
     }
 
     return false;
@@ -2889,6 +2882,34 @@ FastClick.prototype.destroy = function() {
 };
 
 
+FastClick.notNeeded = function() {
+    'use strict';
+    var metaViewport;
+
+    // Devices that don't support touch don't need FastClick
+    if (typeof window.ontouchstart === 'undefined') {
+        return true;
+    }
+
+    if ((/Chrome\/[0-9]+/).test(navigator.userAgent)) {
+
+        // Chrome on Android with user-scalable="no" doesn't need FastClick (issue #89)
+        if (FastClick.prototype.deviceIsAndroid) {
+            metaViewport = document.querySelector('meta[name=viewport]');
+            if (metaViewport && metaViewport.content.indexOf('user-scalable=no') !== -1) {
+                return true;
+            }
+
+        // Chrome desktop doesn't need FastClick (issue #15)
+        } else {
+            return true;
+        }
+    }
+
+    return false;
+};
+
+
 /**
  * Factory method for creating a FastClick object
  *
@@ -2907,11 +2928,11 @@ if (typeof define !== 'undefined' && define.amd) {
         'use strict';
         return FastClick;
     });
-}
-
-if (typeof module !== 'undefined' && module.exports) {
+} else if (typeof module !== 'undefined' && module.exports) {
     module.exports = FastClick.attach;
     module.exports.FastClick = FastClick;
+} else {
+    window.FastClick = FastClick;
 }
 /**
  * lscache library
@@ -3528,7 +3549,7 @@ Andamio.util.delay = (function () {
 
 Andamio.tmgcontainer = (function () {
 
-    var target, href, scroller, now;
+    var scroller, now;
 
     return {
         init: function () {
@@ -3544,10 +3565,10 @@ Andamio.tmgcontainer = (function () {
                 cordova.exec(null, null, "SplashScreen", "hide", []);
 
                 // Listens to all clicks on anchor tags and opens them in Cordova popover if it's an external URL
-                Andamio.events.attach('a[target="_blank"]', function (event) {
+                Andamio.events.attach('.action-external', function (event) {
 
-                    target  = $(event.currentTarget),
-                    href = target.attr("href");
+                    var target  = $(event.currentTarget),
+                        href = target.attr("href");
 
                     navigator.utility.openUrl(href, "popover");
                     return false;
