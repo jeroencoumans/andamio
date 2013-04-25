@@ -4299,7 +4299,16 @@ Andamio.pulltorefresh = (function () {
         scrollTop,
         options;
 
+    function onTouchStart() {
+
+        // store the scrollTop to determine if we need to set a timeout or not
+        scrollTop = options.scroller[0].scrollTop;
+    }
+
     function onTouchMove() {
+
+        // don't bother doing anything if the stored scrollTop wouldn't result in an actual PTR
+        if (scrollTop > options.offset) return;
 
         scrollTop = options.scroller[0].scrollTop;
 
@@ -4321,13 +4330,21 @@ Andamio.pulltorefresh = (function () {
 
     function onTouchEnd() {
 
+        if (scrollTop > options.offset) return;
+
         scrollTop = options.scroller[0].scrollTop;
 
         if (scrollTop < options.threshold) {
 
             isLoading = true;
             options.scroller.addClass("is-refreshing").removeClass("can-refresh");
-            Andamio.views.refreshView(null, onRefreshEnd);
+            Andamio.views.currentView.content[0].innerHTML = "";
+            Andamio.loader.show();
+
+            // Set a hardcoded delay to actually refresh, since it sometimes happens so fast it causes a jarring experience
+            Andamio.util.delay(function () {
+                Andamio.views.refreshView(null, onRefreshEnd);
+            }, 300);
         }
     }
 
@@ -4351,6 +4368,7 @@ Andamio.pulltorefresh = (function () {
             isActive = true;
             options.scroller.addClass("has-pull-to-refresh")
                 .on("touchmove", onTouchMove)
+                .on("touchstart", onTouchStart)
                 .on("touchend", onTouchEnd);
         },
 
@@ -4359,6 +4377,7 @@ Andamio.pulltorefresh = (function () {
             isActive = false;
             options.scroller.removeClass("has-pull-to-refresh")
                 .off("touchmove", onTouchMove)
+                .off("touchstart", onTouchStart)
                 .off("touchend", onTouchEnd);
         },
 
@@ -4370,7 +4389,8 @@ Andamio.pulltorefresh = (function () {
             options = {
                 scroller  : Andamio.views.parentView.scroller,
                 callback  : function () {},
-                threshold : -50
+                threshold : -50,
+                offset    : 150
             };
 
             $.extend(options, params);
