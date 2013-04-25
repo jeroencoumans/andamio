@@ -40,7 +40,7 @@ Andamio.alert = (function () {
             }
 
             isActive = true;
-            Andamio.dom.pageAlert.removeClass("none");
+            Andamio.dom.pageAlert.removeClass("display-none");
         },
 
         /**
@@ -50,7 +50,7 @@ Andamio.alert = (function () {
         hide: function () {
 
             isActive = false;
-            Andamio.dom.pageAlert.addClass("none");
+            Andamio.dom.pageAlert.addClass("display-none");
         },
 
         /**
