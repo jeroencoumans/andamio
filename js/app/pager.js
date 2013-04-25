@@ -25,7 +25,7 @@ Andamio.pager = (function () {
 
         // Private variables
         this.loadMoreAction = $('<div class="pager-action"><a href="javascript:void(0)" class="button button-block action-load-more">' + Andamio.i18n.pagerLoadMore + '</a></div>');
-        this.spinner        = $('<div class="pager-loading display-none">' + Andamio.i18n.pagerLoading + '</div></div>');
+        this.spinner        = $('<div class="pager-loading display-none"><i class="icon icon-spinner-light"></i><span class="icon-text">' + Andamio.i18n.pagerLoading + '</span></div>');
         this.noMorePages    = $('<div class="pager-action" display-none>' + Andamio.i18n.pagerNoMorePages + '</div>');
         this.scroller       = Andamio.views.currentView.scroller;
         this.scrollerHeight = this.scroller.height();

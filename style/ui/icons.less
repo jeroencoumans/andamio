@@ -1,4 +1,43 @@
+/*** Use this for an inline icon ***/
 .icon {
     display: inline-block;
     vertical-align: text-bottom;
+}
+
+/*** Convenience class when aligning icon with text ***/
+.icon-text {
+    display: inline-block;
+    vertical-align: text-bottom;
+    margin: 0 0 0 @grid-s;
+}
+
+
+/***
+
+    Icon definitions
+
+***/
+
+@nixel: url(data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==);
+
+@icon-spinner-light-url: url(../img/spinner-light.gif);
+@icon-spinner-light-width: 24px;
+@icon-spinner-light-height: 24px;
+
+@icon-spinner-dark-url: url(../img/spinner-dark.gif);
+@icon-spinner-dark-width: 32px;
+@icon-spinner-dark-height: 32px;
+
+.icon-spinner-light {
+    background: @icon-spinner-light-url 0 0 no-repeat;
+    background-size: @icon-spinner-light-width @icon-spinner-light-height;
+    width: @icon-spinner-light-width;
+    height: @icon-spinner-light-height;
+}
+
+.icon-spinner-dark {
+    background: @icon-spinner-dark-url 0 0 no-repeat;
+    background-size: @icon-spinner-dark-width @icon-spinner-dark-height;
+    width: @icon-spinner-dark-width;
+    height: @icon-spinner-dark-height;
 }
