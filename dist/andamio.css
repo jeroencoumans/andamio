@@ -1453,6 +1453,7 @@ video {
   width: 100%;
   -webkit-transform: translate(0, 0) translateZ(0);
   transform: translate(0, 0) translateZ(0);
+  z-index: 1;
 }
 .slideshow-wrapper .slideshow-item {
   float: left;
