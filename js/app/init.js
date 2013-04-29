@@ -7,9 +7,7 @@ Andamio.init = function (options) {
     Andamio.config.init(options);
 
     // Show UI as soon as possible
-    if (Andamio.config.tmgcontainer) {
-        Andamio.tmgcontainer.init();
-    }
+    Andamio.container.init();
 
     // Initialize the rest
     Andamio.alert.init();
