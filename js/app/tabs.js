@@ -55,7 +55,8 @@ Andamio.tabs = (function () {
                     url     = Andamio.util.getUrl(target),
                     title   = Andamio.util.getTitle(target);
 
-                if (Andamio.dom.pageTabsActive[0] !== target[0]) {
+                // We open the tab's URL if it's not the same as the current URL as a shortcut for the user
+                if (Andamio.views.currentUrl !== url) {
 
                     Andamio.dom.pageTabsActive = target;
 
@@ -64,12 +65,6 @@ Andamio.tabs = (function () {
                     }
 
                     Andamio.views.openParentPage(url);
-                } else {
-
-                    // We open the tab's URL if it's not the same as the current URL as a shortcut for the user
-                    if (Andamio.views.currentUrl !== url) {
-                        Andamio.views.openParentPage(url);
-                    }
                 }
             });
         }

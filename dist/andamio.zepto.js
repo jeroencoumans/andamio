@@ -3708,8 +3708,19 @@ Andamio.dom.refreshDate = $(".js-refresh-date");
 
 Andamio.page = (function () {
 
-    var updateTimestamp, updateTimer;
+    var updateTimestamp,
+        updateTimer;
 
+    /**
+     *
+     * @method doAjaxRequest
+     * @private
+     * @param url {String} the URL to load.
+     * @param expiration {Number} the time (in minutes) to store the content
+     * @param cache {Boolean} wether to use cache busting
+     * @param callback {Function} callback function that will be executed on success
+     *
+     */
     function doAjaxRequest(url, expiration, cache, callback) {
 
         $.ajax({
@@ -4610,7 +4621,8 @@ Andamio.tabs = (function () {
                     url     = Andamio.util.getUrl(target),
                     title   = Andamio.util.getTitle(target);
 
-                if (Andamio.dom.pageTabsActive[0] !== target[0]) {
+                // We open the tab's URL if it's not the same as the current URL as a shortcut for the user
+                if (Andamio.views.currentUrl !== url) {
 
                     Andamio.dom.pageTabsActive = target;
 
@@ -4619,12 +4631,6 @@ Andamio.tabs = (function () {
                     }
 
                     Andamio.views.openParentPage(url);
-                } else {
-
-                    // We open the tab's URL if it's not the same as the current URL as a shortcut for the user
-                    if (Andamio.views.currentUrl !== url) {
-                        Andamio.views.openParentPage(url);
-                    }
                 }
             });
         }

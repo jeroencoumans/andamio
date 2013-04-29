@@ -5,8 +5,19 @@ Andamio.dom.refreshDate = $(".js-refresh-date");
 
 Andamio.page = (function () {
 
-    var updateTimestamp, updateTimer;
+    var updateTimestamp,
+        updateTimer;
 
+    /**
+     *
+     * @method doAjaxRequest
+     * @private
+     * @param url {String} the URL to load.
+     * @param expiration {Number} the time (in minutes) to store the content
+     * @param cache {Boolean} wether to use cache busting
+     * @param callback {Function} callback function that will be executed on success
+     *
+     */
     function doAjaxRequest(url, expiration, cache, callback) {
 
         $.ajax({
