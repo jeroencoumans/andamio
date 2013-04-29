@@ -66,7 +66,8 @@ Andamio.tabs = (function () {
                     Andamio.views.openParentPage(url);
                 } else {
 
-                    if (Andamio.views.currentView !== Andamio.views.parentView) {
+                    // We open the tab's URL if it's not the same as the current URL as a shortcut for the user
+                    if (Andamio.views.currentUrl !== url) {
                         Andamio.views.openParentPage(url);
                     }
                 }
