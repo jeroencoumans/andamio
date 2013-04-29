@@ -1401,7 +1401,8 @@ Andamio.tabs = (function () {
                     Andamio.views.openParentPage(url);
                 } else {
 
-                    if (Andamio.views.currentView !== Andamio.views.parentView) {
+                    // We open the tab's URL if it's not the same as the current URL as a shortcut for the user
+                    if (Andamio.views.currentUrl !== url) {
                         Andamio.views.openParentPage(url);
                     }
                 }
@@ -1438,7 +1439,8 @@ Andamio.views = (function () {
     /**
      * A view has a container, optional content and position
      */
-    function View(container, position) {
+    function View(name, container, position) {
+        this.name      = name;
         this.container = container;
 
         Object.defineProperties(this, {
@@ -1583,10 +1585,10 @@ Andamio.views = (function () {
 
     return {
 
-        parentView   : new View(Andamio.dom.parentView,   "slide-default"),
-        childView    : new View(Andamio.dom.childView,    "slide-right"),
-        childViewAlt : new View(Andamio.dom.childViewAlt, "slide-right"),
-        modalView    : new View(Andamio.dom.modalView,    "slide-bottom"),
+        parentView   : new View("parentView",   Andamio.dom.parentView,   "slide-default"),
+        childView    : new View("childView",    Andamio.dom.childView,    "slide-right"),
+        childViewAlt : new View("childViewAlt", Andamio.dom.childViewAlt, "slide-right"),
+        modalView    : new View("modalView",    Andamio.dom.modalView,    "slide-bottom"),
 
         urlHistory   : [],
         viewHistory  : [],
