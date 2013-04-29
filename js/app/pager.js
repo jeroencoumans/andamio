@@ -146,10 +146,6 @@ Andamio.pager = (function () {
 
         Andamio.page.load(this.options.url + this.options.pageNumber, this.options.expires, true, function (response) {
 
-            self.loading = false;
-
-            if (! self.options.autoFetch) self.hideSpinner();
-
             var content = false,
                 children = self.options.pagerWrapper.children().length;
 
@@ -166,6 +162,10 @@ Andamio.pager = (function () {
 
             // Insert the content
             self.options.pagerWrapper[0].insertAdjacentHTML("beforeend", content);
+
+            // Done loading
+            self.loading = false;
+            if (! self.options.autoFetch) self.hideSpinner();
 
             // if less children than items per page are returned, disable the pager
             if (self.options.pagerWrapper.children().length - children < self.options.itemsPerPage) {
