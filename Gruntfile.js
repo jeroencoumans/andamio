@@ -27,7 +27,7 @@ module.exports = function(grunt) {
                     // Reusable functions
                     'js/app/events.js',
                     'js/app/util.js',
-                    'js/app/tmgcontainer.js',
+                    'js/app/container.js',
 
                     // Data handling
                     'js/app/cache.js',

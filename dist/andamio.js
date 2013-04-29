@@ -327,65 +327,72 @@ Andamio.util.delay = (function () {
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio, $, cordova */
 
-Andamio.tmgcontainer = (function () {
+Andamio.container = (function () {
 
-    var scroller, now;
+    var scroller, now,
+
+    initContainer = function () {
+
+        Andamio.config.phone = {
+            updateTimestamp: new Date(),
+            updateTimeout: 30 * 60 * 1000
+        };
+
+        // hide splashscreen
+        cordova.exec(null, null, "SplashScreen", "hide", []);
+
+        // Listens to all clicks on anchor tags and opens them in Cordova popover if it's an external URL
+        Andamio.events.attach('.action-external', function (event) {
+
+            var target  = $(event.currentTarget),
+                href = target.attr("href");
+
+            if (navigator.utility && navigator.utility.openUrl) {
+                navigator.utility.openUrl(href, "popover");
+            }
+        });
+
+        Andamio.dom.doc.on("statusbartap", function () {
+
+            scroller = Andamio.nav.status ? Andamio.dom.pageNav : Andamio.views.currentView.scroller;
+
+            if ($.scrollTo) {
+                scroller.scrollTo(0, 400);
+            } else if ($.scrollElement) {
+                $.scrollElement(scroller[0], 0);
+            }
+        });
+
+        // refresh when application is activated from background
+        Andamio.dom.doc.on("resign", function () {
+            Andamio.config.phone.updateTimestamp = new Date();
+        });
+
+        Andamio.dom.doc.on("active", function () {
+
+            now = new Date();
+
+            if (now - Andamio.config.phone.updateTimestamp > Andamio.config.phone.updateTimeout) {
+
+                if (Andamio.alert.status) {
+                    Andamio.alert.hide();
+                }
+
+                if (Andamio.views.currentView === Andamio.views.parentView) {
+                    Andamio.views.refreshView();
+                }
+            }
+        });
+    };
 
     return {
         init: function () {
 
-            Andamio.config.phone = {
-                updateTimestamp: new Date(),
-                updateTimeout: 30 * 60 * 1000
-            };
-
-            navigator.bootstrap.addConstructor(function () {
-
-                // hide splashscreen
-                cordova.exec(null, null, "SplashScreen", "hide", []);
-
-                // Listens to all clicks on anchor tags and opens them in Cordova popover if it's an external URL
-                Andamio.events.attach('.action-external', function (event) {
-
-                    var target  = $(event.currentTarget),
-                        href = target.attr("href");
-
-                    navigator.utility.openUrl(href, "popover");
-                    return false;
-                });
-
-                Andamio.dom.doc.on("statusbartap", function () {
-
-                    scroller = Andamio.nav.status ? Andamio.dom.pageNav : Andamio.views.currentView.scroller;
-
-                    if ($.scrollTo) {
-                        scroller.scrollTo(0, 400);
-                    } else if ($.scrollElement) {
-                        $.scrollElement(scroller[0], 0);
-                    }
-                });
-
-                // refresh when application is activated from background
-                Andamio.dom.doc.on("resign", function () {
-                    Andamio.config.phone.updateTimestamp = new Date();
-                });
-
-                Andamio.dom.doc.on("active", function () {
-
-                    now = new Date();
-
-                    if (now - Andamio.config.phone.updateTimestamp > Andamio.config.phone.updateTimeout) {
-
-                        if (Andamio.alert.status) {
-                            Andamio.alert.hide();
-                        }
-
-                        if (Andamio.views.currentView === Andamio.views.parentView) {
-                            Andamio.views.refreshView();
-                        }
-                    }
-                });
-            });
+            if (navigator.bootstrap) {
+                navigator.bootstrap.addConstructor(initContainer);
+            } else {
+                Andamio.dom.doc.on("deviceready", initContainer);
+            }
         }
     };
 })();
@@ -723,10 +730,6 @@ Andamio.pager = (function () {
 
         Andamio.page.load(this.options.url + this.options.pageNumber, this.options.expires, true, function (response) {
 
-            self.loading = false;
-
-            if (! self.options.autoFetch) self.hideSpinner();
-
             var content = false,
                 children = self.options.pagerWrapper.children().length;
 
@@ -743,6 +746,10 @@ Andamio.pager = (function () {
 
             // Insert the content
             self.options.pagerWrapper[0].insertAdjacentHTML("beforeend", content);
+
+            // Done loading
+            self.loading = false;
+            if (! self.options.autoFetch) self.hideSpinner();
 
             // if less children than items per page are returned, disable the pager
             if (self.options.pagerWrapper.children().length - children < self.options.itemsPerPage) {
@@ -1621,7 +1628,7 @@ Andamio.views = (function () {
 
                 var self = this;
                 view.content[0].innerHTML = "";
-                Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view, "load"]);
+                Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view, "load", url]);
 
                 Andamio.page.load(url, expiration, true, function (response) {
 
@@ -1632,7 +1639,7 @@ Andamio.views = (function () {
                         view.scroller[0].scrollTop = scrollPosition;
                     }
 
-                    Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view, "load"]);
+                    Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view, "load", url]);
                 });
             }
         },
@@ -1689,13 +1696,13 @@ Andamio.views = (function () {
 
             if (url) {
 
-                Andamio.dom.doc.trigger("Andamio:views:activateView:start", [currentView, "refresh"]);
                 currentViewContent.innerHTML = "";
+                Andamio.dom.doc.trigger("Andamio:views:activateView:start", [currentView, "refresh", url]);
 
                 Andamio.page.refresh(url, expiration, function (response) {
 
                     currentViewContent.innerHTML = response;
-                    Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [currentView, "refresh"]);
+                    Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [currentView, "refresh", url]);
 
                     if ($.isFunction(callback)) {
                         callback();
@@ -1900,9 +1907,7 @@ Andamio.init = function (options) {
     Andamio.config.init(options);
 
     // Show UI as soon as possible
-    if (Andamio.config.tmgcontainer) {
-        Andamio.tmgcontainer.init();
-    }
+    Andamio.container.init();
 
     // Initialize the rest
     Andamio.alert.init();
