@@ -1,5 +1,5 @@
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
-/*global Andamio, $ */
+/*global Andamio */
 
 Andamio.connection = (function () {
 
@@ -16,9 +16,6 @@ Andamio.connection = (function () {
 
             if (!!isOnline) {
                 isOnline = false;
-
-                var offlineMessage = $('<a href="javascript:void(0)" class="action-refresh">' + Andamio.i18n.offlineMessage + '</a>');
-                Andamio.alert.show(offlineMessage);
             }
         },
 
@@ -29,6 +26,9 @@ Andamio.connection = (function () {
         init: function () {
 
             isOnline = navigator.onLine;
+
+            Andamio.dom.win.on("offline", this.goOffline);
+            Andamio.dom.win.on("online", this.goOnline);
         }
     };
 
