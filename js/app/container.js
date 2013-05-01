@@ -44,14 +44,13 @@ Andamio.container = (function () {
 
         Andamio.dom.doc.on("active", function () {
 
-            now = new Date();
+            Andamio.util.delay(function () {
+                now = new Date();
 
-            if (now - Andamio.config.phone.updateTimestamp > Andamio.config.phone.updateTimeout) {
-
-                if (Andamio.connection.status && Andamio.views.currentView === Andamio.views.parentView) {
+                if (now - Andamio.config.phone.updateTimestamp > Andamio.config.phone.updateTimeout && navigator.connection.type !== "none" && Andamio.views.currentView === Andamio.views.parentView) {
                     Andamio.views.refreshView();
                 }
-            }
+            }, 0);
         });
     };
 
