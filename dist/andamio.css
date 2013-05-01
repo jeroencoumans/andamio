@@ -1828,6 +1828,9 @@ a {
   border: 1px solid #898989;
   color: #050505;
 }
+.alert .alert-title {
+  color: inherit;
+}
 .alert-error {
   background: #b70201;
   border: 1px solid #840101;

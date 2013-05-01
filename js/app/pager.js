@@ -24,9 +24,10 @@ Andamio.pager = (function () {
     function Pager(params) {
 
         // Private variables
-        this.loadMoreAction = $('<div class="pager-action"><a href="javascript:void(0)" class="button button-block action-load-more">' + Andamio.i18n.pagerLoadMore + '</a></div>');
+        this.errorMessage   = $('<div class="alert alert-error display-none">' + Andamio.i18n.pagerErrorMessage + '</div>');
+        this.loadMoreAction = $('<div class="pager-action"></div>').append(this.errorMessage).append($('<a href="javascript:void(0)" class="button button-block action-load-more">' + Andamio.i18n.pagerLoadMore + '</a>'));
         this.spinner        = $('<div class="pager-loading display-none"><i class="icon icon-spinner-light"></i><span class="icon-text">' + Andamio.i18n.pagerLoading + '</span></div>');
-        this.noMorePages    = $('<div class="pager-action" display-none>' + Andamio.i18n.pagerNoMorePages + '</div>');
+        this.noMorePages    = $('<div class="pager-action display-none">' + Andamio.i18n.pagerNoMorePages + '</div>');
         this.scroller       = Andamio.views.currentView.scroller;
         this.scrollerHeight = this.scroller.height();
         this.scrollerScrollHeight = this.scroller[0].scrollHeight || Andamio.dom.viewport.height();
@@ -40,11 +41,13 @@ Andamio.pager = (function () {
     }
 
     Pager.prototype.showSpinner = function () {
+        this.errorMessage.addClass("display-none");
         this.spinner.removeClass("display-none");
         this.loadMoreAction.addClass("display-none");
     };
 
     Pager.prototype.hideSpinner = function () {
+        this.errorMessage.addClass("display-none");
         this.spinner.addClass("display-none");
         this.loadMoreAction.removeClass("display-none");
     };
@@ -133,7 +136,7 @@ Andamio.pager = (function () {
         }
     };
 
-    Pager.prototype.loadNextPage = function (callback) {
+    Pager.prototype.loadNextPage = function () {
 
         if (this.loading || ! this.status) return;
 
@@ -144,37 +147,59 @@ Andamio.pager = (function () {
 
         var self = this;
 
-        Andamio.page.load(this.options.url + this.options.pageNumber, this.options.expires, true, function (response) {
+        Andamio.page.load(this.options.url + this.options.pageNumber, this.options.expires, true, function (response, errorType) {
 
-            var content = false,
-                children = self.options.pagerWrapper.children().length;
+            if (errorType) {
 
-            // Some API's return content as a JSON object
-            if (response) {
-                if ($.isPlainObject(response)) {
-                    if (! $.isEmptyObject(response.content)) {
-                        content = response.content;
+                // disable autofetching, if the connection isn't working properly, there's no use anyway
+                self.disableAutofetch();
+
+                // show the error
+                self.loadMoreAction.removeClass("display-none");
+                self.errorMessage.removeClass("display-none");
+
+                // make sure we're still able to load the same page
+                self.loading = false;
+                self.options.pageNumber--;
+            } else {
+
+                // hide the error if it was previously shown
+                self.errorMessage.addClass("display-none");
+
+                var content = false,
+                    children = self.options.pagerWrapper.children().length;
+
+                // Some API's return content as a JSON object
+                if (response) {
+                    if ($.isPlainObject(response)) {
+                        if (! $.isEmptyObject(response.content)) {
+                            content = response.content;
+                        }
+                    } else {
+                        content = response;
                     }
-                } else {
-                    content = response;
                 }
+
+                // Insert the content
+                self.options.pagerWrapper[0].insertAdjacentHTML("beforeend", content);
+
+                // if autofetch was disabled (e.g. due to network error), check if it needs to be enabled again
+                if (self.options.pageNumber < self.options.autoFetchMax) {
+                    self.enableAutofetch();
+                }
+
+                // Done loading
+                self.loading = false;
+                if (! self.options.autoFetch) self.hideSpinner();
+
+                // if less children than items per page are returned, disable the pager
+                if (self.options.pagerWrapper.children().length - children < self.options.itemsPerPage) {
+                    self.disable();
+                }
+
+                self.updateScroller();
+                if ($.isFunction(self.options.callback)) self.options.callback(self.options.pageNumber);
             }
-
-            // Insert the content
-            self.options.pagerWrapper[0].insertAdjacentHTML("beforeend", content);
-
-            // Done loading
-            self.loading = false;
-            if (! self.options.autoFetch) self.hideSpinner();
-
-            // if less children than items per page are returned, disable the pager
-            if (self.options.pagerWrapper.children().length - children < self.options.itemsPerPage) {
-                self.disable();
-            }
-
-            self.updateScroller();
-            if ($.isFunction(callback)) callback(self.options.pageNumber);
-            if ($.isFunction(self.options.callback)) self.options.callback(self.options.pageNumber);
         });
     };
 

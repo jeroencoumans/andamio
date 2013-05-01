@@ -5,68 +5,65 @@ Andamio.page = (function () {
 
     var activeRequest = null;
 
-    /**
-     *
-     * @method doRequest
-     * @private
-     * @param url {String} the URL to load.
-     * @param expiration {Number} the time (in minutes) to store the content
-     * @param cache {Boolean} wether to use cache busting
-     * @param callback {Function} callback function that will be executed on success
-     *
-     */
-    function doRequest(url, expiration, cache, callback) {
+    return {
 
-        // If there are still requests pending, cancel them
-        if (activeRequest) {
+        get activeRequest() {
+            return activeRequest;
+        },
 
-            activeRequest.abort();
-            activeRequest = null;
-        }
+        abortRequest: function () {
+            if (activeRequest) {
 
-        // Handle errors
-        function onError(xhr, type) {
+                activeRequest.abort();
+                activeRequest = null;
+            }
+        },
 
-            // type is one of: "timeout", "error", "abort", "parsererror"
-            var status = xhr.status,
-                errorMessage = (type === "timeout") ? '<h3 class="alert-title">' + Andamio.i18n.offlineMessage + '</h3>': '<h3 class="alert-title">' + Andamio.i18n.ajaxGeneralError + '</h3><p>' + type + " " + status + '</p>',
-                errorHTML = '<div class="alert alert-error">' + errorMessage + '<a href="javascript:void(0)" class="button button-primary button-block action-refresh">' + Andamio.i18n.ajaxRetry + '</a>';
+        doRequest: function (url, expiration, cache, callback) {
 
-            if (type === "timeout") {
+            // If there are still requests pending, cancel them
+            this.abortRequest();
 
-                Andamio.connection.goOffline();
+            function onError(xhr, type) {
+
+                // type is one of: "timeout", "error", "abort", "parsererror"
+                var status = xhr.status,
+                    errorMessage = (type === "timeout") ? '<h3 class="alert-title">' + Andamio.i18n.ajaxTimeout + '</h3>': '<h3 class="alert-title">' + Andamio.i18n.ajaxGeneralError + '</h3><p>' + type + " " + status + '</p>',
+                    errorHTML = '<div class="alert alert-error">' + errorMessage + '<a href="javascript:void(0)" class="button button-primary button-block action-refresh">' + Andamio.i18n.ajaxRetry + '</a>';
+
+                if (type === "timeout") {
+
+                    Andamio.connection.goOffline();
+                }
+
+                // Pass the errorHTML and error type to the callback
+                callback(errorHTML, type);
             }
 
-            callback(errorHTML, type);
-        }
+            function onSuccess(response) {
 
-        function onSuccess(response) {
+                Andamio.connection.goOnline();
+                Andamio.cache.set(url, response, expiration);
+                callback(response);
+            }
 
-            Andamio.connection.goOnline();
-            Andamio.cache.set(url, response, expiration);
-            callback(response);
-        }
+            function onComplete() {
 
-        function onComplete(xhr, status) {
+                activeRequest = null;
+            }
 
-            activeRequest = null;
-        }
-
-        activeRequest = $.ajax({
-            url: url,
-            cache: cache,
-            headers: {
-                "X-PJAX": true,
-                "X-Requested-With": "XMLHttpRequest"
-            },
-
-            error: onError,
-            success: onSuccess,
-            complete: onComplete
-        });
-    }
-
-    return {
+            activeRequest = $.ajax({
+                url: url,
+                cache: cache,
+                headers: {
+                    "X-PJAX": true,
+                    "X-Requested-With": "XMLHttpRequest"
+                },
+                error: onError,
+                success: onSuccess,
+                complete: onComplete
+            });
+        },
 
         load: function (url, expiration, cache, callback) {
 
@@ -79,7 +76,7 @@ Andamio.page = (function () {
                 callback(cachedContent);
             } else {
 
-                doRequest(url, expiration, cache, callback);
+                this.doRequest(url, expiration, cache, callback);
             }
         },
 

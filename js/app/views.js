@@ -219,7 +219,7 @@ Andamio.views = (function () {
                 view.content[0].innerHTML = "";
                 Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view, "load", url]);
 
-                Andamio.page.load(url, expiration, true, function (response) {
+                Andamio.page.load(url, expiration, true, function (response, errorType) {
 
                     view.content[0].innerHTML = response;
                     self.currentUrl = url;
@@ -228,7 +228,7 @@ Andamio.views = (function () {
                         view.scroller[0].scrollTop = scrollPosition;
                     }
 
-                    Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view, "load", url]);
+                    if (! errorType) Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view, "load", url]);
                 });
             }
         },
@@ -288,10 +288,10 @@ Andamio.views = (function () {
                 currentViewContent.innerHTML = "";
                 Andamio.dom.doc.trigger("Andamio:views:activateView:start", [currentView, "refresh", url]);
 
-                Andamio.page.refresh(url, expiration, function (response) {
+                Andamio.page.refresh(url, expiration, function (response, errorType) {
 
                     currentViewContent.innerHTML = response;
-                    Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [currentView, "refresh", url]);
+                    if (! errorType) Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [currentView, "refresh", url]);
 
                     if ($.isFunction(callback)) {
                         callback();

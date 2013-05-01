@@ -27,11 +27,12 @@ Andamio.i18n = {
     ajaxNotFound: "The page couldn't be found.",
     ajaxTimeout: "The server timed out waiting for the request.",
     ajaxServerError: "The server is having problems, try again later.",
-    ajaxRetry: "Please go back or try again.",
-    offlineMessage: "There was a problem. Is your connection working? <br>Please check and try again.",
+    ajaxRetry: "Load again",
+    offlineMessage: "It seems your internet connection is offline.",
     pagerLoadMore: "Load more",
     pagerLoading: "Loading&hellip;",
     pagerNoMorePages: "There are no more items.",
+    pagerErrorMessage: "There was an error loading more pages",
     relativeDates: {
         ago: 'ago',
         from: '',
@@ -370,18 +371,13 @@ Andamio.container = (function () {
 
         Andamio.dom.doc.on("active", function () {
 
-            now = new Date();
+            Andamio.util.delay(function () {
+                now = new Date();
 
-            if (now - Andamio.config.phone.updateTimestamp > Andamio.config.phone.updateTimeout) {
-
-                if (Andamio.alert.status) {
-                    Andamio.alert.hide();
-                }
-
-                if (Andamio.views.currentView === Andamio.views.parentView) {
+                if (now - Andamio.config.phone.updateTimestamp > Andamio.config.phone.updateTimeout && navigator.connection.type !== "none" && Andamio.views.currentView === Andamio.views.parentView) {
                     Andamio.views.refreshView();
                 }
-            }
+            }, 0);
         });
     };
 
@@ -434,19 +430,13 @@ Andamio.cache = (function () {
 
         init: function () {
 
-            if (Andamio.config.cache) {
-
-                cache = window.lscache;
-                Andamio.config.cacheExpiration = 120;
-            } else {
-                cache = false;
-            }
+            cache = Andamio.config.cache ? window.lscache : false;
         }
     };
 })();
 
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
-/*global Andamio, $ */
+/*global Andamio */
 
 Andamio.connection = (function () {
 
@@ -456,17 +446,13 @@ Andamio.connection = (function () {
 
         goOnline: function () {
             isOnline = true;
-            Andamio.alert.hide();
+            Andamio.dom.html.removeClass("is-offline");
         },
 
         goOffline: function () {
 
-            if (!!isOnline) {
-                isOnline = false;
-
-                var offlineMessage = $('<a href="javascript:void(0)" class="action-refresh">' + Andamio.i18n.offlineMessage + '</a>');
-                Andamio.alert.show(offlineMessage);
-            }
+            isOnline = false;
+            Andamio.dom.html.addClass("is-offline");
         },
 
         get status() {
@@ -476,6 +462,9 @@ Andamio.connection = (function () {
         init: function () {
 
             isOnline = navigator.onLine;
+
+            Andamio.dom.win.on("offline", this.goOffline);
+            Andamio.dom.win.on("online",  this.goOnline);
         }
     };
 
@@ -484,103 +473,82 @@ Andamio.connection = (function () {
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio, $ */
 
-Andamio.dom.refreshDate = $(".js-refresh-date");
-
 Andamio.page = (function () {
 
-    var updateTimestamp,
-        updateTimer;
+    var activeRequest = null;
 
-    /**
-     *
-     * @method doAjaxRequest
-     * @private
-     * @param url {String} the URL to load.
-     * @param expiration {Number} the time (in minutes) to store the content
-     * @param cache {Boolean} wether to use cache busting
-     * @param callback {Function} callback function that will be executed on success
-     *
-     */
-    function doAjaxRequest(url, expiration, cache, callback) {
+    return {
 
-        $.ajax({
-            url: url,
-            cache: cache,
-            headers: {
-                "X-PJAX": true,
-                "X-Requested-With": "XMLHttpRequest"
-            },
+        get activeRequest() {
+            return activeRequest;
+        },
 
-            error: function (xhr, type) {
+        abortRequest: function () {
+            if (activeRequest) {
+
+                activeRequest.abort();
+                activeRequest = null;
+            }
+        },
+
+        doRequest: function (url, expiration, cache, callback) {
+
+            // If there are still requests pending, cancel them
+            this.abortRequest();
+
+            function onError(xhr, type) {
 
                 // type is one of: "timeout", "error", "abort", "parsererror"
                 var status = xhr.status,
-                    errorMessage = '<a href="javascript:void(0)" class="action-refresh">' + Andamio.i18n.ajaxGeneralError + '<br>' + type + " " + status + '<br>' + Andamio.i18n.ajaxRetry + '</a>';
+                    errorMessage = (type === "timeout") ? '<h3 class="alert-title">' + Andamio.i18n.ajaxTimeout + '</h3>': '<h3 class="alert-title">' + Andamio.i18n.ajaxGeneralError + '</h3><p>' + type + " " + status + '</p>',
+                    errorHTML = '<div class="alert alert-error">' + errorMessage + '<a href="javascript:void(0)" class="button button-primary button-block action-refresh">' + Andamio.i18n.ajaxRetry + '</a>';
 
-                switch(type) {
+                if (type === "timeout") {
 
-                case "timeout":
                     Andamio.connection.goOffline();
-                    break;
-                case "error":
-                    if (Andamio.connection.status) {
-                        Andamio.alert.show(errorMessage);
-                    }
-                    break;
                 }
-            },
 
-            success: function (response) {
+                // Pass the errorHTML and error type to the callback
+                callback(errorHTML, type);
+            }
+
+            function onSuccess(response) {
+
                 Andamio.connection.goOnline();
                 Andamio.cache.set(url, response, expiration);
                 callback(response);
             }
-        });
-    }
 
-    return {
-        get lastUpdate() {
-            return updateTimestamp;
-        },
+            function onComplete() {
 
-        set lastUpdate(date) {
+                activeRequest = null;
+            }
 
-            updateTimestamp = (date instanceof Date) ? date : new Date();
-            Andamio.dom.refreshDate.text(Andamio.util.relativeDate(updateTimestamp));
+            activeRequest = $.ajax({
+                url: url,
+                cache: cache,
+                headers: {
+                    "X-PJAX": true,
+                    "X-Requested-With": "XMLHttpRequest"
+                },
+                error: onError,
+                success: onSuccess,
+                complete: onComplete
+            });
         },
 
         load: function (url, expiration, cache, callback) {
 
-            clearInterval(updateTimer);
+            if (! url || ! $.isFunction(callback)) return;
 
-            var self = this,
-                doCallback = function (response) {
+            var cachedContent = Andamio.cache.get(url);
 
-                if (Andamio.dom.refreshDate.length > 0) {
-                    updateTimer = window.setInterval(function () {
-                        Andamio.dom.refreshDate.text(Andamio.util.relativeDate(self.lastUpdate));
-                    }, 60000);
-                }
+            if (cachedContent) {
 
-                if ($.isFunction(callback)) callback(response);
-            };
+                callback(cachedContent);
+            } else {
 
-            if (url) {
-
-                var cachedContent = Andamio.cache.get(url);
-
-                if (cachedContent) {
-
-                    self.lastUpdate = new Date(localStorage.getItem("lscache-" + url + "-cacheexpiration") * 60000 - (60000 * Andamio.config.cacheExpiration));
-                    doCallback(cachedContent);
-                } else {
-
-                    doAjaxRequest(url, expiration, cache, function (response) {
-
-                        self.lastUpdate = new Date();
-                        doCallback(response);
-                    });
-                }
+                this.doRequest(url, expiration, cache, callback);
             }
         },
 
@@ -619,9 +587,10 @@ Andamio.pager = (function () {
     function Pager(params) {
 
         // Private variables
-        this.loadMoreAction = $('<div class="pager-action"><a href="javascript:void(0)" class="button button-block action-load-more">' + Andamio.i18n.pagerLoadMore + '</a></div>');
+        this.errorMessage   = $('<div class="alert alert-error display-none">' + Andamio.i18n.pagerErrorMessage + '</div>');
+        this.loadMoreAction = $('<div class="pager-action"></div>').append(this.errorMessage).append($('<a href="javascript:void(0)" class="button button-block action-load-more">' + Andamio.i18n.pagerLoadMore + '</a>'));
         this.spinner        = $('<div class="pager-loading display-none"><i class="icon icon-spinner-light"></i><span class="icon-text">' + Andamio.i18n.pagerLoading + '</span></div>');
-        this.noMorePages    = $('<div class="pager-action" display-none>' + Andamio.i18n.pagerNoMorePages + '</div>');
+        this.noMorePages    = $('<div class="pager-action display-none">' + Andamio.i18n.pagerNoMorePages + '</div>');
         this.scroller       = Andamio.views.currentView.scroller;
         this.scrollerHeight = this.scroller.height();
         this.scrollerScrollHeight = this.scroller[0].scrollHeight || Andamio.dom.viewport.height();
@@ -635,11 +604,13 @@ Andamio.pager = (function () {
     }
 
     Pager.prototype.showSpinner = function () {
+        this.errorMessage.addClass("display-none");
         this.spinner.removeClass("display-none");
         this.loadMoreAction.addClass("display-none");
     };
 
     Pager.prototype.hideSpinner = function () {
+        this.errorMessage.addClass("display-none");
         this.spinner.addClass("display-none");
         this.loadMoreAction.removeClass("display-none");
     };
@@ -728,7 +699,7 @@ Andamio.pager = (function () {
         }
     };
 
-    Pager.prototype.loadNextPage = function (callback) {
+    Pager.prototype.loadNextPage = function () {
 
         if (this.loading || ! this.status) return;
 
@@ -739,37 +710,59 @@ Andamio.pager = (function () {
 
         var self = this;
 
-        Andamio.page.load(this.options.url + this.options.pageNumber, this.options.expires, true, function (response) {
+        Andamio.page.load(this.options.url + this.options.pageNumber, this.options.expires, true, function (response, errorType) {
 
-            var content = false,
-                children = self.options.pagerWrapper.children().length;
+            if (errorType) {
 
-            // Some API's return content as a JSON object
-            if (response) {
-                if ($.isPlainObject(response)) {
-                    if (! $.isEmptyObject(response.content)) {
-                        content = response.content;
+                // disable autofetching, if the connection isn't working properly, there's no use anyway
+                self.disableAutofetch();
+
+                // show the error
+                self.loadMoreAction.removeClass("display-none");
+                self.errorMessage.removeClass("display-none");
+
+                // make sure we're still able to load the same page
+                self.loading = false;
+                self.options.pageNumber--;
+            } else {
+
+                // hide the error if it was previously shown
+                self.errorMessage.addClass("display-none");
+
+                var content = false,
+                    children = self.options.pagerWrapper.children().length;
+
+                // Some API's return content as a JSON object
+                if (response) {
+                    if ($.isPlainObject(response)) {
+                        if (! $.isEmptyObject(response.content)) {
+                            content = response.content;
+                        }
+                    } else {
+                        content = response;
                     }
-                } else {
-                    content = response;
                 }
+
+                // Insert the content
+                self.options.pagerWrapper[0].insertAdjacentHTML("beforeend", content);
+
+                // if autofetch was disabled (e.g. due to network error), check if it needs to be enabled again
+                if (self.options.pageNumber < self.options.autoFetchMax) {
+                    self.enableAutofetch();
+                }
+
+                // Done loading
+                self.loading = false;
+                if (! self.options.autoFetch) self.hideSpinner();
+
+                // if less children than items per page are returned, disable the pager
+                if (self.options.pagerWrapper.children().length - children < self.options.itemsPerPage) {
+                    self.disable();
+                }
+
+                self.updateScroller();
+                if ($.isFunction(self.options.callback)) self.options.callback(self.options.pageNumber);
             }
-
-            // Insert the content
-            self.options.pagerWrapper[0].insertAdjacentHTML("beforeend", content);
-
-            // Done loading
-            self.loading = false;
-            if (! self.options.autoFetch) self.hideSpinner();
-
-            // if less children than items per page are returned, disable the pager
-            if (self.options.pagerWrapper.children().length - children < self.options.itemsPerPage) {
-                self.disable();
-            }
-
-            self.updateScroller();
-            if ($.isFunction(callback)) callback(self.options.pageNumber);
-            if ($.isFunction(self.options.callback)) self.options.callback(self.options.pageNumber);
         });
     };
 
@@ -1638,7 +1631,7 @@ Andamio.views = (function () {
                 view.content[0].innerHTML = "";
                 Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view, "load", url]);
 
-                Andamio.page.load(url, expiration, true, function (response) {
+                Andamio.page.load(url, expiration, true, function (response, errorType) {
 
                     view.content[0].innerHTML = response;
                     self.currentUrl = url;
@@ -1647,7 +1640,7 @@ Andamio.views = (function () {
                         view.scroller[0].scrollTop = scrollPosition;
                     }
 
-                    Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view, "load", url]);
+                    if (! errorType) Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view, "load", url]);
                 });
             }
         },
@@ -1707,10 +1700,10 @@ Andamio.views = (function () {
                 currentViewContent.innerHTML = "";
                 Andamio.dom.doc.trigger("Andamio:views:activateView:start", [currentView, "refresh", url]);
 
-                Andamio.page.refresh(url, expiration, function (response) {
+                Andamio.page.refresh(url, expiration, function (response, errorType) {
 
                     currentViewContent.innerHTML = response;
-                    Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [currentView, "refresh", url]);
+                    if (! errorType) Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [currentView, "refresh", url]);
 
                     if ($.isFunction(callback)) {
                         callback();

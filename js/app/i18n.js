@@ -7,10 +7,11 @@ Andamio.i18n = {
     ajaxTimeout: "The server timed out waiting for the request.",
     ajaxServerError: "The server is having problems, try again later.",
     ajaxRetry: "Load again",
-    offlineMessage: "There was a problem. Is your connection working?",
+    offlineMessage: "It seems your internet connection is offline.",
     pagerLoadMore: "Load more",
     pagerLoading: "Loading&hellip;",
     pagerNoMorePages: "There are no more items.",
+    pagerErrorMessage: "There was an error loading more pages",
     relativeDates: {
         ago: 'ago',
         from: '',
