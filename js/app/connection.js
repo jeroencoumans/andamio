@@ -9,14 +9,13 @@ Andamio.connection = (function () {
 
         goOnline: function () {
             isOnline = true;
-            Andamio.alert.hide();
+            Andamio.dom.html.removeClass("is-offline");
         },
 
         goOffline: function () {
 
-            if (!!isOnline) {
-                isOnline = false;
-            }
+            isOnline = false;
+            Andamio.dom.html.addClass("is-offline");
         },
 
         get status() {
@@ -28,7 +27,7 @@ Andamio.connection = (function () {
             isOnline = navigator.onLine;
 
             Andamio.dom.win.on("offline", this.goOffline);
-            Andamio.dom.win.on("online", this.goOnline);
+            Andamio.dom.win.on("online",  this.goOnline);
         }
     };
 
