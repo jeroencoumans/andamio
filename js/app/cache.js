@@ -35,13 +35,7 @@ Andamio.cache = (function () {
 
         init: function () {
 
-            if (Andamio.config.cache) {
-
-                cache = window.lscache;
-                Andamio.config.cacheExpiration = 120;
-            } else {
-                cache = false;
-            }
+            cache = Andamio.config.cache ? window.lscache : false;
         }
     };
 })();
