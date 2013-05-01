@@ -48,11 +48,7 @@ Andamio.container = (function () {
 
             if (now - Andamio.config.phone.updateTimestamp > Andamio.config.phone.updateTimeout) {
 
-                if (Andamio.alert.status) {
-                    Andamio.alert.hide();
-                }
-
-                if (Andamio.views.currentView === Andamio.views.parentView) {
+                if (Andamio.connection.status && Andamio.views.currentView === Andamio.views.parentView) {
                     Andamio.views.refreshView();
                 }
             }
