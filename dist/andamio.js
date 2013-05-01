@@ -461,10 +461,10 @@ Andamio.connection = (function () {
 
         init: function () {
 
-            isOnline = navigator.onLine;
+            isOnline = navigator.connection ? navigator.connection.type !== "none" : navigator.onLine;
 
-            Andamio.dom.win.on("offline", this.goOffline);
-            Andamio.dom.win.on("online",  this.goOnline);
+            Andamio.dom.doc.on("offline", this.goOffline);
+            Andamio.dom.doc.on("online",  this.goOnline);
         }
     };
 
