@@ -12004,7 +12004,7 @@ Andamio.views = (function () {
         modalCount   : 0,
 
         get currentUrl()        { return last(this.urlHistory); },
-        set currentUrl(val)     { addUniq(val, this.urlHistory); }, // TODO: when opening the same URL in a new view, history gets messed up
+        set currentUrl(val)     { addUniq(val, this.urlHistory); },
 
         get previousUrl()       { return prev(this.urlHistory); },
         get currentView()       { return last(this.viewHistory); },
@@ -12157,6 +12157,12 @@ Andamio.views = (function () {
 
         pushChild: function (url, expiration) {
 
+            // Don't open the same URL, instead refresh
+            if (url === Andamio.views.currentUrl) {
+                this.refreshView();
+                return;
+            }
+
             this.childCount++;
 
             switch (this.currentView) {
@@ -12282,7 +12288,7 @@ Andamio.views = (function () {
                 target = $(event.currentTarget),
                 url = Andamio.util.getUrl(target);
 
-                if (Andamio.nav.status) Andamio.nav.hide();
+                if (Andamio.nav.status && !Andamio.config.os.tablet) Andamio.nav.hide();
 
                 self.pushModal(url);
             }, true);
