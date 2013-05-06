@@ -1642,6 +1642,9 @@ Andamio.views = (function () {
 
                     if (! errorType) Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view, "load", url]);
                 });
+            } else {
+                Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view, "load", this.currentUrl]);
+                Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view, "load", this.currentUrl]);
             }
         },
 
