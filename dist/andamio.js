@@ -554,8 +554,21 @@ Andamio.page = (function () {
 
         refresh: function (url, expiration, callback) {
 
-            Andamio.cache.delete(url);
-            this.load(url, expiration, false, callback);
+            if (! url || ! $.isFunction(callback)) return;
+
+            var cachedContent = Andamio.cache.get(url);
+
+            if (cachedContent) {
+
+                this.doRequest(url, expiration, false, function (response, error) {
+
+                    callback(error ? cachedContent : response);
+                });
+
+            } else {
+
+                this.doRequest(url, expiration, false, callback);
+            }
         }
     };
 
