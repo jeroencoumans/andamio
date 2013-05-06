@@ -66,65 +66,96 @@ Andamio.views = (function () {
      * @param direction {String} direction to which the view should slide
      */
     View.prototype.slide = function (direction) {
+
+        if (! this.position && ! this.initialPosition) return;
+
         var container = this.container,
             position = this.position;
 
         Andamio.events.lock();
 
-        // Slide in from the left
-        if (position === "slide-left" && direction === "slide-default") {
-            container.addClass("slide-in-from-left").one("webkitTransitionEnd", function () {
-                container.addClass("slide-default").removeClass("slide-left slide-right slide-in-from-left");
-            });
+        // When opening a view
+        if (direction === "slide-default") {
+
+            switch (position) {
+            case "slide-left":
+
+                // Slide in from the left
+                container.addClass("slide-in-from-left").one("webkitTransitionEnd", function () {
+                    container.addClass("slide-default").removeClass("slide-left slide-right slide-in-from-left");
+                });
+
+                break;
+
+            case "slide-right":
+
+                // Slide in from the right
+                container.addClass("slide-in-from-right").one("webkitTransitionEnd", function () {
+                    container.addClass("slide-default").removeClass("slide-right slide-left slide-in-from-right");
+                });
+
+                break;
+
+            case "slide-bottom":
+
+                // Slide in from the bottom
+                container.addClass("slide-in-from-bottom").one("webkitTransitionEnd", function () {
+                    container.addClass("slide-default").removeClass("slide-bottom slide-in-from-bottom");
+                });
+
+                break;
+
+            case "slide-top":
+
+                // Slide in from the top
+                container.addClass("slide-in-from-top").one("webkitTransitionEnd", function () {
+                    container.addClass("slide-default").removeClass("slide-top slide-in-from-top");
+                });
+
+                break;
+            }
         }
 
-        // Slide in from the right
-        if (position === "slide-right" && direction === "slide-default") {
-            container.addClass("slide-in-from-right").one("webkitTransitionEnd", function () {
-                container.addClass("slide-default").removeClass("slide-right slide-left slide-in-from-right");
-            });
-        }
+        // When closing a view
+        else if (position === "slide-default") {
 
-        // Slide in from the bottom
-        if (position === "slide-bottom" && direction === "slide-default") {
-            container.addClass("slide-in-from-bottom").one("webkitTransitionEnd", function () {
-                container.addClass("slide-default").removeClass("slide-bottom slide-in-from-bottom");
-            });
-        }
+            switch (direction) {
+            case "slide-left":
 
-        // Slide in from the top
-        if (position === "slide-top" && direction === "slide-default") {
-            container.addClass("slide-in-from-top").one("webkitTransitionEnd", function () {
-                container.addClass("slide-default").removeClass("slide-top slide-in-from-top");
-            });
-        }
+                // Slide out to the left
+                container.addClass("slide-out-to-left").one("webkitTransitionEnd", function () {
+                    container.addClass("slide-left").removeClass("slide-default slide-out-to-left");
+                });
 
-        // Slide out to the left
-        if (position === "slide-default" && direction === "slide-left") {
-            container.addClass("slide-out-to-left").one("webkitTransitionEnd", function () {
-                container.addClass("slide-left").removeClass("slide-default slide-out-to-left");
-            });
-        }
+                break;
 
-        // Slide out to the right
-        if (position === "slide-default" && direction === "slide-right") {
-            container.addClass("slide-out-to-right").one("webkitTransitionEnd", function () {
-                container.addClass("slide-right").removeClass("slide-default slide-out-to-right");
-            });
-        }
+            case "slide-right":
 
-        // Slide out to the bottom
-        if (position === "slide-default" && direction === "slide-bottom") {
-            container.addClass("slide-out-to-bottom").one("webkitTransitionEnd", function () {
-                container.addClass("slide-bottom").removeClass("slide-default slide-out-to-bottom");
-            });
-        }
+                // Slide out to the right
+                container.addClass("slide-out-to-right").one("webkitTransitionEnd", function () {
+                    container.addClass("slide-right").removeClass("slide-default slide-out-to-right");
+                });
 
-        // Slide out to the top
-        if (position === "slide-default" && direction === "slide-top") {
-            container.addClass("slide-out-to-top").one("webkitTransitionEnd", function () {
-                container.addClass("slide-top").removeClass("slide-default slide-out-to-top");
-            });
+                break;
+
+            case "slide-bottom":
+
+                // Slide out to the bottom
+                container.addClass("slide-out-to-bottom").one("webkitTransitionEnd", function () {
+                    container.addClass("slide-bottom").removeClass("slide-default slide-out-to-bottom");
+                });
+
+                break;
+
+            case "slide-top":
+
+                // Slide out to the top
+                container.addClass("slide-out-to-top").one("webkitTransitionEnd", function () {
+                    container.addClass("slide-top").removeClass("slide-default slide-out-to-top");
+                });
+
+                break;
+            }
         }
 
         // update positions
