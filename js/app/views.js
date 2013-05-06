@@ -219,6 +219,7 @@ Andamio.views = (function () {
                 view.content[0].innerHTML = "";
                 Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view, "load", url]);
 
+                // TODO: when opening a page and going back before it's loaded, the currentUrl is set to the new URL when the load finishes
                 Andamio.page.load(url, expiration, true, function (response, errorType) {
 
                     view.content[0].innerHTML = response;

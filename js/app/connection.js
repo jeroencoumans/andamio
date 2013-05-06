@@ -22,6 +22,11 @@ Andamio.connection = (function () {
             return isOnline;
         },
 
+        get type() {
+
+            return navigator.connection ? navigator.connection.type : "ethernet";
+        },
+
         init: function () {
 
             isOnline = navigator.connection ? navigator.connection.type !== "none" : navigator.onLine;
