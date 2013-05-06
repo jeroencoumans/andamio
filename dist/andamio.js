@@ -1458,124 +1458,125 @@ Andamio.views = (function () {
         this.name      = name;
         this.container = container;
 
-        Object.defineProperties(this, {
-            title: {
-                configurable: true,
-                get: function () {
-                    return this.container.find(".js-title");
-                },
-                set: function (value) {
-                    if (typeof value === "string") {
-                        this.container.find(".js-title").text(value);
-                    }
-                }
-            },
-            content: {
-                configurable: true,
-                get: function () {
-                    return this.container.hasClass("js-content") ? this.container : this.container.find(".js-content");
-                }
-            },
-            scroller: {
-                configurable: true,
-                get: function () {
-                    if (Andamio.config.webapp) {
-                        return this.container.hasClass("overthrow") ? this.container : this.container.find(".overthrow");
-                    } else {
-                        return Andamio.dom.win;
-                    }
-                }
-            },
-            active: {
-                get: function () {
-                    return this.container.hasClass("view-active");
-                },
-                set: function (value) {
-                    if (value) {
-                        this.container.addClass("view-active").removeClass("view-hidden");
-                    } else {
-                        this.container.addClass("view-hidden").removeClass("view-active");
-                    }
-                }
-            }
-        });
-
         if (position) {
             this.initialPosition = position;
             this.position = position;
-
-            /**
-             * Slide the view based on the current position and the desired direction. Used only in webapp.
-             * @method slide
-             * @param direction {String} direction to which the view should slide
-             */
-            this.slide = function (direction) {
-                var container = this.container,
-                    position = this.position;
-
-                Andamio.events.lock();
-
-                // Slide in from the left
-                if (position === "slide-left" && direction === "slide-default") {
-                    container.addClass("slide-in-from-left").one("webkitTransitionEnd", function () {
-                        container.addClass("slide-default").removeClass("slide-left slide-right slide-in-from-left");
-                    });
-                }
-
-                // Slide in from the right
-                if (position === "slide-right" && direction === "slide-default") {
-                    container.addClass("slide-in-from-right").one("webkitTransitionEnd", function () {
-                        container.addClass("slide-default").removeClass("slide-right slide-left slide-in-from-right");
-                    });
-                }
-
-                // Slide in from the bottom
-                if (position === "slide-bottom" && direction === "slide-default") {
-                    container.addClass("slide-in-from-bottom").one("webkitTransitionEnd", function () {
-                        container.addClass("slide-default").removeClass("slide-bottom slide-in-from-bottom");
-                    });
-                }
-
-                // Slide in from the top
-                if (position === "slide-top" && direction === "slide-default") {
-                    container.addClass("slide-in-from-top").one("webkitTransitionEnd", function () {
-                        container.addClass("slide-default").removeClass("slide-top slide-in-from-top");
-                    });
-                }
-
-                // Slide out to the left
-                if (position === "slide-default" && direction === "slide-left") {
-                    container.addClass("slide-out-to-left").one("webkitTransitionEnd", function () {
-                        container.addClass("slide-left").removeClass("slide-default slide-out-to-left");
-                    });
-                }
-
-                // Slide out to the right
-                if (position === "slide-default" && direction === "slide-right") {
-                    container.addClass("slide-out-to-right").one("webkitTransitionEnd", function () {
-                        container.addClass("slide-right").removeClass("slide-default slide-out-to-right");
-                    });
-                }
-
-                // Slide out to the bottom
-                if (position === "slide-default" && direction === "slide-bottom") {
-                    container.addClass("slide-out-to-bottom").one("webkitTransitionEnd", function () {
-                        container.addClass("slide-bottom").removeClass("slide-default slide-out-to-bottom");
-                    });
-                }
-
-                // Slide out to the top
-                if (position === "slide-default" && direction === "slide-top") {
-                    container.addClass("slide-out-to-top").one("webkitTransitionEnd", function () {
-                        container.addClass("slide-top").removeClass("slide-default slide-out-to-top");
-                    });
-                }
-
-                // update positions
-                this.position = direction;
-            };
         }
     }
+
+    Object.defineProperties(View.prototype, {
+        title: {
+            configurable: true,
+            get: function () {
+                return this.container.find(".js-title");
+            },
+            set: function (value) {
+                if (typeof value === "string") {
+                    this.container.find(".js-title").text(value);
+                }
+            }
+        },
+        content: {
+            configurable: true,
+            get: function () {
+                return this.container.hasClass("js-content") ? this.container : this.container.find(".js-content");
+            }
+        },
+        scroller: {
+            configurable: true,
+            get: function () {
+                if (Andamio.config.webapp) {
+                    return this.container.hasClass("overthrow") ? this.container : this.container.find(".overthrow");
+                } else {
+                    return Andamio.dom.win;
+                }
+            }
+        },
+        active: {
+            get: function () {
+                return this.container.hasClass("view-active");
+            },
+            set: function (value) {
+                if (value) {
+                    this.container.addClass("view-active").removeClass("view-hidden");
+                } else {
+                    this.container.addClass("view-hidden").removeClass("view-active");
+                }
+            }
+        }
+    });
+
+    /**
+     * Slide the view based on the current position and the desired direction. Used only in webapp.
+     * @method slide
+     * @param direction {String} direction to which the view should slide
+     */
+    View.prototype.slide = function (direction) {
+        var container = this.container,
+            position = this.position;
+
+        Andamio.events.lock();
+
+        // Slide in from the left
+        if (position === "slide-left" && direction === "slide-default") {
+            container.addClass("slide-in-from-left").one("webkitTransitionEnd", function () {
+                container.addClass("slide-default").removeClass("slide-left slide-right slide-in-from-left");
+            });
+        }
+
+        // Slide in from the right
+        if (position === "slide-right" && direction === "slide-default") {
+            container.addClass("slide-in-from-right").one("webkitTransitionEnd", function () {
+                container.addClass("slide-default").removeClass("slide-right slide-left slide-in-from-right");
+            });
+        }
+
+        // Slide in from the bottom
+        if (position === "slide-bottom" && direction === "slide-default") {
+            container.addClass("slide-in-from-bottom").one("webkitTransitionEnd", function () {
+                container.addClass("slide-default").removeClass("slide-bottom slide-in-from-bottom");
+            });
+        }
+
+        // Slide in from the top
+        if (position === "slide-top" && direction === "slide-default") {
+            container.addClass("slide-in-from-top").one("webkitTransitionEnd", function () {
+                container.addClass("slide-default").removeClass("slide-top slide-in-from-top");
+            });
+        }
+
+        // Slide out to the left
+        if (position === "slide-default" && direction === "slide-left") {
+            container.addClass("slide-out-to-left").one("webkitTransitionEnd", function () {
+                container.addClass("slide-left").removeClass("slide-default slide-out-to-left");
+            });
+        }
+
+        // Slide out to the right
+        if (position === "slide-default" && direction === "slide-right") {
+            container.addClass("slide-out-to-right").one("webkitTransitionEnd", function () {
+                container.addClass("slide-right").removeClass("slide-default slide-out-to-right");
+            });
+        }
+
+        // Slide out to the bottom
+        if (position === "slide-default" && direction === "slide-bottom") {
+            container.addClass("slide-out-to-bottom").one("webkitTransitionEnd", function () {
+                container.addClass("slide-bottom").removeClass("slide-default slide-out-to-bottom");
+            });
+        }
+
+        // Slide out to the top
+        if (position === "slide-default" && direction === "slide-top") {
+            container.addClass("slide-out-to-top").one("webkitTransitionEnd", function () {
+                container.addClass("slide-top").removeClass("slide-default slide-out-to-top");
+            });
+        }
+
+        // update positions
+        this.position = direction;
+    };
+
 
     /**
      * Resets the view to its original state
@@ -1930,7 +1931,6 @@ Andamio.views = (function () {
             }, true);
         }
     };
-
 })();
 
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
