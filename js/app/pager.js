@@ -147,6 +147,9 @@ Andamio.pager = (function () {
 
         var self = this;
 
+        // If there are still requests pending, cancel them
+        Andamio.page.abortRequest();
+
         Andamio.page.load(this.options.url + this.options.pageNumber, this.options.expires, true, function (response, errorType) {
 
             if (errorType) {

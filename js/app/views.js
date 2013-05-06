@@ -215,6 +215,9 @@ Andamio.views = (function () {
 
             if (url) {
 
+                // If there are still requests pending, cancel them
+                Andamio.page.abortRequest();
+
                 var self = this;
                 view.content[0].innerHTML = "";
                 Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view, "load", url]);
@@ -287,6 +290,10 @@ Andamio.views = (function () {
             if (url) {
 
                 currentViewContent.innerHTML = "";
+
+                // If there are still requests pending, cancel them
+                Andamio.page.abortRequest();
+
                 Andamio.dom.doc.trigger("Andamio:views:activateView:start", [currentView, "refresh", url]);
 
                 Andamio.page.refresh(url, expiration, function (response, errorType) {
