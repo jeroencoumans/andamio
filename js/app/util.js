@@ -17,8 +17,15 @@ Andamio.util = (function () {
             }
         },
 
-        addUniq :function (value, list) {
+        addUniq: function (value, list) {
             if (value !== this.last(list)) {
+                list.push(value);
+            }
+        },
+
+        addOnly: function(value, list) {
+
+            if (list.indexOf(value) < 0) {
                 list.push(value);
             }
         },
@@ -31,38 +38,21 @@ Andamio.util = (function () {
          */
         getUrl: function (elem) {
 
-            var url = $(elem).data("url"),
-                href = $(elem).attr("href"),
-                hash = $(elem).hash;
-
-            if (url) {
-                return encodeURI(url);
-            }
-
-            else if (href.substring(0, 10) !== "javascript") {
-                return encodeURI(href);
-            }
-
-            else if (hash) {
-                return encodeURIComponent(hash);
-            }
+            var href = $(elem).attr("href").indexOf("javascript") !== 0 ? $(elem).attr("href") : false;
+            return $(elem).data("url") || href || $(elem).hash;
         },
 
         /**
          * Returns an array of URL's
          * @method getUrlList
-         * @param {Array} array the selector used to get the DOM elements, e.g. ".article-list .action-pjax"
+         * @param {Array} selector the selector used to get the DOM elements, e.g. ".article-list .action-pjax"
          * @return {Array} an array of URL's
          */
-        getUrlList: function (list) {
-
-            if (! list) {
-                return;
-            }
+        getUrlList: function (selector) {
 
             var urlList = [];
 
-            $(list).each(function (index, item) {
+            $(selector).each(function (index, item) {
 
                 var url = Andamio.util.getUrl(item);
                 if (url) urlList.push(url);
@@ -79,10 +69,7 @@ Andamio.util = (function () {
          */
         getTitle: function (elem) {
 
-            var titleData = $(elem).data("title"),
-                titleText = $(elem).text();
-
-            return titleData ? titleData : titleText;
+            return $(elem).data("title") || $(elem).text();
         },
 
         relativeDate: function (value) {
