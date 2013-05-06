@@ -1765,7 +1765,8 @@ Andamio.views = (function () {
 
             // Don't open the same URL, instead refresh
             if (url === Andamio.views.currentUrl) {
-                this.refreshView();
+                this.currentView.scroller[0].scrollTop = 0;
+
                 return;
             }
 
