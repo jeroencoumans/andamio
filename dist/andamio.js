@@ -459,6 +459,11 @@ Andamio.connection = (function () {
             return isOnline;
         },
 
+        get type() {
+
+            return navigator.connection ? navigator.connection.type : "ethernet";
+        },
+
         init: function () {
 
             isOnline = navigator.connection ? navigator.connection.type !== "none" : navigator.onLine;
@@ -492,9 +497,6 @@ Andamio.page = (function () {
         },
 
         doRequest: function (url, expiration, cache, callback) {
-
-            // If there are still requests pending, cancel them
-            this.abortRequest();
 
             function onError(xhr, type) {
 
@@ -554,8 +556,21 @@ Andamio.page = (function () {
 
         refresh: function (url, expiration, callback) {
 
-            Andamio.cache.delete(url);
-            this.load(url, expiration, false, callback);
+            if (! url || ! $.isFunction(callback)) return;
+
+            var cachedContent = Andamio.cache.get(url);
+
+            if (cachedContent) {
+
+                this.doRequest(url, expiration, false, function (response, error) {
+
+                    callback(error ? cachedContent : response);
+                });
+
+            } else {
+
+                this.doRequest(url, expiration, false, callback);
+            }
         }
     };
 
@@ -709,6 +724,9 @@ Andamio.pager = (function () {
         if (! this.options.autoFetch) this.showSpinner();
 
         var self = this;
+
+        // If there are still requests pending, cancel them
+        Andamio.page.abortRequest();
 
         Andamio.page.load(this.options.url + this.options.pageNumber, this.options.expires, true, function (response, errorType) {
 
@@ -1627,10 +1645,14 @@ Andamio.views = (function () {
 
             if (url) {
 
+                // If there are still requests pending, cancel them
+                Andamio.page.abortRequest();
+
                 var self = this;
                 view.content[0].innerHTML = "";
                 Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view, "load", url]);
 
+                // TODO: when opening a page and going back before it's loaded, the currentUrl is set to the new URL when the load finishes
                 Andamio.page.load(url, expiration, true, function (response, errorType) {
 
                     view.content[0].innerHTML = response;
@@ -1701,6 +1723,10 @@ Andamio.views = (function () {
             if (url) {
 
                 currentViewContent.innerHTML = "";
+
+                // If there are still requests pending, cancel them
+                Andamio.page.abortRequest();
+
                 Andamio.dom.doc.trigger("Andamio:views:activateView:start", [currentView, "refresh", url]);
 
                 Andamio.page.refresh(url, expiration, function (response, errorType) {
@@ -1755,7 +1781,8 @@ Andamio.views = (function () {
 
             // Don't open the same URL, instead refresh
             if (url === Andamio.views.currentUrl) {
-                this.refreshView();
+                this.currentView.scroller[0].scrollTop = 0;
+
                 return;
             }
 

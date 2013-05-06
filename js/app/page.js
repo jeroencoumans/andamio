@@ -21,9 +21,6 @@ Andamio.page = (function () {
 
         doRequest: function (url, expiration, cache, callback) {
 
-            // If there are still requests pending, cancel them
-            this.abortRequest();
-
             function onError(xhr, type) {
 
                 // type is one of: "timeout", "error", "abort", "parsererror"
@@ -82,8 +79,21 @@ Andamio.page = (function () {
 
         refresh: function (url, expiration, callback) {
 
-            Andamio.cache.delete(url);
-            this.load(url, expiration, false, callback);
+            if (! url || ! $.isFunction(callback)) return;
+
+            var cachedContent = Andamio.cache.get(url);
+
+            if (cachedContent) {
+
+                this.doRequest(url, expiration, false, function (response, error) {
+
+                    callback(error ? cachedContent : response);
+                });
+
+            } else {
+
+                this.doRequest(url, expiration, false, callback);
+            }
         }
     };
 

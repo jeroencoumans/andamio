@@ -215,10 +215,14 @@ Andamio.views = (function () {
 
             if (url) {
 
+                // If there are still requests pending, cancel them
+                Andamio.page.abortRequest();
+
                 var self = this;
                 view.content[0].innerHTML = "";
                 Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view, "load", url]);
 
+                // TODO: when opening a page and going back before it's loaded, the currentUrl is set to the new URL when the load finishes
                 Andamio.page.load(url, expiration, true, function (response, errorType) {
 
                     view.content[0].innerHTML = response;
@@ -289,6 +293,10 @@ Andamio.views = (function () {
             if (url) {
 
                 currentViewContent.innerHTML = "";
+
+                // If there are still requests pending, cancel them
+                Andamio.page.abortRequest();
+
                 Andamio.dom.doc.trigger("Andamio:views:activateView:start", [currentView, "refresh", url]);
 
                 Andamio.page.refresh(url, expiration, function (response, errorType) {
@@ -343,7 +351,8 @@ Andamio.views = (function () {
 
             // Don't open the same URL, instead refresh
             if (url === Andamio.views.currentUrl) {
-                this.refreshView();
+                this.currentView.scroller[0].scrollTop = 0;
+
                 return;
             }
 
