@@ -10905,9 +10905,6 @@ Andamio.page = (function () {
 
         doRequest: function (url, expiration, cache, callback) {
 
-            // If there are still requests pending, cancel them
-            this.abortRequest();
-
             function onError(xhr, type) {
 
                 // type is one of: "timeout", "error", "abort", "parsererror"
