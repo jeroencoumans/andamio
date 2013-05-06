@@ -148,6 +148,7 @@ Andamio.views = (function () {
         this.active = false;
     };
 
+    // variables used in the returned object, defined in init()
     var parentView,
         childView,
         childViewAlt,
@@ -180,10 +181,10 @@ Andamio.views = (function () {
 
         resetViews: function () {
 
-            this.parentView.reset();
-            this.childView.reset();
-            this.childViewAlt.reset();
-            this.modalView.reset();
+            parentView.reset();
+            childView.reset();
+            childViewAlt.reset();
+            modalView.reset();
 
             this.viewHistory = [];
             this.urlHistory = [];
@@ -307,10 +308,10 @@ Andamio.views = (function () {
             } else {
 
                 if (Andamio.config.webapp) {
-                    this.modalView.slide("slide-default");
+                    modalView.slide("slide-default");
                 }
 
-                this.pushView(this.modalView, url, expiration, 0);
+                this.pushView(modalView, url, expiration, 0);
                 this.modalCount++;
             }
         },
@@ -320,7 +321,7 @@ Andamio.views = (function () {
             if (this.modalCount > 0) {
 
                 if (Andamio.config.webapp) {
-                    this.modalView.slide("slide-bottom");
+                    modalView.slide("slide-bottom");
                 }
 
                 this.popView();
