@@ -5,6 +5,24 @@ Andamio.util = (function () {
 
     return {
 
+        last: function (list) {
+            if (list.length > 0) {
+                return list[list.length - 1];
+            }
+        },
+
+        prev: function (list) {
+            if (list && list.length > 1) {
+                return list[list.length - 2];
+            }
+        },
+
+        addUniq :function (value, list) {
+            if (value !== this.last(list)) {
+                list.push(value);
+            }
+        },
+
         /*
          * Get URL from the data attribute, falling back to the href
          * @method getUrl

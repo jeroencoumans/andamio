@@ -5,24 +5,6 @@
 
 Andamio.views = (function () {
 
-    function last(list) {
-        if (list.length > 0) {
-            return list[list.length - 1];
-        }
-    }
-
-    function prev(list) {
-        if (list && list.length > 1) {
-            return list[list.length - 2];
-        }
-    }
-
-    function addUniq(value, list) {
-        if (value !== last(list)) {
-            list.push(value);
-        }
-    }
-
     /**
      * A view has a container, optional content and position
      */
@@ -184,15 +166,15 @@ Andamio.views = (function () {
         childCount   : 0,
         modalCount   : 0,
 
-        get currentUrl()        { return last(this.urlHistory); },
-        set currentUrl(val)     { addUniq(val, this.urlHistory); },
+        get currentUrl()        { return Andamio.util.last(this.urlHistory); },
+        set currentUrl(val)     { Andamio.util.addUniq(val, this.urlHistory); },
 
-        get previousUrl()       { return prev(this.urlHistory); },
-        get currentView()       { return last(this.viewHistory); },
+        get previousUrl()       { return Andamio.util.prev(this.urlHistory); },
+        get currentView()       { return Andamio.util.last(this.viewHistory); },
         set currentView(val)    { this.viewHistory.push(val); },
-        get previousView()      { return prev(this.viewHistory); },
+        get previousView()      { return Andamio.util.prev(this.viewHistory); },
 
-        get scrollPosition()    { return last(this.scrollHistory); },
+        get scrollPosition()    { return Andamio.util.last(this.scrollHistory); },
         set scrollPosition(val) { this.scrollHistory.push(val); },
 
         resetViews: function () {
