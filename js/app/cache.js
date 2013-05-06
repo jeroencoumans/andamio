@@ -26,7 +26,7 @@ Andamio.cache = (function () {
             }
         },
 
-        delete: function (key) {
+        remove: function (key) {
 
             if (key && cache) {
                 cache.remove(key);
