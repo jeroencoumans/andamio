@@ -1,19 +1,16 @@
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
-/*global Andamio, $, cordova */
+/*global Andamio, $ */
 
 Andamio.container = (function () {
 
-    var scroller, now,
+    function initContainer() {
 
-    initContainer = function () {
-
-        Andamio.config.phone = {
-            updateTimestamp: new Date(),
-            updateTimeout: 30 * 60 * 1000
-        };
+        var parentUrls = [],
+            updateTimestamp = new Date(),
+            updateTimeout = 30 * 60 * 1000;
 
         // hide splashscreen
-        cordova.exec(null, null, "SplashScreen", "hide", []);
+        if (navigator.splashscreen) navigator.splashscreen.hide();
 
         // Listens to all clicks on anchor tags and opens them in Cordova popover if it's an external URL
         Andamio.events.attach('.action-external', function (event) {
@@ -28,7 +25,7 @@ Andamio.container = (function () {
 
         Andamio.dom.doc.on("statusbartap", function () {
 
-            scroller = Andamio.nav.status ? Andamio.dom.pageNav : Andamio.views.currentView.scroller;
+            var scroller = Andamio.nav.status ? Andamio.dom.pageNav : Andamio.views.currentView.scroller;
 
             if ($.scrollTo) {
                 scroller.scrollTo(0, 400);
@@ -37,24 +34,38 @@ Andamio.container = (function () {
             }
         });
 
-        // refresh when application is activated from background
-        Andamio.dom.doc.on("resign", function () {
+        // Store all parentView URL's so we can remove their cache when resuming
+        Andamio.dom.doc.on("Andamio:views:activateView:finish", function (event, view, loadType, url) {
+
+            Andamio.util.addOnly(url, parentUrls);
+        });
+
+        Andamio.dom.doc.on("pause", function () {
             Andamio.config.phone.updateTimestamp = new Date();
         });
 
-        Andamio.dom.doc.on("active", function () {
+        Andamio.dom.doc.on("resume", function () {
 
-            Andamio.util.delay(function () {
-                now = new Date();
+            var now = new Date();
 
-                if (now - Andamio.config.phone.updateTimestamp > Andamio.config.phone.updateTimeout && navigator.connection.type !== "none" && Andamio.views.currentView === Andamio.views.parentView) {
-                    Andamio.views.refreshView();
-                }
-            }, 0);
+            if (now - updateTimestamp < updateTimeout) return;
+
+            // Refresh current view if longer than updateTimeout has passed
+            if (Andamio.views.currentView === Andamio.views.parentView) {
+                Andamio.views.refreshView();
+            }
+
+            // Remove all cached parentPages when resuming
+            $(parentUrls).each(function (index, item) {
+                Andamio.cache.remove(item);
+                parentUrls.shift();
+            });
+
         });
-    };
+    }
 
     return {
+
         init: function () {
 
             if (navigator.bootstrap) {

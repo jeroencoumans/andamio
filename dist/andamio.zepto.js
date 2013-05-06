@@ -3461,6 +3461,31 @@ Andamio.util = (function () {
 
     return {
 
+        last: function (list) {
+            if (list.length > 0) {
+                return list[list.length - 1];
+            }
+        },
+
+        prev: function (list) {
+            if (list && list.length > 1) {
+                return list[list.length - 2];
+            }
+        },
+
+        addUniq: function (value, list) {
+            if (value !== this.last(list)) {
+                list.push(value);
+            }
+        },
+
+        addOnly: function(value, list) {
+
+            if (list.indexOf(value) < 0) {
+                list.push(value);
+            }
+        },
+
         /*
          * Get URL from the data attribute, falling back to the href
          * @method getUrl
@@ -3469,38 +3494,21 @@ Andamio.util = (function () {
          */
         getUrl: function (elem) {
 
-            var url = $(elem).data("url"),
-                href = $(elem).attr("href"),
-                hash = $(elem).hash;
-
-            if (url) {
-                return encodeURI(url);
-            }
-
-            else if (href.substring(0, 10) !== "javascript") {
-                return encodeURI(href);
-            }
-
-            else if (hash) {
-                return encodeURIComponent(hash);
-            }
+            var href = $(elem).attr("href").indexOf("javascript") !== 0 ? $(elem).attr("href") : false;
+            return $(elem).data("url") || href || $(elem).hash;
         },
 
         /**
          * Returns an array of URL's
          * @method getUrlList
-         * @param {Array} array the selector used to get the DOM elements, e.g. ".article-list .action-pjax"
+         * @param {Array} selector the selector used to get the DOM elements, e.g. ".article-list .action-pjax"
          * @return {Array} an array of URL's
          */
-        getUrlList: function (list) {
-
-            if (! list) {
-                return;
-            }
+        getUrlList: function (selector) {
 
             var urlList = [];
 
-            $(list).each(function (index, item) {
+            $(selector).each(function (index, item) {
 
                 var url = Andamio.util.getUrl(item);
                 if (url) urlList.push(url);
@@ -3517,10 +3525,7 @@ Andamio.util = (function () {
          */
         getTitle: function (elem) {
 
-            var titleData = $(elem).data("title"),
-                titleText = $(elem).text();
-
-            return titleData ? titleData : titleText;
+            return $(elem).data("title") || $(elem).text();
         },
 
         relativeDate: function (value) {
@@ -3546,21 +3551,18 @@ Andamio.util.delay = (function () {
 })();
 
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
-/*global Andamio, $, cordova */
+/*global Andamio, $ */
 
 Andamio.container = (function () {
 
-    var scroller, now,
+    function initContainer() {
 
-    initContainer = function () {
-
-        Andamio.config.phone = {
-            updateTimestamp: new Date(),
-            updateTimeout: 30 * 60 * 1000
-        };
+        var parentUrls = [],
+            updateTimestamp = new Date(),
+            updateTimeout = 30 * 60 * 1000;
 
         // hide splashscreen
-        cordova.exec(null, null, "SplashScreen", "hide", []);
+        if (navigator.splashscreen) navigator.splashscreen.hide();
 
         // Listens to all clicks on anchor tags and opens them in Cordova popover if it's an external URL
         Andamio.events.attach('.action-external', function (event) {
@@ -3575,7 +3577,7 @@ Andamio.container = (function () {
 
         Andamio.dom.doc.on("statusbartap", function () {
 
-            scroller = Andamio.nav.status ? Andamio.dom.pageNav : Andamio.views.currentView.scroller;
+            var scroller = Andamio.nav.status ? Andamio.dom.pageNav : Andamio.views.currentView.scroller;
 
             if ($.scrollTo) {
                 scroller.scrollTo(0, 400);
@@ -3584,24 +3586,38 @@ Andamio.container = (function () {
             }
         });
 
-        // refresh when application is activated from background
-        Andamio.dom.doc.on("resign", function () {
+        // Store all parentView URL's so we can remove their cache when resuming
+        Andamio.dom.doc.on("Andamio:views:activateView:finish", function (event, view, loadType, url) {
+
+            Andamio.util.addOnly(url, parentUrls);
+        });
+
+        Andamio.dom.doc.on("pause", function () {
             Andamio.config.phone.updateTimestamp = new Date();
         });
 
-        Andamio.dom.doc.on("active", function () {
+        Andamio.dom.doc.on("resume", function () {
 
-            Andamio.util.delay(function () {
-                now = new Date();
+            var now = new Date();
 
-                if (now - Andamio.config.phone.updateTimestamp > Andamio.config.phone.updateTimeout && navigator.connection.type !== "none" && Andamio.views.currentView === Andamio.views.parentView) {
-                    Andamio.views.refreshView();
-                }
-            }, 0);
+            if (now - updateTimestamp < updateTimeout) return;
+
+            // Refresh current view if longer than updateTimeout has passed
+            if (Andamio.views.currentView === Andamio.views.parentView) {
+                Andamio.views.refreshView();
+            }
+
+            // Remove all cached parentPages when resuming
+            $(parentUrls).each(function (index, item) {
+                Andamio.cache.remove(item);
+                parentUrls.shift();
+            });
+
         });
-    };
+    }
 
     return {
+
         init: function () {
 
             if (navigator.bootstrap) {
@@ -3641,7 +3657,7 @@ Andamio.cache = (function () {
             }
         },
 
-        delete: function (key) {
+        remove: function (key) {
 
             if (key && cache) {
                 cache.remove(key);
@@ -4655,24 +4671,6 @@ Andamio.tabs = (function () {
 
 Andamio.views = (function () {
 
-    function last(list) {
-        if (list.length > 0) {
-            return list[list.length - 1];
-        }
-    }
-
-    function prev(list) {
-        if (list && list.length > 1) {
-            return list[list.length - 2];
-        }
-    }
-
-    function addUniq(value, list) {
-        if (value !== last(list)) {
-            list.push(value);
-        }
-    }
-
     /**
      * A view has a container, optional content and position
      */
@@ -4834,15 +4832,15 @@ Andamio.views = (function () {
         childCount   : 0,
         modalCount   : 0,
 
-        get currentUrl()        { return last(this.urlHistory); },
-        set currentUrl(val)     { addUniq(val, this.urlHistory); },
+        get currentUrl()        { return Andamio.util.last(this.urlHistory); },
+        set currentUrl(val)     { Andamio.util.addUniq(val, this.urlHistory); },
 
-        get previousUrl()       { return prev(this.urlHistory); },
-        get currentView()       { return last(this.viewHistory); },
+        get previousUrl()       { return Andamio.util.prev(this.urlHistory); },
+        get currentView()       { return Andamio.util.last(this.viewHistory); },
         set currentView(val)    { this.viewHistory.push(val); },
-        get previousView()      { return prev(this.viewHistory); },
+        get previousView()      { return Andamio.util.prev(this.viewHistory); },
 
-        get scrollPosition()    { return last(this.scrollHistory); },
+        get scrollPosition()    { return Andamio.util.last(this.scrollHistory); },
         set scrollPosition(val) { this.scrollHistory.push(val); },
 
         resetViews: function () {
