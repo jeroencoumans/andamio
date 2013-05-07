@@ -110,7 +110,7 @@ Andamio.nav = (function () {
                 }
 
                 if (url) {
-                    Andamio.views.openParentPage(url, Andamio.config.parentCacheExpiration);
+                    Andamio.views.openParentPage(url);
                 }
             });
         }

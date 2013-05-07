@@ -4328,7 +4328,7 @@ Andamio.nav = (function () {
                 }
 
                 if (url) {
-                    Andamio.views.openParentPage(url, Andamio.config.parentCacheExpiration);
+                    Andamio.views.openParentPage(url);
                 }
             });
         }
@@ -4658,7 +4658,7 @@ Andamio.tabs = (function () {
                         Andamio.views.parentView.title = title;
                     }
 
-                    Andamio.views.openParentPage(url, Andamio.config.parentCacheExpiration);
+                    Andamio.views.openParentPage(url);
                 }
             });
         }
@@ -4996,7 +4996,7 @@ Andamio.views = (function () {
         openParentPage: function (url, expiration) {
 
             this.resetViews();
-            this.pushView(parentView, url, expiration, 0);
+            this.pushView(parentView, url, (typeof expiration === "number") ? expiration : Andamio.config.parentCacheExpiration, 0);
         },
 
         pushModal: function (url, expiration) {

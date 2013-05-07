@@ -329,7 +329,7 @@ Andamio.views = (function () {
         openParentPage: function (url, expiration) {
 
             this.resetViews();
-            this.pushView(parentView, url, expiration, 0);
+            this.pushView(parentView, url, (typeof expiration === "number") ? expiration : Andamio.config.parentCacheExpiration, 0);
         },
 
         pushModal: function (url, expiration) {
