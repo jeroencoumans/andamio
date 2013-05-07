@@ -7,7 +7,7 @@ Andamio.container = (function () {
 
         var parentUrls = [],
             updateTimestamp = new Date(),
-            updateTimeout = 30 * 60 * 1000;
+            updateTimeout = Andamio.config.parentCacheExpiration || 0;
 
         // hide splashscreen
         if (navigator.splashscreen) navigator.splashscreen.hide();

@@ -73,7 +73,8 @@ Andamio.config = (function () {
             }
 
             if (this.cache) {
-                this.cacheExpiration = 120;
+                this.parentCacheExpiration = 30; // 30 minutes by default for parentViews
+                this.cacheExpiration = 24 * 60; // 2 hours by default for other views
             }
 
             if (this.touch) {

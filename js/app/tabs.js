@@ -64,7 +64,7 @@ Andamio.tabs = (function () {
                         Andamio.views.parentView.title = title;
                     }
 
-                    Andamio.views.openParentPage(url);
+                    Andamio.views.openParentPage(url, Andamio.config.parentCacheExpiration);
                 }
             });
         }

@@ -10534,7 +10534,8 @@ Andamio.config = (function () {
             }
 
             if (this.cache) {
-                this.cacheExpiration = 120;
+                this.parentCacheExpiration = 30; // 30 minutes by default for parentViews
+                this.cacheExpiration = 24 * 60; // 2 hours by default for other views
             }
 
             if (this.touch) {
@@ -10746,7 +10747,7 @@ Andamio.container = (function () {
 
         var parentUrls = [],
             updateTimestamp = new Date(),
-            updateTimeout = 30 * 60 * 1000;
+            updateTimeout = Andamio.config.parentCacheExpiration || 0;
 
         // hide splashscreen
         if (navigator.splashscreen) navigator.splashscreen.hide();
@@ -11514,7 +11515,7 @@ Andamio.nav = (function () {
                 }
 
                 if (url) {
-                    Andamio.views.openParentPage(url);
+                    Andamio.views.openParentPage(url, Andamio.config.parentCacheExpiration);
                 }
             });
         }
@@ -11844,7 +11845,7 @@ Andamio.tabs = (function () {
                         Andamio.views.parentView.title = title;
                     }
 
-                    Andamio.views.openParentPage(url);
+                    Andamio.views.openParentPage(url, Andamio.config.parentCacheExpiration);
                 }
             });
         }
