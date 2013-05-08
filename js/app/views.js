@@ -11,6 +11,7 @@ Andamio.views = (function () {
     function View(name, container, position) {
         this.name      = name;
         this.container = container;
+        this.url       = "";
 
         if (position) {
             this.initialPosition = position;
@@ -240,8 +241,10 @@ Andamio.views = (function () {
                 // TODO: when opening a page and going back before it's loaded, the currentUrl is set to the new URL when the load finishes
                 Andamio.page.load(url, expiration, true, function (response, errorType) {
 
+                    // we always get a response, even if there's an error
                     view.content[0].innerHTML = response;
                     self.currentUrl = url;
+                    view.url = url;
 
                     if (typeof scrollPosition === "number") {
                         view.scroller[0].scrollTop = scrollPosition;
@@ -299,25 +302,21 @@ Andamio.views = (function () {
             }
         },
 
-        refreshView: function (expiration, callback) {
+        refreshView: function (view, expiration, callback) {
 
-            var url = this.currentUrl,
-                currentView = this.currentView,
-                currentViewContent = currentView.content[0];
+            if (view.url) {
 
-            if (url) {
-
-                currentViewContent.innerHTML = "";
+                view.content[0].innerHTML = "";
 
                 // If there are still requests pending, cancel them
                 Andamio.page.abortRequest();
 
-                Andamio.dom.doc.trigger("Andamio:views:activateView:start", [currentView, "refresh", url]);
+                Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view, "refresh", view.url]);
 
-                Andamio.page.refresh(url, expiration, function (response, errorType) {
+                Andamio.page.refresh(view.url, expiration, function (response, errorType) {
 
-                    currentViewContent.innerHTML = response;
-                    if (! errorType) Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [currentView, "refresh", url]);
+                    view.content[0].innerHTML = response;
+                    if (! errorType) Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view, "refresh", view.url]);
 
                     if ($.isFunction(callback)) {
                         callback();
@@ -513,7 +512,7 @@ Andamio.views = (function () {
 
             Andamio.events.attach(".action-refresh", function () {
 
-                self.refreshView();
+                self.refreshView(self.currentView);
             }, true);
         }
     };

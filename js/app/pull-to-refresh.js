@@ -52,7 +52,7 @@ Andamio.pulltorefresh = (function () {
 
             // Set a hardcoded delay to actually refresh, since it sometimes happens so fast it causes a jarring experience
             Andamio.util.delay(function () {
-                Andamio.views.refreshView(null, onRefreshEnd);
+                Andamio.views.refreshView(Andamio.views.currentView, null, onRefreshEnd);
             }, 300);
         }
     }

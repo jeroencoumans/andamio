@@ -5,9 +5,10 @@ Andamio.container = (function () {
 
     function initContainer() {
 
-        var parentUrls = [],
-            updateTimestamp = new Date(),
-            updateTimeout = Andamio.config.parentCacheExpiration || 0;
+        Andamio.config.phone = {
+            updateTimestamp: new Date(),
+            updateTimeout: (typeof Andamio.config.parentCacheExpiration === "number") ? Andamio.config.parentCacheExpiration * 1000 : 0
+        };
 
         // hide splashscreen
         if (navigator.splashscreen) navigator.splashscreen.hide();
@@ -34,12 +35,6 @@ Andamio.container = (function () {
             }
         });
 
-        // Store all parentView URL's so we can remove their cache when resuming
-        Andamio.dom.doc.on("Andamio:views:activateView:finish", function (event, view, loadType, url) {
-
-            Andamio.util.addOnly(url, parentUrls);
-        });
-
         Andamio.dom.doc.on("pause", function () {
             Andamio.config.phone.updateTimestamp = new Date();
         });
@@ -48,19 +43,10 @@ Andamio.container = (function () {
 
             var now = new Date();
 
-            if (now - updateTimestamp < updateTimeout) return;
-
-            // Refresh current view if longer than updateTimeout has passed
-            if (Andamio.views.currentView === Andamio.views.parentView) {
-                Andamio.views.refreshView();
+            // Refresh parentView if longer than updateTimeout has passed
+            if (now - Andamio.config.phone.updateTimestamp > Andamio.config.phone.updateTimeout) {
+                Andamio.views.refreshView(Andamio.views.parentView);
             }
-
-            // Remove all cached parentPages when resuming
-            $(parentUrls).each(function (index, item) {
-                Andamio.cache.remove(item);
-                parentUrls.shift();
-            });
-
         });
     }
 
