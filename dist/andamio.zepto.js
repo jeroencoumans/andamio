@@ -3762,9 +3762,18 @@ Andamio.page = (function () {
             });
         },
 
+        /**
+         * This method should be the preferred way of loading a new page.
+         * It takes care of retrieving a URL from the server, and storing it for a specified time in cache
+         * If the URL has already been stored, it will return the content from cache
+         *
+         * @method load
+         * @param url {String} the URL that should be loaded
+         * @param expiration {Number} the number of minutes that the response will be cached (after that, it will be fetched from the server again)
+         * @param cache {Boolean} true if the request may retrieve a cached Ajax response, false to force an update (by appending the current timestamp to the URL)
+         * @param callback {Function} function that receives the response; this function should accept two parameters: the first is the content, the second is the errorType (if any)
+         */
         load: function (url, expiration, cache, callback) {
-
-            if (! url || ! $.isFunction(callback)) return;
 
             var cachedContent = Andamio.cache.get(url);
 
@@ -3777,9 +3786,17 @@ Andamio.page = (function () {
             }
         },
 
+        /**
+         * This method should be the preferred way of refreshing a page.
+         * It always does an Ajax request and forces the server to send an updated version (by appending the current timestamp)
+         * Should the request fail, it will return the cached content (if any)
+         *
+         * @method refresh
+         * @param url {String} the URL that should be reloaded
+         * @param expiration {Number} the number of minutes that the response will be cached (after that, it will be fetched from the server again)
+         * @param callback {Function} function that receives the response; this function should accept two parameters: the first is the content, the second is the errorType (if any)
+         */
         refresh: function (url, expiration, callback) {
-
-            if (! url || ! $.isFunction(callback)) return;
 
             var cachedContent = Andamio.cache.get(url);
 
@@ -3787,7 +3804,11 @@ Andamio.page = (function () {
 
                 this.doRequest(url, expiration, false, function (response, error) {
 
-                    callback(error ? cachedContent : response);
+                    if (error) {
+                        callback(cachedContent, error);
+                    } else {
+                        callback(response);
+                    }
                 });
 
             } else {
