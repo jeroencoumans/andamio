@@ -14,7 +14,8 @@
         itemsPerPage        : 10, // the amount of items that are except per page, used to detect when to disable the pager
         pageNumber          : 0, // starting page number
         pagerWrapper        : Andamio.views.currentView.content.find(".js-pager-list"), // pager wrapper
-        url                 : Andamio.config.server + "?page=" // URL that should be loaded. The pageNumber is automatically appended
+        queryParam          : true, // when true, will add the named argument "page=pageNumber" to the URL
+        url                 : Andamio.config.server // URL that should be loaded. The pageNumber is automatically appended
     })
 
  **/
@@ -220,10 +221,14 @@ Andamio.pager = (function () {
                 itemsPerPage        : 10,
                 pageNumber          : 0,
                 pagerWrapper        : Andamio.views.currentView.content.find(".js-pager-list"),
-                url                 : Andamio.config.server + "?page="
+                queryParam          : true,
+                url                 : Andamio.config.server
             };
 
             $.extend(options, params);
+
+            // Check how to add the query parameter
+            if (options.queryParam) options.url += options.url.indexOf("?") === -1 ? "?page=" : "&page=";
 
             return new Pager(options);
         }

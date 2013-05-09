@@ -33,6 +33,7 @@ window.APP = (function () {
                 autoFetchMax:       2,
                 pageNumber:         0,
                 url:                Andamio.config.server + "pager/",
+                queryParam:         false,
                 expires:            60,
                 callback            : function (pageNumber) {
 
