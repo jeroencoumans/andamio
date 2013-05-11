@@ -98,7 +98,7 @@ module.exports = function(grunt) {
         less: {
             dev: {
                 files: {
-                    'dist/<%= pkg.name %>.css': 'style/main.less'
+                    'dist/<%= pkg.name %>.css': 'css/main.less'
                 }
             },
             dist: {
@@ -106,14 +106,14 @@ module.exports = function(grunt) {
                     yuicompress: true
                 },
                 files: {
-                    'dist/<%= pkg.name %>.min.css': 'style/main.less'
+                    'dist/<%= pkg.name %>.min.css': 'css/main.less'
                 }
             }
         },
 
         watch: {
             css: {
-                files: ['style/main.less', 'style/*/*.less'],
+                files: ['css/main.less', 'css/*/*.less'],
                 tasks: ['less:dev']
             },
             js: {
