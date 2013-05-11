@@ -1,0 +1,36 @@
+@page-alert-background: @red;
+@page-alert-border: 1px solid darken(@page-alert-background, 15%);
+@page-alert-color: @white;
+@page-alert-button-border: darken(@page-alert-background, 20%);
+@page-alert-button-color: @white;
+@page-alert-button-text-shadow: 0 1px 1px darken(@page-alert-background, 25%);
+
+.page-alert {
+    padding: @grid-l;
+    .border-radius(@grid-m);
+    text-align: center;
+
+    background: @page-alert-background;
+    border: @page-alert-border;
+
+    .page-alert-text {
+        color: @page-alert-color;
+        text-shadow: 0 1px 1px darken(@red, 25%);
+        font-weight: bold;
+
+        a {
+            color: inherit;
+        }
+
+        .action-refresh {
+            display: block;
+        }
+    }
+
+    .page-alert-button {
+        margin-top: @grid-l;
+        border-color: @page-alert-button-border;
+        color: @page-alert-button-color;
+        text-shadow: @page-alert-button-text-shadow;
+    }
+}

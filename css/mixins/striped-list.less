@@ -1,0 +1,20 @@
+/***
+
+    Helper to generate striped list. The first item will not get a top border and the last item will not get a bottom border.
+
+    @top-border: sets the color of the top border (default: #fff)
+    @bottom-border: sets the color of the bottom border (default: @grey)
+
+***/
+
+.striped-list(@top-border: #fff, @bottom-border: @grey) {
+    .box-shadow(inset 0 1px 1px -1px @top-border, inset 0 -1px 1px -1px @bottom-border);
+
+    &:first-child {
+        .box-shadow(inset 0 -1px 1px -1px @bottom-border);
+    }
+
+    &:last-child {
+        .box-shadow(inset 0 1px 1px -1px @top-border);
+    }
+}

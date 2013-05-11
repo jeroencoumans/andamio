@@ -1,0 +1,65 @@
+/***
+
+    .page-navigation
+        .navigation-header
+        .navigation-item
+
+***/
+
+@navigation-background: @webapp-background-color;
+@navigation-border: 0;
+@navigation-item-color: @grey;
+@navigation-item-text-shadow: 0 1px 0 darken(@navigation-background, 10%);
+@navigation-header-color: @dark-grey;
+@navigation-header-text-shadow: 0 1px 0 darken(@navigation-background, 10%);
+@navigation-header-border: 1px solid darken(@navigation-background, 10%);
+@navigation-active-background-start: @blue;
+@navigation-active-background-end: darken(@blue, 10%);
+@navigation-active-color: @white;
+@navigation-active-text-shadow: 0 1px 0 darken(@navigation-active-background-end, 10%);
+
+.page-navigation {
+    background: @navigation-background;
+    border-right: @navigation-border;
+}
+
+.tablet,
+.ios6 {
+    .page-navigation-toggle {
+        .box-shadow(-@grid-m 0 @grid-l -@grid-s darken(@navigation-background, 10%));
+    }
+}
+
+    .navigation-header {
+        .font-normal();
+        text-align: center;
+
+        margin: 0;
+        padding: @grid-s @grid-m;
+
+        color: @navigation-header-color;
+        border-bottom: @navigation-header-border;
+        text-shadow: @navigation-header-text-shadow;
+    }
+
+    .navigation-item {
+        display: block;
+        padding: @grid-m;
+
+        .striped-list(lighten(@webapp-background-color, 10%), darken(@webapp-background-color, 10%));
+
+        font-weight: bold;
+        color: @navigation-item-color;
+        text-shadow: @navigation-item-text-shadow;
+
+        &.active {
+            .horizontal-gradient(@navigation-active-background-start, @navigation-active-background-end);
+            color: @navigation-active-color;
+            text-shadow: @navigation-active-text-shadow;
+        }
+    }
+
+    .navigation-item-secondary {
+        display: block;
+        padding: @grid-s @grid-m;
+    }

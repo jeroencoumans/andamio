@@ -1,0 +1,19 @@
+/***
+
+    Loader
+
+***/
+
+@loader-width: 5 * @baseline;
+@loader-padding: @grid-l @grid-m;
+
+.page-loader {
+    .box-sizing();
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin: -(@icon-spinner-dark-height + @baseline) 0 0 -(@loader-width / 2);
+    width: @loader-width;
+    padding: @loader-padding;
+    z-index: 1000;
+}

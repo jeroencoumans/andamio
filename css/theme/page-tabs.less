@@ -1,0 +1,35 @@
+/***
+
+    Tabs
+
+***/
+
+@page-tabs-background-start: lighten(@black, 20%);
+@page-tabs-background-end: lighten(@black, 15%);
+@page-tabs-color: @grey;
+@page-tabs-text-shadow: 0 1px 1px lighten(@black, 15%);
+@page-tabs-box-shadow: inset 0 1px 0 @dark-grey;
+@page-tabs-active-background: lighten(@black, 10%);
+@page-tabs-active-color: @white;
+@page-tabs-active-box-shadow: inset 0 1px 0 @dark-grey;
+@page-tabs-active-text-shadow: 0 1px 1px @black;
+
+.page-tabs {
+    .horizontal-gradient(@page-tabs-background-start, @page-tabs-background-end);
+    font-size: @font-tiny;
+    line-height: @font-tiny;
+
+    .tab-item {
+        text-align: center;
+        color: @page-tabs-color;
+        text-shadow: @page-tabs-text-shadow;
+        .box-shadow(@page-tabs-box-shadow);
+
+        &.active {
+            background: @page-tabs-active-background;
+            color: @page-tabs-active-color;
+            text-shadow: @page-tabs-active-text-shadow;
+            .box-shadow(@page-tabs-active-box-shadow);
+        }
+    }
+}

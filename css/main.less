@@ -1,0 +1,82 @@
+/***
+
+    Andamio imports
+
+***/
+
+@import "mixins/mixins.less";
+@import "base/base.less";
+@import "patterns/patterns.less";
+@import "modules/modules.less";
+@import "theme/theme.less";
+
+/***
+
+    Lesshat configuration
+
+***/
+@w3c: true; // Unprefixed W3C syntax
+@webkit: true; // Chrome 7+, Safari 5+, iOS5, Android
+@moz: false; //  Firefox 4+
+@opera: false; // Opera 10.5+
+@ms: false;  // IE 10+
+@oldWebkit: false; // iOS4, Safari 4, Chrome < 6.
+
+/***
+
+    Typography
+
+***/
+
+@baseline: 20px;
+
+@font-huge: 30px;
+@font-xl: 27px;
+@font-l: 23px;
+@font-m: 19px;
+@font-s: 15px;
+@font-xs: 13px;
+@font-tiny: 10px;
+@font-baseline: 30px;
+@font-xl-baseline: 30px;
+@font-l-baseline: 30px;
+@font-m-baseline: 20px;
+
+@header-font-family: "HelveticaNeue-Bold", "HelveticaNeue Regular","Helvetica Neue",Helvetica,Arial,sans-serif;
+@regular-font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+@serif-font-family: georgia,serif;
+@header-margin: 0 0 @baseline / 4;
+@default-margin: 0 0 @baseline / 2;
+
+/***
+
+    Colors
+
+***/
+
+@black: #050505;
+@white: #fff;
+@light-grey: darken(@white, 10%);
+@grey: darken(@white, 25%);
+@dark-grey: darken(@white, 40%);
+
+@red: #b70201;
+@green: #57a84b;
+@blue: #3280C9;
+@yellow: #EEE507;
+
+@global-background-color: darken(@white, 5%);
+@webapp-background-color: lighten(@black, 10%);
+@global-text-color: lighten(@black, 25%);
+@global-header-color: @black;
+@detail-color: lighten(@black, 40%);
+
+/***
+
+    Grid & media sizes
+
+***/
+
+@grid-s: @baseline / 4;
+@grid-m: @baseline / 2;
+@grid-l: @baseline;

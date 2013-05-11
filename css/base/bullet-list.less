@@ -1,0 +1,19 @@
+ul {
+    list-style: none outside;
+    margin: 0;
+    padding: 0;
+}
+
+.bullet-list {
+    list-style-type: disc;
+    padding-left: @grid-l;
+    margin-bottom: @grid-m;
+}
+
+.arrow-list {
+    list-style-type: none;
+
+    li::before {
+        content: "\00BB \0020";
+    }
+}

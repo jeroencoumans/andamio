@@ -1,0 +1,126 @@
+/***
+
+    Buttons
+
+***/
+
+@button-gradient-start      : fadeout(@black, 98%);
+@button-gradient-end        : fadeout(@black, 93%);
+@button-color               : @black;
+@button-box-shadow          : inset 0 0 2px fadeout(@black, 90%), inset 0 1px 2px -1px fadeout(@black, 20%), 0 1px 0 @white;
+@button-text-shadow         : 0 1px 1px fadeout(@white, 50%);
+@button-border              : 0;
+@button-border-radius       : 0;
+@button-active-background   : fadeout(@black, 80%);
+@button-active-border       : fadeout(@black, 70%);
+@button-active-box-shadow   : inset 0 2px 6px fadeout(@black, 70%), 0 1px 0 @white;
+
+.button {
+    font-family: @regular-font-family;
+    font-weight: bold;
+    font-size: @font-s;
+    line-height: @baseline;
+
+    margin: 0 0 1px; // necessary for dropshadow
+    padding: @grid-s @grid-m;
+
+    border: @button-border;
+    .border-radius(@button-border-radius);
+    .box-shadow(@button-box-shadow);
+    .horizontal-gradient(@button-gradient-start, @button-gradient-end);
+    color: @button-color;
+    text-shadow: @button-text-shadow;
+
+    &.active {
+        background: @button-active-background;
+        border-color: @button-active-border;
+        .box-shadow(@button-active-box-shadow);
+    }
+}
+
+/***
+
+    Header buttons - combine with .button
+
+***/
+
+.button-header {
+    padding: 0 @grid-m;
+    margin: @grid-s @grid-s 0;
+    line-height: @page-header-height - @grid-s - @grid-s - 2;
+}
+
+/***
+
+    Primary button
+
+***/
+
+
+@button-primary-gradient-start      : @blue;
+@button-primary-gradient-end        : darken(@blue, 5%);
+@button-primary-color               : @white;
+@button-primary-text-shadow         : 0 1px 1px darken(@blue, 25%);
+@button-primary-active-background   : darken(@blue, 20%);
+@button-primary-active-box-shadow   : inset 0 1px 5px fadeout(@black, 70%);
+
+.button-primary {
+    .horizontal-gradient(@button-primary-gradient-start, @button-primary-gradient-end);
+    color: @button-primary-color;
+    text-shadow: @button-primary-text-shadow;
+
+    &.active {
+        background: @button-primary-active-background;
+    }
+}
+
+
+/***
+
+    Confirm button
+
+***/
+
+
+@button-confirm-gradient-start      : @green;
+@button-confirm-gradient-end        : darken(@green, 5%);
+@button-confirm-color               : @white;
+@button-confirm-text-shadow         : 0 1px 1px darken(@green, 25%);
+@button-confirm-active-background   : darken(@green, 20%);
+@button-confirm-active-box-shadow   : inset 0 1px 5px fadeout(@black, 70%);
+
+.button-confirm {
+    .horizontal-gradient(@button-confirm-gradient-start, @button-confirm-gradient-end);
+    color: @button-confirm-color;
+    text-shadow: @button-confirm-text-shadow;
+
+    &.active {
+        background: @button-confirm-active-background;
+    }
+}
+
+
+/***
+
+    Warning button
+
+***/
+
+
+@button-warn-gradient-start      : @red;
+@button-warn-gradient-end        : darken(@red, 5%);
+@button-warn-color               : @white;
+@button-warn-text-shadow         : 0 1px 1px darken(@red, 25%);
+@button-warn-active-background   : darken(@red, 20%);
+@button-warn-active-box-shadow   : inset 0 1px 5px fadeout(@black, 70%);
+
+.button-warn {
+    .horizontal-gradient(@button-warn-gradient-start, @button-warn-gradient-end);
+    color: @button-warn-color;
+    text-shadow: @button-warn-text-shadow;
+
+    &.active {
+        background: @button-warn-active-background;
+    }
+}
+

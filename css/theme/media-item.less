@@ -1,0 +1,20 @@
+/***
+
+    For showing a caption on top of an image/video/whatever
+    .media-item
+        .media-caption
+
+***/
+
+@media-caption-gradient-start: fadeout(@black, 100%);
+@media-caption-gradient-end: fadeout(@black, 20%);
+@media-caption-color: @white;
+@media-caption-text-shadow: 0 1px 1px @media-caption-gradient-end;
+
+.media-caption {
+    .media-caption-bottom();
+
+    .horizontal-gradient(@media-caption-gradient-start, @media-caption-gradient-end);
+    color: @media-caption-color;
+    text-shadow: @media-caption-text-shadow;
+}

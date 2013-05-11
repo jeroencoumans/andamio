@@ -1,0 +1,20 @@
+@loader-background: fadeout(@black, 20%);
+@loader-color: @white;
+@loader-border-radius: @grid-m;
+
+.page-loader {
+    background: @loader-background;
+    border-radius: @loader-border-radius;
+    text-align: center;
+
+    .page-loader-spinner {
+        display: block;
+        margin: 0 auto @grid-m;
+    }
+
+    .page-loader-text {
+        font-size: @font-s;
+        font-weight: bold;
+        color: @loader-color;
+    }
+}

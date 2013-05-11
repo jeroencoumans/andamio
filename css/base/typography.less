@@ -1,0 +1,49 @@
+/***
+
+    Re-usable mixins
+
+***/
+
+.font-normal() {
+    font-family: @regular-font-family;
+    font-size: @font-xs;
+    line-height: @baseline;
+}
+
+.font-header() {
+    font-family: @header-font-family;
+    line-height: @baseline;
+    text-rendering: optimizeLegibility;
+    margin: @header-margin;
+}
+
+.font-huge() {
+    font-size: @font-huge;
+    line-height: @baseline * 1.25;
+}
+
+.font-extra-large() {
+    font-size: @font-xl;
+    line-height: @baseline * 1.25;
+}
+
+.font-large() {
+    font-size: @font-l;
+    line-height: @baseline * 1.25;
+}
+
+.font-medium() {
+    font-size: @font-m;
+}
+
+.font-small() {
+    font-size: @font-s;
+}
+
+.font-extra-small() {
+    font-size: @font-xs;
+}
+
+.detail {
+    color: @detail-color;
+}

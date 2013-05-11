@@ -1,0 +1,45 @@
+.slideshow-wrapper {
+    overflow: hidden;
+    position: relative;
+     .user-select(none);
+
+    .slideshow-container {
+        overflow: hidden;
+        position: absolute;
+        top: 0; left: 0; bottom: 0;
+        width: 100%; // will be overridden by Swipe.js
+        .translate3d(0,0,0);
+        z-index: 1; // https://github.com/bradbirdsall/Swipe/pull/267
+    }
+
+    .slideshow-item {
+          float: left;
+          width: 100%;
+          height: 100%;
+          position: relative;
+    }
+}
+
+@slideshow-dots-background: @grey;
+@slideshow-dots-active-background: @dark-grey;
+@slideshow-dots-size: @grid-m;
+@slideshow-dots-radius: @grid-m;
+
+.slideshow-dots {
+    padding: @grid-s @grid-m;
+    text-align: center;
+
+    .slideshow-dot {
+        display: inline-block;
+        margin: 0 @grid-m 0 0;
+        width: @slideshow-dots-size;
+        height: @slideshow-dots-size;
+        border-radius: @slideshow-dots-radius;
+
+        background: @slideshow-dots-background;
+
+        &.active {
+            background: @slideshow-dots-active-background;
+        }
+    }
+}

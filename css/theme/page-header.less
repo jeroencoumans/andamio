@@ -1,0 +1,36 @@
+@page-header-background-start: @white;
+@page-header-background-end: darken(@white, 5%);
+@page-header-box-shadow: inset 0 -1px 2px -1px @white, 0 1px 5px fadeout(@black, 80%), 0 0 2px fadeout(@black, 20%);
+
+.page-header {
+    .overlay-wrapper;
+    .overlay-high;
+    .horizontal-gradient(@page-header-background-start, @page-header-background-end);
+    .box-shadow(@page-header-box-shadow);
+}
+
+
+@page-logo-width: 50%;
+@page-logo-height: @page-header-height; // same as @page-header-height
+@page-logo-color: @global-header-color;
+
+.page-logo {
+    /*** center and ensure it stays on top ***/
+    .center-block();
+    .truncate();
+    text-align: center;
+
+    /*** take it out of the flow ***/
+    position: absolute;
+    left: 0; right: 0;
+    z-index: 1;
+
+    width: @page-logo-width;
+    height: @page-header-height;
+    line-height: @page-header-height;
+
+    font-family: @header-font-family;
+    font-size: @font-l;
+    font-weight: bold;
+    color: @page-logo-color;
+}

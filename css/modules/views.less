@@ -1,0 +1,70 @@
+/***
+
+    Website - toggling of active and inactive views
+
+***/
+.website {
+    .view-active {
+        display: block;
+    }
+
+    .view-hidden {
+        display: none;
+    }
+}
+
+/***
+
+    Webapp - animating views
+
+***/
+.webapp {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    .viewport {
+        .overlay-total;
+        overflow: hidden;
+    }
+
+        /*** Setup default positioning ***/
+        .parent-view,
+        .child-view,
+        .modal-view {
+            .overlay-total;
+        }
+
+            .page-content {
+                .overlay-bottom;
+                top: @page-header-height;
+            }
+
+    &.ios5.has-modalview {
+
+        .page-view {
+            .overthrow {
+                .disable-scrolling();
+            }
+        }
+    }
+}
+
+.tablet {
+
+    &,
+    .viewport {
+        height: 100%;
+    }
+
+    .modal-view {
+        top: 100px;
+        left: 20%;
+        right: 20%;
+        bottom: 100px;
+
+        &.view-hidden {
+            bottom: -100px;
+        }
+    }
+}

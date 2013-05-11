@@ -1,0 +1,51 @@
+/***
+
+    Map mixins to default elements
+
+***/
+
+body {
+    .font-normal();
+    color: @global-text-color;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    .font-header();
+    color: @global-header-color;
+}
+
+h1 { .font-extra-large(); }
+h2 { .font-large(); }
+h3 { .font-medium(); }
+h4 { .font-small(); }
+h5 { .font-extra-small(); }
+
+p,
+form,
+ul,
+ol,
+dl,
+table {
+    margin: @default-margin;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+
+    &:focus {
+        text-decoration: underline;
+    }
+}
+
+small,
+sub,
+sup {
+    font-size: @font-tiny;
+    line-height: @baseline / 2;
+}

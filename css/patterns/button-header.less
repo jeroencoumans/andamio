@@ -1,0 +1,31 @@
+/***
+
+    Header buttons
+    .button-header-wrapper: the anchor/action, takes care of positioning and dimensions
+        .button-header: takes care of button styling
+
+***/
+
+.button-header-wrapper,
+.button-header-wrapper-alternate {
+    height: @page-header-height;
+    min-width: 25%;
+    z-index: 2;
+    line-height: @page-header-height;
+}
+
+    .button-header {
+        float: left;
+    }
+
+    .button-header-wrapper {
+        .overlay-top-left;
+    }
+
+    .button-header-wrapper-alternate {
+        .overlay-top-right;
+
+        .button-header {
+            float: right;
+        }
+    }

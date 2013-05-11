@@ -1,0 +1,19 @@
+/***
+
+    Global alert messages
+
+***/
+
+@page-alert-top: @page-header-height;
+@page-alert-left: 2 * @grid-l;
+@page-alert-right: 2 * @grid-l;
+@page-alert-margin: @grid-l auto;
+
+.page-alert {
+    position: fixed;
+    z-index: 1000;
+    top: @page-alert-top;
+    left: @page-alert-left;
+    right: @page-alert-right;
+    margin: @page-alert-margin;
+}

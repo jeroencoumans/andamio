@@ -1,0 +1,22 @@
+
+@pull-to-refresh-background: darken(@global-background-color, 10%);
+@pull-to-refresh-color: darken(@pull-to-refresh-background, 40%);
+@pull-to-refresh-text-shadow: 0 1px 0 lighten(@pull-to-refresh-background, 20%);
+@pull-to-refresh-border: darken(@pull-to-refresh-background, 15%);
+
+.pull-to-refresh {
+    background: @pull-to-refresh-background;
+    color: @pull-to-refresh-color;
+    text-shadow: @pull-to-refresh-text-shadow;
+}
+
+    .pull-to-refresh-date {
+        .detail;
+    }
+
+    .pull-to-refresh-text-pull,
+    .pull-to-refresh-text-release,
+    .pull-to-refresh-text-loading {
+        margin: 0;
+        border-bottom: 1px solid @pull-to-refresh-border;
+    }
