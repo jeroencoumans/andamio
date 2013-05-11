@@ -86,6 +86,14 @@ window.APP = (function () {
                 }
             });
 
+            Andamio.dom.doc.on("swipeRight", ".action-swipe-nav", function (event) {
+                Andamio.nav.show();
+            });
+
+            Andamio.dom.doc.on("swipeLeft", ".action-swipe-nav", function (event) {
+                Andamio.nav.hide();
+            });
+
             // Setup pull to refresh
             if (Andamio.config.webapp) {
                 Andamio.pulltorefresh.init();

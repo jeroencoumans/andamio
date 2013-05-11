@@ -18,8 +18,8 @@
         <div class="js-parent-view parent-view view-active">
             <div class="page-header">
                 <a href="javascript:void(0)" class="page-logo js-title">Parent</a>
-                <a href="javascript:void(0);" class="button-header-wrapper action-show-nav"><span class="button-header">Menu</span></a>
-                <a href="javascript:void(0)" class="button-header-wrapper-alternate action-show-modal" data-title="Example" data-url="blocks/modal.html"><span class="button-header">Modal</span></a>
+                <a href="javascript:void(0);" class="button-header-wrapper action-show-nav"><span class="button button-header">Menu</span></a>
+                <a href="javascript:void(0)" class="button-header-wrapper-alternate action-show-modal" data-title="Example" data-url="blocks/modal.html"><span class="button button-header">Modal</span></a>
             </div>
 
             <div class="page-content overthrow">
@@ -37,7 +37,7 @@
         <div class="js-child-view child-view view-hidden">
             <div class="page-header">
                 <a href="/" class="page-logo js-title"></a>
-                <a href="javascript:void(0)" class="button-header-wrapper action-pop"><span class="button-header">Terug</span></a>
+                <a href="javascript:void(0)" class="button-header-wrapper action-pop"><span class="button button-header">Terug</span></a>
             </div>
             <div class="js-content page-content overthrow"></div>
         </div>
@@ -45,7 +45,7 @@
         <div class="js-child-view-alternate child-view view-hidden">
             <div class="page-header">
                 <a href="/" class="page-logo js-title"></a>
-                <a href="javascript:void(0)" class="button-header-wrapper action-pop"><span class="button-header">Terug</span></a>
+                <a href="javascript:void(0)" class="button-header-wrapper action-pop"><span class="button button-header">Terug</span></a>
             </div>
             <div class="js-content page-content overthrow"></div>
         </div>
@@ -59,14 +59,14 @@
                 <i class="icon tab-item-icon"></i>
                 <span class="tab-item-label">Tab 2</span>
             </a>
-            <a href="blocks/tabs.html" class="tab-item action-tab-item p33">
+            <a href="blocks/buttons.html" class="tab-item action-tab-item p33">
                 <i class="icon tab-item-icon"></i>
                 <span class="tab-item-label">Tab 3</span>
             </a>
         </div>
     </div>
 
-    <div class="js-page-navigation page-navigation overthrow">
+    <div class="js-page-navigation page-navigation page-navigation-left overthrow">
         <h2 class="navigation-header">Header</h2>
         <a href="blocks/parent.html" class="navigation-item active action-nav-item">Parent</a>
         <a href="blocks/reveal.html" class="navigation-item action-nav-item">Reveal</a>
@@ -77,12 +77,12 @@
         <a href="javascript:lscache.flush()" class="navigation-item">Empty cache</a>
     </div>
 
-    <a href="javascript:void(0)" class="page-navigation-toggle action-hide-nav"></a>
+    <a href="javascript:void(0)" class="page-navigation-toggle action-hide-nav action-swipe-nav"></a>
 
     <div class="js-modal-view modal-view view-hidden">
         <div class="page-header">
             <a href="/" class="page-logo js-title">Default modal title</a>
-            <a href="javascript:void(0);" class="button-header-wrapper action-hide-modal"><span class="button-header button-primary">Close</span></a>
+            <a href="javascript:void(0);" class="button-header-wrapper action-hide-modal"><span class="button button-header">Close</span></a>
         </div>
         <div class="js-content page-content overthrow"></div>
     </div>
@@ -94,7 +94,7 @@
 
     <div class="js-page-alert page-alert display-none">
         <div class="js-page-alert-text page-alert-text"></div>
-        <a href="javascript:void(0)" class="action-hide-alert page-alert-button button button-block">Close</a>
+        <a href="javascript:void(0)" class="action-hide-alert button button-block page-alert-button">Close</a>
     </div>
 
     <script src="../dist/andamio.zepto.js"></script>
