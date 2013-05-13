@@ -514,6 +514,15 @@ Andamio.views = (function () {
 
                 self.refreshView(self.currentView);
             }, true);
+
+            // Swipe right to go back
+
+            if (Andamio.config.touch) {
+                Andamio.dom.doc.on("swipeRight", ".child-view", function () {
+
+                    self.popChild();
+                });
+            }
         }
     };
 })();
