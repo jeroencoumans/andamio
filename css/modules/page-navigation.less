@@ -44,6 +44,7 @@
 
     .page-navigation-toggle {
         width: 100%;
+        pointer-events: none;
     }
 
     &.has-navigation {
@@ -56,6 +57,10 @@
         /*** Put it in the correct place ***/
         .page-navigation {
             left: 0;
+        }
+
+        .page-navigation-toggle {
+            pointer-events: initial;
         }
     }
 }
