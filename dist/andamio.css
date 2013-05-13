@@ -1001,6 +1001,7 @@ video {
 }
 .website .page-navigation-toggle {
   width: 100%;
+  pointer-events: none;
 }
 .website.has-navigation {
   /*** Put it in the correct place ***/
@@ -1013,6 +1014,9 @@ video {
 }
 .website.has-navigation .page-navigation {
   left: 0;
+}
+.website.has-navigation .page-navigation-toggle {
+  pointer-events: initial;
 }
 .webapp .page-view,
 .webapp .page-navigation,
@@ -1271,6 +1275,11 @@ video {
 .slideshow-dots .slideshow-dot.active {
   background: #999999;
 }
+/***
+
+    Copy these or include your own
+
+***/
 /***
 
     Buttons
