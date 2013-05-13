@@ -46,7 +46,8 @@ window.APP = (function () {
     function updateSlideshows(view) {
 
         var slideshowEl = view.content.find(".slideshow-wrapper").attr("id"),
-            viewName    = view.name;
+            viewName    = view.name,
+            options     = {};
 
         if (slideshowEl) {
 
@@ -59,7 +60,10 @@ window.APP = (function () {
             }
 
             console.log("activate slideshow " + viewName);
-            slideshows[viewName] = Andamio.slideshow.init(slideshowEl, null, function (slideNumber) {
+
+            if (viewName === "childView") options.stopPropagation = true;
+
+            slideshows[viewName] = Andamio.slideshow.init(slideshowEl, options, function (slideNumber) {
 
                 console.log("Slideshow " + viewName + " to " + slideNumber);
             });
@@ -67,6 +71,14 @@ window.APP = (function () {
     }
 
     return {
+        get pagers() {
+            return pagers;
+        },
+
+        get slideshows() {
+            return slideshows;
+        },
+
         init: function () {
 
             // Setup listeners for activating pager and slideshow
