@@ -517,7 +517,7 @@ Andamio.views = (function () {
 
             // Swipe right to go back
 
-            if (Andamio.config.touch) {
+            if (Andamio.config.webapp && Andamio.config.touch) {
                 Andamio.dom.doc.on("swipeRight", ".child-view", function () {
 
                     self.popChild();
