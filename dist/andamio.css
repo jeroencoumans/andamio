@@ -779,21 +779,13 @@ video {
   background-position: 50% 50%;
   background-size: cover;
   height: 0;
-  padding-bottom: 56.25%;
-  /* 16:9 */
-
 }
+.media-flex,
 .media-flex-16-9 {
-  height: 0;
   padding-bottom: 56.25%;
-  /* 16:9 */
-
 }
 .media-flex-4-3 {
-  height: 0;
   padding-bottom: 75%;
-  /* 4:3; */
-
 }
 /***
 
@@ -1410,12 +1402,6 @@ video {
 }
 .page-alert .page-alert-text .action-refresh {
   display: block;
-}
-.page-alert .page-alert-button {
-  margin-top: 20px;
-  border-color: #520100;
-  color: #ffffff;
-  text-shadow: 0 1px 1px #380100;
 }
 .page-header {
   position: relative;
