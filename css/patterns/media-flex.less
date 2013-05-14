@@ -1,17 +1,23 @@
-.media-flex {
+.media-flex-base(@position: 50% 50%, @size: cover) {
     background-repeat: no-repeat;
-    background-position: 50% 50%;
-    background-size: cover;
-
-    .media-flex-16-9;
+    background-position: @position;
+    background-size: @size;
 }
 
-.media-flex-16-9 {
+.media-flex-ratio(@width: 16, @height: 9) {
+    padding-bottom: (100 / @width * @height) * 1%;
+}
+
+.media-flex {
+    .media-flex-base();
     height: 0;
-    padding-bottom: (100 / 16 * 9) * 1%; /* 16:9 */
+}
+
+.media-flex,
+.media-flex-16-9 {
+    .media-flex-ratio(@width: 16, @height: 9);
 }
 
 .media-flex-4-3 {
-    height: 0;
-    padding-bottom: (100 / 4 * 3) * 1%; /* 4:3; */
+    .media-flex-ratio(@width: 4, @height: 3);
 }
