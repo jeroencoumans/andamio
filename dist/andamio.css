@@ -837,21 +837,18 @@ video {
     Wrapper classes for the media object.
 
 ***/
-.media-object-list > .media-object {
+.media-object-list .media-object {
   -webkit-box-shadow: inset 0 1px 1px -1px #ffffff, inset 0 -1px 1px -1px #bfbfbf;
   box-shadow: inset 0 1px 1px -1px #ffffff, inset 0 -1px 1px -1px #bfbfbf;
   padding: 10px;
 }
-.media-object-list > .media-object:first-child {
+.media-object-list .media-object:first-child {
   -webkit-box-shadow: inset 0 -1px 1px -1px #bfbfbf;
   box-shadow: inset 0 -1px 1px -1px #bfbfbf;
 }
-.media-object-list > .media-object:last-child {
+.media-object-list .media-object:last-child {
   -webkit-box-shadow: inset 0 1px 1px -1px #ffffff;
   box-shadow: inset 0 1px 1px -1px #ffffff;
-}
-.box .media-object-list > .media-object {
-  padding: 10px 0;
 }
 /***
 
