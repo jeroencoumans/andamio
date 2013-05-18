@@ -304,6 +304,8 @@ Andamio.views = (function () {
 
         refreshView: function (view, expiration, callback) {
 
+            if (! view) view = this.currentView;
+
             if (view.url) {
 
                 view.content[0].innerHTML = "";
