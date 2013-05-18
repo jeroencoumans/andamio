@@ -1,20 +1,5 @@
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global $, Andamio */
-Andamio.dom.pageAlert = $(".js-page-alert");
-
-Object.defineProperties(Andamio.dom, {
-
-    pageAlertText: {
-
-        get: function () {
-            return this.pageAlert.find(".js-page-alert-text").text();
-        },
-
-        set: function (str) {
-            this.pageAlert.find(".js-page-alert-text").html(str);
-        }
-    }
-});
 
 /**
  * Controls global alerts
@@ -69,7 +54,27 @@ Andamio.alert = (function () {
          */
         init: function () {
 
+            // Register DOM references
+            Andamio.dom.pageAlert = $(".js-page-alert");
+
+            Object.defineProperties(Andamio.dom, {
+
+                pageAlertText: {
+
+                    get: function () {
+                        return this.pageAlert.find(".js-page-alert-text").text();
+                    },
+
+                    set: function (str) {
+                        this.pageAlert.find(".js-page-alert-text").html(str);
+                    }
+                }
+            });
+
+            // Setup initial state
             isActive = false;
+
+            // Register event handlers
             Andamio.events.attach(".action-hide-alert", this.hide);
             Andamio.dom.doc.on("Andamio:views:activateView:start", this.hide);
         }

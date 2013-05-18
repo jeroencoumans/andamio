@@ -29,8 +29,10 @@ Andamio.connection = (function () {
 
         init: function () {
 
+            // Setup initial state
             isOnline = navigator.connection ? navigator.connection.type !== "none" : navigator.onLine;
 
+            // Register event handlers
             Andamio.dom.doc.on("offline", this.goOffline);
             Andamio.dom.doc.on("online",  this.goOnline);
         }

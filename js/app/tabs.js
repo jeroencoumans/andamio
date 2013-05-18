@@ -1,27 +1,6 @@
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global $, Andamio */
 
-Andamio.dom.pageTabs = $(".js-page-tabs");
-Andamio.dom.pageTabsItems = Andamio.dom.pageTabs.find(".action-tab-item");
-
-Object.defineProperties(Andamio.dom, {
-    pageTabsActive: {
-
-        get: function () {
-
-            return this.pageTabsItems.filter(".active");
-        },
-
-        set: function (elem) {
-
-            if ($.contains(this.pageTabs[0], elem[0])) {
-                this.pageTabsActive.removeClass("active");
-                elem.addClass("active");
-            }
-        }
-    }
-});
-
 Andamio.tabs = (function () {
 
     var hasTabs;
@@ -44,8 +23,32 @@ Andamio.tabs = (function () {
 
         init: function () {
 
+            // Register DOM references
+            Andamio.dom.pageTabs = $(".js-page-tabs");
+            Andamio.dom.pageTabsItems = Andamio.dom.pageTabs.find(".action-tab-item");
+
+            Object.defineProperties(Andamio.dom, {
+                pageTabsActive: {
+
+                    get: function () {
+
+                        return this.pageTabsItems.filter(".active");
+                    },
+
+                    set: function (elem) {
+
+                        if ($.contains(this.pageTabs[0], elem[0])) {
+                            this.pageTabsActive.removeClass("active");
+                            elem.addClass("active");
+                        }
+                    }
+                }
+            });
+
+            // Setup initial state
             hasTabs = Andamio.dom.html.hasClass("has-page-tabs");
 
+            // Register event handlers
             Andamio.events.attach(".action-show-tabs", Andamio.tabs.show);
             Andamio.events.attach(".action-hide-tabs", Andamio.tabs.hide);
 

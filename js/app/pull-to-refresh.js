@@ -92,6 +92,7 @@ Andamio.pulltorefresh = (function () {
 
         init: function (params) {
 
+            // Setup initial state
             isActive = false;
 
             // By default, we set the pull to refresh on the parentView

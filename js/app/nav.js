@@ -1,27 +1,6 @@
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global $, Andamio */
 
-Andamio.dom.pageNav = $(".js-page-navigation");
-Andamio.dom.pageNavItems = Andamio.dom.pageNav.find(".action-nav-item");
-
-Object.defineProperties(Andamio.dom, {
-    pageNavActive: {
-
-        get: function () {
-
-            return this.pageNavItems.filter(".active");
-        },
-
-        set: function (elem) {
-
-            if ($.contains(this.pageNav[0], elem[0])) {
-                this.pageNavActive.removeClass("active");
-                elem.addClass("active");
-            }
-        }
-    }
-});
-
 Andamio.nav = (function () {
 
     var isActive,
@@ -63,9 +42,32 @@ Andamio.nav = (function () {
         init: function () {
             var self = this;
 
+            // Register DOM references
+            Andamio.dom.pageNav = $(".js-page-navigation");
+            Andamio.dom.pageNavItems = Andamio.dom.pageNav.find(".action-nav-item");
+
+            Object.defineProperties(Andamio.dom, {
+                pageNavActive: {
+
+                    get: function () {
+
+                        return this.pageNavItems.filter(".active");
+                    },
+
+                    set: function (elem) {
+
+                        if ($.contains(this.pageNav[0], elem[0])) {
+                            this.pageNavActive.removeClass("active");
+                            elem.addClass("active");
+                        }
+                    }
+                }
+            });
+
+            // Setup initial state
             isActive = Andamio.dom.html.hasClass("has-navigation");
 
-            if (!Andamio.config.webapp) {
+            if (! Andamio.config.webapp) {
                 docheight = Andamio.dom.win.height();
                 navheight = Andamio.dom.pageNav.height();
 
@@ -81,6 +83,7 @@ Andamio.nav = (function () {
                 }
             }
 
+            // Register event handlers
             Andamio.events.attach(".action-show-nav", self.show);
             Andamio.events.attach(".action-hide-nav", self.hide);
 
