@@ -87,7 +87,8 @@ Andamio.slideshow = (function () {
 
         init: function (id, params, callback) {
 
-            return new Slideshow(id, params, callback);
+            if ($("#" + id).find(".slideshow-item").length > 1)
+                return new Slideshow(id, params, callback);
         }
     };
 
