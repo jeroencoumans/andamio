@@ -469,8 +469,10 @@ Andamio.connection = (function () {
 
         init: function () {
 
+            // Setup initial state
             isOnline = navigator.connection ? navigator.connection.type !== "none" : navigator.onLine;
 
+            // Register event handlers
             Andamio.dom.doc.on("offline", this.goOffline);
             Andamio.dom.doc.on("online",  this.goOnline);
         }
@@ -840,21 +842,6 @@ Andamio.pager = (function () {
 
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global $, Andamio */
-Andamio.dom.pageAlert = $(".js-page-alert");
-
-Object.defineProperties(Andamio.dom, {
-
-    pageAlertText: {
-
-        get: function () {
-            return this.pageAlert.find(".js-page-alert-text").text();
-        },
-
-        set: function (str) {
-            this.pageAlert.find(".js-page-alert-text").html(str);
-        }
-    }
-});
 
 /**
  * Controls global alerts
@@ -909,7 +896,27 @@ Andamio.alert = (function () {
          */
         init: function () {
 
+            // Register DOM references
+            Andamio.dom.pageAlert = $(".js-page-alert");
+
+            Object.defineProperties(Andamio.dom, {
+
+                pageAlertText: {
+
+                    get: function () {
+                        return this.pageAlert.find(".js-page-alert-text").text();
+                    },
+
+                    set: function (str) {
+                        this.pageAlert.find(".js-page-alert-text").html(str);
+                    }
+                }
+            });
+
+            // Setup initial state
             isActive = false;
+
+            // Register event handlers
             Andamio.events.attach(".action-hide-alert", this.hide);
             Andamio.dom.doc.on("Andamio:views:activateView:start", this.hide);
         }
@@ -918,22 +925,6 @@ Andamio.alert = (function () {
 
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global $, Andamio */
-
-Andamio.dom.pageLoader = $(".js-page-loader");
-Andamio.dom.pageLoaderImg = Andamio.dom.pageLoader.find(".js-page-loader-spinner");
-
-Object.defineProperties(Andamio.dom, {
-    pageLoaderText: {
-
-        get: function () {
-            return this.pageLoader.find(".js-page-loader-text").text();
-        },
-
-        set: function (str) {
-            this.pageLoader.find(".js-page-loader-text").html(str);
-        }
-    }
-});
 
 Andamio.loader = (function () {
 
@@ -979,11 +970,30 @@ Andamio.loader = (function () {
 
         init: function () {
 
+            // Register DOM references
+            Andamio.dom.pageLoader = $(".js-page-loader");
+            Andamio.dom.pageLoaderImg = Andamio.dom.pageLoader.find(".js-page-loader-spinner");
+
+            Object.defineProperties(Andamio.dom, {
+                pageLoaderText: {
+
+                    get: function () {
+                        return this.pageLoader.find(".js-page-loader-text").text();
+                    },
+
+                    set: function (str) {
+                        this.pageLoader.find(".js-page-loader-text").html(str);
+                    }
+                }
+            });
+
+            // Setup initial state
             isActive = false;
 
             var self = this,
                 timeoutToken;
 
+            // Register event handlers
             Andamio.dom.doc.on("Andamio:views:activateView:start", function () {
 
                 // show loader if nothing is shown within 0,250 seconds
@@ -1010,27 +1020,6 @@ Andamio.loader = (function () {
 
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global $, Andamio */
-
-Andamio.dom.pageNav = $(".js-page-navigation");
-Andamio.dom.pageNavItems = Andamio.dom.pageNav.find(".action-nav-item");
-
-Object.defineProperties(Andamio.dom, {
-    pageNavActive: {
-
-        get: function () {
-
-            return this.pageNavItems.filter(".active");
-        },
-
-        set: function (elem) {
-
-            if ($.contains(this.pageNav[0], elem[0])) {
-                this.pageNavActive.removeClass("active");
-                elem.addClass("active");
-            }
-        }
-    }
-});
 
 Andamio.nav = (function () {
 
@@ -1073,9 +1062,32 @@ Andamio.nav = (function () {
         init: function () {
             var self = this;
 
+            // Register DOM references
+            Andamio.dom.pageNav = $(".js-page-navigation");
+            Andamio.dom.pageNavItems = Andamio.dom.pageNav.find(".action-nav-item");
+
+            Object.defineProperties(Andamio.dom, {
+                pageNavActive: {
+
+                    get: function () {
+
+                        return this.pageNavItems.filter(".active");
+                    },
+
+                    set: function (elem) {
+
+                        if ($.contains(this.pageNav[0], elem[0])) {
+                            this.pageNavActive.removeClass("active");
+                            elem.addClass("active");
+                        }
+                    }
+                }
+            });
+
+            // Setup initial state
             isActive = Andamio.dom.html.hasClass("has-navigation");
 
-            if (!Andamio.config.webapp) {
+            if (! Andamio.config.webapp) {
                 docheight = Andamio.dom.win.height();
                 navheight = Andamio.dom.pageNav.height();
 
@@ -1091,6 +1103,7 @@ Andamio.nav = (function () {
                 }
             }
 
+            // Register event handlers
             Andamio.events.attach(".action-show-nav", self.show);
             Andamio.events.attach(".action-hide-nav", self.hide);
 
@@ -1223,6 +1236,7 @@ Andamio.pulltorefresh = (function () {
 
         init: function (params) {
 
+            // Setup initial state
             isActive = false;
 
             // By default, we set the pull to refresh on the parentView
@@ -1380,7 +1394,8 @@ Andamio.slideshow = (function () {
 
         init: function (id, params, callback) {
 
-            return new Slideshow(id, params, callback);
+            if ($("#" + id).find(".slideshow-item").length > 1)
+                return new Slideshow(id, params, callback);
         }
     };
 
@@ -1388,27 +1403,6 @@ Andamio.slideshow = (function () {
 
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global $, Andamio */
-
-Andamio.dom.pageTabs = $(".js-page-tabs");
-Andamio.dom.pageTabsItems = Andamio.dom.pageTabs.find(".action-tab-item");
-
-Object.defineProperties(Andamio.dom, {
-    pageTabsActive: {
-
-        get: function () {
-
-            return this.pageTabsItems.filter(".active");
-        },
-
-        set: function (elem) {
-
-            if ($.contains(this.pageTabs[0], elem[0])) {
-                this.pageTabsActive.removeClass("active");
-                elem.addClass("active");
-            }
-        }
-    }
-});
 
 Andamio.tabs = (function () {
 
@@ -1432,8 +1426,32 @@ Andamio.tabs = (function () {
 
         init: function () {
 
+            // Register DOM references
+            Andamio.dom.pageTabs = $(".js-page-tabs");
+            Andamio.dom.pageTabsItems = Andamio.dom.pageTabs.find(".action-tab-item");
+
+            Object.defineProperties(Andamio.dom, {
+                pageTabsActive: {
+
+                    get: function () {
+
+                        return this.pageTabsItems.filter(".active");
+                    },
+
+                    set: function (elem) {
+
+                        if ($.contains(this.pageTabs[0], elem[0])) {
+                            this.pageTabsActive.removeClass("active");
+                            elem.addClass("active");
+                        }
+                    }
+                }
+            });
+
+            // Setup initial state
             hasTabs = Andamio.dom.html.hasClass("has-page-tabs");
 
+            // Register event handlers
             Andamio.events.attach(".action-show-tabs", Andamio.tabs.show);
             Andamio.events.attach(".action-hide-tabs", Andamio.tabs.hide);
 
@@ -1764,6 +1782,8 @@ Andamio.views = (function () {
         },
 
         refreshView: function (view, expiration, callback) {
+
+            if (! view) view = this.currentView;
 
             if (view.url) {
 
