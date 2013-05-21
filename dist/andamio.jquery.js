@@ -12028,118 +12028,120 @@ Andamio.views = (function () {
      * @method slide
      * @param direction {String} direction to which the view should slide
      */
-    View.prototype.slide = function (direction) {
+    View.prototype = {
 
-        if (! this.position && ! this.initialPosition) return;
+        slide: function (direction) {
 
-        var container = this.container,
-            position = this.position;
+            if (! this.position && ! this.initialPosition) return;
 
-        Andamio.events.lock();
+            var container = this.container,
+                position = this.position;
 
-        // When opening a view
-        if (direction === "slide-default") {
+            Andamio.events.lock();
 
-            switch (position) {
-            case "slide-left":
+            // When opening a view
+            if (direction === "slide-default") {
 
-                // Slide in from the left
-                container.addClass("slide-in-from-left").one("webkitTransitionEnd", function () {
-                    container.addClass("slide-default").removeClass("slide-left slide-right slide-in-from-left");
-                });
+                switch (position) {
+                case "slide-left":
 
-                break;
+                    // Slide in from the left
+                    container.addClass("slide-in-from-left").one("webkitTransitionEnd", function () {
+                        container.addClass("slide-default").removeClass("slide-left slide-right slide-in-from-left");
+                    });
 
-            case "slide-right":
+                    break;
 
-                // Slide in from the right
-                container.addClass("slide-in-from-right").one("webkitTransitionEnd", function () {
-                    container.addClass("slide-default").removeClass("slide-right slide-left slide-in-from-right");
-                });
+                case "slide-right":
 
-                break;
+                    // Slide in from the right
+                    container.addClass("slide-in-from-right").one("webkitTransitionEnd", function () {
+                        container.addClass("slide-default").removeClass("slide-right slide-left slide-in-from-right");
+                    });
 
-            case "slide-bottom":
+                    break;
 
-                // Slide in from the bottom
-                container.addClass("slide-in-from-bottom").one("webkitTransitionEnd", function () {
-                    container.addClass("slide-default").removeClass("slide-bottom slide-in-from-bottom");
-                });
+                case "slide-bottom":
 
-                break;
+                    // Slide in from the bottom
+                    container.addClass("slide-in-from-bottom").one("webkitTransitionEnd", function () {
+                        container.addClass("slide-default").removeClass("slide-bottom slide-in-from-bottom");
+                    });
 
-            case "slide-top":
+                    break;
 
-                // Slide in from the top
-                container.addClass("slide-in-from-top").one("webkitTransitionEnd", function () {
-                    container.addClass("slide-default").removeClass("slide-top slide-in-from-top");
-                });
+                case "slide-top":
 
-                break;
+                    // Slide in from the top
+                    container.addClass("slide-in-from-top").one("webkitTransitionEnd", function () {
+                        container.addClass("slide-default").removeClass("slide-top slide-in-from-top");
+                    });
+
+                    break;
+                }
             }
-        }
 
-        // When closing a view
-        else if (position === "slide-default") {
+            // When closing a view
+            else if (position === "slide-default") {
 
-            switch (direction) {
-            case "slide-left":
+                switch (direction) {
+                case "slide-left":
 
-                // Slide out to the left
-                container.addClass("slide-out-to-left").one("webkitTransitionEnd", function () {
-                    container.addClass("slide-left").removeClass("slide-default slide-out-to-left");
-                });
+                    // Slide out to the left
+                    container.addClass("slide-out-to-left").one("webkitTransitionEnd", function () {
+                        container.addClass("slide-left").removeClass("slide-default slide-out-to-left");
+                    });
 
-                break;
+                    break;
 
-            case "slide-right":
+                case "slide-right":
 
-                // Slide out to the right
-                container.addClass("slide-out-to-right").one("webkitTransitionEnd", function () {
-                    container.addClass("slide-right").removeClass("slide-default slide-out-to-right");
-                });
+                    // Slide out to the right
+                    container.addClass("slide-out-to-right").one("webkitTransitionEnd", function () {
+                        container.addClass("slide-right").removeClass("slide-default slide-out-to-right");
+                    });
 
-                break;
+                    break;
 
-            case "slide-bottom":
+                case "slide-bottom":
 
-                // Slide out to the bottom
-                container.addClass("slide-out-to-bottom").one("webkitTransitionEnd", function () {
-                    container.addClass("slide-bottom").removeClass("slide-default slide-out-to-bottom");
-                });
+                    // Slide out to the bottom
+                    container.addClass("slide-out-to-bottom").one("webkitTransitionEnd", function () {
+                        container.addClass("slide-bottom").removeClass("slide-default slide-out-to-bottom");
+                    });
 
-                break;
+                    break;
 
-            case "slide-top":
+                case "slide-top":
 
-                // Slide out to the top
-                container.addClass("slide-out-to-top").one("webkitTransitionEnd", function () {
-                    container.addClass("slide-top").removeClass("slide-default slide-out-to-top");
-                });
+                    // Slide out to the top
+                    container.addClass("slide-out-to-top").one("webkitTransitionEnd", function () {
+                        container.addClass("slide-top").removeClass("slide-default slide-out-to-top");
+                    });
 
-                break;
+                    break;
+                }
             }
+
+            // update positions
+            this.position = direction;
+        },
+
+        /**
+         * Resets the view to its original state
+         */
+        reset: function () {
+
+            if (this.position && Andamio.config.webapp) {
+
+                this.position = this.initialPosition;
+                this.container
+                    .removeClass("slide-left slide-right slide-default slide-bottom")
+                    .addClass(this.position);
+            }
+
+            this.active = false;
         }
-
-        // update positions
-        this.position = direction;
-    };
-
-
-    /**
-     * Resets the view to its original state
-     */
-    View.prototype.reset = function () {
-
-        if (this.position && Andamio.config.webapp) {
-
-            this.position = this.initialPosition;
-            this.container
-                .removeClass("slide-left slide-right slide-default slide-bottom")
-                .addClass(this.position);
-        }
-
-        this.active = false;
     };
 
     // variables used in the returned object, defined in init()
