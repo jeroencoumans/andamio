@@ -9,12 +9,6 @@ Andamio.dom = (function () {
         win:            $(window),
         doc:            $(window.document),
         html:           $("html"),
-        viewport:       $(".viewport"),
-
-        pageView:       $(".js-page-view"),
-        parentView:     $(".js-parent-view"),
-        childView:      $(".js-child-view"),
-        childViewAlt:   $(".js-child-view-alternate"),
-        modalView:      $(".js-modal-view")
+        viewport:       $(".viewport")
     };
 })();

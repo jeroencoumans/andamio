@@ -1,8 +1,13 @@
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio, $ */
 
-/*** TODO: add support for data-title ***/
+Andamio.dom.pageView     = $(".js-page-view");
+Andamio.dom.parentView   = $(".js-parent-view");
+Andamio.dom.childView    = $(".js-child-view");
+Andamio.dom.childViewAlt = $(".js-child-view-alternate");
+Andamio.dom.modalView    = $(".js-modal-view");
 
+/*** TODO: add support for data-title ***/
 Andamio.views = (function () {
 
     /**
@@ -18,6 +23,76 @@ Andamio.views = (function () {
             this.position = position;
         }
     }
+
+    View.prototype = {
+
+        /**
+         * Slide the view based on the current position and the desired direction. Used only in webapp.
+         * @method slide
+         * @param direction {String} direction to which the view should slide
+         */
+        slide: function (to) {
+
+            if (! this.position && ! this.initialPosition) return;
+
+            var position = this.position,
+                container = this.container,
+
+                // This iif generates an object with three values
+                // based on the current position and the new position.
+                // These values are used to set and unset the right CSS classes when transitioning
+                // e.g. "slide-default", "slide-left"
+                opts = (function (from, to) {
+
+                    var prefix = "slide-";
+                    var opposites = {
+                        "left"    : "right",
+                        "right"   : "left",
+                        "top"     : "bottom",
+                        "bottom"  : "top",
+                        "default" : "default"
+                    };
+
+                    // remove the prefix from our function arguments
+                    from = from.substr(prefix.length, from.length);
+                    to   = to.substr(prefix.length, to.length);
+
+                    var direction = prefix + (from === "default" ? "out-to-" + to : "in-from-" + from);
+
+                    return {
+                        a: direction,                                   // "slide-out-to-left"
+                        b: prefix + to,                                 // "slide-left"
+                        c: direction + " " + prefix + from + " " + prefix + opposites[from]   // "slide-out-to-left slide-default"
+                    };
+                })(position, to);
+
+            Andamio.events.lock();
+
+            container.addClass(opts.a).one("webkitTransitionEnd", function () {
+                container.addClass(opts.b).removeClass(opts.c);
+                Andamio.events.unlock();
+            });
+
+            // update positions
+            this.position = to;
+        },
+
+        /**
+         * Resets the view to its original state
+         */
+        reset: function () {
+
+            if (this.position && Andamio.config.webapp) {
+
+                this.position = this.initialPosition;
+                this.container
+                    .removeClass("slide-left slide-right slide-default slide-bottom")
+                    .addClass(this.position);
+            }
+
+            this.active = false;
+        }
+    };
 
     Object.defineProperties(View.prototype, {
         title: {
@@ -60,127 +135,6 @@ Andamio.views = (function () {
             }
         }
     });
-
-    /**
-     * Slide the view based on the current position and the desired direction. Used only in webapp.
-     * @method slide
-     * @param direction {String} direction to which the view should slide
-     */
-    View.prototype = {
-
-        slide: function (direction) {
-
-            if (! this.position && ! this.initialPosition) return;
-
-            var container = this.container,
-                position = this.position;
-
-            Andamio.events.lock();
-
-            // When opening a view
-            if (direction === "slide-default") {
-
-                switch (position) {
-                case "slide-left":
-
-                    // Slide in from the left
-                    container.addClass("slide-in-from-left").one("webkitTransitionEnd", function () {
-                        container.addClass("slide-default").removeClass("slide-left slide-right slide-in-from-left");
-                    });
-
-                    break;
-
-                case "slide-right":
-
-                    // Slide in from the right
-                    container.addClass("slide-in-from-right").one("webkitTransitionEnd", function () {
-                        container.addClass("slide-default").removeClass("slide-right slide-left slide-in-from-right");
-                    });
-
-                    break;
-
-                case "slide-bottom":
-
-                    // Slide in from the bottom
-                    container.addClass("slide-in-from-bottom").one("webkitTransitionEnd", function () {
-                        container.addClass("slide-default").removeClass("slide-bottom slide-in-from-bottom");
-                    });
-
-                    break;
-
-                case "slide-top":
-
-                    // Slide in from the top
-                    container.addClass("slide-in-from-top").one("webkitTransitionEnd", function () {
-                        container.addClass("slide-default").removeClass("slide-top slide-in-from-top");
-                    });
-
-                    break;
-                }
-            }
-
-            // When closing a view
-            else if (position === "slide-default") {
-
-                switch (direction) {
-                case "slide-left":
-
-                    // Slide out to the left
-                    container.addClass("slide-out-to-left").one("webkitTransitionEnd", function () {
-                        container.addClass("slide-left").removeClass("slide-default slide-out-to-left");
-                    });
-
-                    break;
-
-                case "slide-right":
-
-                    // Slide out to the right
-                    container.addClass("slide-out-to-right").one("webkitTransitionEnd", function () {
-                        container.addClass("slide-right").removeClass("slide-default slide-out-to-right");
-                    });
-
-                    break;
-
-                case "slide-bottom":
-
-                    // Slide out to the bottom
-                    container.addClass("slide-out-to-bottom").one("webkitTransitionEnd", function () {
-                        container.addClass("slide-bottom").removeClass("slide-default slide-out-to-bottom");
-                    });
-
-                    break;
-
-                case "slide-top":
-
-                    // Slide out to the top
-                    container.addClass("slide-out-to-top").one("webkitTransitionEnd", function () {
-                        container.addClass("slide-top").removeClass("slide-default slide-out-to-top");
-                    });
-
-                    break;
-                }
-            }
-
-            // update positions
-            this.position = direction;
-        },
-
-        /**
-         * Resets the view to its original state
-         */
-        reset: function () {
-
-            if (this.position && Andamio.config.webapp) {
-
-                this.position = this.initialPosition;
-                this.container
-                    .removeClass("slide-left slide-right slide-default slide-bottom")
-                    .addClass(this.position);
-            }
-
-            this.active = false;
-        }
-    };
 
     // variables used in the returned object, defined in init()
     var parentView,
@@ -248,11 +202,13 @@ Andamio.views = (function () {
                     self.currentUrl = url;
                     view.url = url;
 
-                    if (typeof scrollPosition === "number") {
+                    if (typeof scrollPosition === "number" && view.scroller.length) {
                         view.scroller[0].scrollTop = scrollPosition;
                     }
 
-                    if (! errorType) Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view, "load", url]);
+                    if (! errorType) {
+                        Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view, "load", url]);
+                    }
                 });
             } else {
                 Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view, "load", this.currentUrl]);
@@ -466,16 +422,21 @@ Andamio.views = (function () {
 
         init: function () {
 
+            // Setup references
             var self = this,
                 target,
                 url;
 
+            // Setup view variables
             parentView = this.parentView;
             childView = this.childView;
             childViewAlt = this.childViewAlt;
             modalView = this.modalView;
+
+            // Kick off
             self.resetViews();
 
+            // Load the initial view URL if set
             if (typeof Andamio.config.initialView === "string") {
                 self.openParentPage(Andamio.config.initialView);
             } else {
@@ -494,6 +455,11 @@ Andamio.views = (function () {
                 self.pushChild(url);
             }, true);
 
+            Andamio.events.attach(".action-pop", function () {
+
+                self.popChild();
+            }, true);
+
             Andamio.events.attach(".action-show-modal", function (event) {
 
                 target = $(event.currentTarget),
@@ -502,11 +468,6 @@ Andamio.views = (function () {
                 if (Andamio.nav.status && !Andamio.config.os.tablet) Andamio.nav.hide();
 
                 self.pushModal(url);
-            }, true);
-
-            Andamio.events.attach(".action-pop", function () {
-
-                self.popChild();
             }, true);
 
             Andamio.events.attach(".action-hide-modal", function () {
@@ -520,7 +481,6 @@ Andamio.views = (function () {
             }, true);
 
             // Swipe right to go back
-
             if (Andamio.config.webapp && Andamio.config.touch) {
                 Andamio.dom.doc.on("swipeRight", ".child-view", function () {
 
