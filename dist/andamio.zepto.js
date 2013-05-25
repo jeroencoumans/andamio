@@ -5032,7 +5032,6 @@ Andamio.views = (function () {
 
                 // Fast path: parent view is still in the DOM, so just show it
                 if (this.childCount === 1 || this.modalCount) {
-                    console.log("Fastpath");
                     this.activateView(this.currentView);
                 } else {
                     this.activateView(this.currentView, this.currentUrl, false, this.scrollPosition);
