@@ -31,21 +31,26 @@ Andamio.events = (function () {
             isLocked = false;
         },
 
-        attach: function (selector, fn, lock) {
+        attach: function (selector, fn, lock, timeout) {
 
-            Andamio.dom.viewport.on("click", selector, function (event) {
+            Andamio.dom.viewport.on("click", selector, function (e) {
 
                 if (! isLocked) {
 
                     if (lock) {
-                        Andamio.events.lock();
+                        Andamio.events.lock(timeout);
                     }
 
-                    fn(event);
+                    fn(e);
                 }
 
                 return false;
             });
+        },
+
+        detach: function (selector) {
+
+            Andamio.dom.viewport.off("click", selector);
         }
     };
 })();
