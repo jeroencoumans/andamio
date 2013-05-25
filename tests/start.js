@@ -1,12 +1,16 @@
+/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
+/*global Andamio, $ */
+
 /***
 
-    This anonymous function initializes Andamio and sets up a dummy pager and slideshow
+    This anonymous function initializes Andamio and sets up a dummy pager and slideshow3
 
 ***/
 
 window.APP = (function () {
 
-    var pagers = {},
+    var previousParentUrl = "",
+        pagers = {},
         slideshows = {};
 
     function updatePager(view) {
@@ -84,12 +88,20 @@ window.APP = (function () {
             // Setup listeners for activating pager and slideshow
             Andamio.dom.doc.on("Andamio:views:activateView:finish", function (event, view, loadType, url) {
 
+                if (view.name === "parentView") {
+                    if (previousParentUrl === url) {
+                        return;
+                    }
+                    previousParentUrl = url;
+                }
+
                 updatePager(view);
                 updateSlideshows(view);
             });
 
             // Initialize
             Andamio.init({
+                cache: false,
                 title: "Andamio",
                 initialView: "blocks/parent.html",
                 social: {
@@ -111,6 +123,6 @@ window.APP = (function () {
                 Andamio.pulltorefresh.init();
             }
         }
-    }
+    };
 
 })();
