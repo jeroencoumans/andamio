@@ -9,7 +9,7 @@
 
 window.APP = (function () {
 
-    var previousParentUrl = "",
+    var activeParentUrl = "",
         pagers = {},
         slideshows = {};
 
@@ -88,11 +88,12 @@ window.APP = (function () {
             // Setup listeners for activating pager and slideshow
             Andamio.dom.doc.on("Andamio:views:activateView:finish", function (event, view, loadType, url) {
 
+                // Store the current parent URL so we can skip initialization when we're in the fast path
                 if (view.name === "parentView") {
-                    if (previousParentUrl === url) {
+                    if (activeParentUrl === url) {
                         return;
                     }
-                    previousParentUrl = url;
+                    activeParentUrl = url;
                 }
 
                 updatePager(view);
