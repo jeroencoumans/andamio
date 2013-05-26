@@ -1,0 +1,46 @@
+@media-background-color: @webapp-background-color;
+
+.media-view {
+
+    .button-header-wrapper-alternate {
+        .translate3d(0);
+    }
+}
+
+.media-browser {
+    background: @media-background-color;
+
+    .media-caption {
+        padding-bottom: 1.5 * @baseline;
+    }
+
+    .slideshow-dots {
+        .overlay-bottom;
+        .overlay-high;
+        .translate3d(0);
+    }
+
+        .slideshow-dot {
+            background: @media-background-color;
+        }
+}
+
+
+@button-media-box-shadow          : inset 0 0 2px fadeout(@black, 10%), inset 0 1px 2px -1px fadeout(@black, 2%), 0 1px 0 fadeout(@white, 90%);
+@button-media-color               : fadeout(@white, 20%);
+@button-media-gradient-start      : fadeout(@black, 40%);
+@button-media-gradient-end        : fadeout(@black, 35%);
+@button-media-text-shadow         : 0 1px 1px fadeout(@black, 20%);
+@button-media-active-background   : fadeout(@black, 20%);
+@button-media-active-box-shadow   : inset 0 1px 5px fadeout(@black, 70%);
+
+.button-media {
+    .box-shadow();
+    .horizontal-gradient(@button-media-gradient-start, @button-media-gradient-end);
+    color: @button-media-color;
+    text-shadow: @button-media-text-shadow;
+
+    &.active {
+        background: @button-media-active-background;
+    }
+}
