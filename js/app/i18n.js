@@ -11,22 +11,5 @@ Andamio.i18n = {
     pagerLoadMore: "Load more",
     pagerLoading: "Loading&hellip;",
     pagerNoMorePages: "There are no more items.",
-    pagerErrorMessage: "There was an error loading more pages",
-    relativeDates: {
-        ago: 'ago',
-        from: '',
-        now: 'Just now',
-        minute: 'Minute',
-        minutes: 'Minutes',
-        hour: 'Hour',
-        hours: 'Hours',
-        day: 'Day',
-        days: 'Days',
-        week: 'Week',
-        weeks: 'Weeks',
-        month: 'Month',
-        months: 'Months',
-        year: 'Year',
-        years: 'Years'
-    }
+    pagerErrorMessage: "There was an error loading more pages"
 };
