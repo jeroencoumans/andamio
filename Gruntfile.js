@@ -52,7 +52,6 @@ module.exports = function(grunt) {
             },
             libs: {
                 src: [
-                    'js/lib/humane.js',     // https://github.com/zachleat/Humane-Dates
                     'js/lib/swipe.js',      // https://github.com/bradbirdsall/Swipe
                     'js/lib/fastclick.js',  // https://github.com/ftlabs/fastclick
                     'js/lib/lscache.js'     // https://github.com/pamelafox/lscache

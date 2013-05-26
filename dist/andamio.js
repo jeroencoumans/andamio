@@ -235,7 +235,7 @@ Andamio.events = (function () {
 })();
 
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
-/*global Andamio, $, humaneDate */
+/*global Andamio, $ */
 
 Andamio.util = (function () {
 
@@ -259,7 +259,7 @@ Andamio.util = (function () {
             }
         },
 
-        addOnly: function(value, list) {
+        addOnly: function (value, list) {
 
             if (list.indexOf(value) < 0) {
                 list.push(value);
@@ -279,25 +279,6 @@ Andamio.util = (function () {
         },
 
         /**
-         * Returns an array of URL's
-         * @method getUrlList
-         * @param {Array} selector the selector used to get the DOM elements, e.g. ".article-list .action-pjax"
-         * @return {Array} an array of URL's
-         */
-        getUrlList: function (selector) {
-
-            var urlList = [];
-
-            $(selector).each(function (index, item) {
-
-                var url = Andamio.util.getUrl(item);
-                if (url) urlList.push(url);
-            });
-
-            return urlList;
-        },
-
-        /**
          * Get title from the data attribute, falling back to the text
          * @method getTitle
          * @param {HTMLElement} elem the element to get the title from
@@ -306,16 +287,6 @@ Andamio.util = (function () {
         getTitle: function (elem) {
 
             return $(elem).data("title") || $(elem).text();
-        },
-
-        relativeDate: function (value) {
-
-            if (value instanceof Date) {
-
-                return humaneDate(value, false, {
-                    lang: Andamio.i18n.relativeDates
-                });
-            }
         }
 
     };
