@@ -44,7 +44,6 @@ module.exports = function(grunt) {
                     'js/app/slideshow.js',
                     'js/app/tabs.js',
                     'js/app/views.js',
-                    'js/app/zoom.js',
 
                     // Initialize everything
                     'js/app/init.js'

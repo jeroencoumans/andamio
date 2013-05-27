@@ -1,5 +1,5 @@
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
-/*global Andamio */
+/*global Andamio, $ */
 
 /***
 
@@ -74,23 +74,6 @@ window.APP = (function () {
         }
     }
 
-    function updateZoom(view) {
-
-        var zoomContainer = view.content.find(".zoom-container"),
-            viewName      = view.name;
-
-        if (zoomContainer.length) {
-
-            if (viewName in Andamio.zoom.collection) {
-                console.log("Disabling existing zoom in ", viewName);
-                Andamio.zoom.collection[viewName].destroy();
-            }
-
-            console.log("Enabling zoom in ", viewName);
-            Andamio.zoom.add(viewName, zoomContainer);
-        }
-    }
-
     return {
         get pagers() {
             return pagers;
@@ -111,14 +94,10 @@ window.APP = (function () {
                         return;
                     }
                     activeParentUrl = url;
-                } else if (view.name === "mediaView") {
-                    console.log("Enabling zooming...");
-
                 }
 
                 updatePager(view);
                 updateSlideshows(view);
-                updateZoom(view);
             });
 
             // Initialize
@@ -132,11 +111,11 @@ window.APP = (function () {
                 }
             });
 
-            Andamio.dom.doc.on("swipeRight", ".action-swipe-nav", function () {
+            Andamio.dom.doc.on("swipeRight", ".action-swipe-nav", function (event) {
                 Andamio.nav.show();
             });
 
-            Andamio.dom.doc.on("swipeLeft", ".action-swipe-nav", function () {
+            Andamio.dom.doc.on("swipeLeft", ".action-swipe-nav", function (event) {
                 Andamio.nav.hide();
             });
 

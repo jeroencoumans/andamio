@@ -1294,21 +1294,6 @@ video {
   max-height: 100%;
   margin: auto;
 }
-.zoom-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-.zoom-wrapper.has-zoom {
-  -webkit-overflow-scrolling: touch;
-  overflow: auto;
-}
-.zoom-item {
-  -webkit-transform: scale3d(3, 3, 0);
-  transform: scale3d(3, 3, 0);
-}
 /***
 
     Copy these or include your own
