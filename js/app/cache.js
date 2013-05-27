@@ -33,6 +33,20 @@ Andamio.cache = (function () {
             }
         },
 
+        flush: function () {
+
+            if (cache) {
+                cache.flush();
+            }
+        },
+
+        setBucket: function (bucket) {
+
+            if (cache) {
+                cache.setBucket(bucket);
+            }
+        },
+
         init: function () {
 
             cache = Andamio.config.cache ? window.lscache : false;
