@@ -384,6 +384,20 @@ Andamio.cache = (function () {
             }
         },
 
+        flush: function () {
+
+            if (cache) {
+                cache.flush();
+            }
+        },
+
+        setBucket: function (bucket) {
+
+            if (cache) {
+                cache.setBucket(bucket);
+            }
+        },
+
         init: function () {
 
             cache = Andamio.config.cache ? window.lscache : false;
@@ -1626,38 +1640,60 @@ Andamio.views = (function () {
             this.modalCount = 0;
         },
 
-        activateView: function (view, url, expiration, scrollPosition) {
+        loadView: function (view, url, expiration, scrollPosition, callback, refresh) {
+
+            var onLoaded = function (response, errorType) {
+
+                // we always get a response, even if there's an error
+                view.content[0].innerHTML = response;
+                this.currentUrl = url;
+                view.url = url;
+
+                if (typeof scrollPosition === "number" && view.scroller.length) {
+                    view.scroller[0].scrollTop = scrollPosition;
+                }
+
+                if (! errorType) {
+                    Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view, refresh ? "refresh" : "load", url]);
+                }
+
+                if ($.isFunction(callback)) {
+                    callback();
+                }
+            };
+
+            // If there are still requests pending, cancel them
+            Andamio.page.abortRequest();
+
+            view.content[0].innerHTML = "";
+            Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view, refresh ? "refresh" : "load", url]);
+
+            if (refresh) {
+                Andamio.page.refresh(url, expiration, onLoaded);
+            }
+            else {
+                Andamio.page.load(url, expiration, true, onLoaded);
+            }
+        },
+
+        activateView: function (view, url, expiration, scrollPosition, refresh) {
 
             view.active = true;
 
             if (url) {
-
-                // If there are still requests pending, cancel them
-                Andamio.page.abortRequest();
-
-                var self = this;
-                view.content[0].innerHTML = "";
-                Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view, "load", url]);
-
-                // TODO: when opening a page and going back before it's loaded, the currentUrl is set to the new URL when the load finishes
-                Andamio.page.load(url, expiration, true, function (response, errorType) {
-
-                    // we always get a response, even if there's an error
-                    view.content[0].innerHTML = response;
-                    self.currentUrl = url;
-                    view.url = url;
-
-                    if (typeof scrollPosition === "number" && view.scroller.length) {
-                        view.scroller[0].scrollTop = scrollPosition;
-                    }
-
-                    if (! errorType) {
-                        Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view, "load", url]);
-                    }
-                });
+                this.loadView(view, url, expiration, scrollPosition, null, refresh);
             } else {
                 Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view, "load", this.currentUrl]);
                 Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view, "load", this.currentUrl]);
+            }
+        },
+
+        refreshView: function (view, expiration, callback) {
+
+            view = view || this.currentView;
+
+            if (view.url) {
+                this.loadView(view, view.url, expiration, null, callback, "refresh");
             }
         },
 
@@ -1666,7 +1702,7 @@ Andamio.views = (function () {
             view.active = false;
         },
 
-        pushView: function (view, url, expiration, scrollPosition) {
+        pushView: function (view, url, expiration, scrollPosition, refresh) {
 
             this.currentView = view;
 
@@ -1675,7 +1711,7 @@ Andamio.views = (function () {
                 this.deactivateView(this.previousView);
             }
 
-            this.activateView(view, url, expiration, scrollPosition);
+            this.activateView(view, url, expiration, scrollPosition, refresh);
         },
 
         popView: function () {
@@ -1705,38 +1741,13 @@ Andamio.views = (function () {
             }
         },
 
-        refreshView: function (view, expiration, callback) {
-
-            if (! view) view = this.currentView;
-
-            if (view.url) {
-
-                view.content[0].innerHTML = "";
-
-                // If there are still requests pending, cancel them
-                Andamio.page.abortRequest();
-
-                Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view, "refresh", view.url]);
-
-                Andamio.page.refresh(view.url, expiration, function (response, errorType) {
-
-                    view.content[0].innerHTML = response;
-                    if (! errorType) Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view, "refresh", view.url]);
-
-                    if ($.isFunction(callback)) {
-                        callback();
-                    }
-                });
-            }
-        },
-
-        openParentPage: function (url, expiration) {
+        openParentPage: function (url, expiration, refresh) {
 
             this.resetViews();
-            this.pushView(parentView, url, (typeof expiration === "number") ? expiration : Andamio.config.parentCacheExpiration, 0);
+            this.pushView(parentView, url, (typeof expiration === "number") ? expiration : Andamio.config.parentCacheExpiration, 0, refresh);
         },
 
-        pushModal: function (url, expiration) {
+        pushModal: function (url, expiration, refresh) {
 
             if (this.modalCount > 0) {
                 return false;
@@ -1746,7 +1757,7 @@ Andamio.views = (function () {
                     modalView.slide("slide-default");
                 }
 
-                this.pushView(modalView, url, expiration, 0);
+                this.pushView(modalView, url, expiration, 0, refresh);
                 this.modalCount++;
             }
         },
@@ -1766,7 +1777,7 @@ Andamio.views = (function () {
             }
         },
 
-        pushMedia: function (url, expiration) {
+        pushMedia: function (url, expiration, refresh) {
 
             if (this.mediaCount > 0) {
                 return false;
@@ -1776,7 +1787,7 @@ Andamio.views = (function () {
                     mediaView.slide("slide-default");
                 }
 
-                this.pushView(mediaView, url, expiration, 0);
+                this.pushView(mediaView, url, expiration, 0, refresh);
                 this.mediaCount++;
             }
         },
@@ -1796,7 +1807,7 @@ Andamio.views = (function () {
             }
         },
 
-        pushChild: function (url, expiration) {
+        pushChild: function (url, expiration, refresh) {
 
             // Don't open the same URL, instead refresh
             if (url === Andamio.views.currentUrl) {
@@ -1811,7 +1822,7 @@ Andamio.views = (function () {
 
             // Initial situation
             case parentView:
-                this.pushView(childView, url, expiration, 0);
+                this.pushView(childView, url, expiration, 0, refresh);
 
                 if (Andamio.config.webapp) {
                     parentView.slide("slide-left");
@@ -1821,7 +1832,7 @@ Andamio.views = (function () {
                 break;
 
             case childView:
-                this.pushView(childViewAlt, url, expiration, 0);
+                this.pushView(childViewAlt, url, expiration, 0, refresh);
 
                 if (Andamio.config.webapp) {
                     childViewAlt.container.removeClass("slide-left").addClass("slide-right");
@@ -1835,7 +1846,7 @@ Andamio.views = (function () {
                 break;
 
             case childViewAlt:
-                this.pushView(childView, url, expiration, 0);
+                this.pushView(childView, url, expiration, 0, refresh);
 
                 if (Andamio.config.webapp) {
                     childView.container.removeClass("slide-left").addClass("slide-right");
