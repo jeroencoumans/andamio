@@ -900,13 +900,11 @@ video {
   height: 100%;
 }
 .tablet .modal-view {
-  top: 100px;
-  left: 20%;
-  right: 20%;
-  bottom: 100px;
-}
-.tablet .modal-view.view-hidden {
-  bottom: -100px;
+  -webkit-box-shadow: 0 5px 20px #1f1f1f;
+  box-shadow: 0 5px 20px #1f1f1f;
+  top: 22px;
+  left: 280px;
+  right: 20px;
 }
 .webapp .overthrow,
 .tablet .overthrow {

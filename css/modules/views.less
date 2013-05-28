@@ -59,13 +59,9 @@
     }
 
     .modal-view {
-        top: 100px;
-        left: 20%;
-        right: 20%;
-        bottom: 100px;
-
-        &.view-hidden {
-            bottom: -100px;
-        }
+        .box-shadow(0 @grid-s @grid-l @navigation-background);
+        top: @page-header-height / 2;
+        left: @nav-width + @grid-l;
+        right: @grid-l;
     }
 }
