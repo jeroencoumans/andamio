@@ -425,6 +425,10 @@ Andamio.connection = (function () {
             Andamio.dom.html.addClass("is-offline");
         },
 
+        get isFast() {
+            return Andamio.connection.type === "wifi" || Andamio.connection.type === "ethernet";
+        },
+
         get status() {
             return isOnline;
         },
@@ -470,7 +474,7 @@ Andamio.page = (function () {
 
         doRequest: function (url, expiration, cache, callback) {
 
-            function onError(xhr, type) {
+            var onError = function (xhr, type) {
 
                 // type is one of: "timeout", "error", "abort", "parsererror"
                 var status = xhr.status,
@@ -484,26 +488,27 @@ Andamio.page = (function () {
 
                 // Pass the errorHTML and error type to the callback
                 callback(errorHTML, type);
-            }
+            },
 
-            function onSuccess(response) {
+            onSuccess = function (response) {
 
                 Andamio.connection.goOnline();
                 Andamio.cache.set(url, response, expiration);
                 callback(response);
-            }
+            },
 
-            function onComplete() {
+            onComplete = function () {
 
                 activeRequest = null;
-            }
+            };
 
             activeRequest = $.ajax({
                 url: url,
                 cache: cache,
                 headers: {
                     "X-PJAX": true,
-                    "X-Requested-With": "XMLHttpRequest"
+                    "X-Requested-With": "XMLHttpRequest",
+                    "X-Fast-Connection": Andamio.connection.isFast
                 },
                 error: onError,
                 success: onSuccess,

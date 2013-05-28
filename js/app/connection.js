@@ -18,6 +18,10 @@ Andamio.connection = (function () {
             Andamio.dom.html.addClass("is-offline");
         },
 
+        get isFast() {
+            return Andamio.connection.type === "wifi" || Andamio.connection.type === "ethernet";
+        },
+
         get status() {
             return isOnline;
         },
