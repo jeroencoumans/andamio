@@ -216,10 +216,10 @@ Andamio.views = (function () {
             Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view, refresh ? "refresh" : "load", url]);
 
             if (refresh) {
-                Andamio.page.refresh(url, expiration, onLoaded);
+                Andamio.page.refresh(url, expiration, $.proxy(onLoaded, this));
             }
             else {
-                Andamio.page.load(url, expiration, true, onLoaded);
+                Andamio.page.load(url, expiration, true, $.proxy(onLoaded, this));
             }
         },
 
