@@ -7,6 +7,24 @@
  * @class alert
  * @namespace Andamio
  */
+
+// Register DOM references
+Andamio.dom.pageAlert = $(".js-page-alert");
+
+Object.defineProperties(Andamio.dom, {
+
+    pageAlertText: {
+
+        get: function () {
+            return this.pageAlert.find(".js-page-alert-text").text();
+        },
+
+        set: function (str) {
+            this.pageAlert.find(".js-page-alert-text").html(str);
+        }
+    }
+});
+
 Andamio.alert = (function () {
 
     var isActive;
@@ -53,23 +71,6 @@ Andamio.alert = (function () {
          * @method init
          */
         init: function () {
-
-            // Register DOM references
-            Andamio.dom.pageAlert = $(".js-page-alert");
-
-            Object.defineProperties(Andamio.dom, {
-
-                pageAlertText: {
-
-                    get: function () {
-                        return this.pageAlert.find(".js-page-alert-text").text();
-                    },
-
-                    set: function (str) {
-                        this.pageAlert.find(".js-page-alert-text").html(str);
-                    }
-                }
-            });
 
             // Setup initial state
             isActive = false;

@@ -821,6 +821,24 @@ Andamio.pager = (function () {
  * @class alert
  * @namespace Andamio
  */
+
+// Register DOM references
+Andamio.dom.pageAlert = $(".js-page-alert");
+
+Object.defineProperties(Andamio.dom, {
+
+    pageAlertText: {
+
+        get: function () {
+            return this.pageAlert.find(".js-page-alert-text").text();
+        },
+
+        set: function (str) {
+            this.pageAlert.find(".js-page-alert-text").html(str);
+        }
+    }
+});
+
 Andamio.alert = (function () {
 
     var isActive;
@@ -868,23 +886,6 @@ Andamio.alert = (function () {
          */
         init: function () {
 
-            // Register DOM references
-            Andamio.dom.pageAlert = $(".js-page-alert");
-
-            Object.defineProperties(Andamio.dom, {
-
-                pageAlertText: {
-
-                    get: function () {
-                        return this.pageAlert.find(".js-page-alert-text").text();
-                    },
-
-                    set: function (str) {
-                        this.pageAlert.find(".js-page-alert-text").html(str);
-                    }
-                }
-            });
-
             // Setup initial state
             isActive = false;
 
@@ -897,6 +898,23 @@ Andamio.alert = (function () {
 
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global $, Andamio */
+
+// Register DOM references
+Andamio.dom.pageLoader = $(".js-page-loader");
+Andamio.dom.pageLoaderImg = Andamio.dom.pageLoader.find(".js-page-loader-spinner");
+
+Object.defineProperties(Andamio.dom, {
+    pageLoaderText: {
+
+        get: function () {
+            return this.pageLoader.find(".js-page-loader-text").text();
+        },
+
+        set: function (str) {
+            this.pageLoader.find(".js-page-loader-text").html(str);
+        }
+    }
+});
 
 Andamio.loader = (function () {
 
@@ -942,23 +960,6 @@ Andamio.loader = (function () {
 
         init: function () {
 
-            // Register DOM references
-            Andamio.dom.pageLoader = $(".js-page-loader");
-            Andamio.dom.pageLoaderImg = Andamio.dom.pageLoader.find(".js-page-loader-spinner");
-
-            Object.defineProperties(Andamio.dom, {
-                pageLoaderText: {
-
-                    get: function () {
-                        return this.pageLoader.find(".js-page-loader-text").text();
-                    },
-
-                    set: function (str) {
-                        this.pageLoader.find(".js-page-loader-text").html(str);
-                    }
-                }
-            });
-
             // Setup initial state
             isActive = false;
 
@@ -992,6 +993,28 @@ Andamio.loader = (function () {
 
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global $, Andamio */
+
+// Register DOM references
+Andamio.dom.pageNav = $(".js-page-navigation");
+Andamio.dom.pageNavItems = Andamio.dom.pageNav.find(".action-nav-item");
+
+Object.defineProperties(Andamio.dom, {
+    pageNavActive: {
+
+        get: function () {
+
+            return this.pageNavItems.filter(".active");
+        },
+
+        set: function (elem) {
+
+            if ($.contains(this.pageNav[0], elem[0])) {
+                this.pageNavActive.removeClass("active");
+                elem.addClass("active");
+            }
+        }
+    }
+});
 
 Andamio.nav = (function () {
 
@@ -1041,28 +1064,6 @@ Andamio.nav = (function () {
 
         init: function () {
             var self = this;
-
-            // Register DOM references
-            Andamio.dom.pageNav = $(".js-page-navigation");
-            Andamio.dom.pageNavItems = Andamio.dom.pageNav.find(".action-nav-item");
-
-            Object.defineProperties(Andamio.dom, {
-                pageNavActive: {
-
-                    get: function () {
-
-                        return this.pageNavItems.filter(".active");
-                    },
-
-                    set: function (elem) {
-
-                        if ($.contains(this.pageNav[0], elem[0])) {
-                            this.pageNavActive.removeClass("active");
-                            elem.addClass("active");
-                        }
-                    }
-                }
-            });
 
             // Setup initial state
             isActive = Andamio.dom.html.hasClass("has-navigation");
@@ -1384,6 +1385,28 @@ Andamio.slideshow = (function () {
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global $, Andamio */
 
+// Register DOM references
+Andamio.dom.pageTabs = $(".js-page-tabs");
+Andamio.dom.pageTabsItems = Andamio.dom.pageTabs.find(".action-tab-item");
+
+Object.defineProperties(Andamio.dom, {
+    pageTabsActive: {
+
+        get: function () {
+
+            return this.pageTabsItems.filter(".active");
+        },
+
+        set: function (elem) {
+
+            if ($.contains(this.pageTabs[0], elem[0])) {
+                this.pageTabsActive.removeClass("active");
+                elem.addClass("active");
+            }
+        }
+    }
+});
+
 Andamio.tabs = (function () {
 
     var hasTabs;
@@ -1405,28 +1428,6 @@ Andamio.tabs = (function () {
         },
 
         init: function () {
-
-            // Register DOM references
-            Andamio.dom.pageTabs = $(".js-page-tabs");
-            Andamio.dom.pageTabsItems = Andamio.dom.pageTabs.find(".action-tab-item");
-
-            Object.defineProperties(Andamio.dom, {
-                pageTabsActive: {
-
-                    get: function () {
-
-                        return this.pageTabsItems.filter(".active");
-                    },
-
-                    set: function (elem) {
-
-                        if ($.contains(this.pageTabs[0], elem[0])) {
-                            this.pageTabsActive.removeClass("active");
-                            elem.addClass("active");
-                        }
-                    }
-                }
-            });
 
             // Setup initial state
             hasTabs = Andamio.dom.html.hasClass("has-page-tabs");
@@ -1460,6 +1461,7 @@ Andamio.tabs = (function () {
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio, $ */
 
+// Register DOM references
 Andamio.dom.pageView     = $(".js-page-view");
 Andamio.dom.parentView   = $(".js-parent-view");
 Andamio.dom.childView    = $(".js-child-view");

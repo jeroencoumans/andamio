@@ -1,6 +1,7 @@
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio, $ */
 
+// Register DOM references
 Andamio.dom.pageView     = $(".js-page-view");
 Andamio.dom.parentView   = $(".js-parent-view");
 Andamio.dom.childView    = $(".js-child-view");
