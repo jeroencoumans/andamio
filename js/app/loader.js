@@ -1,6 +1,23 @@
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global $, Andamio */
 
+// Register DOM references
+Andamio.dom.pageLoader = $(".js-page-loader");
+Andamio.dom.pageLoaderImg = Andamio.dom.pageLoader.find(".js-page-loader-spinner");
+
+Object.defineProperties(Andamio.dom, {
+    pageLoaderText: {
+
+        get: function () {
+            return this.pageLoader.find(".js-page-loader-text").text();
+        },
+
+        set: function (str) {
+            this.pageLoader.find(".js-page-loader-text").html(str);
+        }
+    }
+});
+
 Andamio.loader = (function () {
 
     var isActive;
@@ -44,23 +61,6 @@ Andamio.loader = (function () {
         },
 
         init: function () {
-
-            // Register DOM references
-            Andamio.dom.pageLoader = $(".js-page-loader");
-            Andamio.dom.pageLoaderImg = Andamio.dom.pageLoader.find(".js-page-loader-spinner");
-
-            Object.defineProperties(Andamio.dom, {
-                pageLoaderText: {
-
-                    get: function () {
-                        return this.pageLoader.find(".js-page-loader-text").text();
-                    },
-
-                    set: function (str) {
-                        this.pageLoader.find(".js-page-loader-text").html(str);
-                    }
-                }
-            });
 
             // Setup initial state
             isActive = false;

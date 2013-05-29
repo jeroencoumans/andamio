@@ -1,6 +1,7 @@
 /*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio, $ */
 
+// Register DOM references
 Andamio.dom.pageView     = $(".js-page-view");
 Andamio.dom.parentView   = $(".js-parent-view");
 Andamio.dom.childView    = $(".js-child-view");
@@ -215,10 +216,10 @@ Andamio.views = (function () {
             Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view, refresh ? "refresh" : "load", url]);
 
             if (refresh) {
-                Andamio.page.refresh(url, expiration, onLoaded);
+                Andamio.page.refresh(url, expiration, $.proxy(onLoaded, this));
             }
             else {
-                Andamio.page.load(url, expiration, true, onLoaded);
+                Andamio.page.load(url, expiration, true, $.proxy(onLoaded, this));
             }
         },
 
