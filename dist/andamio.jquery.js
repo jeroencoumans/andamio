@@ -11018,7 +11018,7 @@ Andamio.pager = (function () {
 
         if (this.loading) return;
 
-        var scrollTop = Andamio.config.webapp ? this.scroller.scrollTop() : Andamio.dom.viewport.scrollTop();
+        var scrollTop = this.scroller.scrollTop();
 
         if (scrollTop + this.scrollerHeight + this.options.autoFetchThreshold >= this.scrollerScrollHeight) {
 
@@ -11951,7 +11951,7 @@ Andamio.views = (function () {
                 if (Andamio.config.webapp) {
                     return this.container.hasClass("overthrow") ? this.container : this.container.find(".overthrow");
                 } else {
-                    return Andamio.dom.win;
+                    return Andamio.dom.viewport;
                 }
             }
         },
