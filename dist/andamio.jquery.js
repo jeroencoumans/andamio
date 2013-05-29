@@ -11729,8 +11729,9 @@ Andamio.slideshow = (function () {
             img.css('background-image', 'url(' + url + ')');
         });
 
-        this.wrapper.find(".action-slideshow-next").on("click", this.slideshow.next);
-        this.wrapper.find(".action-slideshow-prev").on("click", this.slideshow.prev);
+        this.wrapper
+            .on("click", ".action-slideshow-next", this.slideshow.next)
+            .on("click", ".action-slideshow-prev", this.slideshow.prev);
     }
 
     Slideshow.prototype.destroy = function () {
@@ -11739,8 +11740,9 @@ Andamio.slideshow = (function () {
         this.dots.wrapper.off("click").remove();
 
         // needs to go last
-        this.wrapper.find(".action-slideshow-next").off("click", this.slideshow.next);
-        this.wrapper.find(".action-slideshow-prev").off("click", this.slideshow.prev);
+        this.wrapper
+            .off("click", ".action-slideshow-next", this.slideshow.next)
+            .off("click", ".action-slideshow-prev", this.slideshow.prev);
         this.wrapper.find(".slideshow-container").css("width", "");
     };
 
