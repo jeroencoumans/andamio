@@ -6,58 +6,64 @@
 
 function initialState(context) {
 
-    // test wether the pageAlert exists and contains 1 element
+    // test wether the pageNav exists and contains 1 element
     casper.test.assertEvalEquals(function () {
-        return Andamio.dom.pageAlert.length;
-    }, 1, "Andamio.dom.pageAlert returns 1 element");
+        return Andamio.dom.pageNav.length;
+    }, 1, "Andamio.dom.pageNav returns 1 element");
 
+    // test number of navigation items
     casper.test.assertEvalEquals(function () {
-        return typeof Andamio.dom.pageAlertText;
-    }, "string", "Andamio.dom.pageAlertText returns a string");
+        return Andamio.dom.pageNavItems.length;
+    }, 5, "Andamio.dom.pageNavItems returns 5 items");
+
+    // test active navigation item
+    casper.test.assertEvalEquals(function () {
+        return Andamio.dom.pageNavActive.length;
+    }, 1, "Andamio.dom.pageNavActive returns 1 element");
 
     // test initial status
     casper.test.assertEvalEquals(function () {
-        return Andamio.alert.status;
-    }, false, "Andamio.alert.status returns false (alert is hidden)");
+        return Andamio.nav.status;
+    }, false, "Andamio.nav.status returns false (navigation is hidden)");
 }
 
-function isShown() {
+function isShown(context) {
 
     casper.test.assertEvalEquals(function() {
-        return Andamio.alert.status;
-    }, true, "Alert is shown");
+        return Andamio.nav.status;
+    }, true, "Navigation is shown");
+
+    capture(context + "-navigation-show");
 }
 
-function isHidden() {
+function isHidden(context) {
 
     casper.test.assertEvalEquals(function() {
-        return Andamio.alert.status;
-    }, false, "Alert is hidden");
+        return Andamio.nav.status;
+    }, false, "Navigation is hidden");
+
+    capture(context + "-navigation-hide");
 }
 
 function show(context) {
 
     casper.evaluate(function() {
-        Andamio.alert.show("Hello Andamio");
+        Andamio.nav.show();
     });
 
     casper.wait(ANIMATION_TIMEOUT, function() {
-        isShown();
+        isShown(context);
     });
-
-    casper.thenEvaluate(function () {
-        return Andamio.dom.pageAlertText;
-    }, "Hello Andamio");
 }
 
 function hide(context) {
 
     casper.evaluate(function() {
-        Andamio.alert.hide();
+        Andamio.nav.hide();
     });
 
     casper.wait(ANIMATION_TIMEOUT, function() {
-        isHidden();
+        isHidden(context);
     });
 }
 
@@ -65,14 +71,18 @@ function testActions(context) {
 
     casper.log("Testing actions");
 
-    show(context);
+    casper.click(".action-show-nav");
+
+    casper.wait(ANIMATION_TIMEOUT, function() {
+        isShown("action");
+    });
 
     casper.then(function () {
-        casper.click(".action-hide-alert");
+        casper.click(".action-hide-nav");
     });
 
     casper.wait(ANIMATION_TIMEOUT, function() {
-        isHidden();
+        isHidden("action");
     });
 }
 
@@ -124,6 +134,7 @@ casper.then(function() {
 
     testActions("webapp");
 });
+
 
 /*** End test ***/
 
