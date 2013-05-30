@@ -28,7 +28,7 @@ Andamio.pager = (function () {
         this.errorMessage   = $('<div class="alert alert-error display-none">' + Andamio.i18n.pagerErrorMessage + '</div>');
         this.loadMoreAction = $('<div class="pager-action"></div>').append(this.errorMessage).append($('<a href="javascript:void(0)" class="button button-block action-load-more">' + Andamio.i18n.pagerLoadMore + '</a>'));
         this.spinner        = $('<div class="pager-loading display-none"><i class="icon icon-spinner-light"></i><span class="icon-text">' + Andamio.i18n.pagerLoading + '</span></div>');
-        this.noMorePages    = $('<div class="pager-action display-none">' + Andamio.i18n.pagerNoMorePages + '</div>');
+        this.noMorePages    = $('<div class="pager-action">' + Andamio.i18n.pagerNoMorePages + '</div>');
         this.scroller       = Andamio.views.currentView.scroller;
         this.scrollerHeight = this.scroller.height();
         this.scrollerScrollHeight = this.scroller[0].scrollHeight || Andamio.dom.viewport.height();

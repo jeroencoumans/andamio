@@ -34,7 +34,7 @@ window.APP = (function () {
                 pagerWrapper:       pagerWrapper,
                 autoFetch:          true,
                 autoFetchThreshold: 300,
-                autoFetchMax:       2,
+                autoFetchMax:       1,
                 pageNumber:         0,
                 url:                Andamio.config.server + "pager/",
                 queryParam:         false,
