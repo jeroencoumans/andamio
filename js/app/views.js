@@ -120,7 +120,7 @@ Andamio.views = (function () {
                 if (Andamio.config.webapp) {
                     return this.container.hasClass("overthrow") ? this.container : this.container.find(".overthrow");
                 } else {
-                    return Andamio.dom.viewport;
+                    return Andamio.dom.win;
                 }
             }
         },
