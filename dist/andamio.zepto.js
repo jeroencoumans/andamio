@@ -3987,6 +3987,8 @@ Andamio.pager = (function () {
                 // if autofetch was disabled (e.g. due to network error), check if it needs to be enabled again
                 if (self.options.pageNumber < self.options.autoFetchMax) {
                     self.enableAutofetch();
+                } else {
+                    self.disableAutofetch();
                 }
 
                 // Done loading
