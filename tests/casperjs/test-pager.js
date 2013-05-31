@@ -2,42 +2,42 @@ var checkChildren = function (context, children) {
     casper.test.assertEvalEquals(function () {
         return APP.pagers.parentView.options.pagerWrapper.children().length;
     }, children, 'pagerWrapper contains this many children: ' + children);
-}
+};
 
 var checkPagenumber = function (context, pageNumber) {
 
     casper.test.assertEvalEquals(function () {
         return APP.pagers.parentView.options.pageNumber;
     }, pageNumber, 'APP.pagers.parentView.options.pageNumber is ' + pageNumber);
-}
+};
 
 var checkStatus = function (context, status) {
 
     casper.test.assertEvalEquals(function () {
         return APP.pagers.parentView.status ? "enabled" : "disabled";
     }, status, 'APP.pagers.parentView is ' + status);
-}
+};
 
 var checkSpinner = function (context, status) {
 
     casper.test.assertEvalEquals(function () {
         return APP.pagers.parentView.spinner.hasClass("display-none") ? 'invisible' : 'visible';
     }, status, 'APP.pagers.parentView.loadMoreAction is ' + status);
-}
+};
 
 var checkLoadMoreButton = function (context, status) {
 
     casper.test.assertEvalEquals(function () {
         return APP.pagers.parentView.loadMoreAction.hasClass("display-none") ? 'invisible' : 'visible';
     }, status, 'APP.pagers.parentView.loadMoreAction is ' + status);
-}
+};
 
 var checkNoMoreItems = function (context, status) {
 
     casper.test.assertEvalEquals(function () {
         return Andamio.views.currentView.content.find(APP.pagers.parentView.noMorePages).length === 0 ? "invisible" : "visible";
     }, status, "APP.pagers.parentView.noMorePages is " + status);
-}
+};
 
 var initialState = function (context) {
 
@@ -53,7 +53,7 @@ var initialState = function (context) {
     checkNoMoreItems(context, "invisible");
 
     capture(context + "-pager-initial");
-}
+};
 
 var loadNext = function (context) {
 
@@ -69,11 +69,13 @@ var loadNext = function (context) {
         return casper.evaluate(function() {
             return APP.pagers.parentView.options.pagerWrapper.children().length > 10;
         });
-    })
+    });
 
     casper.test.info("Checking...");
 
     casper.then(function () {
+        scrollDown();
+
         checkChildren(context, 20);
         checkStatus(context, "enabled");
         checkPagenumber(context, 1);
@@ -89,6 +91,8 @@ var loadNext = function (context) {
     });
 
     casper.then(function () {
+        scrollDown();
+
         checkChildren(context, 30);
         checkStatus(context, "enabled");
         checkPagenumber(context, 2);
@@ -104,14 +108,15 @@ var loadNext = function (context) {
     });
 
     casper.then(function () {
+        scrollDown();
+
         checkChildren(context, 32);
         checkStatus(context, "disabled");
         checkPagenumber(context, 3);
         checkNoMoreItems(context, "visible");
         capture(context + "-pager-3");
     });
-
-}
+};
 
 
 /***
@@ -135,7 +140,10 @@ casper.then(function() {
 casper.thenOpen(localApp, function() {
 
     casper.test.info("*** Open webapp");
-    initialState("webapp");
+    casper.wait(ANIMATION_TIMEOUT, function() {
+        initialState("webapp");
+    });
+
 });
 
 casper.then(function() {

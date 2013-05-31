@@ -19,14 +19,14 @@ ANIMATION_TIMEOUT = 500;
 
 ***/
 
-function capture(filename) {
+var capture = function(filename) {
     // uncomment if you want to capture screenshots
     // return true;
 
     casper.capture("tests/screenshots/" + filename + '.png');
 }
 
-function setupBrowser() {
+var setupBrowser = function() {
     // set iPhone UA
     casper.userAgent(userAgentIPhone5);
 
@@ -39,13 +39,16 @@ function setupBrowser() {
     })
 }
 
-function validateContext(context) {
+var scrollDown = function (context) {
 
-    if (context === "webapp") {
-        casper.test.assertExists(".webapp");
-        casper.test.assertExists(".webapp > .viewport");
-    } else if (context === "website") {
-        casper.test.assertExists(".website");
-        casper.test.assertExists(".website > .viewport");
-    }
+    casper.evaluate(function () {
+
+        if (Andamio.config.webapp) {
+            (function (s) {
+                s[0].scrollTop = s[0].scrollHeight;
+            })(Andamio.views.currentView.scroller);
+        } else {
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+    });
 }
