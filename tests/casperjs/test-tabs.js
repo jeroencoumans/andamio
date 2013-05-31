@@ -25,9 +25,21 @@ function initialState(context) {
     casper.test.assertEvalEquals(function () {
         return Andamio.tabs.status;
     }, false, "Andamio.tabs.status returns false (tabs are hidden)");
+};
+
+var isShown = function() {
+    return casper.evaluate(function() {
+        return Andamio.tabs.status;
+    });
+};
+
+var isHidden = function() {
+    return casper.evaluate(function() {
+        return Andamio.tabs.status === false;
+    });
 }
 
-function isShown(context) {
+function testShown(context) {
 
     casper.test.assertEvalEquals(function() {
         return Andamio.tabs.status;
@@ -36,7 +48,7 @@ function isShown(context) {
     capture(context + "-tabs-show");
 }
 
-function isHidden(context) {
+function testHidden(context) {
 
     casper.test.assertEvalEquals(function() {
         return Andamio.tabs.status;
@@ -51,8 +63,10 @@ function show(context) {
         Andamio.tabs.show();
     });
 
-    casper.wait(ANIMATION_TIMEOUT, function() {
-        isShown(context);
+    casper.waitFor(isShown);
+
+    casper.then(function() {
+        testShown(context);
     });
 }
 
@@ -62,8 +76,10 @@ function hide(context) {
         Andamio.tabs.hide();
     });
 
-    casper.wait(ANIMATION_TIMEOUT, function() {
-        isHidden(context);
+    casper.waitFor(isHidden);
+
+    casper.then(function() {
+        testHidden(context);
     });
 }
 
@@ -73,16 +89,20 @@ function testActions(context) {
 
     casper.click(".action-show-tabs");
 
-    casper.wait(ANIMATION_TIMEOUT, function() {
-        isShown("action");
+    casper.waitFor(isShown);
+
+    casper.then(function() {
+        testShown("action");
     });
 
     casper.then(function () {
         casper.click(".action-hide-tabs");
     });
 
-    casper.wait(ANIMATION_TIMEOUT, function() {
-        isHidden("action");
+    casper.waitFor(isHidden);
+
+    casper.then(function() {
+        testHidden("action");
     });
 }
 

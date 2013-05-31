@@ -27,7 +27,19 @@ function initialState(context) {
     }, false, "Andamio.nav.status returns false (navigation is hidden)");
 }
 
-function isShown(context) {
+var isShown = function() {
+    return casper.evaluate(function() {
+        return Andamio.nav.status;
+    });
+};
+
+var isHidden = function() {
+    return casper.evaluate(function() {
+        return Andamio.nav.status === false;
+    });
+};
+
+function testShown(context) {
 
     casper.test.assertEvalEquals(function() {
         return Andamio.nav.status;
@@ -36,7 +48,7 @@ function isShown(context) {
     capture(context + "-navigation-show");
 }
 
-function isHidden(context) {
+function testHidden(context) {
 
     casper.test.assertEvalEquals(function() {
         return Andamio.nav.status;
@@ -51,8 +63,10 @@ function show(context) {
         Andamio.nav.show();
     });
 
-    casper.wait(ANIMATION_TIMEOUT, function() {
-        isShown(context);
+    casper.waitFor(isShown);
+
+    casper.then(function() {
+        testShown(context);
     });
 }
 
@@ -62,8 +76,10 @@ function hide(context) {
         Andamio.nav.hide();
     });
 
-    casper.wait(ANIMATION_TIMEOUT, function() {
-        isHidden(context);
+    casper.waitFor(isHidden);
+
+    casper.then(function() {
+        testHidden(context);
     });
 }
 
@@ -73,16 +89,17 @@ function testActions(context) {
 
     casper.click(".action-show-nav");
 
-    casper.wait(ANIMATION_TIMEOUT, function() {
-        isShown("action");
-    });
+    casper.waitFor(isShown);
 
-    casper.then(function () {
+    casper.then(function() {
+        testShown("action");
         casper.click(".action-hide-nav");
     });
 
-    casper.wait(ANIMATION_TIMEOUT, function() {
-        isHidden("action");
+    casper.waitFor(isHidden);
+
+    casper.then(function() {
+        testHidden("action");
     });
 }
 
