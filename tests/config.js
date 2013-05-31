@@ -32,6 +32,11 @@ function setupBrowser() {
 
     // set iPhone dimensions
     casper.viewport(320, 480);
+
+    // make sure to manually clear cache
+    casper.evaluate(function () {
+        localStorage.clear();
+    })
 }
 
 function validateContext(context) {

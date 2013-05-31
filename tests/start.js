@@ -38,7 +38,7 @@ window.APP = (function () {
                 pageNumber:         0,
                 url:                Andamio.config.server + "pager/",
                 queryParam:         false,
-                expires:            60,
+                expires:            0,
                 callback            : function (pageNumber) {
 
                     console.log("Pager " + viewName + " " + this.url + pageNumber);
