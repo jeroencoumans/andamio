@@ -1251,21 +1251,6 @@ video {
   height: 100%;
   position: relative;
 }
-.slideshow-dots {
-  padding: 5px 10px;
-  text-align: center;
-}
-.slideshow-dots .slideshow-dot {
-  display: inline-block;
-  margin: 0 10px 0 0;
-  width: 10px;
-  height: 10px;
-  border-radius: 10px;
-  background: #bfbfbf;
-}
-.slideshow-dots .slideshow-dot.active {
-  background: #999999;
-}
 /***
 
     <div class="media-browser">
@@ -1618,6 +1603,21 @@ video {
 .pull-to-refresh-text-loading {
   margin: 0;
   border-bottom: 1px solid #b3b3b3;
+}
+.slideshow-dots {
+  padding: 5px 10px;
+  text-align: center;
+}
+.slideshow-dot {
+  display: inline-block;
+  margin: 0 10px 0 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  background: #bfbfbf;
+}
+.slideshow-dot.active {
+  background: #999999;
 }
 /***
 

@@ -1,0 +1,23 @@
+@slideshow-dots-background: @grey;
+@slideshow-dots-active-background: @dark-grey;
+@slideshow-dots-size: @grid-m;
+@slideshow-dots-radius: @grid-m;
+
+.slideshow-dots {
+    padding: @grid-s @grid-m;
+    text-align: center;
+}
+
+    .slideshow-dot {
+        display: inline-block;
+        margin: 0 @grid-m 0 0;
+        width: @slideshow-dots-size;
+        height: @slideshow-dots-size;
+        border-radius: @slideshow-dots-radius;
+
+        background: @slideshow-dots-background;
+
+        &.active {
+            background: @slideshow-dots-active-background;
+        }
+    }
