@@ -1957,7 +1957,7 @@ Andamio.views = (function () {
 
             // Load the initial view URL if set
             if (typeof Andamio.config.initialView === "string") {
-                self.openParentPage(Andamio.config.initialView);
+                self.openParentPage(Andamio.config.initialView, null, "refresh");
             } else {
                 self.openParentPage();
                 self.currentUrl = Andamio.config.server;
