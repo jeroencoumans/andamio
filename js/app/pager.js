@@ -70,7 +70,7 @@ Andamio.pager = (function () {
         if (this.loading) return;
 
         // In website mode, the scroller is the window, but the viewport holds the actual scrollTop value
-        var scrollTop = Andamio.config.webapp ? this.scroller.scrollTop() : Andamio.dom.viewport.scrollTop();
+        var scrollTop = Andamio.views.currentView.scrollPosition;
 
         if (scrollTop + this.scrollerHeight + this.options.autoFetchThreshold >= this.scrollerScrollHeight) {
 
