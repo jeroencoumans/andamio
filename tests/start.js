@@ -121,7 +121,7 @@ window.APP = (function () {
 
             // Setup pull to refresh
             if (Andamio.config.webapp) {
-                Andamio.pulltorefresh.init();
+                this.pulltorefresh = Andamio.pulltorefresh.init(Andamio.views.parentView);
             }
         }
     };

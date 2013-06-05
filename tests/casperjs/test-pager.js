@@ -65,7 +65,7 @@ var loadNext = function (context) {
 
     casper.test.info("Waiting...");
 
-    casper.waitFor(function check() {
+    casper.waitFor(function () {
         return casper.evaluate(function() {
             return APP.pagers.parentView.options.pagerWrapper.children().length > 10;
         });
