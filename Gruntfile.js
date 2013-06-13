@@ -61,7 +61,7 @@ module.exports = function(grunt) {
 
             jquery: {
                 src: [
-                    'js/lib/jquery/jquery-2.0.0b1.js',
+                    'js/lib/jquery/jquery-2.0.2.js',
                     'js/lib/jquery/jquery.scrollto.js',
                     'dist/<%= pkg.name %>.libs.js',
                     'dist/<%= pkg.name %>.js'

@@ -426,10 +426,6 @@ Andamio.connection = (function () {
             Andamio.dom.html.addClass("is-offline");
         },
 
-        get isFast() {
-            return Andamio.connection.type === "wifi" || Andamio.connection.type === "ethernet";
-        },
-
         get status() {
             return isOnline;
         },
@@ -437,6 +433,10 @@ Andamio.connection = (function () {
         get type() {
 
             return navigator.connection ? navigator.connection.type : "ethernet";
+        },
+
+        get isFast() {
+            return this.type === "wifi" || this.type === "ethernet";
         },
 
         init: function () {
