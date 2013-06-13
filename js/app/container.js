@@ -7,7 +7,7 @@ Andamio.container = (function () {
 
         Andamio.config.phone = {
             updateTimestamp: new Date(),
-            updateTimeout: (typeof Andamio.config.parentCacheExpiration === "number") ? Andamio.config.parentCacheExpiration * 1000 : 0
+            updateTimeout: Andamio.config.expiration.parentView * 1000
         };
 
         // hide splashscreen

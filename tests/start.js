@@ -102,7 +102,7 @@ window.APP = (function () {
 
             // Initialize
             Andamio.init({
-                cache: false,
+                cache: true,
                 title: "Andamio",
                 initialView: "blocks/parent.html",
                 social: {

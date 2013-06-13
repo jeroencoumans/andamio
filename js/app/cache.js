@@ -21,7 +21,7 @@ Andamio.cache = (function () {
         set: function (key, data, expiration) {
 
             if (key && data && cache) {
-                var minutes = (typeof expiration === "number") ? expiration : Andamio.config.cacheExpiration;
+                var minutes = (typeof expiration === "number") ? expiration : Andamio.config.expiration.all;
                 cache.set(key, data, minutes);
             }
         },

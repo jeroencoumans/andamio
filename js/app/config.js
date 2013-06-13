@@ -68,13 +68,14 @@ Andamio.config = (function () {
             this.touch   = 'ontouchstart' in win;
             this.cache   = window.lscache ? window.lscache.supported() : false;
 
+            // Default expiration times, configurable per view
+            this.expiration = {
+                all: 24 * 60,
+                parentView: 30
+            };
+
             if (Andamio.dom.doc.width() >= 980) {
                 this.os.tablet = true;
-            }
-
-            if (this.cache) {
-                this.parentCacheExpiration = 30; // 30 minutes by default for parentViews
-                this.cacheExpiration = 24 * 60; // 2 hours by default for other views
             }
 
             if (this.touch) {

@@ -10506,13 +10506,14 @@ Andamio.config = (function () {
             this.touch   = 'ontouchstart' in win;
             this.cache   = window.lscache ? window.lscache.supported() : false;
 
+            // Default expiration times, configurable per view
+            this.expiration = {
+                all: 24 * 60,
+                parentView: 30
+            };
+
             if (Andamio.dom.doc.width() >= 980) {
                 this.os.tablet = true;
-            }
-
-            if (this.cache) {
-                this.parentCacheExpiration = 30; // 30 minutes by default for parentViews
-                this.cacheExpiration = 24 * 60; // 2 hours by default for other views
             }
 
             if (this.touch) {
@@ -10700,7 +10701,7 @@ Andamio.container = (function () {
 
         Andamio.config.phone = {
             updateTimestamp: new Date(),
-            updateTimeout: (typeof Andamio.config.parentCacheExpiration === "number") ? Andamio.config.parentCacheExpiration * 1000 : 0
+            updateTimeout: Andamio.config.expiration.parentView * 1000
         };
 
         // hide splashscreen
@@ -10779,7 +10780,7 @@ Andamio.cache = (function () {
         set: function (key, data, expiration) {
 
             if (key && data && cache) {
-                var minutes = (typeof expiration === "number") ? expiration : Andamio.config.cacheExpiration;
+                var minutes = (typeof expiration === "number") ? expiration : Andamio.config.expiration.all;
                 cache.set(key, data, minutes);
             }
         },
@@ -11619,7 +11620,7 @@ Andamio.pulltorefresh = (function () {
 
                 // Set a hardcoded delay to actually refresh, since it sometimes happens so fast it causes a jarring experience
                 Andamio.util.delay(function () {
-                    Andamio.views.refreshView(Andamio.views.currentView, null, onRefreshEnd);
+                    Andamio.views.refreshView(Andamio.views.currentView, onRefreshEnd);
                 }, 300);
             }
         },
@@ -12023,6 +12024,11 @@ Andamio.views = (function () {
                     this.container.addClass("view-hidden").removeClass("view-active");
                 }
             }
+        },
+        expiration: {
+            get: function () {
+                return Andamio.config.expiration[this.name] || Andamio.config.expiration.all;
+            }
         }
     });
 
@@ -12075,7 +12081,7 @@ Andamio.views = (function () {
             this.modalCount = 0;
         },
 
-        loadView: function (view, url, expiration, scrollPosition, callback, refresh) {
+        loadView: function (view, url, scrollPosition, callback, refresh) {
 
             var onLoaded = function (response, errorType) {
 
@@ -12104,31 +12110,31 @@ Andamio.views = (function () {
             Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view, refresh ? "refresh" : "load", url]);
 
             if (refresh) {
-                Andamio.page.refresh(url, expiration, $.proxy(onLoaded, this));
+                Andamio.page.refresh(url, view.expiration, $.proxy(onLoaded, this));
             }
             else {
-                Andamio.page.load(url, expiration, true, $.proxy(onLoaded, this));
+                Andamio.page.load(url, view.expiration, false, $.proxy(onLoaded, this));
             }
         },
 
-        activateView: function (view, url, expiration, scrollPosition, refresh) {
+        activateView: function (view, url, scrollPosition, refresh) {
 
             view.active = true;
 
             if (url) {
-                this.loadView(view, url, expiration, scrollPosition, null, refresh);
+                this.loadView(view, url, scrollPosition, null, refresh);
             } else {
                 Andamio.dom.doc.trigger("Andamio:views:activateView:start", [view, "load", this.currentUrl]);
                 Andamio.dom.doc.trigger("Andamio:views:activateView:finish", [view, "load", this.currentUrl]);
             }
         },
 
-        refreshView: function (view, expiration, callback) {
+        refreshView: function (view, callback) {
 
             view = view || this.currentView;
 
             if (view.url) {
-                this.loadView(view, view.url, expiration, null, callback, "refresh");
+                this.loadView(view, view.url, 0, callback, "refresh");
             }
         },
 
@@ -12137,7 +12143,7 @@ Andamio.views = (function () {
             view.active = false;
         },
 
-        pushView: function (view, url, expiration, scrollPosition, refresh) {
+        pushView: function (view, url, scrollPosition, refresh) {
 
             this.currentView = view;
 
@@ -12146,7 +12152,7 @@ Andamio.views = (function () {
                 this.deactivateView(this.previousView);
             }
 
-            this.activateView(view, url, expiration, scrollPosition, refresh);
+            this.activateView(view, url, scrollPosition, refresh);
         },
 
         popView: function () {
@@ -12176,13 +12182,13 @@ Andamio.views = (function () {
             }
         },
 
-        openParentPage: function (url, expiration, refresh) {
+        openParentPage: function (url, refresh) {
 
             this.resetViews();
-            this.pushView(parentView, url, (typeof expiration === "number") ? expiration : Andamio.config.parentCacheExpiration, 0, refresh);
+            this.pushView(parentView, url, 0, refresh);
         },
 
-        pushModal: function (url, expiration, refresh) {
+        pushModal: function (url, refresh) {
 
             if (this.modalCount > 0) {
                 return false;
@@ -12192,7 +12198,7 @@ Andamio.views = (function () {
                     modalView.slide("slide-default");
                 }
 
-                this.pushView(modalView, url, expiration, 0, refresh);
+                this.pushView(modalView, url, 0, refresh);
                 this.modalCount++;
             }
         },
@@ -12212,7 +12218,7 @@ Andamio.views = (function () {
             }
         },
 
-        pushMedia: function (url, expiration, refresh) {
+        pushMedia: function (url, refresh) {
 
             if (this.mediaCount > 0) {
                 return false;
@@ -12222,7 +12228,7 @@ Andamio.views = (function () {
                     mediaView.slide("slide-default");
                 }
 
-                this.pushView(mediaView, url, expiration, 0, refresh);
+                this.pushView(mediaView, url, 0, refresh);
                 this.mediaCount++;
             }
         },
@@ -12242,7 +12248,7 @@ Andamio.views = (function () {
             }
         },
 
-        pushChild: function (url, expiration, refresh) {
+        pushChild: function (url, refresh) {
 
             // Don't open the same URL, instead refresh
             if (url === Andamio.views.currentUrl) {
@@ -12261,7 +12267,7 @@ Andamio.views = (function () {
 
             // Initial situation
             case parentView:
-                this.pushView(childView, url, expiration, 0, refresh);
+                this.pushView(childView, url, 0, refresh);
 
                 if (Andamio.config.webapp) {
                     parentView.slide("slide-left");
@@ -12271,7 +12277,7 @@ Andamio.views = (function () {
                 break;
 
             case childView:
-                this.pushView(childViewAlt, url, expiration, 0, refresh);
+                this.pushView(childViewAlt, url, 0, refresh);
 
                 if (Andamio.config.webapp) {
                     childViewAlt.container.removeClass("slide-left").addClass("slide-right");
@@ -12285,7 +12291,7 @@ Andamio.views = (function () {
                 break;
 
             case childViewAlt:
-                this.pushView(childView, url, expiration, 0, refresh);
+                this.pushView(childView, url, 0, refresh);
 
                 if (Andamio.config.webapp) {
                     childView.container.removeClass("slide-left").addClass("slide-right");
@@ -12418,7 +12424,7 @@ Andamio.views = (function () {
 
             Andamio.events.attach(".action-refresh", function () {
 
-                self.refreshView(self.currentView);
+                self.refreshView();
             }, true);
 
             // Swipe right to go back
