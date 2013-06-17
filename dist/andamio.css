@@ -1612,10 +1612,10 @@ video {
   width: 10px;
   height: 10px;
   border-radius: 10px;
-  background: #bfbfbf;
+  background-color: #bfbfbf;
 }
 .slideshow-dot.active {
-  background: #999999;
+  background-color: #999999;
 }
 /***
 
