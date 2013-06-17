@@ -7941,6 +7941,10 @@ Andamio.config = (function () {
                 this.webapp = true;
             }
 
+            if (this.os.android) {
+                this.webapp = false;
+            }
+
             if (this.webapp) {
                 Andamio.dom.html.removeClass("website").addClass("webapp");
             } else {
