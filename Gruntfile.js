@@ -138,5 +138,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-casperjs');
 
-    grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'less']);
+    grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'less', 'casperjs']);
 };

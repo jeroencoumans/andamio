@@ -8874,13 +8874,8 @@ Andamio.nav = (function () {
             isActive = Andamio.dom.html.hasClass("has-navigation");
 
             if (! Andamio.config.webapp) {
-                docheight = Andamio.dom.win.height();
+                docheight = Andamio.dom.win[0].innerHeight; // innerHeight is more reliable on Android
                 navheight = Andamio.dom.pageNav.height();
-
-                // When in Mobile Safari, add the height of the address bar
-                if (Andamio.config.os.iphone) {
-                    docheight += 60;
-                }
 
                 // make sure the navigation is as high as the page
                 if (docheight > navheight) {
