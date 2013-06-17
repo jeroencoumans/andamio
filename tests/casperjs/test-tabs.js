@@ -112,7 +112,30 @@ function testActions(context) {
 
 ***/
 
-casper.start(localApp, function () {
+
+casper.start(localSite, function () {
+    setupBrowser();
+
+    casper.test.info("*** Open website");
+    initialState("website");
+});
+
+casper.then(function() {
+
+    show("website");
+});
+
+casper.then(function() {
+
+    hide("website");
+});
+
+casper.then(function() {
+
+    testActions("website");
+});
+
+casper.thenOpen(localApp, function () {
     setupBrowser();
 
     casper.test.info("*** Open webapp");

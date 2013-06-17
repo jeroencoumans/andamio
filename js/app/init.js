@@ -18,8 +18,5 @@ Andamio.init = function (options) {
     Andamio.views.init();
     Andamio.nav.init();
     Andamio.reveal.init();
-
-    if (Andamio.config.webapp) {
-        Andamio.tabs.init();
-    }
+    Andamio.tabs.init();
 };

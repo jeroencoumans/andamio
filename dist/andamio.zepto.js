@@ -4937,6 +4937,7 @@ Andamio.views = (function () {
         activateView: function (view, url, scrollPosition, refresh) {
 
             view.active = true;
+            Andamio.dom.html.addClass("has-" + view.name);
 
             if (url) {
                 this.loadView(view, url, scrollPosition, null, refresh);
@@ -4958,6 +4959,7 @@ Andamio.views = (function () {
         deactivateView: function (view) {
 
             view.active = false;
+            Andamio.dom.html.removeClass("has-" + view.name);
         },
 
         pushView: function (view, url, scrollPosition, refresh) {
@@ -5275,8 +5277,5 @@ Andamio.init = function (options) {
     Andamio.views.init();
     Andamio.nav.init();
     Andamio.reveal.init();
-
-    if (Andamio.config.webapp) {
-        Andamio.tabs.init();
-    }
+    Andamio.tabs.init();
 };

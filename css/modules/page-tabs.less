@@ -10,11 +10,8 @@
 @page-tab-icon-margin: 0 auto 3px;
 
 .page-tabs {
-    .flex-row();
+    display: none;
     height: @page-tab-height;
-    .animate(-webkit-transform);
-    .overlay-bottom;
-    .translate3d(0, @page-tab-height, 0);
 
     .tab-item {
         .flex-unit();
@@ -29,18 +26,43 @@
         }
 }
 
-.webapp.has-page-tabs {
+.has-page-tabs {
+
     .page-tabs {
-        .translate3d(0,0,0); // Move it into view
+        .flex-row();
     }
 
-    .page-view .page-content {
-        bottom: @page-tab-height;
-    }
-}
+    &.website {
+        .page-view {
+            .page-tabs {
+                .overlay-top;
+                padding-top: @page-header-height;
+            }
 
-.website {
-    .page-tabs {
-        display: none; // hide by default
+            .page-content {
+                padding-top: @page-tab-height; // use padding so we don't have issues with margin collapsing
+            }
+        }
+
+        // Don't show tabs in modal or media views
+        &.has-modalView,
+        &.has-mediaView {
+            .page-tabs {
+                display: none;
+            }
+        }
+    }
+
+    &.webapp {
+
+        .page-view {
+            .page-tabs {
+                .overlay-bottom;
+            }
+
+            .page-content {
+                bottom: @page-tab-height;
+            }
+        }
     }
 }
