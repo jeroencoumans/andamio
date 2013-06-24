@@ -67,7 +67,6 @@ Andamio.pager = (function () {
     };
 
     Pager.prototype.onScroll = function () {
-        console.log('onScroll', this);
 
         if (this.loading) return;
 
