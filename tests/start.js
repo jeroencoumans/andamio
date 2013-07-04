@@ -23,12 +23,12 @@ window.APP = (function () {
             // Explicitly destroy the pager if it already existed in this view
             if (pagers[viewName]) {
 
-                console.log("deactivate pager " + viewName);
+                // console.log("deactivate pager " + viewName);
                 pagers[viewName].disable();
                 pagers[viewName] = null;
             }
 
-            console.log("activate pager " + viewName);
+            // console.log("activate pager " + viewName);
 
             pagers[viewName] = Andamio.pager.init({
                 pagerWrapper:       pagerWrapper,
@@ -41,7 +41,7 @@ window.APP = (function () {
                 expires:            0,
                 callback            : function (pageNumber) {
 
-                    console.log("Pager " + viewName + " " + this.url + pageNumber);
+                    // console.log("Pager " + viewName + " " + this.url + pageNumber);
                 }
             });
         }
@@ -58,18 +58,18 @@ window.APP = (function () {
             // Explicitly destroy the slideshow if it already existed in this view
             if (slideshows[viewName]) {
 
-                console.log("deactivate slideshow " + viewName);
+                // console.log("deactivate slideshow " + viewName);
                 slideshows[viewName].destroy();
                 slideshows[viewName] = null;
             }
 
-            console.log("activate slideshow " + viewName);
+            // console.log("activate slideshow " + viewName);
 
             if (viewName === "childView") options.stopPropagation = true;
 
             slideshows[viewName] = Andamio.slideshow.init(slideshowEl, options, function (slideNumber) {
 
-                console.log("Slideshow " + viewName + " to " + slideNumber);
+                // console.log("Slideshow " + viewName + " to " + slideNumber);
             });
         }
     }
