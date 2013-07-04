@@ -9565,7 +9565,7 @@ Andamio.views = (function () {
                 if (this.childCount === 1 || this.modalCount || this.mediaCount) {
                     this.activateView(this.currentView);
                 } else {
-                    this.activateView(this.currentView, this.currentUrl, false, this.previousScrollPosition);
+                    this.activateView(this.currentView, this.currentUrl, this.previousScrollPosition);
                 }
 
                 // Finally, delete the last scroll position

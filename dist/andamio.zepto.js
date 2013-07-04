@@ -223,7 +223,7 @@ var Zepto = (function() {
   }
 
   function filtered(nodes, selector) {
-    return selector === undefined ? $(nodes) : $(nodes).filter(selector)
+    return selector == null ? $(nodes) : $(nodes).filter(selector)
   }
 
   $.contains = function(parent, node) {
@@ -935,7 +935,7 @@ window.Zepto = Zepto
     // Whether data should be serialized to string
     processData: true,
     // Whether the browser should be allowed to cache GET responses
-    cache: true,
+    cache: true
   }
 
   function mimeToDataType(mime) {
@@ -4988,7 +4988,7 @@ Andamio.views = (function () {
                 if (this.childCount === 1 || this.modalCount || this.mediaCount) {
                     this.activateView(this.currentView);
                 } else {
-                    this.activateView(this.currentView, this.currentUrl, false, this.previousScrollPosition);
+                    this.activateView(this.currentView, this.currentUrl, this.previousScrollPosition);
                 }
 
                 // Finally, delete the last scroll position
