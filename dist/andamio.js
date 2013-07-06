@@ -23,6 +23,7 @@ Andamio.i18n = {
     ajaxServerError: "The server is having problems, try again later.",
     ajaxRetry: "Load again",
     offlineMessage: "It seems your internet connection is offline.",
+    pageLoaderText: "Loading&hellip;",
     pagerLoadMore: "Load more",
     pagerLoading: "Loading&hellip;",
     pagerNoMorePages: "There are no more items.",
@@ -711,9 +712,6 @@ Andamio.pager = (function () {
         this.loadMoreAction.off("click").remove();
         this.spinner.remove();
 
-        // Show the message that there are no more pages
-        this.noMorePages.insertAfter(this.options.pagerWrapper);
-
         if (this.options.autoFetch) {
             this.disableAutofetch();
         }
@@ -783,6 +781,9 @@ Andamio.pager = (function () {
                 // if less children than items per page are returned, disable the pager
                 if (self.options.pagerWrapper.children().length - children < self.options.itemsPerPage) {
                     self.disable();
+
+                    // Show the message that there are no more pages
+                    self.noMorePages.insertAfter(self.options.pagerWrapper);
                 }
 
                 self.updateScroller();
@@ -933,9 +934,8 @@ Andamio.loader = (function () {
 
             isActive = true;
 
-            if (msg) {
-                Andamio.dom.pageLoaderText = msg;
-            }
+            msg = typeof msg === "string" ? msg : Andamio.i18n.pageLoaderText;
+            Andamio.dom.pageLoaderText = msg;
 
             if (Andamio.config.tmgcontainer) {
                 if (navigator.spinner) {

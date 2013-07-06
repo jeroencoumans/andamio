@@ -8,6 +8,7 @@ Andamio.i18n = {
     ajaxServerError: "The server is having problems, try again later.",
     ajaxRetry: "Load again",
     offlineMessage: "It seems your internet connection is offline.",
+    pageLoaderText: "Loading&hellip;",
     pagerLoadMore: "Load more",
     pagerLoading: "Loading&hellip;",
     pagerNoMorePages: "There are no more items.",

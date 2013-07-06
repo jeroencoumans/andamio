@@ -27,9 +27,8 @@ Andamio.loader = (function () {
 
             isActive = true;
 
-            if (msg) {
-                Andamio.dom.pageLoaderText = msg;
-            }
+            msg = typeof msg === "string" ? msg : Andamio.i18n.pageLoaderText;
+            Andamio.dom.pageLoaderText = msg;
 
             if (Andamio.config.tmgcontainer) {
                 if (navigator.spinner) {
