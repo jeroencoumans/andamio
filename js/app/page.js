@@ -49,14 +49,22 @@ Andamio.page = (function () {
                 activeRequest = null;
             };
 
+            var headers = {
+                "X-PJAX": true,
+                "X-Requested-With": "XMLHttpRequest",
+                "X-Fast-Connection": Andamio.connection.isFast
+            };
+
+            if (Andamio.config.custom_headers) {
+                $.each(Andamio.config.custom_headers, function(k, v) {
+                        headers[k] = $.isFunction(v) ? v() : v;
+                })
+            }
+
             activeRequest = $.ajax({
                 url: url,
                 cache: cache,
-                headers: {
-                    "X-PJAX": true,
-                    "X-Requested-With": "XMLHttpRequest",
-                    "X-Fast-Connection": Andamio.connection.isFast
-                },
+                headers: headers,
                 error: onError,
                 success: onSuccess,
                 complete: onComplete
