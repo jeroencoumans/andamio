@@ -32,6 +32,7 @@ Andamio.pager = (function () {
         this.scroller       = Andamio.views.currentView.scroller;
         this.scrollerHeight = this.scroller.height();
         this.scrollerScrollHeight = this.scroller[0].scrollHeight || Andamio.dom.viewport.height();
+        this.scrollCallback = null;
 
         // Public variables
         this.status        = false;
@@ -81,11 +82,17 @@ Andamio.pager = (function () {
     Pager.prototype.enableAutofetch = function () {
 
         var self = this,
-            scrollTimeout;
+            scrollTimeout = null;
 
         this.showSpinner();
-        this.scroller.on("scroll", function () {
 
+        /*
+         * create a scroll callback which calls our real self.onScroll with a 250ms timeout for performance
+         *  store the callback in `this.scrollCallback` so that we can remove the event handler when we destruct the pager
+         *
+         * Afaik you can't $.proxy this callback, because then we can't seem to remove the event handler when we destruct the pager
+         */
+        this.scrollCallback = function () {
             if (scrollTimeout) {
                 // clear the timeout, if one is pending
                 clearTimeout(scrollTimeout);
@@ -93,12 +100,14 @@ Andamio.pager = (function () {
             }
 
             scrollTimeout = setTimeout($.proxy(self.onScroll, self), 250);
-        });
+        };
+
+        this.scroller.on("scroll", this.scrollCallback);
     };
 
     Pager.prototype.disableAutofetch = function () {
         this.hideSpinner();
-        this.scroller.off("scroll"); // TODO: only remove own scroll handler?!
+        this.scroller.off("scroll", this.scrollCallback);
     };
 
     Pager.prototype.enable = function () {
