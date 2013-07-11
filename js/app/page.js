@@ -57,8 +57,8 @@ Andamio.page = (function () {
 
             if (Andamio.config.custom_headers) {
                 $.each(Andamio.config.custom_headers, function(k, v) {
-                        headers[k] = $.isFunction(v) ? v() : v;
-                })
+                    headers[k] = $.isFunction(v) ? v() : v;
+                });
             }
 
             activeRequest = $.ajax({

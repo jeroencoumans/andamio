@@ -362,6 +362,36 @@ Andamio.cache = (function () {
 
     var cache;
 
+    var setBucket = function(bucket) {
+
+        if (cache) {
+            cache.setBucket(bucket);
+        }
+    };
+
+    /*
+     * we use a bucket with our current version string as name to store content in
+     *  and we store the version string as 'content_version'
+     *
+     * when then version changes we flush the old bucket and then switch to the new bucket
+     */
+    var handleCacheVersion = function(cache_version) {
+        // switch to main bucket so we can get the stored version
+        setBucket('');
+        // get version and check if it changed
+        if (cache_version != Andamio.cache.get('app_version')) {
+            // switch to old version bucket and flush
+            setBucket(Andamio.cache.get('app_version'));
+            Andamio.cache.flush();
+
+            // switch to main bucket and store current/new version
+            setBucket('');
+            Andamio.cache.set('app_version', cache_version);
+        }
+        // switch to current bucket
+        setBucket(cache_version);
+    };
+
     return {
 
         get: function (key) {
@@ -397,16 +427,13 @@ Andamio.cache = (function () {
             }
         },
 
-        setBucket: function (bucket) {
-
-            if (cache) {
-                cache.setBucket(bucket);
-            }
-        },
-
         init: function () {
 
             cache = Andamio.config.cache ? window.lscache : false;
+
+            if (cache && Andamio.config.cache_version) {
+                handleCacheVersion(Andamio.config.cache_version);
+            }
         }
     };
 })();
@@ -508,14 +535,22 @@ Andamio.page = (function () {
                 activeRequest = null;
             };
 
+            var headers = {
+                "X-PJAX": true,
+                "X-Requested-With": "XMLHttpRequest",
+                "X-Fast-Connection": Andamio.connection.isFast
+            };
+
+            if (Andamio.config.custom_headers) {
+                $.each(Andamio.config.custom_headers, function(k, v) {
+                    headers[k] = $.isFunction(v) ? v() : v;
+                });
+            }
+
             activeRequest = $.ajax({
                 url: url,
                 cache: cache,
-                headers: {
-                    "X-PJAX": true,
-                    "X-Requested-With": "XMLHttpRequest",
-                    "X-Fast-Connection": Andamio.connection.isFast
-                },
+                headers: headers,
                 error: onError,
                 success: onSuccess,
                 complete: onComplete
@@ -614,6 +649,7 @@ Andamio.pager = (function () {
         this.scroller       = Andamio.views.currentView.scroller;
         this.scrollerHeight = this.scroller.height();
         this.scrollerScrollHeight = this.scroller[0].scrollHeight || Andamio.dom.viewport.height();
+        this.scrollCallback = null;
 
         // Public variables
         this.status        = false;
@@ -663,11 +699,17 @@ Andamio.pager = (function () {
     Pager.prototype.enableAutofetch = function () {
 
         var self = this,
-            scrollTimeout;
+            scrollTimeout = null;
 
         this.showSpinner();
-        this.scroller.on("scroll", function () {
 
+        /*
+         * create a scroll callback which calls our real self.onScroll with a 250ms timeout for performance
+         *  store the callback in `this.scrollCallback` so that we can remove the event handler when we destruct the pager
+         *
+         * Afaik you can't $.proxy this callback, because then we can't seem to remove the event handler when we destruct the pager
+         */
+        this.scrollCallback = function () {
             if (scrollTimeout) {
                 // clear the timeout, if one is pending
                 clearTimeout(scrollTimeout);
@@ -675,12 +717,14 @@ Andamio.pager = (function () {
             }
 
             scrollTimeout = setTimeout($.proxy(self.onScroll, self), 250);
-        });
+        };
+
+        this.scroller.on("scroll", this.scrollCallback);
     };
 
     Pager.prototype.disableAutofetch = function () {
         this.hideSpinner();
-        this.scroller.off("scroll"); // TODO: only remove own scroll handler?!
+        this.scroller.off("scroll", this.scrollCallback);
     };
 
     Pager.prototype.enable = function () {
