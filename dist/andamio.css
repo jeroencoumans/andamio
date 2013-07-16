@@ -1516,11 +1516,6 @@ video {
   background: #1f1f1f;
   border-right: 0;
 }
-.tablet .page-navigation-toggle,
-.ios6 .page-navigation-toggle {
-  -webkit-box-shadow: -10px 0 20px -5px #050505;
-  box-shadow: -10px 0 20px -5px #050505;
-}
 .navigation-header {
   font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-size: 13px;
