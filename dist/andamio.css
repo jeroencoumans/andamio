@@ -806,7 +806,15 @@ video {
 ***/
 .media-object {
   display: block;
-  overflow: hidden;
+  zoom: 1;
+}
+.media-object:before,
+.media-object:after {
+  content: " ";
+  display: table;
+}
+.media-object:after {
+  clear: both;
 }
 /* OPTIONAL: an image that will be shown left */
 .media-img {
@@ -822,8 +830,12 @@ video {
 }
 /* The content in the middle will be positioned right between the image left and the actions right. If you want it to wrap instead, don't use this class */
 .media-bd {
-  display: block;
-  overflow: hidden;
+  display: table-cell;
+  vertical-align: top;
+  width: 10000px !important;
+  *display: block;
+  *zoom: 1;
+  *width: auto !important;
 }
 /***
 

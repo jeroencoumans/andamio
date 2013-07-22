@@ -7,7 +7,17 @@
 
 .media-object {
     display: block;
-    overflow: hidden;
+    zoom: 1;
+
+    &:before,
+    &:after {
+        content: " ";
+        display: table;
+    }
+
+    &:after {
+        clear: both;
+    }
 }
 
     /* OPTIONAL: an image that will be shown left */
@@ -26,6 +36,13 @@
 
     /* The content in the middle will be positioned right between the image left and the actions right. If you want it to wrap instead, don't use this class */
     .media-bd {
-        display: block;
-        overflow: hidden;
+        display: table-cell;
+        vertical-align: top;
+        width: 10000px !important;
+        *display: block;
+        //<=IE7
+        *zoom: 1;
+        //<=IE7
+        *width: auto !important;
+        //<=IE7
     }
