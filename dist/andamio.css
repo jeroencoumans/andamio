@@ -839,14 +839,6 @@ video {
 }
 /***
 
-    Wrapper classes for the media object.
-
-***/
-.media-object-list .media-object {
-  padding: 10px;
-}
-/***
-
     Website - toggling of active and inactive views
 
 ***/
@@ -1439,6 +1431,22 @@ video {
   color: #ffffff;
   text-shadow: 0 1px 1px rgba(5, 5, 5, 0.8);
 }
+/***
+
+    Wrapper classes for the media object.
+
+***/
+.media-object-list .media-object {
+  border-top: 1px solid #ffffff;
+  border-bottom: 1px solid #bfbfbf;
+  padding: 10px;
+}
+.media-object-list .media-object:first-child {
+  border-top: 0;
+}
+.media-object-list .media-object:last-child {
+  border-bottom: 0;
+}
 .page-alert {
   padding: 20px;
   -webkit-border-radius: 10px;
@@ -1532,9 +1540,17 @@ video {
 .navigation-item {
   display: block;
   padding: 10px;
+  border-top: 1px solid #383838;
+  border-bottom: 1px solid #050505;
   font-weight: bold;
   color: #bfbfbf;
   text-shadow: 0 1px 0 #050505;
+}
+.navigation-item:first-child {
+  border-top: 0;
+}
+.navigation-item:last-child {
+  border-bottom: 0;
 }
 .navigation-item.active {
   background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(0, #3280c9), color-stop(100%, #2866a0));

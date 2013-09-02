@@ -548,7 +548,7 @@ Andamio.page = (function () {
             }
 
             activeRequest = $.ajax({
-                url: url,
+                url: url + Andamio.config.pageUrlSuffix,
                 cache: cache,
                 data: Andamio.config.pageData || "",
                 headers: headers,
