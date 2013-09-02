@@ -1,4 +1,4 @@
-/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
+/*jshint browser: true, undef:true, unused:true, indent: 4 */
 /*global $, Andamio */
 
 window.Andamio = {};
@@ -13,7 +13,7 @@ Andamio.dom = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
+/*jshint browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio */
 
 Andamio.i18n = {
@@ -30,65 +30,23 @@ Andamio.i18n = {
     pagerErrorMessage: "There was an error loading more pages"
 };
 
-/*jshint es5: true, browser: true, undef:true, unused:true, boss:true */
-/*global Andamio, FastClick */
+/*jshint browser: true, browser: true, undef:true, unused:true */
+/*global Andamio, FastClick, $ */
 
 Andamio.config = (function () {
-
-    /*** Zepto detect.js ***/
-    var detect = function (ua) {
-        var os = this.os = {}, browser = this.browser = {},
-            webkit = ua.match(/WebKit\/([\d.]+)/),
-            android = ua.match(/(Android)\s+([\d.]+)/),
-            ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
-            iphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
-            webos = ua.match(/(webOS|hpwOS)[\s\/]([\d.]+)/),
-            touchpad = webos && ua.match(/TouchPad/),
-            kindle = ua.match(/Kindle\/([\d.]+)/),
-            silk = ua.match(/Silk\/([\d._]+)/),
-            blackberry = ua.match(/(BlackBerry).*Version\/([\d.]+)/),
-            bb10 = ua.match(/(BB10).*Version\/([\d.]+)/),
-            rimtabletos = ua.match(/(RIM\sTablet\sOS)\s([\d.]+)/),
-            playbook = ua.match(/PlayBook/),
-            chrome = ua.match(/Chrome\/([\d.]+)/) || ua.match(/CriOS\/([\d.]+)/),
-            firefox = ua.match(/Firefox\/([\d.]+)/);
-
-        if (browser.webkit = !!webkit) browser.version = webkit[1];
-
-        if (android) os.android = true, os.version = android[2];
-        if (iphone) os.ios = os.iphone = true, os.version = iphone[2].replace(/_/g, '.');
-        if (ipad) os.ios = os.ipad = true, os.version = ipad[2].replace(/_/g, '.');
-        if (webos) os.webos = true, os.version = webos[2];
-        if (touchpad) os.touchpad = true;
-        if (blackberry) os.blackberry = true, os.version = blackberry[2];
-        if (bb10) os.bb10 = true, os.version = bb10[2];
-        if (rimtabletos) os.rimtabletos = true, os.version = rimtabletos[2];
-        if (playbook) browser.playbook = true;
-        if (kindle) os.kindle = true, os.version = kindle[1];
-        if (silk) browser.silk = true, browser.version = silk[1];
-        if (!silk && os.android && ua.match(/Kindle Fire/)) browser.silk = true;
-        if (chrome) browser.chrome = true, browser.version = chrome[1];
-        if (firefox) browser.firefox = true, browser.version = firefox[1];
-
-        os.tablet = !!(ipad || playbook || (android && !ua.match(/Mobile/)) || (firefox && ua.match(/Tablet/)));
-        os.phone  = !!(!os.tablet && (android || iphone || webos || blackberry || bb10 ||
-            (chrome && ua.match(/Android/)) || (chrome && ua.match(/CriOS\/([\d.]+)/)) || (firefox && ua.match(/Mobile/))));
-    };
 
     return {
 
         init: function (options) {
 
-            detect.call(this, navigator.userAgent);
-
-            if (this.os.ios) {
-                this.os.ios5 = this.os.version.indexOf("5.") !== -1;
-                this.os.ios6 = this.os.version.indexOf("6.") !== -1;
+            if ($.os.ios) {
+                $.os.ios5 = $.os.version.indexOf("5.") !== -1;
+                $.os.ios6 = $.os.version.indexOf("6.") !== -1;
             }
 
-            if (this.os.android) {
-                this.os.android2 = this.os.version >= "2" && this.os.version < "4"; // yes we also count android 3 as 2 ;-)
-                this.os.android4 = this.os.version >= "4" && this.os.version < "5";
+            if ($.os.android) {
+                $.os.android2 = $.os.version >= "2" && $.os.version < "4"; // yes we also count android 3 as 2 ;-)
+                $.os.android4 = $.os.version >= "4" && $.os.version < "5";
             }
 
             // Setup defaults that can be overridden
@@ -107,7 +65,7 @@ Andamio.config = (function () {
             };
 
             if (Andamio.dom.doc.width() >= 980) {
-                this.os.tablet = true;
+                $.os.tablet = true;
             }
 
             if (this.touch) {
@@ -139,13 +97,13 @@ Andamio.config = (function () {
                 this.webapp = true;
             }
 
-            if (this.os.tablet) {
+            if ($.os.tablet) {
                 Andamio.dom.html.addClass("tablet");
                 Andamio.nav.show();
                 this.webapp = true;
             }
 
-            if (this.os.android) {
+            if ($.os.android) {
                 this.webapp = false;
             }
 
@@ -157,8 +115,8 @@ Andamio.config = (function () {
 
             this.website = !this.webapp;
 
-            for (var os in this.os) {
-                if (Andamio.config.os[os] && os !== "version") {
+            for (var os in $.os) {
+                if ($.os[os] && os !== "version") {
                     Andamio.dom.html.addClass(os);
                 }
             }
@@ -166,7 +124,7 @@ Andamio.config = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
+/*jshint browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio */
 Andamio.events = (function () {
 
@@ -223,7 +181,7 @@ Andamio.events = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
+/*jshint browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio, $ */
 
 Andamio.util = (function () {
@@ -290,7 +248,7 @@ Andamio.util.delay = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
+/*jshint browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio, $ */
 
 Andamio.container = (function () {
@@ -355,7 +313,7 @@ Andamio.container = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
+/*jshint browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio */
 
 Andamio.cache = (function () {
@@ -438,7 +396,7 @@ Andamio.cache = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
+/*jshint browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio */
 
 Andamio.connection = (function () {
@@ -484,7 +442,7 @@ Andamio.connection = (function () {
 
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
+/*jshint browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio, $ */
 
 Andamio.page = (function () {
@@ -547,8 +505,12 @@ Andamio.page = (function () {
                 });
             }
 
+            if (Andamio.config.pageUrlSuffix) {
+                url += Andamio.config.pageUrlSuffix;
+            }
+
             activeRequest = $.ajax({
-                url: url + Andamio.config.pageUrlSuffix,
+                url: url,
                 cache: cache,
                 data: Andamio.config.pageData || "",
                 headers: headers,
@@ -616,7 +578,7 @@ Andamio.page = (function () {
 
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
+/*jshint browser: true, undef:true, unused:true, indent: 4, boss:true */
 /*global Andamio, $ */
 
 /**
@@ -679,7 +641,7 @@ Andamio.pager = (function () {
             this.disableAutofetch();
         } else {
 
-            this.scrollerHeight = this.scroller.height(),
+            this.scrollerHeight = this.scroller.height();
             this.scrollerScrollHeight = this.scroller[0].scrollHeight || Andamio.dom.viewport.height();
         }
     };
@@ -866,7 +828,7 @@ Andamio.pager = (function () {
 
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
+/*jshint browser: true, undef:true, unused:true, indent: 4 */
 /*global $, Andamio */
 
 /**
@@ -950,7 +912,7 @@ Andamio.alert = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
+/*jshint browser: true, undef:true, unused:true, indent: 4 */
 /*global $, Andamio */
 
 // Register DOM references
@@ -1044,7 +1006,7 @@ Andamio.loader = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
+/*jshint browser: true, undef:true, unused:true, indent: 4 */
 /*global $, Andamio */
 
 // Register DOM references
@@ -1148,14 +1110,14 @@ Andamio.nav = (function () {
                     url     = Andamio.util.getUrl(target),
                     title   = Andamio.util.getTitle(target);
 
-                if (Andamio.dom.pageNavActive[0] === target[0] && !Andamio.config.os.tablet) {
+                if (Andamio.dom.pageNavActive[0] === target[0] && ! $.os.tablet) {
                     self.hide();
                     return;
                 }
 
                 Andamio.dom.pageNavActive = target;
 
-                if (!Andamio.config.os.tablet) {
+                if (! $.os.tablet) {
                     self.hide();
                 }
 
@@ -1171,7 +1133,7 @@ Andamio.nav = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
+/*jshint browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio, $ */
 
 Andamio.pulltorefresh = (function () {
@@ -1289,7 +1251,7 @@ Andamio.pulltorefresh = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
+/*jshint browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio, $ */
 
 Andamio.reveal = (function () {
@@ -1340,7 +1302,7 @@ Andamio.reveal = (function () {
 
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
+/*jshint browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio, $, Swipe */
 
 Andamio.slideshow = (function () {
@@ -1438,7 +1400,7 @@ Andamio.slideshow = (function () {
 
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
+/*jshint browser: true, undef:true, unused:true, indent: 4 */
 /*global $, Andamio */
 
 // Register DOM references
@@ -1514,7 +1476,7 @@ Andamio.tabs = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
+/*jshint browser: true, undef:true, unused:true, indent: 4, boss:true */
 /*global Andamio, $ */
 
 // Register DOM references
@@ -1527,6 +1489,8 @@ Andamio.dom.mediaView    = $(".js-media-view");
 
 /*** TODO: add support for data-title ***/
 Andamio.views = (function () {
+
+    "use strict";
 
     /**
      * A view has a container, optional content and position
@@ -2020,7 +1984,7 @@ Andamio.views = (function () {
              */
             Andamio.events.attach(".action-push", function (event) {
 
-                target = $(event.currentTarget),
+                target = $(event.currentTarget);
                 url = Andamio.util.getUrl(target);
 
                 self.pushChild(url);
@@ -2033,10 +1997,10 @@ Andamio.views = (function () {
 
             Andamio.events.attach(".action-show-modal", function (event) {
 
-                target = $(event.currentTarget),
+                target = $(event.currentTarget);
                 url = Andamio.util.getUrl(target);
 
-                if (Andamio.nav.status && !Andamio.config.os.tablet) Andamio.nav.hide();
+                if (Andamio.nav.status && !$.os.tablet) Andamio.nav.hide();
 
                 self.pushModal(url);
             }, true);
@@ -2048,10 +2012,10 @@ Andamio.views = (function () {
 
             Andamio.events.attach(".action-show-media", function (event) {
 
-                target = $(event.currentTarget),
+                target = $(event.currentTarget);
                 url = Andamio.util.getUrl(target);
 
-                if (Andamio.nav.status && !Andamio.config.os.tablet) Andamio.nav.hide();
+                if (Andamio.nav.status && !$.os.tablet) Andamio.nav.hide();
 
                 self.pushMedia(url);
             }, true);
@@ -2077,7 +2041,7 @@ Andamio.views = (function () {
     };
 })();
 
-/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
+/*jshint browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio */
 
 Andamio.init = function (options) {

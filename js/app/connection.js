@@ -1,4 +1,4 @@
-/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
+/*jshint browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio */
 
 Andamio.connection = (function () {

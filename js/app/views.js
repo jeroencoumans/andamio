@@ -1,4 +1,4 @@
-/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
+/*jshint browser: true, undef:true, unused:true, indent: 4, boss:true */
 /*global Andamio, $ */
 
 // Register DOM references
@@ -11,6 +11,8 @@ Andamio.dom.mediaView    = $(".js-media-view");
 
 /*** TODO: add support for data-title ***/
 Andamio.views = (function () {
+
+    "use strict";
 
     /**
      * A view has a container, optional content and position
@@ -504,7 +506,7 @@ Andamio.views = (function () {
              */
             Andamio.events.attach(".action-push", function (event) {
 
-                target = $(event.currentTarget),
+                target = $(event.currentTarget);
                 url = Andamio.util.getUrl(target);
 
                 self.pushChild(url);
@@ -517,10 +519,10 @@ Andamio.views = (function () {
 
             Andamio.events.attach(".action-show-modal", function (event) {
 
-                target = $(event.currentTarget),
+                target = $(event.currentTarget);
                 url = Andamio.util.getUrl(target);
 
-                if (Andamio.nav.status && !Andamio.config.os.tablet) Andamio.nav.hide();
+                if (Andamio.nav.status && !$.os.tablet) Andamio.nav.hide();
 
                 self.pushModal(url);
             }, true);
@@ -532,10 +534,10 @@ Andamio.views = (function () {
 
             Andamio.events.attach(".action-show-media", function (event) {
 
-                target = $(event.currentTarget),
+                target = $(event.currentTarget);
                 url = Andamio.util.getUrl(target);
 
-                if (Andamio.nav.status && !Andamio.config.os.tablet) Andamio.nav.hide();
+                if (Andamio.nav.status && !$.os.tablet) Andamio.nav.hide();
 
                 self.pushMedia(url);
             }, true);

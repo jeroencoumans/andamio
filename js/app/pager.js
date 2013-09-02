@@ -1,4 +1,4 @@
-/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
+/*jshint browser: true, undef:true, unused:true, indent: 4, boss:true */
 /*global Andamio, $ */
 
 /**
@@ -61,7 +61,7 @@ Andamio.pager = (function () {
             this.disableAutofetch();
         } else {
 
-            this.scrollerHeight = this.scroller.height(),
+            this.scrollerHeight = this.scroller.height();
             this.scrollerScrollHeight = this.scroller[0].scrollHeight || Andamio.dom.viewport.height();
         }
     };

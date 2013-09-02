@@ -1,4 +1,4 @@
-/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
+/*jshint browser: true, undef:true, unused:true, indent: 4 */
 /*global $, Andamio */
 
 // Register DOM references
@@ -102,14 +102,14 @@ Andamio.nav = (function () {
                     url     = Andamio.util.getUrl(target),
                     title   = Andamio.util.getTitle(target);
 
-                if (Andamio.dom.pageNavActive[0] === target[0] && !Andamio.config.os.tablet) {
+                if (Andamio.dom.pageNavActive[0] === target[0] && ! $.os.tablet) {
                     self.hide();
                     return;
                 }
 
                 Andamio.dom.pageNavActive = target;
 
-                if (!Andamio.config.os.tablet) {
+                if (! $.os.tablet) {
                     self.hide();
                 }
 

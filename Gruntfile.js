@@ -3,16 +3,7 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
         jshint: {
-            files: ['gruntfile.js', 'js/app/*.js'],
-            options: {
-                globals: {
-                    es5: true,
-                    browser: true,
-                    indent:4,
-                    undef:true,
-                    unused:true
-                }
-            }
+            files: ['Gruntfile.js', 'js/app/*.js'],
         },
 
         // Javascript concatenation
@@ -74,6 +65,7 @@ module.exports = function(grunt) {
                 src: [
                     'js/lib/zepto/zepto.js',
                     'js/lib/zepto/ajax.js',
+                    'js/lib/zepto/detect.js',
                     'js/lib/zepto/event.js',
                     'js/lib/zepto/fx.js',
                     'js/lib/zepto/stack.js',

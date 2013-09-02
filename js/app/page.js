@@ -1,4 +1,4 @@
-/*jshint es5: true, browser: true, undef:true, unused:true, indent: 4 */
+/*jshint browser: true, undef:true, unused:true, indent: 4 */
 /*global Andamio, $ */
 
 Andamio.page = (function () {
@@ -61,8 +61,12 @@ Andamio.page = (function () {
                 });
             }
 
+            if (Andamio.config.pageUrlSuffix) {
+                url += Andamio.config.pageUrlSuffix;
+            }
+
             activeRequest = $.ajax({
-                url: url + Andamio.config.pageUrlSuffix,
+                url: url,
                 cache: cache,
                 data: Andamio.config.pageData || "",
                 headers: headers,
