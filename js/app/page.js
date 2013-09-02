@@ -64,6 +64,7 @@ Andamio.page = (function () {
             activeRequest = $.ajax({
                 url: url,
                 cache: cache,
+                data: Andamio.config.pageData || "",
                 headers: headers,
                 error: onError,
                 success: onSuccess,
