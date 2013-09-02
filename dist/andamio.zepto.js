@@ -287,7 +287,9 @@ var Zepto = (function() {
   }
 
   $.camelCase = camelize
-  $.trim = function(str) { return str.trim() }
+  $.trim = function(str) {
+    return str == null ? "" : String.prototype.trim.call(str)
+  }
 
   // plugin compatibility
   $.uuid = 0
@@ -787,7 +789,7 @@ var Zepto = (function() {
 
 // If `$` is not yet defined, point it to `Zepto`
 window.Zepto = Zepto
-'$' in window || (window.$ = Zepto)
+window.$ === undefined && (window.$ = Zepto)
 
 //     Zepto.js
 //     (c) 2010-2012 Thomas Fuchs
@@ -1124,7 +1126,8 @@ window.Zepto = Zepto
       rimtabletos = ua.match(/(RIM\sTablet\sOS)\s([\d.]+)/),
       playbook = ua.match(/PlayBook/),
       chrome = ua.match(/Chrome\/([\d.]+)/) || ua.match(/CriOS\/([\d.]+)/),
-      firefox = ua.match(/Firefox\/([\d.]+)/)
+      firefox = ua.match(/Firefox\/([\d.]+)/),
+      safari = webkit && ua.match(/Mobile\//) && !chrome
 
     // Todo: clean this up with a better OS/browser seperation:
     // - discern (more) between multiple browsers on android
@@ -1148,6 +1151,7 @@ window.Zepto = Zepto
     if (!silk && os.android && ua.match(/Kindle Fire/)) browser.silk = true
     if (chrome) browser.chrome = true, browser.version = chrome[1]
     if (firefox) browser.firefox = true, browser.version = firefox[1]
+    if (safari && (ua.match(/Safari/) || !!os.ios)) browser.safari = true
 
     os.tablet = !!(ipad || playbook || (android && !ua.match(/Mobile/)) || (firefox && ua.match(/Tablet/)))
     os.phone  = !!(!os.tablet && (android || iphone || webos || blackberry || bb10 ||
@@ -2256,7 +2260,7 @@ if ( window.jQuery || window.Zepto ) {
 /**
  * @preserve FastClick: polyfill to remove click delays on browsers with touch UIs.
  *
- * @version 0.6.7
+ * @version 0.6.9
  * @codingstandard ftlabs-jsv2
  * @copyright The Financial Times Limited [All Rights Reserved]
  * @license MIT License (see LICENSE.txt)
@@ -2354,6 +2358,9 @@ function FastClick(layer) {
     this.onTouchStart = function() { return FastClick.prototype.onTouchStart.apply(self, arguments); };
 
     /** @type function() */
+    this.onTouchMove = function() { return FastClick.prototype.onTouchMove.apply(self, arguments); };
+
+    /** @type function() */
     this.onTouchEnd = function() { return FastClick.prototype.onTouchEnd.apply(self, arguments); };
 
     /** @type function() */
@@ -2372,6 +2379,7 @@ function FastClick(layer) {
 
     layer.addEventListener('click', this.onClick, true);
     layer.addEventListener('touchstart', this.onTouchStart, false);
+    layer.addEventListener('touchmove', this.onTouchMove, false);
     layer.addEventListener('touchend', this.onTouchEnd, false);
     layer.addEventListener('touchcancel', this.onTouchCancel, false);
 
@@ -2692,6 +2700,28 @@ FastClick.prototype.touchHasMoved = function(event) {
 
 
 /**
+ * Update the last position.
+ *
+ * @param {Event} event
+ * @returns {boolean}
+ */
+FastClick.prototype.onTouchMove = function(event) {
+    'use strict';
+    if (!this.trackingClick) {
+        return true;
+    }
+
+    // If the touch has moved, cancel the click tracking
+    if (this.targetElement !== this.getTargetElementFromEventTarget(event.target) || this.touchHasMoved(event)) {
+        this.trackingClick = false;
+        this.targetElement = null;
+    }
+
+    return true;
+};
+
+
+/**
  * Attempt to find the labelled control for the given label element.
  *
  * @param {EventTarget|HTMLLabelElement} labelElement
@@ -2726,12 +2756,6 @@ FastClick.prototype.onTouchEnd = function(event) {
     'use strict';
     var forElement, trackingClickStart, targetTagName, scrollParent, touch, targetElement = this.targetElement;
 
-    // If the touch has moved, cancel the click tracking
-    if (this.touchHasMoved(event)) {
-        this.trackingClick = false;
-        this.targetElement = null;
-    }
-
     if (!this.trackingClick) {
         return true;
     }
@@ -2754,7 +2778,10 @@ FastClick.prototype.onTouchEnd = function(event) {
     // See issue #57; also filed as rdar://13048589 .
     if (this.deviceIsIOSWithBadTarget) {
         touch = event.changedTouches[0];
-        targetElement = document.elementFromPoint(touch.pageX - window.pageXOffset, touch.pageY - window.pageYOffset);
+
+        // In certain cases arguments of elementFromPoint can be negative, so prevent setting targetElement to null
+        targetElement = document.elementFromPoint(touch.pageX - window.pageXOffset, touch.pageY - window.pageYOffset) || targetElement;
+        targetElement.fastClickScrollParent = this.targetElement.fastClickScrollParent;
     }
 
     targetTagName = targetElement.tagName.toLowerCase();
@@ -2923,6 +2950,7 @@ FastClick.prototype.destroy = function() {
 
     layer.removeEventListener('click', this.onClick, true);
     layer.removeEventListener('touchstart', this.onTouchStart, false);
+    layer.removeEventListener('touchmove', this.onTouchMove, false);
     layer.removeEventListener('touchend', this.onTouchEnd, false);
     layer.removeEventListener('touchcancel', this.onTouchCancel, false);
 };
